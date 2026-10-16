@@ -27,6 +27,24 @@ function deckTypes(entries: DeckEntries): string[] {
   return [...count.entries()].sort((a, b) => b[1] - a[1]).map(([t]) => t);
 }
 
+/** "See the list": opens the deck builder with the deck (a precon as a copy). */
+function ListButton({ id, className }: { id: string; className: string }) {
+  const t = useT();
+  const open = useGame((s) => s.openDeckBuilder);
+  return (
+    <button
+      type="button"
+      className={className}
+      onClick={(e) => {
+        e.stopPropagation();
+        open(id);
+      }}
+    >
+      {t("See the list")}
+    </button>
+  );
+}
+
 export function DeckSummary({ id, onChange }: { id: string; onChange: () => void }) {
   const t = useT();
   const lang = useGame((s) => s.lang);
@@ -37,21 +55,24 @@ export function DeckSummary({ id, onChange }: { id: string; onChange: () => void
   const total = deck.main.reduce((a, [n]) => a + n, 0);
   const label = { starter: t("Starter"), meta: t("Meta"), mine: t("Your decks") }[categoryOf(deck)];
   return (
-    <button type="button" className="deck-summary" onClick={onChange}>
-      <div className="deck-cover" style={art ? { backgroundImage: `url("${art}")` } : undefined} />
-      <span className="change-pill">{t("Change")}</span>
-      <div className="ds-info">
-        <div className="ds-name">
-          {lang === "fr" ? (deck.fr ?? deck.name) : deck.name}{" "}
-          {deckTypes(deck.main).map((ty) => (
-            <EnergyIcon key={ty} type={ty} small />
-          ))}
+    <div className="deck-summary-wrap">
+      <button type="button" className="deck-summary" onClick={onChange}>
+        <div className="deck-cover" style={art ? { backgroundImage: `url("${art}")` } : undefined} />
+        <span className="change-pill">{t("Change")}</span>
+        <div className="ds-info">
+          <div className="ds-name">
+            {lang === "fr" ? (deck.fr ?? deck.name) : deck.name}{" "}
+            {deckTypes(deck.main).map((ty) => (
+              <EnergyIcon key={ty} type={ty} small />
+            ))}
+          </div>
+          <div className="ds-sub">
+            {t("{n} cards", { n: total })} · {label}
+          </div>
         </div>
-        <div className="ds-sub">
-          {t("{n} cards", { n: total })} · {label}
-        </div>
-      </div>
-    </button>
+      </button>
+      <ListButton id={deck.id} className="list-pill" />
+    </div>
   );
 }
 
@@ -88,25 +109,27 @@ export function DeckDialog({ value, onPick, onClose }: { value: string; onPick: 
           {shown.map((p) => {
             const ok = playable(p.main);
             return (
-              <button
-                type="button"
-                key={p.id}
-                className={`deck-tile${value === p.id ? " chosen" : ""}${ok ? "" : " unplayable"}`}
-                disabled={!ok}
-                title={ok ? "" : t("This deck cannot be played yet")}
-                onClick={() => {
-                  onPick(p.id);
-                  onClose();
-                }}
-              >
-                <CardImage defId={p.cover} />
-                <span>{lang === "fr" ? (p.fr ?? p.name) : p.name}</span>
-                <span className="tile-types">
-                  {deckTypes(p.main).map((ty) => (
-                    <EnergyIcon key={ty} type={ty} small />
-                  ))}
-                </span>
-              </button>
+              <div key={p.id} className="deck-tile-wrap">
+                <button
+                  type="button"
+                  className={`deck-tile${value === p.id ? " chosen" : ""}${ok ? "" : " unplayable"}`}
+                  disabled={!ok}
+                  title={ok ? "" : t("This deck cannot be played yet")}
+                  onClick={() => {
+                    onPick(p.id);
+                    onClose();
+                  }}
+                >
+                  <CardImage defId={p.cover} />
+                  <span>{lang === "fr" ? (p.fr ?? p.name) : p.name}</span>
+                  <span className="tile-types">
+                    {deckTypes(p.main).map((ty) => (
+                      <EnergyIcon key={ty} type={ty} small />
+                    ))}
+                  </span>
+                </button>
+                <ListButton id={p.id} className="btn small ghost deck-list-link" />
+              </div>
             );
           })}
         </div>

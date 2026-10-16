@@ -140,6 +140,10 @@ export interface Store extends Settings {
   online: Online;
   /** A deck list received by a link (#deck=…), offered for import in the deck builder. */
   sharedDeck: string | null;
+  /** A deck to open in the deck builder (its id: a player's deck is edited, a precon copied). */
+  editingDeck: string | null;
+  /** The screen the deck builder goes back to. */
+  deckReturn: Screen;
   /** Replay being watched: position, point of view, automatic playback. */
   replay: {
     index: number;
@@ -168,6 +172,9 @@ export interface Store extends Settings {
   replayViewer(player: string): void;
   replayPlay(on: boolean): void;
   clearSharedDeck(): void;
+  /** Opens the deck builder with a deck's list ("See the list" when choosing a deck). */
+  openDeckBuilder(id: string): void;
+  clearEditingDeck(): void;
   setLang(l: Lang): void;
   createRoom(o: { bestOf: 1 | 3; ai?: AiLevel }): void;
   joinRoom(code: string): void;
@@ -464,6 +471,8 @@ export const useGame = create<Store>((set, get) => {
     mode: "local",
     online: { room: null, clock: null, opponent: null, connecting: false },
     sharedDeck: null,
+    editingDeck: null,
+    deckReturn: "home",
     tutorial: null,
     tutorialDone: loadTutorialDone(),
     startLesson(id) {
@@ -591,6 +600,12 @@ export const useGame = create<Store>((set, get) => {
     clearSharedDeck() {
       set({ sharedDeck: null });
     },
+    openDeckBuilder(id) {
+      set({ screen: "decks", editingDeck: id, deckReturn: get().screen === "decks" ? get().deckReturn : get().screen });
+    },
+    clearEditingDeck() {
+      set({ editingDeck: null });
+    },
     createRoom(o) {
       const { deck, nickname } = get();
       remote().raw({
@@ -642,7 +657,7 @@ export const useGame = create<Store>((set, get) => {
       set({ lang: l });
     },
     go(screen) {
-      set({ screen });
+      set(screen === "decks" && get().screen !== "decks" ? { screen, deckReturn: get().screen } : { screen });
     },
     setSettings(p) {
       set(p);

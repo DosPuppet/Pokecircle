@@ -38,6 +38,9 @@ export function DeckBuilder() {
   const go = useGame((s) => s.go);
   const shared = useGame((s) => s.sharedDeck);
   const clearShared = useGame((s) => s.clearSharedDeck);
+  const editing = useGame((s) => s.editingDeck);
+  const clearEditing = useGame((s) => s.clearEditingDeck);
+  const back = useGame((s) => s.deckReturn);
   const showPreview = useGame((s) => s.showPreview);
   const decks = useDecks((s) => s.decks);
   const save = useDecks((s) => s.save);
@@ -60,6 +63,21 @@ export function DeckBuilder() {
       clearShared();
     }
   }, [shared, clearShared]);
+
+  // "See the list" from the deck choice: a player's deck opens for editing, a precon as a copy.
+  useEffect(() => {
+    if (!editing) return;
+    const mine = decks.find((d) => d.id === editing);
+    const precon = PRECONS.find((p) => p.id === editing);
+    if (mine) {
+      setDeck(mine);
+      setSaved(true);
+    } else if (precon) {
+      setDeck({ id: newDeckId(), name: lang === "fr" ? (precon.fr ?? precon.name) : precon.name, main: precon.main, updated: 0 });
+      setSaved(false);
+    }
+    clearEditing();
+  }, [editing, clearEditing, decks, lang]);
 
   const results = useMemo(() => searchCards(filters, lang), [filters, lang]);
   const problems = useMemo(() => validateDeck(deck.main, "standard"), [deck.main]);
@@ -120,8 +138,8 @@ export function DeckBuilder() {
   return (
     <div className="builder">
       <header className="builder-top">
-        <button type="button" className="btn small" onClick={() => go("home")}>
-          {t("Home")}
+        <button type="button" className="btn small" onClick={() => go(back === "decks" ? "home" : back)}>
+          {back === "home" || back === "decks" ? t("Home") : t("Back")}
         </button>
         <input
           className="deck-name"

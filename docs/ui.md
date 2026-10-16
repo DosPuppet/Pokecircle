@@ -38,7 +38,10 @@
   (category, stage, Trainer kind, type, set, tags, playable only), click to add / right-click to remove, art choice per
   print, legality panel (`validateDeck`), TCG Live import and export (French or English), share by link (`#deck=1.…`,
   deflate + base64url, `share.ts`) and QR code (uqr). The player's decks live in `localStorage` (`pokecircle.decks`,
-  `decks/store.ts`); deck pickers (`DeckPicker`) show them next to the precons, an unplayable one dimmed.
+  `decks/store.ts`); deck pickers (`DeckPicker`) show them next to the precons, an unplayable one dimmed. "See the
+  list" (on the chosen deck and under each tile of the deck window) opens the builder with that list (store
+  `openDeckBuilder`): a player's deck for editing, a precon as an unsaved copy; its back button returns to the screen it
+  came from.
   `tools/deck-smoke.ts` drives it end to end.
 - **Phone in portrait** (`styles.css`, `@media (orientation: portrait) and (max-width: 700px)`): card size from the
   screen (a Bench of 5 across, the whole table in the height), Prize cards and piles in a row under (or above) each

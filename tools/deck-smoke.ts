@@ -65,6 +65,17 @@ await page.getByRole("button", { name: /^Accueil$/ }).click();
 await page.locator(".deck-summary").first().click();
 await page.locator(".deck-dialog .seg button", { hasText: "Vos decks" }).click();
 await page.locator(".deck-tile", { hasText: "Deck de test" }).first().click();
+// "Voir la liste": the chosen deck opens in the deck builder, then "Accueil" comes back.
+await page.locator(".deck-summary-wrap .list-pill").first().click();
+if ((await page.locator(".builder input.deck-name").inputValue()) !== "Deck de test") throw new Error("the list did not open");
+if (!(await page.locator(".deck-row").count())) throw new Error("the opened list is empty");
+await page.getByRole("button", { name: /^Accueil$/ }).click();
+// A precon's list from the deck window opens as a copy.
+await page.locator(".deck-summary").nth(1).click();
+await page.locator(".deck-dialog .seg button", { hasText: "Méta" }).click();
+await page.locator(".deck-dialog .deck-list-link").first().click();
+if (!(await page.locator(".deck-row").count())) throw new Error("the precon's list is empty");
+await page.getByRole("button", { name: /^Accueil$/ }).click();
 await page.getByRole("button", { name: /Jouer contre l'IA/ }).click();
 await page.waitForSelector(".game");
 await playGame(page, 40);
@@ -73,4 +84,4 @@ if (errors.length) {
   console.log(errors.join("\n"));
   process.exit(1);
 }
-console.log("ok: game started with a built deck (search, import, save, share), no page error");
+console.log("ok: game started with a built deck (search, import, save, share, see the list), no page error");
