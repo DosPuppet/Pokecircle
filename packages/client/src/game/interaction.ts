@@ -2,7 +2,7 @@
  * What clicking does on the game screen, from the view's legal options: a hand card's options, the targets that glow,
  * and the decision a click on a target makes.
  */
-import type { ActionOption, Decision, GameView, ObjectId, PokemonId } from "@pocketmate/engine";
+import type { ActionOption, Decision, GameView, ObjectId, PokemonId } from "@pokecircle/engine";
 import type { Selection } from "../store";
 
 export function myTurn(view: GameView | null): boolean {

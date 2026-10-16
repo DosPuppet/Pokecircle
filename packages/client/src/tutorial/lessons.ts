@@ -4,7 +4,7 @@
  * Texts are English `msg` literals, translated on display (French catalog, vouvoiement); **bold** is drawn bold.
  * Scenario cards are definition ids; allowed decisions name cards by their English name.
  */
-import { msg } from "@pocketmate/engine";
+import { msg } from "@pokecircle/engine";
 import { activeIs, damageAtMost, discarded, energyOn, inPlayNamed, type Lesson, myMain, prizesLeft, turnEnded } from "./runtime";
 
 const FIRE = "basic-fire-energy";
@@ -74,7 +74,7 @@ export const LESSONS: Lesson[] = [
       {
         allow: ["endTurn"],
         until: turnEnded,
-        target: ".btn.end-turn",
+        target: ".main-button.end-turn",
         text: msg("Your turn is over when you attack or when you end it. Press **End turn**."),
         hint: msg("Press End turn to continue."),
       },
@@ -84,9 +84,9 @@ export const LESSONS: Lesson[] = [
       },
       {
         next: true,
-        target: ".log-toggle",
+        target: ".drawer-toggle",
         text: msg(
-          "Their attack, Powder Snow, made your Pokémon **Asleep**: it can neither attack nor retreat, and a coin flip between turns may wake it up. The **Log** keeps what happened. Lesson complete!",
+          "Their attack, Powder Snow, made your Pokémon **Asleep**: it can neither attack nor retreat, and a coin flip between turns may wake it up. The ☰ button holds the **log** of the game and the options. Lesson complete!",
         ),
       },
     ],

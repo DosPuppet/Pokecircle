@@ -1,4 +1,4 @@
-# PocketMate — Pokémon TCG (Standard) vs AI and online, in French — PLAN-A
+# Pokecircle — Pokémon TCG (Standard) vs AI and online, in French — PLAN-A
 
 ## Context
 
@@ -26,7 +26,7 @@ The user wants a Pokémon TCG app (the **physical TCG / TCG Live rules**, not TC
 
 ## Architecture
 
-npm-workspaces monorepo (`@pocketmate/*`, raw `.ts` exports, ESM, strict TS, Vite 8, esbuild server bundle, tsx tools, Biome, Vitest 5 `isolate:false`, Playwright-library smokes):
+npm-workspaces monorepo (`@pokecircle/*`, raw `.ts` exports, ESM, strict TS, Vite 8, esbuild server bundle, tsx tools, Biome, Vitest 5 `isolate:false`, Playwright-library smokes):
 
 ```
 packages/engine   pure rules engine, DSL, view projection, GameHost, record/replay
@@ -35,12 +35,12 @@ packages/ai       heuristic / medium / ISMCTS expert, random+chaos agents, selfp
 packages/server   http + ws /ws rooms (2 seats, BO1/BO3), JSONL persistence, AI worker pool, /tcgdex/ image relay
 packages/client   React 19 + Zustand, Web Worker engine for vs-AI, board, deckbuilder, lobby, PWA
 tools/            verify, fuzz, golden, arena, bench, coverage, import-tcgdex, locales, *-smoke
-deploy/  docs/    pm2 'pocketmate' :8788, nginx conf, update.sh; engine/ai/ui/rules/glossary/approximations docs
+deploy/  docs/    pm2 'pokecircle' :8788, nginx conf, update.sh; engine/ai/ui/rules/glossary/approximations docs
 ```
 
 ### Reuse map from `/home/dospu/MTGX`
 
-Renames on copy: `@mtgx`→`@pocketmate`, `planecircle.*`→`pocketmate.*`, `MTGX_*`→`PM_*`.
+Renames on copy: `@mtgx`→`@pokecircle`, `planecircle.*`→`pokecircle.*`, `MTGX_*`→`PM_*`.
 
 **Copy and rename:**
 - Root config: `package.json` scripts, `tsconfig*.json`, `biome.json`, `vitest.config.ts` (incl. the /tmp cleanup plugin), `.github/workflows/ci.yml`.
@@ -51,7 +51,7 @@ Renames on copy: `@mtgx`→`@pocketmate`, `planecircle.*`→`pocketmate.*`, `MTG
 
 **Adapt (same role and API, Pokémon content):**
 - `engine/src/host.ts` (GameHost, agents, aiDelay, frames; new `fallbackDecision`/FRAME_EVENTS).
-- `record.ts` (format `pocketmate-game`, RULES_VERSION restarts at 1), `fingerprint.ts`, `decisionShape.ts`, `choices.ts` (ChoiceRequest with `suggested`, CostPick).
+- `record.ts` (format `pokecircle-game`, RULES_VERSION restarts at 1), `fingerprint.ts`, `decisionShape.ts`, `choices.ts` (ChoiceRequest with `suggested`, CostPick).
 - `game.ts` (submit/applyMutable pattern), `view.ts` (projectView/filterEvents/visibleFaces), `state.ts` (random, shuffle, clone), `turnlog.ts`, `scenario.ts`, `limits.ts`.
 - Server: `index.ts` (the `/scry/` relay becomes `/tcgdex/`, strict allow-list), `rooms.ts` (2 seats, BO1/BO3, rope 60s/20s, reconnection tokens, persistence + resume, AI seats; no sideboard/Commander), `protocol.ts` (PROTOCOL_VERSION 1).
 - Client: `session.ts`, `protocol.ts`, `worker/game.worker.ts`, `savedGame.ts`, `decks/{share,store}.ts`, `lobby/*`, `prompts/{ChoicePrompt,ZoneTabs,Prompts}.tsx`, `vite.config.ts` (port 5174, chunks cards/locales/vendor).
@@ -211,11 +211,11 @@ Renames on copy: `@mtgx`→`@pocketmate`, `planecircle.*`→`pocketmate.*`, `MTG
 
 | Lot | Deliverables | Verification |
 |---|---|---|
-| **P0 Bootstrap** | `git init` (master + dev), workspaces, copied root config and generic engine infra, client shell (lobby placeholder, i18n, LangToggle), `CLAUDE.md`, `docs/{plans/PLAN-A,rules,glossary,engine}.md`, PocketMate memory files | `npm run verify -- --ci` (tsc, Biome, english-source, locales) |
+| **P0 Bootstrap** | `git init` (master + dev), workspaces, copied root config and generic engine infra, client shell (lobby placeholder, i18n, LangToggle), `CLAUDE.md`, `docs/{plans/PLAN-A,rules,glossary,engine}.md`, Pokecircle memory files | `npm run verify -- --ci` (tsc, Biome, english-source, locales) |
 | **P1 Card data** | setRegistry (Standard sets + sve/mee), import-tcgdex with cache, RawCard JSON, defs/prints/legality/tags, decklist parse/serialize, `validateDeck`, images.ts; two simple **starter decks** using only core-op cards | Import runs; tests: FR/EN parity, legality vs TCGdex, decklist round-trip FR/EN, copy limit, ACE SPEC |
 | **P2 Engine core [rules]** | model, setup/mulligan, turn, actions, energy solver, attack + damage pipeline, conditions + Checkup, KO/prizes/promotion/win, legal.ts, view.ts, autopilot, host, first ~25 ops + core statics + first templates; RULES_VERSION 1, first golden games | `engine/test/rules-*.test.ts` (setup, turn, attack, damage, checkup, ko, trainers, energy), hidden.test, offers.test; fuzz random/chaos/`--offers` |
 | **P3 Slice vs AI** | Starter decks fully playable, medium AI, worker session, board/PokemonCard/action panel/prompts/coin flip/log/sounds, saved-game resume, `?fast`, FR/EN | `ui-smoke` (full game vs AI in FR), `lang-smoke`, medium beats random ≥90%; `verify --set STARTER --ui` |
-| **P4 Online** | Server adapted (2 seats, BO1/BO3, rope, reconnect, persistence + resume, AI seats), `/tcgdex/` relay, online lobby, `deploy/` (pm2 `pocketmate` :8788, nginx conf), `docs/deployment.md` | server tests, hidden-info audit incl. prizes, `online-smoke`, `bo3-smoke`, rooms-check, `verify --full`; the user deploys |
+| **P4 Online** | Server adapted (2 seats, BO1/BO3, rope, reconnect, persistence + resume, AI seats), `/tcgdex/` relay, online lobby, `deploy/` (pm2 `pokecircle` :8788, nginx conf), `docs/deployment.md` | server tests, hidden-info audit incl. prizes, `online-smoke`, `bo3-smoke`, rooms-check, `verify --full`; the user deploys |
 | **P5 Deckbuilder** | Builder, filters, TCG Live import/export, share/QR, print choice | `deck-smoke`, search/share tests |
 | **P6 Compiler + meta decks** | P6a: compiler infra, coverage tool, top templates. P6b onward, one lot per 1–2 decks: the **~8 meta decks** (candidates from Limitless TEF–30C, Oct 2026: Dragapult ex, Slowking, Basic Box (Mega Kangaskhan ex), N's Zoroark ex, Alakazam, Festival Lead, Mega Lopunny ex, Hydrapple ex; final list and Limitless lists confirmed with the user at P6 start), each shipped as a precon | Per-set rules tests checking card text, a smoke test where every card is played, `verify --set META`, a coverage report per lot |
 | **P7 Expert AI** | ISMCTS + determinization with prizes, arena, `docs/ai.md` | ismcts/levels tests, `ai-smoke`, `npm run arena -- --a medium --b expert --games 600` |

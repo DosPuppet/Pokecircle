@@ -2,7 +2,7 @@
  * The chaos AI (fuzz): often submits malformed or illegal decisions, which the engine must refuse with a RulesError
  * (never another error), the state unchanged; otherwise it plays like the random AI.
  */
-import type { Agent, Decision } from "@pocketmate/engine";
+import type { Agent, Decision } from "@pokecircle/engine";
 import { randomAgent } from "./random";
 import { mulberry32, pickOne } from "./rng";
 

@@ -1,6 +1,6 @@
 /** Concrete decisions from the options of `legalActions` (one per target), and valid answers to questions. */
-import type { ActionOption, ChoiceRequest, ChoiceValue, Decision, GameState, PlayerId } from "@pocketmate/engine";
-import { legalActions } from "@pocketmate/engine";
+import type { ActionOption, ChoiceRequest, ChoiceValue, Decision, GameState, PlayerId } from "@pokecircle/engine";
+import { legalActions } from "@pokecircle/engine";
 import { type Rng, shuffled } from "./rng";
 
 /** Every main-phase decision, with each target (retreat: each new Active, with the suggested Energy). */

@@ -1,6 +1,6 @@
 /** Special Energy texts: what the card provides, and its continuous or triggered effects. */
-import type { Condition, Effect, EnergyDef, StaticRule, TriggerDef } from "@pocketmate/engine";
-import { cond, ref, scope } from "@pocketmate/engine";
+import type { Condition, Effect, EnergyDef, StaticRule, TriggerDef } from "@pokecircle/engine";
+import { cond, ref, scope } from "@pokecircle/engine";
 import { COMMON, type Ctx } from "./effects";
 import { typeSym } from "./phrases";
 import { matchAll, normalize, sentence } from "./templates";

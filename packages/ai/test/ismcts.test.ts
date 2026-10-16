@@ -1,5 +1,5 @@
 /** The expert level (ISMCTS): reproducible, blind to hidden cards, and it finds an obvious win. */
-import { cloneState, createGame, type GameState, submit } from "@pocketmate/engine";
+import { cloneState, createGame, type GameState, submit } from "@pokecircle/engine";
 import { describe, expect, it } from "vitest";
 import { decksFor } from "../../../tools/decks";
 import { energy, pokemon, scenario } from "../../engine/test/helpers";

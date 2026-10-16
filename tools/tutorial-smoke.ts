@@ -8,7 +8,7 @@
 import { mkdirSync } from "node:fs";
 import { chromium } from "playwright";
 
-const URL = process.env.PM_URL ?? "http://localhost:5174/?fast";
+const URL = process.env.PK_URL ?? "http://localhost:5174/?fast";
 mkdirSync("test-results", { recursive: true });
 let failed = false;
 const check = (cond: boolean, msg: string) => {
@@ -27,7 +27,7 @@ try {
   await page.goto(URL);
   await page.evaluate(() => localStorage.clear());
   await page.reload();
-  await page.getByRole("button", { name: "Tutoriel" }).click();
+  await page.getByRole("button", { name: "Apprendre à jouer" }).click();
   const lessons = await page.locator(".lesson").count();
   check(lessons >= 5, `${lessons} lessons in the menu`);
   for (let k = 0; k < lessons; k++) {
@@ -45,13 +45,13 @@ try {
       if (!refused) {
         refused = true;
         const error = await page.evaluate(`(() => {
-          const g = window.__pm.getState();
+          const g = window.__pk.getState();
           g.decide({ type: "endTurn" });
-          return window.__pm.getState().error;
+          return window.__pk.getState().error;
         })()`);
         check(!!error, "a move the step does not ask for is refused");
       }
-      const r = await page.evaluate("window.__pm.getState().tutorialSolve()");
+      const r = await page.evaluate("window.__pk.getState().tutorialSolve()");
       await page.waitForTimeout(r === "acted" ? 50 : 150);
     }
     const done = await page.locator(".coach", { hasText: "Bravo" }).count();

@@ -8,7 +8,7 @@
 import { mkdirSync } from "node:fs";
 import { chromium, type Page } from "playwright";
 
-const URL = process.env.PM_URL ?? "http://localhost:5174/";
+const URL = process.env.PK_URL ?? "http://localhost:5174/";
 mkdirSync("test-results", { recursive: true });
 const browser = await chromium.launch();
 let failed = false;
@@ -27,7 +27,7 @@ async function measure(page: Page, label: string): Promise<number[]> {
     let last = 0;
     let seen = 0;
     const ACTIONS = ["playBasic", "evolve", "attach", "playTrainer", "ability", "retreat", "attack"];
-    window.__pm.subscribe((st) => {
+    window.__pk.subscribe((st) => {
       // Updates are appended to the playback queue: look at the new ones.
       const q = st.queue;
       if (q.length < seen) seen = 0;
@@ -46,7 +46,11 @@ async function measure(page: Page, label: string): Promise<number[]> {
   while (Date.now() < deadline) {
     if (await page.locator(".modal.end").count()) break;
     if (((await page.evaluate("window.__gaps.length")) as number) >= 8) break;
-    for (const sel of [".prompt .btn.primary:not([disabled])", ".setup-bar .btn.primary:not([disabled])", ".btn.end-turn"]) {
+    for (const sel of [
+      ".prompt .btn.primary:not([disabled])",
+      ".main-button.setup-confirm:not([disabled])",
+      ".main-button.end-turn",
+    ]) {
       const b = page.locator(sel);
       if (await b.count()) {
         await b
@@ -91,7 +95,7 @@ try {
     check(m < 1600, `${label}: median gap between two AI actions < 1.6 s (0.9 s pause, thinking absorbed)`);
     await cdp.send("Emulation.setCPUThrottlingRate", { rate: 1 });
     // A new game from the home screen (the game in progress is saved; it is replaced).
-    await page.evaluate("localStorage.removeItem('pocketmate.localGame')");
+    await page.evaluate("localStorage.removeItem('pokecircle.localGame')");
   }
   check(errors.length === 0, errors.length ? `page errors: ${errors.join(" | ")}` : "no page error");
 } finally {

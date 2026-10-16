@@ -3,7 +3,7 @@
  * definitions share a name). A script replaces whole parts of the definition (an attack's effects, an Ability, a
  * Trainer card's effects); what it does not set is still compiled.
  */
-import type { CardDef } from "@pocketmate/engine";
+import type { CardDef } from "@pokecircle/engine";
 
 export type CardScript = (def: CardDef) => Partial<CardDef>;
 

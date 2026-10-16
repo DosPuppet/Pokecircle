@@ -1,6 +1,6 @@
 /** Golden games replay identically (tools/golden.ts): an engine change that alters them needs a RULES_VERSION bump. */
 import { readdirSync, readFileSync } from "node:fs";
-import { RULES_VERSION } from "@pocketmate/engine";
+import { RULES_VERSION } from "@pokecircle/engine";
 import { describe, expect, it } from "vitest";
 import { checkGolden, type Golden } from "../../../tools/golden";
 

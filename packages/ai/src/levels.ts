@@ -1,5 +1,5 @@
 /** AI levels: beginner (noisy medium), medium (one-step simulation), expert (ISMCTS, `ismcts.ts`). */
-import type { Agent } from "@pocketmate/engine";
+import type { Agent } from "@pokecircle/engine";
 import { expertAgent } from "./ismcts";
 import { mediumAgent } from "./medium";
 

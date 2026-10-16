@@ -8,7 +8,7 @@ import { mkdirSync } from "node:fs";
 import { chromium, devices, type Page } from "playwright";
 import { step } from "./ui-smoke";
 
-const URL = process.env.PM_URL ?? "http://localhost:5174/?fast";
+const URL = process.env.PK_URL ?? "http://localhost:5174/?fast";
 const ACTIONS = Number(process.argv[2] ?? 60);
 mkdirSync("test-results", { recursive: true });
 let failed = false;
@@ -33,10 +33,10 @@ async function layout(page: Page, label: string): Promise<void> {
     return {
       width: document.documentElement.scrollWidth,
       inner: innerWidth,
-      top: inside(".game-top"),
+      top: inside(".top-row"),
       mine: inside(".side.mine .active-spot"),
       theirs: inside(".side.top .active-spot"),
-      end: inside(".btn.end-turn"),
+      end: inside(".main-button.end-turn"),
     };
   })()`)) as {
     width: number;
@@ -79,7 +79,7 @@ try {
     } else await page.waitForTimeout(250);
   }
   await page.screenshot({ path: "test-results/mobile.png" });
-  check(acted >= 10, `game played on a phone (${acted} actions)`);
+  check(acted >= 10 || !!result, `game played on a phone (${acted} actions${result ? `, ${result}` : ""})`);
   check(errors.length === 0, `page errors: ${errors.join(" | ")}`);
   if (!failed) console.log(`ok: game played on a phone in portrait (${result || `${acted} actions`}), layout checked`);
 } finally {

@@ -1,5 +1,5 @@
 /** TCG Live decklists (FR and EN) and deck construction rules (docs/rules.md R-FORMAT-2 to 5). */
-import { plainText } from "@pocketmate/engine";
+import { plainText } from "@pokecircle/engine";
 import { describe, expect, it } from "vitest";
 import { type DeckEntries, parseDeckList, serializeDeckList, validateDeck } from "../src/decklist";
 import { CARDS } from "../src/index";

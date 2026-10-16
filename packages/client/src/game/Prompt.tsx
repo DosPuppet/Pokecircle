@@ -2,7 +2,7 @@
  * Questions of the engine (`ChoiceRequest`): picking cards, Pokémon or options, a number, yes or no, dividing damage
  * counters, ordering. The suggested answer is preselected.
  */
-import type { ChoiceRequest, ChoiceValue, GameView } from "@pocketmate/engine";
+import type { ChoiceRequest, ChoiceValue, GameView } from "@pokecircle/engine";
 import { useEffect, useState } from "react";
 import { defOf, textOf } from "../cards";
 import { useLoc, useT } from "../localize";

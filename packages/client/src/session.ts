@@ -1,5 +1,5 @@
 /** A game in progress: local (Web Worker, against the AI) or remote (server, against a player). */
-import type { ClientMessage, ServerMessage } from "@pocketmate/server/protocol";
+import type { ClientMessage, ServerMessage } from "@pokecircle/server/protocol";
 import type { FromWorker, ToWorker } from "./protocol";
 
 export interface Session {

@@ -1,3 +1,5 @@
+// Before anything reads the settings: keys of the app's earlier name.
+import "./storageRename";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./App";
@@ -8,7 +10,7 @@ import { savedOnline, useGame } from "./store";
 import "./styles.css";
 
 // Dev mode: access to the store for the Playwright scripts.
-if (import.meta.env.DEV) (window as unknown as { __pm: typeof useGame }).__pm = useGame;
+if (import.meta.env.DEV) (window as unknown as { __pk: typeof useGame }).__pk = useGame;
 
 // Production: service worker (application cached, offline start; public/sw.js).
 if (import.meta.env.PROD && "serviceWorker" in navigator) {

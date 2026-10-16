@@ -2,7 +2,7 @@
  * Hand scripts of the meta decks' cards (PLAN-A P6) that the compiler does not read. Each script follows the printed
  * text; the details of each batch are in docs/extensions/meta.md.
  */
-import { type AbilityDef, amt, type CardDef, cond, type Effect, fx, msg, ref, scope, type TrainerDef } from "@pocketmate/engine";
+import { type AbilityDef, amt, type CardDef, cond, type Effect, fx, msg, ref, scope, type TrainerDef } from "@pokecircle/engine";
 import { type CardScript, registerScripts } from "../scripts";
 
 /** The attack `i` gets these effects. */

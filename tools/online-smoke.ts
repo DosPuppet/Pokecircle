@@ -8,7 +8,7 @@
 import { chromium, type Page } from "playwright";
 import { step } from "./ui-smoke";
 
-const BASE = process.env.PM_URL ?? "http://localhost:5174/";
+const BASE = process.env.PK_URL ?? "http://localhost:5174/";
 const MAX = Number(process.argv[2] ?? 600);
 const bo3 = process.argv.includes("--bo3");
 
@@ -21,7 +21,7 @@ async function open(name: string): Promise<Page> {
   await page.goto(`${BASE}?fast`);
   await page.evaluate((n) => {
     localStorage.clear();
-    localStorage.setItem("pocketmate.settings", JSON.stringify({ nickname: n }));
+    localStorage.setItem("pokecircle.settings", JSON.stringify({ nickname: n }));
   }, name);
   return page;
 }

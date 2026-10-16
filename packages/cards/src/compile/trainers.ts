@@ -1,6 +1,6 @@
 /** Trainer card texts (Items, Supporters, Tools, Stadiums). */
-import type { Condition, Effect, StaticRule, TrainerDef } from "@pocketmate/engine";
-import { amt, cond, fx, msg, ref, scope } from "@pocketmate/engine";
+import type { Condition, Effect, StaticRule, TrainerDef } from "@pokecircle/engine";
+import { amt, cond, fx, msg, ref, scope } from "@pokecircle/engine";
 import { COMMON, type Ctx, chooseIn } from "./effects";
 import { num, pokemonFilter } from "./phrases";
 import { type Built, matchAll, sentence, type Template, tpl } from "./templates";

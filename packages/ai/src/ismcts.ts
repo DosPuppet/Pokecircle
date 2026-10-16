@@ -11,7 +11,7 @@
  * The tree is limited to the root: with a few tens to a few hundred iterations, deeper nodes would be visited too
  * rarely to be reliable. Questions (`choice`) and the setup are left to the medium level.
  */
-import { type Agent, applyMutable, type Decision, type GameState, type PlayerId, RulesError } from "@pocketmate/engine";
+import { type Agent, applyMutable, type Decision, type GameState, type PlayerId, RulesError } from "@pokecircle/engine";
 import { determinize } from "./determinize";
 import { evaluate } from "./evaluate";
 import { mediumAgent, type ScoredMain, scoreMain, settle } from "./medium";

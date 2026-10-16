@@ -1,10 +1,10 @@
 /**
- * Resume on reopening: the game against the AI is saved in localStorage (`pocketmate.localGame`) as its record, and
+ * Resume on reopening: the game against the AI is saved in localStorage (`pokecircle.localGame`) as its record, and
  * replayed by the worker when the page is reopened.
  */
-import type { GameRecord } from "@pocketmate/engine";
+import type { GameRecord } from "@pokecircle/engine";
 
-const KEY = "pocketmate.localGame";
+const KEY = "pokecircle.localGame";
 
 export interface SavedGame {
   record: GameRecord;

@@ -1,5 +1,5 @@
 {
-  "name": "@pocketmate/server",
+  "name": "@pokecircle/server",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -12,9 +12,9 @@
     "start": "tsx src/main.ts"
   },
   "dependencies": {
-    "@pocketmate/ai": "^0.1.0",
-    "@pocketmate/cards": "^0.1.0",
-    "@pocketmate/engine": "^0.1.0",
+    "@pokecircle/ai": "^0.1.0",
+    "@pokecircle/cards": "^0.1.0",
+    "@pokecircle/engine": "^0.1.0",
     "ws": "^8.21.3"
   },
   "devDependencies": {

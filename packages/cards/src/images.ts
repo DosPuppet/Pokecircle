@@ -2,7 +2,7 @@
  * Card images: TCGdex asset URLs (`<base>/high.webp`, `<base>/low.webp`). French first, then English, then another
  * print of the same definition; none: the interface draws a text face.
  */
-import type { CardDef, PrintInfo } from "@pocketmate/engine";
+import type { CardDef, PrintInfo } from "@pokecircle/engine";
 import { PRINTS, PRINTS_OF } from "./index";
 
 export type Quality = "high" | "low";

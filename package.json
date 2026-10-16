@@ -1,5 +1,5 @@
 {
-  "name": "pocketmate",
+  "name": "pokecircle",
   "private": true,
   "license": "MIT",
   "type": "module",
@@ -7,8 +7,8 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "npm run dev -w @pocketmate/client",
-    "build": "npm run build -w @pocketmate/client",
+    "dev": "npm run dev -w @pokecircle/client",
+    "build": "npm run build -w @pokecircle/client",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc -p tsconfig.json",
@@ -26,6 +26,7 @@
     "offline-smoke": "tsx tools/offline-smoke.ts",
     "mobile-smoke": "tsx tools/mobile-smoke.ts",
     "replay-smoke": "tsx tools/replay-smoke.ts",
+    "drag-smoke": "tsx tools/drag-smoke.ts",
     "tutorial-smoke": "tsx tools/tutorial-smoke.ts",
     "ui-smoke": "tsx tools/ui-smoke.ts",
     "lang-smoke": "tsx tools/lang-smoke.ts",

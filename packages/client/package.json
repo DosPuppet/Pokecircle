@@ -1,5 +1,5 @@
 {
-  "name": "@pocketmate/client",
+  "name": "@pokecircle/client",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -9,10 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@pocketmate/ai": "^0.1.0",
-    "@pocketmate/cards": "^0.1.0",
-    "@pocketmate/engine": "^0.1.0",
-    "@pocketmate/server": "^0.1.0",
+    "@pokecircle/ai": "^0.1.0",
+    "@pokecircle/cards": "^0.1.0",
+    "@pokecircle/engine": "^0.1.0",
+    "@pokecircle/server": "^0.1.0",
     "jsqr": "1.4.0",
     "motion": "^13.4.3",
     "react": "^19.3.0",

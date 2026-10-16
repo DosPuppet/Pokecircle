@@ -2,7 +2,7 @@
  * The card compiler: fixed texts compile to the expected ops, and the number of implemented Standard definitions never
  * drops below the baseline (`data/compile-baseline.json`; raise it when templates are added).
  */
-import type { AttackDef, Effect } from "@pocketmate/engine";
+import type { AttackDef, Effect } from "@pokecircle/engine";
 import { describe, expect, it } from "vitest";
 import baseline from "../data/compile-baseline.json";
 import { compileAttack } from "../src/compile/attacks";

@@ -11,7 +11,7 @@
  *
  * Cards revealed earlier and gone back to a hidden zone are not remembered: they are drawn like the others.
  */
-import { cloneState, type GameState, opponentOf, type PlayerId } from "@pocketmate/engine";
+import { cloneState, type GameState, opponentOf, type PlayerId } from "@pokecircle/engine";
 import { pickOne, type Rng, shuffled } from "./rng";
 
 /** Assumed share of Basic Energy among an opponent's hidden cards (about 10 to 14 in a 60-card deck). */

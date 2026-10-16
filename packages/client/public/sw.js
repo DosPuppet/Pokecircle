@@ -1,5 +1,5 @@
 /**
- * PocketMate service worker (production build only, registered by main.tsx).
+ * Pokecircle service worker (production build only, registered by main.tsx).
  * - /assets/* (named by their hash) and /sounds/*: from the cache after the first visit; a new version of a file
  *   replaces the old one (same name prefix);
  * - card images relayed by the server (/tcgdex/*): from their own cache, at most IMAGE_MAX of them (the oldest go);
@@ -7,8 +7,8 @@
  * - the page: network first, cache when offline (a game against the AI without network).
  * Neither online play (/ws) nor /healthz go through the cache.
  */
-const CACHE = "pocketmate-v1";
-const IMAGES = "pocketmate-images-v1";
+const CACHE = "pokecircle-v1";
+const IMAGES = "pokecircle-images-v1";
 const IMAGE_MAX = 1500;
 
 self.addEventListener("install", () => self.skipWaiting());

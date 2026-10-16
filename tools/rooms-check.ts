@@ -3,15 +3,15 @@
  * tells how many would resume, how many would be interrupted (other rules version, different fingerprints) and how
  * many are unreadable. The original files are not touched.
  *
- * Usage: npx tsx tools/rooms-check.ts [dir]   (data/rooms by default; PM_DATA_DIR if it is set)
+ * Usage: npx tsx tools/rooms-check.ts [dir]   (data/rooms by default; PK_DATA_DIR if it is set)
  */
 import { cpSync, existsSync, mkdtempSync, readdirSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { RULES_VERSION } from "@pocketmate/engine";
+import { RULES_VERSION } from "@pokecircle/engine";
 import { DEFAULT_CONFIG, RoomManager } from "../packages/server/src/rooms";
 
-const source = process.argv[2] ?? process.env.PM_DATA_DIR ?? join(process.cwd(), "data", "rooms");
+const source = process.argv[2] ?? process.env.PK_DATA_DIR ?? join(process.cwd(), "data", "rooms");
 if (!existsSync(source)) {
   console.log(`No save in ${source}: nothing to check.`);
   process.exit(0);

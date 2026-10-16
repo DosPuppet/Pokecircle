@@ -1,4 +1,9 @@
-# CLAUDE.md — tracking and conventions for PocketMate
+# CLAUDE.md — tracking and conventions for Pokecircle
+
+Pokecircle was called PocketMate until 2026-10-16 (an existing toy has that name). The folder stays
+`/home/dospu/PocketMate`; packages are `@pokecircle/*`, browser keys `pokecircle.*` (old `pocketmate.*` keys move at
+start-up, `client/src/storageRename.ts`), records `pokecircle-game` (old `pocketmate-game` files still read),
+environment variables `PK_*`, pm2 process `pokecircle`.
 
 This file tracks the project between sessions: current state, working rules, pitfalls. The plan is
 `docs/plans/PLAN-A.md`; the history is in `docs/history.md`; open items in `docs/backlog.md`.
@@ -28,7 +33,7 @@ This file tracks the project between sessions: current state, working rules, pit
 ## Conventions
 
 - **Language:** code, comments, tests and documents in **English** (`cards/test/english-source.test.ts`; a line kept in
-  French on purpose: `// i18n-ignore: <why>`). The interface is **bilingual, French by default** (`pocketmate.lang`),
+  French on purpose: `// i18n-ignore: <why>`). The interface is **bilingual, French by default** (`pokecircle.lang`),
   with **vouvoiement**. Every player-facing text is English in the source: `msg("…", { args })` in the engine, cards
   and server; `t("…")` / `useT()` in the client; always a string literal. French goes into a catalog keyed by the
   English text (`engine/locales/fr.json`, `server/locales/fr.json`, `cards/locales/fr/<file>.json`,
@@ -86,7 +91,7 @@ This file tracks the project between sessions: current state, working rules, pit
 - Rooms: 2 seats, BO1/BO3 (the loser of a game chooses who goes first in the next), rope, 3 timeouts lose, 60 s to
   come back, rematch, AI seat thinking in `worker_threads` (`aiPool.ts`). Saved in `data/rooms/` and resumed on start-up
   by replay; before a [rules] deployment: `npx tsx tools/rooms-check.ts`.
-- Deployment: `docs/deployment.md` (pm2 `pocketmate` on 127.0.0.1:8788, nginx site without the shared `map`).
+- Deployment: `docs/deployment.md` (pm2 `pokecircle` on 127.0.0.1:8788, nginx site without the shared `map`).
 - Interface tests of online play: `npx tsx tools/online-smoke.ts [actions] [--bo3]` needs Vite and `npm run server`.
 - Other interface tests (Vite): `tutorial-smoke`, `replay-smoke`, `mobile-smoke`, `ai-smoke`, `lang-smoke`, `deck-smoke`;
   `offline-smoke` needs `npm run build` (it serves `packages/client/dist` itself).
@@ -99,4 +104,4 @@ This file tracks the project between sessions: current state, working rules, pit
 - Dev server: Vite on 5174, game server on 8788 (Planecircle uses 5173 and 8787 on the same machine).
 - **Playwright is pinned to 1.63.0**: its browsers are already cached (`~/.cache/ms-playwright/*-1243`, shared with
   Planecircle); another version would need `npx playwright install`.
-- Interface tests wait for the playback to end (`window.__pm` store: `queue` empty, not `busy`) before clicking.
+- Interface tests wait for the playback to end (`window.__pk` store: `queue` empty, not `busy`) before clicking.

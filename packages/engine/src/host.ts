@@ -68,6 +68,10 @@ export class GameHost {
     this.pendingEvents = [...initialEvents];
     for (const p of state.playerOrder) this.settings[p] = structuredClone(DEFAULT_AUTOPILOT);
   }
+  /** Changes the pause between two visible actions of the AI (the player changed the pace of the game). */
+  setAiDelay(ms: number): void {
+    this.opts.aiDelay = ms;
+  }
 
   isHuman(p: PlayerId): boolean {
     return !this.opts.agents?.[p];

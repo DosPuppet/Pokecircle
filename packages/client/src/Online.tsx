@@ -2,8 +2,9 @@
  * Online play: a nickname and a deck, then create a room (best of one or three, optionally against the server's AI) and
  * share its code or link, or join a room by its code.
  */
-import { AI_LEVELS, type AiLevel } from "@pocketmate/ai";
+import { AI_LEVELS, type AiLevel } from "@pokecircle/ai";
 import { useState } from "react";
+import { resolveBoard } from "./boardThemes";
 import { DeckPicker } from "./decks/DeckPicker";
 import { LangToggle } from "./LangToggle";
 import { useLoc, useT } from "./localize";
@@ -20,6 +21,7 @@ export function Online() {
   const joinRoom = useGame((s) => s.joinRoom);
   const leaveRoom = useGame((s) => s.leaveRoom);
   const go = useGame((s) => s.go);
+  const board = useGame((s) => resolveBoard(s.board, 0));
   const error = useGame((s) => s.error);
   const notice = useGame((s) => s.notice);
   const [code, setCode] = useState(() => new URLSearchParams(location.search).get("room") ?? "");
@@ -31,9 +33,9 @@ export function Online() {
   if (room && room.status === "waiting") {
     const link = `${location.origin}/?room=${room.code}`;
     return (
-      <div className="home">
+      <div className="home online-page" data-board={board}>
         <header className="home-top">
-          <h1 className="brand">PocketMate</h1>
+          <h1 className="brand">Pokecircle</h1>
           <LangToggle />
         </header>
         <main className="home-main">
@@ -52,15 +54,16 @@ export function Online() {
     );
   }
   return (
-    <div className="home">
+    <div className="home online-page" data-board={board}>
       <header className="home-top">
-        <h1 className="brand">PocketMate</h1>
+        <h1 className="brand">Pokecircle</h1>
+        <button type="button" className="btn" onClick={() => go("home")}>
+          {t("Home")}
+        </button>
+        <span className="spacer" />
         <LangToggle />
       </header>
       <main className="home-main">
-        <button type="button" className="btn small" onClick={() => go("home")}>
-          {t("Home")}
-        </button>
         <h2>{t("Play online")}</h2>
         {notice ? <div className="notice">{loc(notice)}</div> : null}
         {error ? <div className="notice">{loc(error)}</div> : null}

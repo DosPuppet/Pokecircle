@@ -1,5 +1,5 @@
 /** A discard pile (or Lost Zone) shown in full. */
-import type { GameView } from "@pocketmate/engine";
+import type { GameView } from "@pokecircle/engine";
 import { useT } from "../localize";
 import { useGame } from "../store";
 import { CardImage } from "./CardImage";

@@ -1,7 +1,7 @@
 /** Messages exchanged between the interface and the Web Worker that runs a game against the AI. */
-import type { AiLevel } from "@pocketmate/ai";
-import type { DeckEntries } from "@pocketmate/cards";
-import type { CardDef, Decision, GameEvent, GameRecord, GameView, ScenarioSpec } from "@pocketmate/engine";
+import type { AiLevel } from "@pokecircle/ai";
+import type { DeckEntries } from "@pokecircle/cards";
+import type { CardDef, Decision, GameEvent, GameRecord, GameView, ScenarioSpec } from "@pokecircle/engine";
 
 export type ToWorker =
   | {
@@ -18,12 +18,16 @@ export type ToWorker =
       chooser?: string;
       /** Fast mode of the interface tests (dev): the AI plays without pauses. */
       fast?: boolean;
+      /** Pace of the game (factor of the pause between the AI's actions). */
+      pace?: number;
     }
   /** Resume of a saved game (page reopened): the record is replayed, then the game goes on. */
-  | { type: "resume"; record: GameRecord; defs: Record<string, CardDef>; aiLevel: AiLevel; fast?: boolean }
+  | { type: "resume"; record: GameRecord; defs: Record<string, CardDef>; aiLevel: AiLevel; fast?: boolean; pace?: number }
   /** A tutorial lesson: a staged position against the lessons' scripted opponent (not saved). */
-  | { type: "lesson"; spec: ScenarioSpec; defs: Record<string, CardDef>; fast?: boolean }
+  | { type: "lesson"; spec: ScenarioSpec; defs: Record<string, CardDef>; fast?: boolean; pace?: number }
   | { type: "decision"; decision: Decision }
+  /** The player changed the pace of the game. */
+  | { type: "pace"; pace: number }
   | { type: "export" };
 
 export type FromWorker =

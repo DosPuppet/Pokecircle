@@ -1,5 +1,5 @@
 {
-  "name": "@pocketmate/ai",
+  "name": "@pokecircle/ai",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -7,9 +7,9 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "@pocketmate/engine": "^0.1.0"
+    "@pokecircle/engine": "^0.1.0"
   },
   "devDependencies": {
-    "@pocketmate/cards": "^0.1.0"
+    "@pokecircle/cards": "^0.1.0"
   }
 }

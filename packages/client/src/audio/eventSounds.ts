@@ -1,5 +1,5 @@
 /** Game events → sounds (one sound per event kind, the strongest of a batch first). */
-import type { GameEvent, PlayerId } from "@pocketmate/engine";
+import type { GameEvent, PlayerId } from "@pokecircle/engine";
 import type { SoundKey } from "./sounds";
 
 export function soundsFor(events: GameEvent[], me: PlayerId): SoundKey[] {

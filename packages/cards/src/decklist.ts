@@ -10,7 +10,7 @@
  * A line is resolved by set code and number, then by name (English or French), then as a Basic Energy by its type.
  * Deck construction rules: `validateDeck` (docs/rules.md, R-FORMAT).
  */
-import { type CardDef, cardRef, msg, type PrintInfo } from "@pocketmate/engine";
+import { type CardDef, cardRef, msg, type PrintInfo } from "@pokecircle/engine";
 import { CARDS, PRINTS, PRINTS_OF } from "./index";
 
 /** `[count, definition id, print id?]`. */

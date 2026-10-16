@@ -12,7 +12,7 @@ import {
   type GameState,
   type PlayerId,
   RulesError,
-} from "@pocketmate/engine";
+} from "@pokecircle/engine";
 import { determinize } from "./determinize";
 import { evaluate } from "./evaluate";
 import { distinctDecisions, mainDecisions, randomAnswer } from "./options";

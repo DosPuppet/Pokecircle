@@ -1,7 +1,7 @@
 /**
  * Server compiled for production: a single file `packages/server/dist/main.mjs` (engine, cards, ws
  * included), run by Node without `tsx` (`deploy/ecosystem.config.cjs`). The commit is written into the file
- * (`PM_BUILD`, shown by `/healthz`).
+ * (`PK_BUILD`, shown by `/healthz`).
  *
  * Usage: npm run build:server
  */
@@ -32,7 +32,7 @@ await build({
   sourcemap: true,
   // Optional native dependencies of ws: absent, ws does without them.
   external: ["bufferutil", "utf-8-validate"],
-  define: { "process.env.PM_BUILD": JSON.stringify(commit) },
+  define: { "process.env.PK_BUILD": JSON.stringify(commit) },
   // Bundled CommonJS modules (ws): `require` in ESM.
   banner: { js: "import { createRequire as __pmRequire } from 'node:module'; const require = __pmRequire(import.meta.url);" },
   logLevel: "warning",

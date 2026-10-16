@@ -6,23 +6,37 @@
   worker receives the definitions of the decks' cards (it does not bundle the card database).
 - **Playback**: the host sends one update per visible step (`frames`); the store plays them in order with pauses (coin
   flips, attacks, Knock Outs; none with `?fast` in dev). Decisions are ignored during playback.
-- **Board** (`game/`): each side has the Prize cards (left), the Bench and the Active Spot (center), the deck and the
-  discard pile (right). A Pokémon in play (`PokemonSlot`) shows its card, rotated for Asleep (left), Paralyzed (right)
-  and Confused (upside down), its damage, HP left, Poison and Burn markers, attached Energy and Tools.
-- **Playing**: click a hand card (playable cards glow) → "Play", or click a highlighted Pokémon (Energy, Evolution,
-  Tool); click your Active Pokémon → its attacks (cost, damage, K.O. preview), Abilities, Retreat (then a Benched
-  Pokémon); "End turn". Questions of the engine (`Prompt`) preselect the suggested answer.
+- **Look** (as Pokémon TCG Live, after Planecircle): Fredoka (titles, numbers, buttons) and Inter, dark glass panels,
+  an amber main button. **Playmats** (`boardThemes.ts`, `[data-board]` in `styles.css`): Stadium, Meadow, Ocean,
+  Volcano, Thunder, Psychic, Poké Ball, Night or random per game; pure CSS (gradients, SVG patterns, noise), also the
+  lobby's background. Chosen in the game drawer or the lobby's ⚙.
+- **Game screen** (`game/GameScreen.tsx`): the opponent's panel (`PlayerBar`: avatar, Prize cards left, deck, hand,
+  discard pile, Lost Zone) and hand of card backs at the top; the playmat with both sides (Prize cards, Bench, Active
+  Spot, deck and discard pile) and the center line (Stadium in its circle, "your turn" banner `TurnBanner`); the
+  player's panel, hand and main button (`MainButton`: End turn / Confirm, Space) at the bottom. The ☰ drawer
+  (`Sidebar`) holds language, sound, effects pace (`pace`: pauses of the playback and of the AI), playmat, images,
+  concede (confirmed), export, menu, and the log. A Pokémon in play (`PokemonSlot`) shows its card, rotated for Asleep
+  (left), Paralyzed (right) and Confused (upside down), its damage (pops, the card shakes), HP left, Poison and Burn
+  markers, attached Energy (symbols) and Tools. Cards fly between zones (motion `layoutId` = `card-<object id>`).
+- **Playing**: drag a hand card onto its place (a Pokémon to evolve or attach to, the table for a Basic Pokémon or a
+  Trainer card, the Active Spot or the Bench during the setup: `store.dropHandCard`); released over the hand, it goes
+  back. Or click it, then its target (glowing) or "Play" in the action panel (`ActionPanel`: attacks with cost,
+  damage after Weakness and K.O. tag, Abilities, Retreat, Stadium). `tools/drag-smoke.ts`.
+- **Energy**: basic Energy cards have real art (Crown Zenith by default, Scarlet & Violet gold and Generations as
+  other prints: `cards/src/energyArt.ts`, TCGdex has no image for the `sve`/`mee` prints). The type symbols are the
+  printed ones, cropped from cards by `tools/energy-icons.ts` into `public/energy/<type>.png`; `RichText` draws `{R}`
+  in texts.
 - **Setup**: click the Basic Pokémon of your hand (first = Active, then the Bench), "Confirm".
 - **Log**: one line per event (`i18n.ts` `describeEvent`), built as engine texts, so it follows a change of language.
 - **Images**: TCGdex French images first (`cards/src/images.ts`); Basic Energy (no image) gets a drawn Energy face.
-- **Resume**: the game against the AI is saved as its record in `localStorage` (`pocketmate.localGame`) and replayed
+- **Resume**: the game against the AI is saved as its record in `localStorage` (`pokecircle.localGame`) and replayed
   by the worker when the page is reopened.
 - **Interface tests**: `npx tsx tools/ui-smoke.ts` (a whole game in French by clicking) and `tools/lang-smoke.ts`
   (both languages, no raw marker, no untranslated text). Vite must run (`npm run dev`, port 5174).
 - **Deck builder** (`decks/`): catalog search in French or English (names, attacks, texts; `search.ts`, tested), filters
   (category, stage, Trainer kind, type, set, tags, playable only), click to add / right-click to remove, art choice per
   print, legality panel (`validateDeck`), TCG Live import and export (French or English), share by link (`#deck=1.…`,
-  deflate + base64url, `share.ts`) and QR code (uqr). The player's decks live in `localStorage` (`pocketmate.decks`,
+  deflate + base64url, `share.ts`) and QR code (uqr). The player's decks live in `localStorage` (`pokecircle.decks`,
   `decks/store.ts`); deck pickers (`DeckPicker`) show them next to the precons, an unplayable one dimmed.
   `tools/deck-smoke.ts` drives it end to end.
 - **Phone in portrait** (`styles.css`, `@media (orientation: portrait) and (max-width: 700px)`): card size from the
@@ -36,7 +50,7 @@
 - **Images through the server**: a home-screen option (`relay` setting) loads the card images through `/tcgdex/`;
   without it, an image that fails from TCGdex is tried through the server before the text face (`CardImage`).
 - **Replays** (`replay.ts`, `game/ReplayBar.tsx`): at the end of a game, "Watch the replay" (the record of the worker or
-  the server, replayed in the page with every state kept) or "Export the game" (a `pocketmate-<date>.json` record);
+  the server, replayed in the page with every state kept) or "Export the game" (a `pokecircle-<date>.json` record);
   "Watch a game (file)" on the home screen opens one. The viewer steps, plays automatically, jumps and changes point
   of view; a record of another rules version replays up to its first divergence, with a warning.
   `tools/replay-smoke.ts`.
@@ -45,5 +59,5 @@
   (`agent.ts`: attacks when it can). A lesson is a list of steps: an explanation ("Next") or an action with its allowed
   decisions (`Allow`, by English card names; anything else is refused with a hint) and an end predicate on the view and
   the events. `Coach.tsx` shows the step and circles its target; finished lessons are remembered
-  (`pocketmate.tutorial`). `client/test/tutorial.test.ts` plays every lesson to its end with the solver;
+  (`pokecircle.tutorial`). `client/test/tutorial.test.ts` plays every lesson to its end with the solver;
   `tools/tutorial-smoke.ts` does it in the browser.

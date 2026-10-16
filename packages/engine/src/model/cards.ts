@@ -1,6 +1,6 @@
 /**
  * Card definitions: what the engine knows of a card (one definition per gameplay identity; reprints share it).
- * Built by `@pocketmate/cards` from TCGdex data, compiled templates and hand scripts.
+ * Built by `@pokecircle/cards` from TCGdex data, compiled templates and hand scripts.
  */
 import type { Condition, Effect } from "./effects";
 import type { StaticRule } from "./rules";

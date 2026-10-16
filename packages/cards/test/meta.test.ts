@@ -2,7 +2,7 @@
  * Card text of the meta decks' key cards (PLAN-A P6): compiled templates and hand scripts, checked against the printed
  * text with the engine's scenario helpers.
  */
-import { type CardDef, type GameState, legalActions } from "@pocketmate/engine";
+import { type CardDef, type GameState, legalActions } from "@pokecircle/engine";
 import { describe, expect, it } from "vitest";
 import { answer, handOf, play, pokemon, scenario } from "../../engine/test/helpers";
 import { CARDS } from "../src/index";

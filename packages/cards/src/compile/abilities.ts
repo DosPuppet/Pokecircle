@@ -2,8 +2,8 @@
  * Ability texts: activated ("Once during your turn, you may …"), triggered ("When you play this Pokémon from your hand
  * onto your Bench …") and continuous ("Your Basic Pokémon in play have no Retreat Cost.").
  */
-import type { AbilityDef, Condition, Effect, StaticRule, TriggerDef } from "@pocketmate/engine";
-import { amt, cond, fx, msg, ref, scope } from "@pocketmate/engine";
+import type { AbilityDef, Condition, Effect, StaticRule, TriggerDef } from "@pokecircle/engine";
+import { amt, cond, fx, msg, ref, scope } from "@pokecircle/engine";
 import { COMMON, type Ctx, chooseIn } from "./effects";
 import { condPhrase, num, typeSym } from "./phrases";
 import { matchAll, normalize, sentence, type Template, tpl } from "./templates";

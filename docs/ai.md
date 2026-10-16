@@ -33,7 +33,7 @@ are permuted).
     `sigmoid((evaluate − root) / 60)`.
   - The most visited candidate is played (ties: the best average).
   - Budget: a number of iterations (`iterations`, 48 by default: tests, arena, fuzz with 8) or a time per decision
-    (`budget`: 700 ms in the browser, 0.15 s with `?fast`, 700 ms on the server), scoring included; below
+    (`budget`: 550 ms in the browser, 0.15 s with `?fast`, 700 ms on the server), scoring included; below
     2 iterations per candidate in the time, medium's decision is kept. The 0.9 s pause between AI actions absorbs it
     (`npm run ai-smoke`).
 

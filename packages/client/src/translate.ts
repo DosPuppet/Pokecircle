@@ -6,10 +6,10 @@
  * Components read texts through `useT()` (`localize.ts`), which re-renders them when the language changes; `t()`
  * serves code outside components and reads the language set by the store (`setTextLang`).
  */
-import { FRENCH_CATALOGS } from "@pocketmate/cards/locales";
-import { msg, renderText, type TextArg } from "@pocketmate/engine";
-import engineFr from "@pocketmate/engine/locales/fr.json";
-import serverFr from "@pocketmate/server/locales/fr.json";
+import { FRENCH_CATALOGS } from "@pokecircle/cards/locales";
+import { msg, renderText, type TextArg } from "@pokecircle/engine";
+import engineFr from "@pokecircle/engine/locales/fr.json";
+import serverFr from "@pokecircle/server/locales/fr.json";
 import clientFr from "../locales/fr.json";
 
 export type Lang = "fr" | "en";

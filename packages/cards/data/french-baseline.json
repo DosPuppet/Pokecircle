@@ -10,6 +10,7 @@
     "tools/ai-smoke.ts": "drives the French interface by its labels",
     "tools/mobile-smoke.ts": "drives the French interface by its labels",
     "tools/offline-smoke.ts": "drives the French interface by its labels",
-    "tools/tutorial-smoke.ts": "drives the French interface by its labels"
+    "tools/tutorial-smoke.ts": "drives the French interface by its labels",
+    "tools/drag-smoke.ts": "drives the French interface by its labels"
   }
 }

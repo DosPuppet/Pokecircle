@@ -7,7 +7,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 
 const BASE = "https://limitlesstcg.com";
-const UA = { "User-Agent": "Mozilla/5.0 (PocketMate meta import)" };
+const UA = { "User-Agent": "Mozilla/5.0 (Pokecircle meta import)" };
 const date = new Date().toISOString().slice(0, 10);
 const dir = new URL(`../docs/meta/${date}/`, import.meta.url);
 mkdirSync(dir, { recursive: true });

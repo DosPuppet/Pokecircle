@@ -1,6 +1,6 @@
 /** The AI never reads hidden cards: determinization redeals them and reseeds the coin flips. */
 
-import { createGame, submit } from "@pocketmate/engine";
+import { createGame, submit } from "@pokecircle/engine";
 import { describe, expect, it } from "vitest";
 import { decksFor } from "../../../tools/decks";
 import { determinize } from "../src/determinize";

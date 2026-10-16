@@ -12,7 +12,7 @@ import {
   type PokemonId,
   prizesFor,
   unitsOf,
-} from "@pocketmate/engine";
+} from "@pokecircle/engine";
 
 const WIN = 10_000;
 

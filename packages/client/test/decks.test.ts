@@ -1,7 +1,7 @@
 /** Deck builder logic: catalog search (French and English) and share links. */
 
-import { parseDeckList } from "@pocketmate/cards/decklist";
-import { PRECONS } from "@pocketmate/cards/decks";
+import { parseDeckList } from "@pokecircle/cards/decklist";
+import { PRECONS } from "@pokecircle/cards/decks";
 import { describe, expect, it } from "vitest";
 import { fold, NO_FILTERS, searchCards } from "../src/decks/search";
 import { deckLink, decodeDeck, sharedDeckData, sharedName } from "../src/decks/share";
@@ -33,8 +33,8 @@ describe("search", () => {
 describe("share links", () => {
   it("round-trips a deck through a link", async () => {
     const deck = PRECONS[0]?.main ?? [];
-    const link = await deckLink("Feu", deck, "https://pocketmate.test");
-    expect(link.startsWith("https://pocketmate.test/#deck=1.")).toBe(true);
+    const link = await deckLink("Feu", deck, "https://pokecircle.test");
+    expect(link.startsWith("https://pokecircle.test/#deck=1.")).toBe(true);
     const text = await decodeDeck(sharedDeckData(link) as string);
     expect(text).not.toBeNull();
     expect(sharedName(text as string)).toBe("Feu");

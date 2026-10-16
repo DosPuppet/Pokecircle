@@ -5,9 +5,9 @@
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { randomAgent } from "@pocketmate/ai";
-import { PRECONS } from "@pocketmate/cards/decks";
-import { type GameView, plainText } from "@pocketmate/engine";
+import { randomAgent } from "@pokecircle/ai";
+import { PRECONS } from "@pokecircle/cards/decks";
+import { type GameView, plainText } from "@pokecircle/engine";
 import { afterEach, describe, expect, it } from "vitest";
 import { AiPool } from "../src/aiPool";
 import type { ServerMessage } from "../src/protocol";
@@ -55,7 +55,7 @@ async function playOut(
 ) {
   const agents = { p1: randomAgent(1), p2: randomAgent(2) };
   for (let i = 0; i < limit; i++) {
-    const s = (a.room as unknown as { host: { state: import("@pocketmate/engine").GameState } }).host.state;
+    const s = (a.room as unknown as { host: { state: import("@pokecircle/engine").GameState } }).host.state;
     if (s.over || !s.pending) break;
     const p = s.pending.player as "p1" | "p2";
     await a.room.decide((p === a.seat.seat ? a : b).seat, agents[p](s, p));
@@ -98,7 +98,7 @@ describe("rooms", () => {
     const b = mgr.join(a.room.code, "Bob", deck2, c2);
     await a.room.enqueue(async () => {});
     await playOut(mgr, a, b, 120);
-    const state = (a.room as unknown as { host: { state: import("@pocketmate/engine").GameState } }).host.state;
+    const state = (a.room as unknown as { host: { state: import("@pokecircle/engine").GameState } }).host.state;
     for (const [client, me] of [
       [c1, "p1"],
       [c2, "p2"],
@@ -125,7 +125,7 @@ describe("rooms", () => {
     const a = mgr.create("Alice", deck, c1);
     const b = mgr.join(a.room.code, "Bob", deck2, c2);
     await a.room.enqueue(async () => {});
-    const s = (a.room as unknown as { host: { state: import("@pocketmate/engine").GameState } }).host.state;
+    const s = (a.room as unknown as { host: { state: import("@pokecircle/engine").GameState } }).host.state;
     const wrong = s.pending?.player === "p1" ? b.seat : a.seat;
     await a.room.decide(wrong, { type: "endTurn" });
     const client = wrong === a.seat ? c1 : c2;
@@ -143,7 +143,7 @@ describe("rooms", () => {
     const b = mgr.join(a.room.code, "Bob", deck2, c2);
     await a.room.enqueue(async () => {});
     await playOut(mgr, a, b, 40);
-    const before = (a.room as unknown as { host: { state: import("@pocketmate/engine").GameState } }).host.state;
+    const before = (a.room as unknown as { host: { state: import("@pokecircle/engine").GameState } }).host.state;
     const token = c1.room?.token as string;
     mgr.closeAll();
     const again = new RoomManager({ ...config, dataDir: dir });
@@ -186,12 +186,12 @@ describe("rooms", () => {
     expect(c1.room?.players.some((p) => p.ai === "beginner")).toBe(true);
     const agent = randomAgent(5);
     for (let i = 0; i < 400; i++) {
-      const s = (a.room as unknown as { host: { state: import("@pocketmate/engine").GameState } }).host.state;
+      const s = (a.room as unknown as { host: { state: import("@pokecircle/engine").GameState } }).host.state;
       if (s.over) break;
       if (s.pending?.player === "p1") await a.room.decide(a.seat, agent(s, "p1"));
       else await new Promise((r) => setTimeout(r, 20));
     }
-    const s = (a.room as unknown as { host: { state: import("@pocketmate/engine").GameState } }).host.state;
+    const s = (a.room as unknown as { host: { state: import("@pokecircle/engine").GameState } }).host.state;
     expect(s.turn.number).toBeGreaterThan(2);
     mgr.closeAll();
     await pool.close();

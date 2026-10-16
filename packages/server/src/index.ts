@@ -10,7 +10,7 @@ import type { AddressInfo } from "node:net";
 import { extname, join, normalize, resolve, sep } from "node:path";
 import { Readable } from "node:stream";
 import { brotliCompressSync, gzipSync, constants as zlibConstants } from "node:zlib";
-import { msg, RULES_VERSION } from "@pocketmate/engine";
+import { msg, RULES_VERSION } from "@pokecircle/engine";
 import { WebSocket, WebSocketServer } from "ws";
 import { AiPool } from "./aiPool";
 import { type ClientMessage, PROTOCOL_VERSION, type ServerMessage } from "./protocol";
@@ -30,7 +30,7 @@ export interface ServerOptions {
   pingMs?: number;
   /** Message rate per connection: `perSecond` sustained, `burst` in a burst. */
   rate?: { perSecond: number; burst: number };
-  /** Origins allowed for the WebSocket besides the same host (PM_ORIGINS, comma-separated). */
+  /** Origins allowed for the WebSocket besides the same host (PK_ORIGINS, comma-separated). */
   allowedOrigins?: string[];
   /** Directory of the built client (packages/client/dist), served as static files. */
   staticDir?: string;
@@ -70,7 +70,7 @@ export function clientIp(req: IncomingMessage): string {
 /**
  * Origin of a WebSocket connection: a browser always sends it; a page of another site must not be able to play in the
  * player's place. Accepted: no Origin header (client outside a browser), same host as the request (site served by this
- * server, nginx, Vite proxy in dev), or an origin of the `allowedOrigins` list (PM_ORIGINS).
+ * server, nginx, Vite proxy in dev), or an origin of the `allowedOrigins` list (PK_ORIGINS).
  */
 export function originAllowed(req: IncomingMessage, allowed: readonly string[] = []): boolean {
   const origin = req.headers.origin;
@@ -208,7 +208,7 @@ const TCGDEX_CACHE = "public, max-age=2592000, immutable";
 const TCGDEX_TIMEOUT_MS = 10_000;
 
 const fetchTcgdex = (url: string): Promise<Response> =>
-  fetch(url, { headers: { "User-Agent": "PocketMate/1.0", Accept: "image/*" }, signal: AbortSignal.timeout(TCGDEX_TIMEOUT_MS) });
+  fetch(url, { headers: { "User-Agent": "Pokecircle/1.0", Accept: "image/*" }, signal: AbortSignal.timeout(TCGDEX_TIMEOUT_MS) });
 
 async function relayImage(
   req: IncomingMessage,
@@ -256,7 +256,7 @@ async function relayImage(
 }
 
 /** Server version: the commit, set at build time (`tools/build-server.ts`); "dev" under tsx. */
-const BUILD = process.env.PM_BUILD ?? "dev";
+const BUILD = process.env.PK_BUILD ?? "dev";
 
 /**
  * Server health. A direct local request (no proxy header: pm2, `deploy/update.sh`, monitoring) gets the details as JSON
@@ -398,7 +398,7 @@ export function startServer(opts: ServerOptions = {}): Promise<RunningServer> {
           case "rejoin": {
             if (current) throw new ClientError("state", msg("You are already in a room."));
             if (message.version?.protocol !== PROTOCOL_VERSION || message.version?.rules !== RULES_VERSION)
-              throw new ClientError("version", msg("A new version of PocketMate is available: reload the page."));
+              throw new ClientError("version", msg("A new version of Pokecircle is available: reload the page."));
             if (message.type === "create")
               current = rooms.create(message.name, message.deck, peer, {
                 bestOf: message.bestOf,

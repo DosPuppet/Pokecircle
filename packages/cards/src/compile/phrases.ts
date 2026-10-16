@@ -3,8 +3,8 @@
  * card filters ("Basic {R} Energy card"). Each parser returns null when it does not recognize the whole phrase, so a
  * template using it does not match (the card stays unscripted rather than wrong).
  */
-import type { Amount, CardFilter, Condition, EType, PokemonFilter, PokemonRef, PokemonScope, Stage } from "@pocketmate/engine";
-import { amt, cond, ref, scope } from "@pocketmate/engine";
+import type { Amount, CardFilter, Condition, EType, PokemonFilter, PokemonRef, PokemonScope, Stage } from "@pokecircle/engine";
+import { amt, cond, ref, scope } from "@pokecircle/engine";
 
 const NUMBERS: Record<string, number> = {
   a: 1,

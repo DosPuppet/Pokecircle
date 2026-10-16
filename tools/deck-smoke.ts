@@ -5,7 +5,7 @@
 import { chromium } from "playwright";
 import { playGame } from "./ui-smoke";
 
-const URL = process.env.PM_URL ?? "http://localhost:5174/?fast";
+const URL = process.env.PK_URL ?? "http://localhost:5174/?fast";
 const LIST = `Pokémon: 17
 4 Ponyta TEF 26
 3 Rapidash SCR 20
@@ -62,6 +62,8 @@ if (!link.includes("#deck=1.")) throw new Error(`share link: ${link}`);
 await page.getByRole("button", { name: /^Fermer$/ }).click();
 await page.screenshot({ path: "test-results/deck-smoke.png" });
 await page.getByRole("button", { name: /^Accueil$/ }).click();
+await page.locator(".deck-summary").first().click();
+await page.locator(".deck-dialog .seg button", { hasText: "Vos decks" }).click();
 await page.locator(".deck-tile", { hasText: "Deck de test" }).first().click();
 await page.getByRole("button", { name: /Jouer contre l'IA/ }).click();
 await page.waitForSelector(".game");

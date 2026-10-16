@@ -10,7 +10,7 @@ const BASE = `${import.meta.env.BASE_URL}sounds/`;
 /** Minimum gap between two plays of the same sound. */
 const MIN_GAP_MS = 60;
 const MAX_VOICES = 8;
-const STORAGE_KEY = "pocketmate.audio";
+const STORAGE_KEY = "pokecircle.audio";
 
 // ---------------------------------------------------------------------------
 // Settings (preference specific to this browser)

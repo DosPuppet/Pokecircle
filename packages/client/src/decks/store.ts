@@ -1,10 +1,10 @@
-/** The player's own decks, kept in this browser (`pocketmate.decks`), next to the preconstructed decks. */
-import type { DeckEntries, DeckList } from "@pocketmate/cards";
-import { validateDeck } from "@pocketmate/cards/decklist";
-import { PRECONS } from "@pocketmate/cards/decks";
+/** The player's own decks, kept in this browser (`pokecircle.decks`), next to the preconstructed decks. */
+import type { DeckEntries, DeckList } from "@pokecircle/cards";
+import { validateDeck } from "@pokecircle/cards/decklist";
+import { PRECONS } from "@pokecircle/cards/decks";
 import { create } from "zustand";
 
-const KEY = "pocketmate.decks";
+const KEY = "pokecircle.decks";
 
 export interface UserDeck {
   id: string;

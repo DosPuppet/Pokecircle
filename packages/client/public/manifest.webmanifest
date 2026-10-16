@@ -1,6 +1,6 @@
 {
-  "name": "PocketMate",
-  "short_name": "PocketMate",
+  "name": "Pokecircle",
+  "short_name": "Pokecircle",
   "description": "JCC Pokémon : jouez contre l'IA ou en ligne",
   "start_url": "/",
   "display": "standalone",

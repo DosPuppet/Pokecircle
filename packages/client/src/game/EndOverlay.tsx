@@ -1,5 +1,5 @@
 /** The end of the game: who won and why. */
-import type { GameView } from "@pocketmate/engine";
+import type { GameView } from "@pokecircle/engine";
 import { useT } from "../localize";
 import { useGame } from "../store";
 

@@ -1,4 +1,4 @@
-# PocketMate
+# Pokecircle
 
 Pokémon Trading Card Game (Standard format) in the browser: play against the AI or online against another player.
 The interface and the cards are in French by default (English available).

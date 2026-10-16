@@ -2,8 +2,8 @@
  * Templates shared by attacks, Abilities and Trainer cards: effects on Pokémon, cards, Energy and the board. `inAttack`
  * says whether "your opponent's Active Pokémon" is the Defending Pokémon.
  */
-import type { CardFilter, Effect, EType, PokemonScope } from "@pocketmate/engine";
-import { amt, cond, fx, msg, ref, scope, searchToBench } from "@pocketmate/engine";
+import type { CardFilter, Effect, EType, PokemonScope } from "@pokecircle/engine";
+import { amt, cond, fx, msg, ref, scope, searchToBench } from "@pokecircle/engine";
 import { cardFilter, countPhrase, num, pokemonRef, scopePhrase, status, typeSym } from "./phrases";
 import { type Built, matchAll, sentence, type Template, tpl } from "./templates";
 

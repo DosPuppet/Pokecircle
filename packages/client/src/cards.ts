@@ -1,7 +1,7 @@
 /** Card data for the interface: names, texts and images in the interface language. */
-import { CARDS, type DeckEntries, PRINTS } from "@pocketmate/cards";
-import { imageBase, imageUrl, type Quality } from "@pocketmate/cards/images";
-import type { CardDef, CardText } from "@pocketmate/engine";
+import { CARDS, type DeckEntries, PRINTS } from "@pokecircle/cards";
+import { imageBase, imageUrl, type Quality } from "@pokecircle/cards/images";
+import type { CardDef, CardText } from "@pokecircle/engine";
 import type { Lang } from "./translate";
 
 export function defOf(defId: string | undefined): CardDef | undefined {
@@ -26,7 +26,7 @@ export function cardImage(defId: string | undefined, lang: Lang, print?: string,
 
 const TCGDEX = "https://assets.tcgdex.net/";
 
-/** The same image through the PocketMate server (`/tcgdex/` relay), for networks that block assets.tcgdex.net. */
+/** The same image through the Pokecircle server (`/tcgdex/` relay), for networks that block assets.tcgdex.net. */
 export function relayed(url: string): string {
   return url.startsWith(TCGDEX) ? `/tcgdex/${url.slice(TCGDEX.length)}` : url;
 }

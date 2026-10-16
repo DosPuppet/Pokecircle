@@ -3,7 +3,7 @@
  * decision a step expects: tests and interface script). No dependency on the DOM or the store. Cards are named by
  * their English name. The scripted opponent is in `agent.ts` (the game worker imports it: no card database there).
  */
-import type { CardDef, Decision, GameEvent, GameView, PokemonId, ScenarioSpec } from "@pocketmate/engine";
+import type { CardDef, Decision, GameEvent, GameView, PokemonId, ScenarioSpec } from "@pokecircle/engine";
 import { defOf } from "../cards";
 
 /**

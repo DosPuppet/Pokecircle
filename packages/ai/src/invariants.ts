@@ -3,7 +3,7 @@
  * multiple of 10, Bench within its limit, no Special Condition on the Bench, an Active Pokémon after setup, and a
  * decision always possible.
  */
-import { benchSize, type GameState, legalActions } from "@pocketmate/engine";
+import { benchSize, type GameState, legalActions } from "@pokecircle/engine";
 
 export function checkInvariants(s: GameState, cardsPerPlayer?: Record<string, number>): string[] {
   const errors: string[] = [];

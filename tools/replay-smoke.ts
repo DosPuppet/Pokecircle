@@ -7,9 +7,9 @@
  */
 import { mkdirSync } from "node:fs";
 import { chromium, type Page } from "playwright";
-import { step } from "./ui-smoke";
+import { concede, step } from "./ui-smoke";
 
-const URL = process.env.PM_URL ?? "http://localhost:5174/?fast";
+const URL = process.env.PK_URL ?? "http://localhost:5174/?fast";
 mkdirSync("test-results", { recursive: true });
 let failed = false;
 const check = (cond: boolean, msg: string) => {
@@ -40,7 +40,7 @@ try {
     if (r === "acted") acted++;
     else await page.waitForTimeout(200);
   }
-  if (!(await page.locator(".modal.end").count())) await page.getByRole("button", { name: "Abandonner" }).click();
+  if (!(await page.locator(".modal.end").count())) await concede(page);
   await page.getByRole("button", { name: "Revoir la partie" }).click();
   await page.waitForSelector(".replay-bar");
   const start = await pos(page);
@@ -59,20 +59,21 @@ try {
   check((await page.locator(".side.mine").getAttribute("data-player")) === "p2", "point of view changed to the AI");
   await page.screenshot({ path: "test-results/replay.png" });
   console.log(`   hands: ${myHand} (player), ${await page.locator(".hand .hand-card").count()} (AI)`);
-  await page.getByRole("button", { name: "Accueil" }).click();
+  await page.locator(".drawer-toggle").click();
+  await page.locator(".sidebar .btn", { hasText: "Menu" }).click();
 
   // The same game again, exported then opened from the home screen.
   await page.getByRole("button", { name: "Jouer contre l'IA" }).click();
   await page.waitForSelector(".game");
   await page.waitForTimeout(500);
-  await page.getByRole("button", { name: "Abandonner" }).click();
+  await concede(page);
   const [download] = await Promise.all([
     page.waitForEvent("download"),
     page.getByRole("button", { name: "Exporter la partie" }).click(),
   ]);
   const file = `test-results/${download.suggestedFilename()}`;
   await download.saveAs(file);
-  check(/^pocketmate-.*\.json$/.test(download.suggestedFilename()), `game exported (${download.suggestedFilename()})`);
+  check(/^pokecircle-.*\.json$/.test(download.suggestedFilename()), `game exported (${download.suggestedFilename()})`);
   await page.locator(".modal.end .btn", { hasText: "Accueil" }).click();
   await page.locator(".file-btn input").setInputFiles(file);
   await page.waitForSelector(".replay-bar");

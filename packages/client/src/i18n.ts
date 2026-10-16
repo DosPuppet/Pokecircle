@@ -11,15 +11,17 @@ import {
   type PlayerId,
   type PokemonId,
   type SpecialCondition,
-} from "@pocketmate/engine";
+} from "@pokecircle/engine";
 import { cardName } from "./cards";
 import { type Lang, localize } from "./translate";
 
-/** A text with card references, in a language; Energy symbols ({G}…) become type names. */
-export function localizeText(text: string, lang: Lang): string {
-  return localize(text, lang, (defId) => cardName(defId, lang)).replace(/\{([GRWLPFDMNCY])\}/g, (_, t: string) =>
-    localize(TYPE_LABEL[t] as string, lang, (d) => d),
-  );
+/**
+ * A text with card references, in a language; Energy symbols ({G}…) become type names, or stay as they are with
+ * `symbols` (drawn by `RichText`).
+ */
+export function localizeText(text: string, lang: Lang, symbols = false): string {
+  const out = localize(text, lang, (defId) => cardName(defId, lang));
+  return symbols ? out : out.replace(/\{([GRWLPFDMNCY])\}/g, (_, t: string) => localize(TYPE_LABEL[t] as string, lang, (d) => d));
 }
 
 export const CONDITION_LABEL: Record<SpecialCondition, string> = {

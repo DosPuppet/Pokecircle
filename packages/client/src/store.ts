@@ -2,19 +2,21 @@
  * Interface state: screens and settings, the game in progress (view, playback of the host's frames, log), what the
  * player is selecting, and the decisions sent to the session.
  */
-import type { AiLevel } from "@pocketmate/ai";
-import type { DeckEntries } from "@pocketmate/cards";
-import { PRECONS } from "@pocketmate/cards/decks";
-import type { Decision, GameEvent, GameRecord, GameView, ObjectId, PokemonId } from "@pocketmate/engine";
-import { msg, RULES_VERSION } from "@pocketmate/engine";
-import type { Clock, RoomInfo, ServerMessage } from "@pocketmate/server/protocol";
-import { PROTOCOL_VERSION } from "@pocketmate/server/protocol";
+import type { AiLevel } from "@pokecircle/ai";
+import type { DeckEntries } from "@pokecircle/cards";
+import { PRECONS } from "@pokecircle/cards/decks";
+import type { Decision, GameEvent, GameRecord, GameView, ObjectId, PokemonId } from "@pokecircle/engine";
+import { msg, RULES_VERSION } from "@pokecircle/engine";
+import type { Clock, RoomInfo, ServerMessage } from "@pokecircle/server/protocol";
+import { PROTOCOL_VERSION } from "@pokecircle/server/protocol";
 import { create } from "zustand";
 import { soundsFor } from "./audio/eventSounds";
 import { playSound } from "./audio/sfx";
+import { type BoardChoice, isBoardChoice, PACES, type Pace, paceFactor } from "./boardThemes";
 import { defsOf } from "./cards";
 import { deckById } from "./decks/store";
 import { fastMode } from "./fast";
+import { decisionOnTarget, directOption, myTurn } from "./game/interaction";
 import { describeEvent, rememberPokemon } from "./i18n";
 import type { FromWorker } from "./protocol";
 import { parseRecord, Replay } from "./replay";
@@ -29,7 +31,7 @@ export type Screen = "home" | "game" | "decks" | "online" | "tutorial";
 /** An online game to resume (token kept by the browser). */
 export function savedOnline(): { token: string; code: string } | null {
   try {
-    return JSON.parse(localStorage.getItem("pocketmate.online") ?? "null");
+    return JSON.parse(localStorage.getItem("pokecircle.online") ?? "null");
   } catch {
     return null;
   }
@@ -48,7 +50,7 @@ interface Update {
   events: GameEvent[];
 }
 
-const STORE = "pocketmate.settings";
+const STORE = "pokecircle.settings";
 
 interface Settings {
   deck: string;
@@ -56,8 +58,12 @@ interface Settings {
   aiLevel: AiLevel;
   /** Online nickname. */
   nickname: string;
-  /** Card images through the PocketMate server (`/tcgdex/` relay) rather than from TCGdex directly. */
+  /** Card images through the Pokecircle server (`/tcgdex/` relay) rather than from TCGdex directly. */
   relay: boolean;
+  /** Playmat (`boardThemes.ts`). */
+  board: BoardChoice;
+  /** Pace of the game's effects. */
+  pace: Pace;
 }
 
 /** Online: the room, the decision timer, the opponent's connection. */
@@ -69,7 +75,7 @@ export interface Online {
   connecting: boolean;
 }
 
-const ONLINE_KEY = "pocketmate.online";
+const ONLINE_KEY = "pokecircle.online";
 
 function loadSettings(): Settings {
   const fallback: Settings = {
@@ -78,9 +84,14 @@ function loadSettings(): Settings {
     aiLevel: "medium",
     nickname: "",
     relay: false,
+    board: "stadium",
+    pace: "normal",
   };
   try {
-    return { ...fallback, ...(JSON.parse(localStorage.getItem(STORE) ?? "{}") as Partial<Settings>) };
+    const s = { ...fallback, ...(JSON.parse(localStorage.getItem(STORE) ?? "{}") as Partial<Settings>) };
+    if (!isBoardChoice(s.board)) s.board = fallback.board;
+    if (!PACES.some((p) => p.id === s.pace)) s.pace = fallback.pace;
+    return s;
   } catch {
     return fallback;
   }
@@ -88,7 +99,7 @@ function loadSettings(): Settings {
 
 function storedLang(): Lang {
   try {
-    return localStorage.getItem("pocketmate.lang") === "en" ? "en" : "fr";
+    return localStorage.getItem("pokecircle.lang") === "en" ? "en" : "fr";
   } catch {
     return "fr";
   }
@@ -110,7 +121,14 @@ export interface Store extends Settings {
   notice: string | null;
   preview: { defId: string; print?: string } | null;
   zone: { player: string; zone: "discard" | "lostZone" } | null;
-  logOpen: boolean;
+  /** The side drawer (options and log). */
+  drawerOpen: boolean;
+  /** The hand card being dragged (its targets glow). */
+  dragging: ObjectId | null;
+  /** The "your turn" banner: whose turn starts (a new key for each turn). */
+  banner: { player: string; key: number } | null;
+  /** Drawn at the start of each game: the playmat of a "random" choice. */
+  boardRoll: number;
   /** Updates still to show (playback of the host's frames). */
   queue: Update[];
   busy: boolean;
@@ -167,11 +185,18 @@ export interface Store extends Settings {
   notify(text: string): void;
   showPreview(p: Store["preview"]): void;
   showZone(z: Store["zone"]): void;
-  toggleLog(): void;
+  toggleDrawer(open?: boolean): void;
+  setDragging(card: ObjectId | null): void;
+  /**
+   * A hand card dropped on the table: on a Pokémon (evolve, attach, a Trainer on it), on the Active Spot or the Bench
+   * (setup), or anywhere on the table (play a Basic, an Item, a Supporter, a Stadium). Otherwise, the card is selected
+   * as by a click. Returns whether a decision was made.
+   */
+  dropHandCard(card: ObjectId, at: { pokemon?: PokemonId; zone?: "active" | "bench" | "table" }): boolean;
 }
 
 let session: Session | null = null;
-const TUTORIAL_KEY = "pocketmate.tutorial";
+const TUTORIAL_KEY = "pokecircle.tutorial";
 
 function loadTutorialDone(): string[] {
   try {
@@ -190,7 +215,7 @@ function download(record: GameRecord): void {
   const blob = new Blob([JSON.stringify(record)], { type: "application/json" });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
-  a.download = `pocketmate-${new Date().toISOString().slice(0, 16).replace(/[:T]/g, "-")}.json`;
+  a.download = `pokecircle-${new Date().toISOString().slice(0, 16).replace(/[:T]/g, "-")}.json`;
   a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }
@@ -202,8 +227,8 @@ function deckOf(id: string): DeckEntries {
 }
 
 /** Pause after an update, so the player can follow (coin flips, attacks, Knock Outs). */
-function pauseFor(events: GameEvent[], fast: boolean): number {
-  if (fast) return 0;
+function pauseFor(events: GameEvent[], fast: boolean, factor: number): number {
+  if (fast || !factor) return 0;
   let ms = 0;
   for (const e of events) {
     if (e.type === "coinFlip") ms = Math.max(ms, 1300);
@@ -211,7 +236,7 @@ function pauseFor(events: GameEvent[], fast: boolean): number {
     else if (e.type === "attack") ms = Math.max(ms, 700);
     else if (e.type === "damage" || e.type === "counters") ms = Math.max(ms, 500);
   }
-  return ms;
+  return Math.round(ms * factor);
 }
 
 export const useGame = create<Store>((set, get) => {
@@ -251,6 +276,8 @@ export const useGame = create<Store>((set, get) => {
         if (!u) break;
         set({ queue: get().queue.slice(1) });
         rememberPokemon(u.view);
+        const turn = u.events.findLast((e) => e.type === "turnStart");
+        if (turn?.type === "turnStart") set({ banner: { player: turn.player, key: ++logId } });
         const lines: LogLine[] = [];
         for (const e of u.events) {
           const text = describeEvent(e, u.view);
@@ -265,7 +292,7 @@ export const useGame = create<Store>((set, get) => {
         for (const k of soundsFor(u.events, u.view.me)) playSound(k);
         advanceTutorial(u.view, u.events);
         if (u.view.over) clearSaved();
-        const ms = pauseFor(u.events, fastMode());
+        const ms = pauseFor(u.events, fastMode(), paceFactor(get().pace));
         if (ms) await new Promise((r) => setTimeout(r, ms));
         if (flips.length) set({ flips: null });
       }
@@ -327,7 +354,18 @@ export const useGame = create<Store>((set, get) => {
   };
 
   const resetGame = () =>
-    set({ view: null, log: [], queue: [], selected: null, retreating: false, placing: { active: null, bench: [] }, error: null });
+    set({
+      view: null,
+      log: [],
+      queue: [],
+      selected: null,
+      retreating: false,
+      placing: { active: null, bench: [] },
+      error: null,
+      banner: null,
+      drawerOpen: false,
+      boardRoll: Math.random(),
+    });
 
   const newSession = () => {
     stopReplay();
@@ -408,7 +446,10 @@ export const useGame = create<Store>((set, get) => {
     notice: null,
     preview: null,
     zone: null,
-    logOpen: false,
+    drawerOpen: false,
+    dragging: null,
+    banner: null,
+    boardRoll: Math.random(),
     queue: [],
     busy: false,
     hasSaved: !!loadSaved(),
@@ -431,6 +472,7 @@ export const useGame = create<Store>((set, get) => {
         },
         defs: lessonDefs(lesson.scenario),
         fast: fastMode(),
+        pace: paceFactor(get().pace),
       });
       set({ screen: "game", tutorial: { lesson: id, step: 0 } });
     },
@@ -493,7 +535,7 @@ export const useGame = create<Store>((set, get) => {
     openReplayFile(text) {
       const record = parseRecord(text);
       if (!record) {
-        set({ notice: msg("This file is not a PocketMate game.") });
+        set({ notice: msg("This file is not a Pokecircle game.") });
         return;
       }
       get().openReplay(record);
@@ -587,7 +629,7 @@ export const useGame = create<Store>((set, get) => {
     setLang(l) {
       setTextLang(l);
       try {
-        localStorage.setItem("pocketmate.lang", l);
+        localStorage.setItem("pokecircle.lang", l);
       } catch {}
       set({ lang: l });
     },
@@ -596,9 +638,10 @@ export const useGame = create<Store>((set, get) => {
     },
     setSettings(p) {
       set(p);
-      const { deck, aiDeck, aiLevel, nickname, relay } = get();
+      const { deck, aiDeck, aiLevel, nickname, relay, board, pace } = get();
+      if ("pace" in p) session?.send({ type: "pace", pace: paceFactor(pace) });
       try {
-        localStorage.setItem(STORE, JSON.stringify({ deck, aiDeck, aiLevel, nickname, relay }));
+        localStorage.setItem(STORE, JSON.stringify({ deck, aiDeck, aiLevel, nickname, relay, board, pace }));
       } catch {}
     },
     startGame() {
@@ -617,6 +660,7 @@ export const useGame = create<Store>((set, get) => {
         defs: defsOf(mine, theirs),
         aiLevel,
         fast: fastMode(),
+        pace: paceFactor(get().pace),
       });
       set({ screen: "game", hasSaved: false });
     },
@@ -633,6 +677,7 @@ export const useGame = create<Store>((set, get) => {
         defs: defsOf(...decks),
         aiLevel: saved.aiLevel as AiLevel,
         fast: fastMode(),
+        pace: paceFactor(get().pace),
       });
       set({ screen: "game" });
     },
@@ -690,8 +735,39 @@ export const useGame = create<Store>((set, get) => {
     showZone(z) {
       set({ zone: z });
     },
-    toggleLog() {
-      set({ logOpen: !get().logOpen });
+    toggleDrawer(open) {
+      set({ drawerOpen: open ?? !get().drawerOpen });
+    },
+    setDragging(card) {
+      set({ dragging: card });
+    },
+    dropHandCard(card, at) {
+      const v = get().view;
+      if (!v || get().queue.length) return false;
+      // Setup: the Basic Pokémon of the hand go to the Active Spot or the Bench.
+      if (v.pending?.kind === "setup" && v.pending.player === v.me) {
+        const { placing } = get();
+        const bench = placing.bench.filter((c) => c !== card);
+        if (at.zone === "active" || (!placing.active && at.zone)) {
+          const old = placing.active && placing.active !== card ? [placing.active] : [];
+          set({ placing: { active: card, bench: [...bench, ...old].slice(0, 5) } });
+          return true;
+        }
+        if (at.zone === "bench" && bench.length < 5) {
+          set({ placing: { active: placing.active === card ? null : placing.active, bench: [...bench, card] } });
+          return true;
+        }
+        return false;
+      }
+      if (!myTurn(v)) return false;
+      const d = at.pokemon ? decisionOnTarget(v, { kind: "card", id: card }, false, at.pokemon) : null;
+      const direct = d ?? (at.zone ? directOption(v, card) : null);
+      if (direct) {
+        get().decide(direct);
+        return true;
+      }
+      get().select({ kind: "card", id: card });
+      return false;
     },
   };
 });

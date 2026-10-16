@@ -1,5 +1,5 @@
 {
-  "name": "@pocketmate/cards",
+  "name": "@pokecircle/cards",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -11,6 +11,6 @@
     "./decklist": "./src/decklist.ts"
   },
   "dependencies": {
-    "@pocketmate/engine": "^0.1.0"
+    "@pokecircle/engine": "^0.1.0"
   }
 }

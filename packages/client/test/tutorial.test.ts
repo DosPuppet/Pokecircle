@@ -1,6 +1,6 @@
 /** Every tutorial lesson can be played to its end by doing what each step asks (solver), against its opponent. */
-import { CARDS } from "@pocketmate/cards";
-import { buildScenario, type CardDef, type GameEvent, type GameState, projectView, submit } from "@pocketmate/engine";
+import { CARDS } from "@pokecircle/cards";
+import { buildScenario, type CardDef, type GameEvent, type GameState, projectView, submit } from "@pokecircle/engine";
 import { describe, expect, it } from "vitest";
 import { lessonAgent } from "../src/tutorial/agent";
 import { LESSONS } from "../src/tutorial/lessons";

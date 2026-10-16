@@ -1,6 +1,6 @@
 /** Search of the card catalog in the deck builder: text (French or English) and filters. */
-import { CARDS, PRINTS_OF } from "@pocketmate/cards";
-import type { CardDef, CardTag, EType, Stage, TrainerKind } from "@pocketmate/engine";
+import { CARDS, PRINTS_OF } from "@pokecircle/cards";
+import type { CardDef, CardTag, EType, Stage, TrainerKind } from "@pokecircle/engine";
 
 export interface Filters {
   text: string;
@@ -11,7 +11,7 @@ export interface Filters {
   set?: string;
   mark?: string;
   tag?: CardTag;
-  /** Only cards PocketMate can play (default true). */
+  /** Only cards Pokecircle can play (default true). */
   implementedOnly: boolean;
   /** Only Standard-legal cards (default true). */
   standardOnly: boolean;

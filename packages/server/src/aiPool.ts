@@ -5,8 +5,8 @@
  */
 import { availableParallelism } from "node:os";
 import { Worker } from "node:worker_threads";
-import type { AiLevel } from "@pocketmate/ai";
-import type { CardDef, Decision, GameState } from "@pocketmate/engine";
+import type { AiLevel } from "@pokecircle/ai";
+import type { CardDef, Decision, GameState } from "@pokecircle/engine";
 import type { FromAiWorker, ToAiWorker } from "./aiWorker";
 
 export interface AiJob {

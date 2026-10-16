@@ -8,7 +8,7 @@
 import { mkdirSync } from "node:fs";
 import { chromium, type Page } from "playwright";
 
-const URL = process.env.PM_URL ?? "http://localhost:5174/?fast";
+const URL = process.env.PK_URL ?? "http://localhost:5174/?fast";
 const MAX = Number(process.argv[2] ?? 400);
 mkdirSync("test-results", { recursive: true });
 
@@ -17,7 +17,7 @@ async function idle(page: Page): Promise<void> {
   await page
     .waitForFunction(
       () => {
-        const s = (window as unknown as { __pm: { getState(): { queue: unknown[]; busy: boolean } } }).__pm.getState();
+        const s = (window as unknown as { __pk: { getState(): { queue: unknown[]; busy: boolean } } }).__pk.getState();
         return s.queue.length === 0 && !s.busy;
       },
       undefined,
@@ -35,20 +35,30 @@ async function tap(_page: Page, selector: ReturnType<Page["locator"]>): Promise<
   }
 }
 
+/** A hand card: the fan overlaps them, the visible strip is at the left of each card. */
+async function tapCard(selector: ReturnType<Page["locator"]>): Promise<boolean> {
+  try {
+    await selector.click({ timeout: 2000, position: { x: 8, y: 24 } });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 /** One action on a page if it is this page's turn; returns "end" when the game is over, "acted" or "waiting". */
 export async function step(page: Page): Promise<"end" | "acted" | "waiting"> {
   if (await page.locator(".modal.end").count()) return "end";
   const confirm = page.locator(".prompt .btn.primary:not([disabled])");
   if (await confirm.count()) return (await tap(page, confirm.first())) ? "acted" : "waiting";
-  const setup = page.locator(".setup-bar .btn.primary:not([disabled])");
+  const setup = page.locator(".main-button.setup-confirm:not([disabled])");
   if (await setup.count()) return (await tap(page, setup)) ? "acted" : "waiting";
-  const end = page.locator(".btn.end-turn");
+  const end = page.locator(".main-button.end-turn");
   if (!(await end.count())) return "waiting";
   const playable = page.locator(".hand-card.playable");
   const n = await playable.count();
   for (let k = 0; k < n && k < 3; k++) {
-    if (!(await tap(page, playable.nth(k)))) break;
-    const play = page.locator(".action-bar .btn.primary", { hasText: /Jouer|Play/ });
+    if (!(await tapCard(playable.nth(k)))) break;
+    const play = page.locator(".action-panel .btn.play", { hasText: /Jouer|Play/ });
     if (await play.count()) return (await tap(page, play.first())) ? "acted" : "waiting";
     const target = page.locator(".pokemon.targetable");
     if (await target.count()) return (await tap(page, target.first())) ? "acted" : "waiting";
@@ -72,20 +82,20 @@ export async function playGame(page: Page, maxActions: number): Promise<string> 
       continue;
     }
     // Setup: confirm the suggested placement.
-    const setup = page.locator(".setup-bar .btn.primary:not([disabled])");
+    const setup = page.locator(".main-button.setup-confirm:not([disabled])");
     if (await setup.count()) {
       await tap(page, setup);
       continue;
     }
-    const end = page.locator(".btn.end-turn");
+    const end = page.locator(".main-button.end-turn");
     if (await end.count()) {
       // My turn: attach an Energy, play a Basic, attack if possible, else end the turn.
       const playable = page.locator(".hand-card.playable");
       const n = await playable.count();
       let acted = false;
       for (let k = 0; k < n && !acted && k < 3; k++) {
-        if (!(await tap(page, playable.nth(k)))) break;
-        const play = page.locator(".action-bar .btn.primary", { hasText: /Jouer|Play/ });
+        if (!(await tapCard(playable.nth(k)))) break;
+        const play = page.locator(".action-panel .btn.play", { hasText: /Jouer|Play/ });
         if (await play.count()) {
           acted = await tap(page, play.first());
           break;
@@ -122,13 +132,13 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     if (m.type() === "error" && !/Failed to load resource/.test(m.text())) errors.push(m.text());
   });
   await page.goto(URL);
-  // PM_DECK / PM_AI_DECK: precon ids to play (default: the first two).
+  // PK_DECK / PK_AI_DECK: precon ids to play (default: the first two).
   await page.evaluate(
     ([deck, aiDeck]) => {
       localStorage.clear();
-      if (deck) localStorage.setItem("pocketmate.settings", JSON.stringify({ deck, aiDeck: aiDeck ?? deck }));
+      if (deck) localStorage.setItem("pokecircle.settings", JSON.stringify({ deck, aiDeck: aiDeck ?? deck }));
     },
-    [process.env.PM_DECK, process.env.PM_AI_DECK] as const,
+    [process.env.PK_DECK, process.env.PK_AI_DECK] as const,
   );
   await page.goto(URL);
   await page.getByRole("button", { name: /Jouer contre l'IA/ }).click();
@@ -143,4 +153,11 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     process.exit(1);
   }
   console.log(`ok: game played in French (${result || "not finished"}), no page error`);
+}
+
+/** Concedes through the drawer (☰ → Concede → Confirm). */
+export async function concede(page: Page): Promise<void> {
+  await page.locator(".drawer-toggle").click();
+  await page.locator(".sidebar .btn", { hasText: /^(Abandonner|Concede)$/ }).click();
+  await page.locator(".sidebar .btn.danger").click();
 }

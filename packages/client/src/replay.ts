@@ -2,7 +2,7 @@
  * Replays: a finished game's record is replayed by the engine in the page (every state kept), and shown from either
  * player's point of view, step by step. Nobody plays: the views have no pending decision and no options.
  */
-import { CARDS } from "@pocketmate/cards";
+import { CARDS } from "@pokecircle/cards";
 import {
   type CardDef,
   filterEvents,
@@ -10,12 +10,13 @@ import {
   type GameRecord,
   type GameState,
   type GameView,
+  isRecordFormat,
   msg,
   projectView,
   RECORD_FORMAT,
   RULES_VERSION,
   replayChecked,
-} from "@pocketmate/engine";
+} from "@pokecircle/engine";
 
 export class Replay {
   readonly states: GameState[] = [];
@@ -67,11 +68,13 @@ export class Replay {
   }
 }
 
-/** A record read from a file (`null` if it is not a PocketMate game). */
+/** A record read from a file (`null` if it is not a Pokecircle game). */
 export function parseRecord(text: string): GameRecord | null {
   try {
     const r = JSON.parse(text) as GameRecord;
-    return r && r.format === RECORD_FORMAT && Array.isArray(r.decisions) && Array.isArray(r.players) ? r : null;
+    return r && isRecordFormat(r.format) && Array.isArray(r.decisions) && Array.isArray(r.players)
+      ? { ...r, format: RECORD_FORMAT }
+      : null;
   } catch {
     return null;
   }

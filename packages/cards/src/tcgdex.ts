@@ -5,7 +5,7 @@
  * Trainer or Energy kind) share one definition; the first print in registry order gives its data, any legal print makes
  * it legal (R-FORMAT-1), French texts come from the first print that has them.
  */
-import type { AttackDef, CardDef, CardTag, CardText, EType, PrintInfo, Stage, TrainerKind } from "@pocketmate/engine";
+import type { AttackDef, CardDef, CardTag, CardText, EType, PrintInfo, Stage, TrainerKind } from "@pokecircle/engine";
 import tagData from "../data/card-tags.json";
 import frenchOverrides from "../data/french-overrides.json";
 import type { RawCard } from "./raw";

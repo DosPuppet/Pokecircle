@@ -2,9 +2,9 @@
  * Online play protocol (WebSocket, JSON). Shared types: the client imports them with `import type` (except
  * `PROTOCOL_VERSION`). The server is authoritative: it validates the decks and every decision (engine RulesError).
  */
-import type { AiLevel } from "@pocketmate/ai";
-import type { DeckEntries, Format } from "@pocketmate/cards";
-import type { Decision, GameEvent, GameRecord, GameView } from "@pocketmate/engine";
+import type { AiLevel } from "@pokecircle/ai";
+import type { DeckEntries, Format } from "@pokecircle/cards";
+import type { Decision, GameEvent, GameRecord, GameView } from "@pokecircle/engine";
 
 /**
  * Protocol version: sent by the client, with `RULES_VERSION`, when it creates, joins or resumes a room; a client of

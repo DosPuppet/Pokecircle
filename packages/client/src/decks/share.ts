@@ -1,9 +1,9 @@
 /**
  * A deck shared by a link and its QR code: `https://…/#deck=1.<data>`. The data is the TCG Live list (English, with set
- * codes) compressed with deflate and written in base64url. The fragment (#) never reaches the server; PocketMate offers
+ * codes) compressed with deflate and written in base64url. The fragment (#) never reaches the server; Pokecircle offers
  * to import the deck when the link is opened.
  */
-import { type DeckEntries, serializeDeckList } from "@pocketmate/cards/decklist";
+import { type DeckEntries, serializeDeckList } from "@pokecircle/cards/decklist";
 
 const PREFIX = "#deck=";
 const VERSION = "1";

@@ -1,5 +1,5 @@
 /** Games between agents (fuzz, tournaments, tests), with invariants checked at every decision. */
-import { type Agent, type CardDef, createGame, type Decision, type GameState, RulesError, submit } from "@pocketmate/engine";
+import { type Agent, type CardDef, createGame, type Decision, type GameState, RulesError, submit } from "@pokecircle/engine";
 import { checkInvariants } from "./invariants";
 import { mainDecisions } from "./options";
 

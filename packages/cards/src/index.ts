@@ -2,8 +2,9 @@
  * The card catalog: definitions (`CARDS`, by definition id) and prints (`PRINTS`, by TCGdex id), built at load time
  * from the imported set data.
  */
-import type { CardDef, PrintInfo } from "@pocketmate/engine";
+import type { CardDef, PrintInfo } from "@pokecircle/engine";
 import { type CompileReport, compileDef } from "./compile/index";
+import { ENERGY_ART } from "./energyArt";
 import { applyScript } from "./scripts";
 // Hand scripts register themselves before the catalog is compiled.
 import "./scripts/meta";
@@ -35,6 +36,17 @@ for (const d of Object.values(CARDS))
 export const PRINTS: Record<string, PrintInfo> = catalog.prints;
 export const DEF_OF_PRINT: Record<string, string> = catalog.defOfPrint;
 
-/** Prints of each definition, in registry order. */
+/** Prints of each definition, in registry order (basic Energy: the art prints first, `energyArt.ts`). */
 export const PRINTS_OF: Record<string, PrintInfo[]> = {};
-for (const p of Object.values(PRINTS)) PRINTS_OF[p.defId] = [...(PRINTS_OF[p.defId] ?? []), p];
+for (const [defId, prints] of Object.entries(ENERGY_ART)) {
+  const def = CARDS[defId];
+  if (!def) continue;
+  for (const p of prints) {
+    PRINTS[p.id] = p;
+    DEF_OF_PRINT[p.id] = defId;
+  }
+  PRINTS_OF[defId] = [...prints];
+  def.image = prints[0]?.image ?? def.image;
+}
+for (const p of Object.values(catalog.prints))
+  if (!ENERGY_ART[p.defId]?.includes(p)) PRINTS_OF[p.defId] = [...(PRINTS_OF[p.defId] ?? []), p];

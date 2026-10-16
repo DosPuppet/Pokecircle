@@ -2,10 +2,10 @@
  * Deck builder: search the catalog (French or English text, filters), add and remove cards, choose prints, see what
  * makes the deck illegal, import and export TCG Live lists, share by link and QR code.
  */
-import { CARDS, type DeckEntries, PRINTS_OF, SET_REGISTRY } from "@pocketmate/cards";
-import { deckSize, parseDeckList, serializeDeckList, validateDeck } from "@pocketmate/cards/decklist";
-import { PRECONS } from "@pocketmate/cards/decks";
-import type { CardDef, EType } from "@pocketmate/engine";
+import { CARDS, type DeckEntries, PRINTS_OF, SET_REGISTRY } from "@pokecircle/cards";
+import { deckSize, parseDeckList, serializeDeckList, validateDeck } from "@pokecircle/cards/decklist";
+import { PRECONS } from "@pokecircle/cards/decks";
+import type { CardDef, EType } from "@pokecircle/engine";
 import { useEffect, useMemo, useState } from "react";
 import { renderSVG } from "uqr";
 import { textOf } from "../cards";

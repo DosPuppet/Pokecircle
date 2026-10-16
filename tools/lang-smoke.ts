@@ -9,7 +9,7 @@ import { readFileSync } from "node:fs";
 import { chromium } from "playwright";
 import { playGame } from "./ui-smoke";
 
-const URL = process.env.PM_URL ?? "http://localhost:5174/?fast";
+const URL = process.env.PK_URL ?? "http://localhost:5174/?fast";
 const ACTIONS = Number(process.argv[2] ?? 50);
 const FR: Record<string, string> = {};
 for (const f of ["packages/client/locales/fr.json", "packages/engine/locales/fr.json", "packages/cards/locales/fr/core.json"])
@@ -28,13 +28,13 @@ for (const lang of ["fr", "en"]) {
   await page.goto(URL);
   await page.evaluate((l) => {
     localStorage.clear();
-    localStorage.setItem("pocketmate.lang", l);
+    localStorage.setItem("pokecircle.lang", l);
   }, lang);
   await page.goto(URL);
-  await page.locator(".btn.primary.big").last().click();
+  await page.locator(".play-bar .main-button").click();
   await page.waitForSelector(".game");
   await playGame(page, ACTIONS);
-  await page.locator(".log-toggle").click({ force: true });
+  await page.locator(".drawer-toggle").click({ force: true });
   const texts = await page.evaluate(() => {
     const out: string[] = [];
     const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);

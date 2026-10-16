@@ -2,7 +2,7 @@
  * Card text of the starter decks' cards (compiled templates), checked against the printed text. Scenario helpers from
  * the engine's tests.
  */
-import { legalActions, plainText } from "@pocketmate/engine";
+import { legalActions, plainText } from "@pokecircle/engine";
 import { describe, expect, it } from "vitest";
 import { answer, energy, handOf, play, pokemon, scenario } from "../../engine/test/helpers";
 import { CARDS } from "../src/index";

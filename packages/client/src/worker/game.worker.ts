@@ -1,6 +1,6 @@
 /** Game against the AI, entirely in the browser: the engine and the AI run here, off the interface thread. */
-import { aiAgent } from "@pocketmate/ai";
-import type { DeckEntries } from "@pocketmate/cards";
+import { aiAgent } from "@pokecircle/ai";
+import type { DeckEntries } from "@pokecircle/cards";
 import {
   buildScenario,
   type CardDef,
@@ -11,13 +11,17 @@ import {
   newRecord,
   RULES_VERSION,
   replayChecked,
-} from "@pocketmate/engine";
+} from "@pokecircle/engine";
 import type { FromWorker, ToWorker } from "../protocol";
 import { lessonAgent } from "../tutorial/agent";
 
 const HUMAN = "p1";
 const AI = "p2";
 let host: GameHost | null = null;
+/** Pace of the game: factor of the pause between two visible actions of the AI. */
+let pace = 1;
+/** The pause between two visible actions of the AI (none in the fast mode of the interface tests). */
+const aiDelay = (fast?: boolean) => (fast && import.meta.env.DEV ? 0 : Math.round(900 * pace));
 let sent = 0;
 
 const post = (m: FromWorker) => (self as unknown as Worker).postMessage(m);
@@ -50,7 +54,7 @@ function postProgress(header?: GameRecord): void {
 }
 
 /** Thinking time of the expert AI per decision (ms): absorbed by the 0.9 s pause between AI actions. */
-const AI_BUDGET = 700;
+const AI_BUDGET = 550;
 
 function makeHost(
   state: GameHost["state"],
@@ -65,7 +69,7 @@ function makeHost(
     {
       // Expert level: thinking within the pause between two AI actions (0.15 s in fast mode).
       agents: { [AI]: aiAgent(level, { seed: seed + 1, budget: fast ? 150 : AI_BUDGET }) },
-      aiDelay: fast && import.meta.env.DEV ? 0 : 900,
+      aiDelay: aiDelay(fast),
       sleep,
       frames: true,
       record,
@@ -87,7 +91,12 @@ self.onmessage = (e: MessageEvent<ToWorker>) => {
 
 async function handle(m: ToWorker): Promise<void> {
   switch (m.type) {
+    case "pace":
+      pace = m.pace;
+      host?.setAiDelay(aiDelay());
+      return;
     case "start": {
+      pace = m.pace ?? 1;
       const me = buildDeck(m.playerDeck, m.defs);
       const ai = buildDeck(m.aiDeck, m.defs);
       const opts = {
@@ -95,7 +104,7 @@ async function handle(m: ToWorker): Promise<void> {
         players: [
           { id: HUMAN, name: m.playerName, deck: me.deck, prints: me.prints },
           { id: AI, name: m.aiName, deck: ai.deck, prints: ai.prints },
-        ] as [import("@pocketmate/engine").PlayerSetup, import("@pocketmate/engine").PlayerSetup],
+        ] as [import("@pokecircle/engine").PlayerSetup, import("@pokecircle/engine").PlayerSetup],
         ...(m.chooser ? { chooser: m.chooser } : {}),
       };
       const record = newRecord(opts);
@@ -107,6 +116,7 @@ async function handle(m: ToWorker): Promise<void> {
       return;
     }
     case "resume": {
+      pace = m.pace ?? 1;
       const r = replayChecked(m.record, m.defs);
       if (r.diverged) {
         post({
@@ -126,11 +136,12 @@ async function handle(m: ToWorker): Promise<void> {
       return;
     }
     case "lesson": {
+      pace = m.pace ?? 1;
       const { s } = buildScenario(m.spec, m.defs);
       sent = 0;
       host = new GameHost(s, {
         agents: { [AI]: lessonAgent },
-        aiDelay: m.fast && import.meta.env.DEV ? 0 : 900,
+        aiDelay: aiDelay(m.fast),
         sleep,
         frames: true,
         onUpdate: (_p, view, evts) => post({ type: "update", view, events: evts }),

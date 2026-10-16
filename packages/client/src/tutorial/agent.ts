@@ -1,5 +1,5 @@
 /** The tutorial lessons' opponent (run by the game worker). */
-import { type Agent, legalActions } from "@pocketmate/engine";
+import { type Agent, legalActions } from "@pokecircle/engine";
 
 /** It attacks when it can (first attack offered), otherwise ends its turn; questions: the suggested answer. */
 export const lessonAgent: Agent = (s, p) => {

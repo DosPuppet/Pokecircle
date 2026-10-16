@@ -1,5 +1,5 @@
 /** The random AI (fuzz): any legal decision, attacks and actions favored over ending the turn. */
-import type { Agent, Decision } from "@pocketmate/engine";
+import type { Agent, Decision } from "@pokecircle/engine";
 import { mainDecisions, randomAnswer, randomSetup } from "./options";
 import { mulberry32, pickOne } from "./rng";
 

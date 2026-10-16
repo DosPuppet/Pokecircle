@@ -2,7 +2,7 @@
  * The card compiler: English card text → effect DSL, at load time. A definition is `implemented` when every paragraph
  * (attack, Ability, Trainer or Energy text) is compiled or scripted; what is not is listed in `missing`.
  */
-import type { AbilityDef, CardDef } from "@pocketmate/engine";
+import type { AbilityDef, CardDef } from "@pokecircle/engine";
 import { compileAbility } from "./abilities";
 import { compileAttack } from "./attacks";
 import { compileEnergy } from "./energies";

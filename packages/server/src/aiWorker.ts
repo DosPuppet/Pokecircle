@@ -3,8 +3,8 @@
  * blocked. Receives the game state without its card definitions (kept here per room).
  */
 import { parentPort } from "node:worker_threads";
-import { type AiLevel, aiAgent } from "@pocketmate/ai";
-import type { CardDef, Decision, GameState } from "@pocketmate/engine";
+import { type AiLevel, aiAgent } from "@pokecircle/ai";
+import type { CardDef, Decision, GameState } from "@pokecircle/engine";
 
 export type ToAiWorker =
   | {

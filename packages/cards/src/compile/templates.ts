@@ -6,7 +6,7 @@
  * (checked by the template's builder, which returns null when the phrase is not understood), `{s}` an optional plural
  * "s", `{it}` "it" or "them".
  */
-import type { Condition, Effect } from "@pocketmate/engine";
+import type { Condition, Effect } from "@pokecircle/engine";
 
 export interface Built {
   /** Before the attack's damage (damage modifiers, coin flips that decide them, "does nothing"). */

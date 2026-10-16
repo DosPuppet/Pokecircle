@@ -180,6 +180,7 @@ if (!ci && !flag("no-ui") && (full || flag("ui") || uiTouched)) {
         show: /^ok: tutorial.*$/,
         needs: "tools/tutorial-smoke.ts",
       },
+      { name: "drag-smoke", cmd: "npx tsx tools/drag-smoke.ts", show: /^ok: drag.*$/, needs: "tools/drag-smoke.ts" },
       { name: "replay-smoke", cmd: "npx tsx tools/replay-smoke.ts", show: /^ok: replays.*$/, needs: "tools/replay-smoke.ts" },
       { name: "mobile-smoke", cmd: "npx tsx tools/mobile-smoke.ts", show: /^ok: .*$/, needs: "tools/mobile-smoke.ts" },
       // Offline start of the production build (built first): with --full.

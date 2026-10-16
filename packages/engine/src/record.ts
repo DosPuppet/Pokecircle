@@ -16,7 +16,14 @@ import type { CardDef, Decision, GameEvent, GameState, PlayerId } from "./types"
  * game with 1 Prize card each instead of a draw (PLAN-A P8).
  */
 export const RULES_VERSION = 3;
-export const RECORD_FORMAT = "pocketmate-game";
+export const RECORD_FORMAT = "pokecircle-game";
+/** Formats of records written before the app was renamed (PocketMate): read as the current one. */
+const LEGACY_FORMATS = ["pocketmate-game"];
+
+/** Is this the format of a game record (current or earlier name)? */
+export function isRecordFormat(format: unknown): boolean {
+  return format === RECORD_FORMAT || LEGACY_FORMATS.includes(format as string);
+}
 export const CHECKPOINT_EVERY = 25;
 
 export interface RecordedPlayer {

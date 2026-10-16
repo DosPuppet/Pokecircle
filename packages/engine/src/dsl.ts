@@ -1,5 +1,5 @@
 /**
- * Builders of the effect DSL, used by the card compiler (`@pocketmate/cards` templates) and hand scripts. They only
+ * Builders of the effect DSL, used by the card compiler (`@pokecircle/cards` templates) and hand scripts. They only
  * build data (model/effects.ts).
  */
 import { msg } from "./text";

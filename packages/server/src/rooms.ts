@@ -17,10 +17,10 @@ import {
   writeFileSync,
 } from "node:fs";
 import { join } from "node:path";
-import { AI_LEVELS, type AiLevel } from "@pocketmate/ai";
-import { CARDS, type DeckEntries, type DeckList, type Format, PRINTS } from "@pocketmate/cards";
-import { validateDeck } from "@pocketmate/cards/decklist";
-import { PRECONS } from "@pocketmate/cards/decks";
+import { AI_LEVELS, type AiLevel } from "@pokecircle/ai";
+import { CARDS, type DeckEntries, type DeckList, type Format, PRINTS } from "@pokecircle/cards";
+import { validateDeck } from "@pokecircle/cards/decklist";
+import { PRECONS } from "@pokecircle/cards/decks";
 import {
   type AsyncAgent,
   type CardDef,
@@ -33,13 +33,14 @@ import {
   type GameRecord,
   type GameState,
   type GameView,
+  isRecordFormat,
   msg,
   newRecord,
   outcomeHash,
   type PlayerId,
   RULES_VERSION,
   replayChecked,
-} from "@pocketmate/engine";
+} from "@pokecircle/engine";
 import type { AiPool } from "./aiPool";
 import type { Clock, ErrorCode, MatchInfo, RoomInfo, Seat, ServerMessage } from "./protocol";
 
@@ -726,7 +727,7 @@ export class RoomManager {
         const rows = lines.map((l) => JSON.parse(l) as [PlayerId, Decision, string?]);
         const decisions = rows.map(([p, d]): [PlayerId, Decision] => [p, d]);
         const checkpoints = rows.flatMap(([, , h], i): [number, string][] => (typeof h === "string" ? [[i + 1, h]] : []));
-        if (!saved?.code || !Array.isArray(saved.seats) || saved.record?.format !== "pocketmate-game")
+        if (!saved?.code || !Array.isArray(saved.seats) || !isRecordFormat(saved.record?.format))
           throw new Error("unknown format");
         const room = Room.restore(saved, decisions, checkpoints, this.config, (r) => this.rooms.delete(r.code));
         this.rooms.set(room.code, room);

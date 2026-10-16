@@ -2,8 +2,8 @@
  * Attack texts. The attack's printed damage (`mainDamage`) goes after the "pre" effects (damage modifiers, coin flips
  * deciding them, "this attack does nothing") and before the others (R-ATTACK-3, R-ATTACK-4).
  */
-import type { AttackDef, Effect } from "@pocketmate/engine";
-import { amt, cond, fx, ref, scope } from "@pocketmate/engine";
+import type { AttackDef, Effect } from "@pokecircle/engine";
+import { amt, cond, fx, ref, scope } from "@pokecircle/engine";
 import { COMMON, type Ctx, chooseIn } from "./effects";
 import { condPhrase, eachPhrase, num, pokemonRef, scopePhrase } from "./phrases";
 import { type Built, matchAll, sentence, type Template, tpl } from "./templates";
