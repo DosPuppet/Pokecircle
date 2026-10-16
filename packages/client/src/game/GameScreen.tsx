@@ -1,7 +1,7 @@
 /** The game screen: the opponent's side, the center line (Stadium, turn), the player's side, the hand and the bars. */
 
 import { LangToggle } from "../LangToggle";
-import { useT } from "../localize";
+import { useLoc, useT } from "../localize";
 import { useGame } from "../store";
 import { ActionBar } from "./ActionBar";
 import { CardImage } from "./CardImage";
@@ -9,6 +9,7 @@ import { CoinFlip } from "./CoinFlip";
 import { EndOverlay } from "./EndOverlay";
 import { Hand } from "./Hand";
 import { LogPanel } from "./LogPanel";
+import { MatchScore, OpponentStatus, Rope } from "./OnlineBits";
 import { Preview } from "./Preview";
 import { Prompt } from "./Prompt";
 import { SetupBar } from "./SetupBar";
@@ -17,6 +18,7 @@ import { ZoneViewer } from "./ZoneViewer";
 
 export function GameScreen() {
   const t = useT();
+  const loc = useLoc();
   const view = useGame((s) => s.view);
   const error = useGame((s) => s.error);
   const quit = useGame((s) => s.quitGame);
@@ -31,7 +33,9 @@ export function GameScreen() {
         <button type="button" className="btn small" onClick={quit}>
           {t("Home")}
         </button>
-        <div className="turn-info">{view.turn.number ? t("Turn {n}", { n: view.turn.number }) : t("Setup")}</div>
+        <div className="turn-info">
+          {view.turn.number ? t("Turn {n}", { n: view.turn.number }) : t("Setup")} <MatchScore />
+        </div>
         <LangToggle />
         {!view.over ? (
           <button type="button" className="btn small danger" onClick={() => decide({ type: "concede" })}>
@@ -49,12 +53,16 @@ export function GameScreen() {
           >
             {stadiumDef ? <CardImage defId={stadiumDef} /> : <span className="no-stadium">{t("No Stadium")}</span>}
           </div>
-          {error ? <div className="error-toast">{error}</div> : null}
+          {error ? <div className="error-toast">{loc(error)}</div> : null}
+          <OpponentStatus />
         </div>
         <Side view={view} player={view.me} />
       </main>
-      <SetupBar view={view} />
-      <ActionBar view={view} />
+      <div className="bars">
+        <Rope />
+        <SetupBar view={view} />
+        <ActionBar view={view} />
+      </div>
       <Hand view={view} />
       <Prompt view={view} />
       <CoinFlip />

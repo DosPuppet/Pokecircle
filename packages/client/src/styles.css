@@ -203,7 +203,7 @@ h2 {
 .game {
   height: 100dvh;
   display: grid;
-  grid-template-rows: auto 1fr auto auto calc(var(--ch) * 0.8);
+  grid-template-rows: auto 1fr auto calc(var(--ch) * 0.8);
   background: radial-gradient(ellipse at 50% 50%, #1f4a3a 0%, #133126 55%, #0b1d17 100%);
   position: relative;
   overflow: hidden;
@@ -910,4 +910,103 @@ button.pokemon {
   text-align: center;
   padding: 0 6%;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+/* —— online —— */
+.home-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 280px;
+  color: var(--muted);
+}
+.field input,
+.code-input {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  padding: 8px 10px;
+  font: inherit;
+}
+.code-input {
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  width: 9em;
+}
+.online-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+}
+.panel h2 {
+  margin: 0;
+}
+.room-code {
+  font-size: 2.6rem;
+  font-weight: 800;
+  letter-spacing: 0.25em;
+  color: var(--accent);
+}
+.room-link a {
+  color: #8cc8ff;
+}
+.rope {
+  position: relative;
+  height: 22px;
+  background: rgba(0, 0, 0, 0.4);
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.rope-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: #8a6d1a;
+  transition: width 0.25s linear;
+}
+.rope.mine .rope-bar {
+  background: #b33a24;
+}
+.rope span {
+  position: relative;
+  font-weight: 700;
+}
+.opp-status {
+  background: #3a2a10;
+  border: 1px solid #7a5a20;
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 0.85rem;
+}
+.match-score {
+  display: inline-block;
+  margin-left: 10px;
+  color: var(--accent);
+}
+.bars {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 6;
 }

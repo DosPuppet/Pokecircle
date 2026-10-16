@@ -39,7 +39,8 @@ describe("French catalogs", () => {
   });
 
   it("French uses vouvoiement", () => {
-    const tu = [...all.entries()].filter(([, v]) => /\b(tu|ton|ta|tes|toi|t')\b/i.test(v)).map(([k]) => k);
+    // Letter boundaries in Unicode (an accented letter is a letter).
+    const tu = [...all.entries()].filter(([, v]) => /(?<!\p{L})(tu|ton|ta|tes|toi|t')(?!\p{L})/iu.test(v)).map(([k]) => k);
     expect(tu).toEqual([]);
   });
 });

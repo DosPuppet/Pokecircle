@@ -35,6 +35,30 @@ async function tap(_page: Page, selector: ReturnType<Page["locator"]>): Promise<
   }
 }
 
+/** One action on a page if it is this page's turn; returns "end" when the game is over, "acted" or "waiting". */
+export async function step(page: Page): Promise<"end" | "acted" | "waiting"> {
+  if (await page.locator(".modal.end").count()) return "end";
+  const confirm = page.locator(".prompt .btn.primary:not([disabled])");
+  if (await confirm.count()) return (await tap(page, confirm.first())) ? "acted" : "waiting";
+  const setup = page.locator(".setup-bar .btn.primary:not([disabled])");
+  if (await setup.count()) return (await tap(page, setup)) ? "acted" : "waiting";
+  const end = page.locator(".btn.end-turn");
+  if (!(await end.count())) return "waiting";
+  const playable = page.locator(".hand-card.playable");
+  const n = await playable.count();
+  for (let k = 0; k < n && k < 3; k++) {
+    if (!(await tap(page, playable.nth(k)))) break;
+    const play = page.locator(".action-bar .btn.primary", { hasText: /Jouer|Play/ });
+    if (await play.count()) return (await tap(page, play.first())) ? "acted" : "waiting";
+    const target = page.locator(".pokemon.targetable");
+    if (await target.count()) return (await tap(page, target.first())) ? "acted" : "waiting";
+  }
+  await tap(page, page.locator(".side.mine .active-spot .pokemon").first());
+  const attack = page.locator(".btn.attack.primary");
+  if (await attack.count()) return (await tap(page, attack.first())) ? "acted" : "waiting";
+  return (await tap(page, end)) ? "acted" : "waiting";
+}
+
 export async function playGame(page: Page, maxActions: number): Promise<string> {
   let stuck = 0;
   for (let i = 0; i < maxActions; i++) {

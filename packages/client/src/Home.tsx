@@ -19,6 +19,7 @@ export function Home() {
   const hasSaved = useGame((s) => s.hasSaved);
   const notice = useGame((s) => s.notice);
   const notify = useGame((s) => s.notify);
+  const go = useGame((s) => s.go);
   const LEVEL: Record<AiLevel, string> = { beginner: t("Beginner"), medium: t("Intermediate"), expert: t("Expert") };
   const deckList = (value: string, onPick: (id: string) => void) => (
     <div className="deck-list">
@@ -60,9 +61,12 @@ export function Home() {
             </button>
           ))}
         </div>
-        <div>
+        <div className="home-actions">
           <button type="button" className="btn primary big" onClick={startGame}>
             {t("Play against the AI")}
+          </button>
+          <button type="button" className="btn big" onClick={() => go("online")}>
+            {t("Play online")}
           </button>
         </div>
       </main>

@@ -2,7 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./App";
 import { playSound, unlockAudio, useAudio } from "./audio/sfx";
-import { useGame } from "./store";
+import { savedOnline, useGame } from "./store";
 import "./styles.css";
 
 // Dev mode: access to the store for the Playwright scripts.
@@ -32,3 +32,7 @@ document.addEventListener("keydown", (e) => {
   if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable)) return;
   useAudio.getState().toggleMute();
 });
+
+// Page reopened: resume the online game (by its token); an invitation link (?room=CODE) opens online play.
+if (new URLSearchParams(location.search).has("room") && !savedOnline()) useGame.getState().go("online");
+else if (savedOnline()) useGame.getState().rejoinRoom();

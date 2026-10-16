@@ -91,6 +91,15 @@ async function changedFiles(): Promise<string[]> {
     .filter(Boolean);
 }
 
+async function serverUp(): Promise<boolean> {
+  try {
+    const res = await fetch("http://127.0.0.1:8788/healthz", { signal: AbortSignal.timeout(2000) });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
 async function viteUp(): Promise<boolean> {
   try {
     const res = await fetch("http://localhost:5174/", { signal: AbortSignal.timeout(2000) });
@@ -157,10 +166,14 @@ const changed = await changedFiles();
 const uiTouched = changed.some((f) => /packages\/client\/|engine\/src\/view\.ts|server\/src\/protocol\.ts/.test(f));
 if (!ci && !flag("no-ui") && (full || flag("ui") || uiTouched)) {
   if (await viteUp()) {
+    const online = await serverUp();
+    if (!online) console.log("⚠️  online-smoke skipped: the game server does not answer on :8788 (run npm run server)");
     for (const step of [
       { name: "ui-smoke", cmd: "npx tsx tools/ui-smoke.ts", show: /^ok: .*$/, needs: "tools/ui-smoke.ts" },
       { name: "deck-smoke", cmd: "npx tsx tools/deck-smoke.ts", show: /^ok: .*$/, needs: "tools/deck-smoke.ts" },
-      { name: "online-smoke", cmd: "npx tsx tools/online-smoke.ts", show: /^ok: .*$/, needs: "tools/online-smoke.ts" },
+      ...(online
+        ? [{ name: "online-smoke", cmd: "npx tsx tools/online-smoke.ts", show: /^ok: .*$/, needs: "tools/online-smoke.ts" }]
+        : []),
       {
         name: "lang-smoke",
         cmd: `npx tsx tools/lang-smoke.ts ${full ? 150 : 50}`,

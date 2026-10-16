@@ -78,6 +78,17 @@ This file tracks the project between sessions: current state, working rules, pit
   or `--ci`; `--full` at the end of a series.
 - [rules] lot: advance `RULES_VERSION` (`engine/src/record.ts`).
 
+## Online play (`packages/server`)
+
+- The server is authoritative: it validates the deck (`checkDeck`) and every decision (`RulesError` sent back); a player
+  receives only `projectView` and `filterEvents`. Protocol in `server/src/protocol.ts` (client: `import type`, except
+  `PROTOCOL_VERSION`); handshake `{ protocol, rules }`: another version gets the `version` error and reloads.
+- Rooms: 2 seats, BO1/BO3 (the loser of a game chooses who goes first in the next), rope, 3 timeouts lose, 60 s to
+  come back, rematch, AI seat thinking in `worker_threads` (`aiPool.ts`). Saved in `data/rooms/` and resumed on start-up
+  by replay; before a [rules] deployment: `npx tsx tools/rooms-check.ts`.
+- Deployment: `docs/deployment.md` (pm2 `pocketmate` on 127.0.0.1:8788, nginx site without the shared `map`).
+- Interface tests of online play: `npx tsx tools/online-smoke.ts [actions] [--bo3]` needs Vite and `npm run server`.
+
 ## Known pitfalls
 
 - **Vite under WSL** may serve a stale engine module: restart `npm run dev` before a browser test.

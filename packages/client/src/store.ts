@@ -6,7 +6,9 @@ import type { AiLevel } from "@pocketmate/ai";
 import type { DeckEntries } from "@pocketmate/cards";
 import { PRECONS } from "@pocketmate/cards/decks";
 import type { Decision, GameEvent, GameView, ObjectId, PokemonId } from "@pocketmate/engine";
-import { msg } from "@pocketmate/engine";
+import { msg, RULES_VERSION } from "@pocketmate/engine";
+import type { Clock, RoomInfo, ServerMessage } from "@pocketmate/server/protocol";
+import { PROTOCOL_VERSION } from "@pocketmate/server/protocol";
 import { create } from "zustand";
 import { soundsFor } from "./audio/eventSounds";
 import { playSound } from "./audio/sfx";
@@ -15,10 +17,19 @@ import { fastMode } from "./fast";
 import { describeEvent, rememberPokemon } from "./i18n";
 import type { FromWorker } from "./protocol";
 import { clearSaved, loadSaved, SaveWriter } from "./savedGame";
-import { LocalSession, type Session } from "./session";
+import { LocalSession, RemoteSession, type Session } from "./session";
 import { type Lang, setTextLang } from "./translate";
 
 export type Screen = "home" | "game" | "decks" | "online";
+
+/** An online game to resume (token kept by the browser). */
+export function savedOnline(): { token: string; code: string } | null {
+  try {
+    return JSON.parse(localStorage.getItem("pocketmate.online") ?? "null");
+  } catch {
+    return null;
+  }
+}
 
 export interface LogLine {
   id: number;
@@ -39,10 +50,28 @@ interface Settings {
   deck: string;
   aiDeck: string;
   aiLevel: AiLevel;
+  /** Online nickname. */
+  nickname: string;
 }
 
+/** Online: the room, the decision timer, the opponent's connection. */
+export interface Online {
+  room: RoomInfo | null;
+  clock: (Clock & { receivedAt: number }) | null;
+  opponent: { connected: boolean; remainingMs: number | null } | null;
+  /** Waiting for the server's answer to create / join. */
+  connecting: boolean;
+}
+
+const ONLINE_KEY = "pocketmate.online";
+
 function loadSettings(): Settings {
-  const fallback: Settings = { deck: PRECONS[0]?.id ?? "", aiDeck: PRECONS[1]?.id ?? PRECONS[0]?.id ?? "", aiLevel: "medium" };
+  const fallback: Settings = {
+    deck: PRECONS[0]?.id ?? "",
+    aiDeck: PRECONS[1]?.id ?? PRECONS[0]?.id ?? "",
+    aiLevel: "medium",
+    nickname: "",
+  };
   try {
     return { ...fallback, ...(JSON.parse(localStorage.getItem(STORE) ?? "{}") as Partial<Settings>) };
   } catch {
@@ -79,7 +108,16 @@ export interface Store extends Settings {
   queue: Update[];
   busy: boolean;
   hasSaved: boolean;
+  /** "local": against the AI in the browser; "online": against a player through the server. */
+  mode: "local" | "online";
+  online: Online;
   setLang(l: Lang): void;
+  createRoom(o: { bestOf: 1 | 3; ai?: AiLevel }): void;
+  joinRoom(code: string): void;
+  rejoinRoom(): void;
+  leaveRoom(): void;
+  rematch(): void;
+  nextGame(): void;
   go(s: Screen): void;
   setSettings(p: Partial<Settings>): void;
   startGame(): void;
@@ -175,11 +213,70 @@ export const useGame = create<Store>((set, get) => {
     }
   };
 
+  const resetGame = () =>
+    set({ view: null, log: [], queue: [], selected: null, retreating: false, placing: { active: null, bench: [] }, error: null });
+
   const newSession = () => {
     session?.close();
     session = new LocalSession(onMessage);
-    set({ view: null, log: [], queue: [], selected: null, retreating: false, placing: { active: null, bench: [] }, error: null });
+    resetGame();
+    set({ mode: "local" });
   };
+
+  const onServer = (m: ServerMessage) => {
+    switch (m.type) {
+      case "room": {
+        try {
+          localStorage.setItem(ONLINE_KEY, JSON.stringify({ token: m.room.token, code: m.room.code }));
+        } catch {}
+        const playing = m.room.status !== "waiting";
+        set({ online: { ...get().online, room: m.room, connecting: false }, ...(playing ? { screen: "game" } : {}) });
+        return;
+      }
+      case "update":
+        set({
+          queue: [...get().queue, { view: m.view, events: m.events }],
+          selected: null,
+          retreating: false,
+          online: { ...get().online, clock: m.clock ? { ...m.clock, receivedAt: Date.now() } : null },
+        });
+        void pump();
+        return;
+      case "opponent":
+        set({ online: { ...get().online, opponent: { connected: m.connected, remainingMs: m.remainingMs } } });
+        return;
+      case "error":
+        if (m.code === "token" || m.code === "closed" || m.code === "version") {
+          try {
+            localStorage.removeItem(ONLINE_KEY);
+          } catch {}
+          if (m.code === "version") location.reload();
+          session?.close();
+          session = null;
+          set({ screen: "online", online: { room: null, clock: null, opponent: null, connecting: false }, notice: m.message });
+          return;
+        }
+        set({ error: m.message, online: { ...get().online, connecting: false } });
+        playSound("error");
+        return;
+      case "record":
+        return;
+    }
+  };
+
+  const remote = (): RemoteSession => {
+    session?.close();
+    const r = new RemoteSession(onServer, () => {
+      // Connection lost: try again with the token (the server keeps the seat for a while).
+      set({ notice: msg("Connection to the server lost: reconnecting…") });
+      setTimeout(() => get().rejoinRoom(), 2000);
+    });
+    session = r;
+    resetGame();
+    set({ mode: "online", online: { room: null, clock: null, opponent: null, connecting: true } });
+    return r;
+  };
+  const version = { protocol: PROTOCOL_VERSION, rules: RULES_VERSION };
 
   return {
     ...settings,
@@ -199,6 +296,51 @@ export const useGame = create<Store>((set, get) => {
     queue: [],
     busy: false,
     hasSaved: !!loadSaved(),
+    mode: "local",
+    online: { room: null, clock: null, opponent: null, connecting: false },
+    createRoom(o) {
+      const { deck, nickname } = get();
+      remote().raw({
+        type: "create",
+        name: nickname,
+        deck: deckOf(deck),
+        bestOf: o.bestOf,
+        ...(o.ai ? { ai: { level: o.ai } } : {}),
+        version,
+      });
+    },
+    joinRoom(code) {
+      const { deck, nickname } = get();
+      remote().raw({ type: "join", code, name: nickname, deck: deckOf(deck), version });
+    },
+    rejoinRoom() {
+      const token = savedOnline()?.token;
+      if (!token) return;
+      remote().raw({ type: "rejoin", token, version });
+      set({ screen: "game" });
+    },
+    leaveRoom() {
+      if (session instanceof RemoteSession) session.raw({ type: "leave" });
+      session?.close();
+      session = null;
+      try {
+        localStorage.removeItem(ONLINE_KEY);
+      } catch {}
+      set({
+        screen: "online",
+        view: null,
+        queue: [],
+        online: { room: null, clock: null, opponent: null, connecting: false },
+        mode: "local",
+      });
+    },
+    rematch() {
+      if (session instanceof RemoteSession) session.raw({ type: "rematch" });
+    },
+    nextGame() {
+      resetGame();
+      if (session instanceof RemoteSession) session.raw({ type: "next" });
+    },
     setLang(l) {
       setTextLang(l);
       try {
@@ -211,9 +353,9 @@ export const useGame = create<Store>((set, get) => {
     },
     setSettings(p) {
       set(p);
-      const { deck, aiDeck, aiLevel } = get();
+      const { deck, aiDeck, aiLevel, nickname } = get();
       try {
-        localStorage.setItem(STORE, JSON.stringify({ deck, aiDeck, aiLevel }));
+        localStorage.setItem(STORE, JSON.stringify({ deck, aiDeck, aiLevel, nickname }));
       } catch {}
     },
     startGame() {
@@ -252,6 +394,11 @@ export const useGame = create<Store>((set, get) => {
       set({ screen: "game" });
     },
     quitGame() {
+      if (get().mode === "online") {
+        get().leaveRoom();
+        set({ screen: "home" });
+        return;
+      }
       saver?.flush();
       session?.close();
       session = null;

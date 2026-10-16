@@ -1,8 +1,11 @@
 import { GameScreen } from "./game/GameScreen";
 import { Home } from "./Home";
+import { Online } from "./Online";
 import { useGame } from "./store";
 
 export function App() {
   const screen = useGame((s) => s.screen);
-  return screen === "game" ? <GameScreen /> : <Home />;
+  if (screen === "game") return <GameScreen />;
+  if (screen === "online") return <Online />;
+  return <Home />;
 }

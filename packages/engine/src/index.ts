@@ -2,6 +2,7 @@ export * from "./actions";
 export * from "./autopilot";
 export * from "./choices";
 export * from "./damage";
+export * from "./decisionShape";
 export * from "./dsl";
 export * from "./effects";
 export * from "./energy";

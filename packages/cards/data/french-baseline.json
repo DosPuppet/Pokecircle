@@ -1,6 +1,9 @@
 {
   "allowed": {
     "packages/cards/test/english-source.test.ts": "defines the French detector itself",
-    "packages/cards/src/setRegistry.ts": "French set names (data)"
+    "packages/cards/src/setRegistry.ts": "French set names (data)",
+    "tools/online-smoke.ts": "drives the French interface by its labels",
+    "tools/ui-smoke.ts": "drives the French interface by its labels",
+    "tools/lang-smoke.ts": "drives the French interface by its labels"
   }
 }
