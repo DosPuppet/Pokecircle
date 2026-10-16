@@ -124,7 +124,8 @@ ok &&= await group([
   },
   { name: "bundle", cmd: "npx tsx tools/bundle-size.ts", show: /^bundle: .*$/, needs: "tools/bundle-size.ts" },
 ]);
-ok &&= await group([{ name: "vitest", cmd: "npx vitest run", show: /^\s*Tests .*$/ }]);
+// --full: the every-card test on all cards (a sample otherwise).
+ok &&= await group([{ name: "vitest", cmd: `${full ? "PK_EVERY_CARD=all " : ""}npx vitest run`, show: /^\s*Tests .*$/ }]);
 
 // 2. Fuzz: AI-vs-AI games with invariants checked at every decision.
 const fuzz = (name: string, args: string): Step => ({

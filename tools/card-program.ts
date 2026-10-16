@@ -2,16 +2,22 @@
  * Prints the compiled program of cards next to their text, to review that the effects follow the printed text.
  *
  *   npx tsx tools/card-program.ts --deck <id>|all      every card of precons
+ *   npx tsx tools/card-program.ts --set <set> [--new]  every card of a set (--new: implemented since the baseline)
  *   npx tsx tools/card-program.ts "<English name>"…    some cards
  */
+import baseline from "../packages/cards/data/compile-baseline.json";
 
 import { PRECONS } from "../packages/cards/src/decks";
-import { CARDS } from "../packages/cards/src/index";
+import { CARDS, PRINTS_OF } from "../packages/cards/src/index";
 import type { CardDef, Effect } from "../packages/engine/src/types";
 
 const argv = process.argv.slice(2);
-const deck = argv.includes("--deck") ? argv[argv.indexOf("--deck") + 1] : undefined;
-const names = argv.filter((a, i) => !a.startsWith("--") && argv[i - 1] !== "--deck");
+const opt = (n: string) => (argv.includes(`--${n}`) ? argv[argv.indexOf(`--${n}`) + 1] : undefined);
+const deck = opt("deck");
+const set = opt("set");
+const onlyNew = argv.includes("--new");
+const names = argv.filter((a, i) => !a.startsWith("--") && argv[i - 1] !== "--deck" && argv[i - 1] !== "--set");
+const known = new Set<string>(baseline.implemented);
 
 function show(e: Effect): string {
   const { op, ...rest } = e as Effect & Record<string, unknown>;
@@ -62,6 +68,11 @@ function print(d: CardDef): void {
 const ids = new Set<string>();
 if (deck) for (const p of PRECONS.filter((x) => deck === "all" || x.id === deck)) for (const [, id] of p.main) ids.add(id);
 for (const n of names) for (const d of Object.values(CARDS)) if (d.name === n && d.standard) ids.add(d.id);
+if (set)
+  for (const d of Object.values(CARDS))
+    if (d.standard && (PRINTS_OF[d.id] ?? []).some((p) => p.set === set) && (!onlyNew || (d.implemented && !known.has(d.id))))
+      ids.add(d.id);
+if (onlyNew && !set) for (const d of Object.values(CARDS)) if (d.standard && d.implemented && !known.has(d.id)) ids.add(d.id);
 for (const id of ids) {
   const d = CARDS[id];
   if (d && !d.energy?.basic && (d.attacks?.some((a) => a.text) || d.abilities?.length || d.trainer || d.energy)) print(d);

@@ -56,8 +56,13 @@ This file tracks the project between sessions: current state, working rules, pit
   `effects.ts` shared templates, `attacks.ts`, `trainers.ts`). A template's builder returns null when it does not
   understand a phrase: the card then stays unimplemented rather than wrong. A text compiles only if every sentence does.
 - Hand scripts: `registerScripts({ "<English name>": (def) => ({ … }) })` (`cards/src/scripts.ts`), merged before compiling.
-- `npm run coverage -- --set standard --sentences` ranks unmatched sentences; `--card "<name>"` shows one card;
-  `--deck all` the precons. `cards/data/compile-baseline.json`: implemented Standard definitions can only go up.
+- `npm run coverage -- --set standard --sentences` ranks unmatched sentences; `--families` groups the missing paragraphs
+  by mechanic; `--card "<name>"` shows one card; `--deck all` the precons. `cards/data/compile-baseline.json` lists the
+  implemented Standard ids: none may fall back (`--write-baseline` after a lot).
+- `npx tsx tools/card-program.ts --set <set> --new`: the programs of the cards implemented since the baseline, next to
+  their text (review them every lot). `cards/test/every-card.test.ts` (`exercise.ts`) plays every effect of every
+  implemented card once (a sample; all with `PK_EVERY_CARD=all`, run by `verify --full`).
+- Plan of the card growth: `docs/plans/PLAN-B.md` (lots B0 to B16).
 - Card-text tests check behavior against the printed text (`cards/test/starter.test.ts` model), with the engine's
   scenario helpers (`engine/test/helpers.ts`: `scenario`, `play`, `answer`, `handOf`).
 

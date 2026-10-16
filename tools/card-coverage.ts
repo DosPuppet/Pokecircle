@@ -5,8 +5,11 @@
  *   npx tsx tools/card-coverage.ts --set all | --set standard
  *   npx tsx tools/card-coverage.ts --deck <id>|all       a precon deck (or all of them)
  *   --sentences: unmatched sentences ranked by how many definitions use them
+ *   --families: missing paragraphs grouped by mechanic family (to plan engine work)
  *   --card "<English name>": one card's texts and status
+ *   --write-baseline: writes the implemented Standard definitions to cards/data/compile-baseline.json
  */
+import { writeFileSync } from "node:fs";
 
 import { PRECONS } from "../packages/cards/src/decks";
 import { CARDS, COMPILE_REPORT, PRINTS_OF } from "../packages/cards/src/index";
@@ -70,4 +73,53 @@ if (argv.includes("--sentences")) {
     }
   for (const [k, n] of [...count.entries()].sort((a, b) => b[1] - a[1]).slice(0, Number(opt("top") ?? 60)))
     console.log(`${String(n).padStart(4)}  ${k}`);
+}
+
+/** Mechanic families of missing paragraphs (a paragraph may belong to several). */
+const FAMILIES: [string, RegExp][] = [
+  ["bonus damage", /more damage|damage for each/i],
+  ["damage counters", /damage counters?/i],
+  ["deck search", /search your deck/i],
+  ["prevent / reduce", /prevent|takes? \d+ less damage|can't be affected/i],
+  ["energy move / attach", /(attach|move) (up to \d+ |an? |)(basic )?.*energy/i],
+  ["coins", /flip (a coin|\d+ coins|.*until you get tails|a coin for each)/i],
+  ["discard energy / tool / stadium", /discard (a|an|all|up to \d+)? ?(special )?(energy|pokémon tools?|stadium)/i],
+  ["bench damage", /benched pokémon.*damage|damage to .*benched/i],
+  ["deck top / look", /(top \d+ cards|top card) of (your|your opponent's) deck|look at/i],
+  ["evolution", /evolve|devolve/i],
+  ["special conditions", /asleep|paralyzed|confused|poisoned|burned/i],
+  ["opponent's hand", /opponent('s)? (reveals their hand|hand)|random card from your opponent/i],
+  ["draw", /draw (\d+ )?cards?|draw until|draw cards until/i],
+  ["heal", /\bheal/i],
+  ["can't attack / retreat / play", /can't (attack|retreat|use attacks|play)/i],
+  ["prize cards", /prize card/i],
+  ["switch / gust", /switch|to the active spot/i],
+  ["first turn / turn order", /first turn|go first|go second|your turn ends/i],
+  ["copied attacks", /use (it|one of .*attacks) as this attack|choose .* attacks/i],
+  ["fossils", /play this card as if it were/i],
+];
+
+if (argv.includes("--families")) {
+  const counts = new Map<string, number>();
+  let none = 0;
+  for (const d of defs.filter((x) => !x.implemented))
+    for (const m of d.missing ?? []) {
+      const hits = FAMILIES.filter(([, r]) => r.test(m));
+      if (!hits.length) none++;
+      for (const [name] of hits) counts.set(name, (counts.get(name) ?? 0) + 1);
+    }
+  for (const [k, n] of [...counts.entries()].sort((a, b) => b[1] - a[1])) console.log(`${String(n).padStart(4)}  ${k}`);
+  console.log(`${String(none).padStart(4)}  (no family)`);
+}
+
+if (argv.includes("--write-baseline")) {
+  const implemented = Object.values(CARDS)
+    .filter((d) => d.standard && d.implemented)
+    .map((d) => d.id)
+    .sort();
+  writeFileSync(
+    new URL("../packages/cards/data/compile-baseline.json", import.meta.url),
+    `${JSON.stringify({ implemented }, null, 1)}\n`,
+  );
+  console.log(`baseline: ${implemented.length} implemented Standard definitions`);
 }

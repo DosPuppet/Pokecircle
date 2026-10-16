@@ -1,6 +1,6 @@
 /**
  * The card compiler: fixed texts compile to the expected ops, and the number of implemented Standard definitions never
- * drops below the baseline (`data/compile-baseline.json`; raise it when templates are added).
+ * falls back (`data/compile-baseline.json`, the implemented ids; rewrite it when cards are added).
  */
 import type { AttackDef, Effect } from "@pokecircle/engine";
 import { describe, expect, it } from "vitest";
@@ -70,8 +70,8 @@ describe("Trainer templates", () => {
 });
 
 describe("coverage", () => {
-  it("does not drop below the baseline", () => {
-    const n = Object.values(CARDS).filter((d) => d.standard && d.implemented).length;
-    expect(n).toBeGreaterThanOrEqual(baseline.implemented);
+  it("every definition of the baseline stays implemented (npx tsx tools/card-coverage.ts --write-baseline)", () => {
+    const lost = baseline.implemented.filter((id) => !CARDS[id]?.implemented);
+    expect(lost).toEqual([]);
   });
 });
