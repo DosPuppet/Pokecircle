@@ -52,6 +52,9 @@ export function checkKnockouts(s: GameState): boolean {
       ...(attackerOwner !== undefined ? { attacker: attackerOwner } : {}),
       gone: { owner: pk.owner, top: top.id, attached, attachedDefs },
       event: {
+        ...(byAttack && playerOf(s, opponentOf(s, pk.owner)).active
+          ? { attacker: playerOf(s, opponentOf(s, pk.owner)).active as string }
+          : {}),
         pokemon: id,
         defId: top.id,
         attached: attached.join(","),

@@ -228,6 +228,12 @@ export function eachPhrase(s: string, inAttack: boolean): Amount | null {
     // "for each Energy" counts the Energy provided (a card providing 2 counts twice); "Basic Energy" counts cards.
     const opts = { ...(type ? { type } : {}), ...(m[1] ? { basic: true } : { units: true }) };
     const on = (m[3] as string) === "it" ? "this Pokémon" : (m[3] as string);
+    // "all of your Iono's Pokémon"
+    const allOf = /^all of (your opponent's|your) (.+)$/.exec(on);
+    if (allOf && allOf[2] !== "Pokémon") {
+      const sc = scopePhrase(`${allOf[1]} ${allOf[2]}`);
+      return sc ? amt.energy(ref.all(sc), opts) : null;
+    }
     if (on === "both Active Pokémon") return amt.add(amt.energy(ref.myActive, opts), amt.energy(ref.oppActive, opts));
     if (/^all of (your opponent's|your) Pokémon$/.test(on)) {
       const side = on.includes("opponent") ? "opp" : "me";
@@ -294,6 +300,12 @@ export function eachPhrase(s: string, inAttack: boolean): Amount | null {
   if (m) {
     const f = pokemonFilter(m[3] as string);
     if (f) return amt.pokemon(scope.of(m[1] === "your" ? "me" : "opp", m[2] === "Benched " ? "bench" : "any", f));
+  }
+  // "Stage 2 Pokémon on your Bench"
+  m = /^(.+?) on your Bench$/.exec(t);
+  if (m) {
+    const f = pokemonFilter(m[1] as string);
+    if (f) return amt.pokemon(scope.myBench(f));
   }
   if (t === "Prize card your opponent has taken") return amt.prizesTaken("opp");
   if (t === "Prize card your opponent took during their last turn")
@@ -367,6 +379,9 @@ export function cardFilter(s: string): { filter?: CardFilter } | null {
   // "Ancient card", "Future card": Pokémon or Trainer cards with the tag.
   m = /^(Ancient|Future) cards?$/.exec(raw.trim());
   if (m) return { filter: { tags: [m[1] === "Ancient" ? "ancient" : "future"] } };
+  // A Special Energy by name: "up to 2 Spiky Energy cards".
+  m = /^([A-Z][\w'.-]*(?: [A-Z][\w'.-]*)* Energy) cards?$/.exec(raw.trim());
+  if (m && !/^(?:Basic|Special)\b/.test(m[1] as string)) return { filter: { category: ["energy"], names: [m[1] as string] } };
   // A Trainer card by name: "up to 2 Transformation Tome cards".
   m = /^([A-Z][\w'.-]*(?: [A-Z][\w'.-]*)*) cards?$/.exec(raw.trim());
   if (m && !/\b(?:Pokémon|Energy|Item|Supporter|Stadium|Tool|Trainer|Basic|Ancient|Future|Tera|Mega|ACE)\b/.test(m[1] as string))
@@ -657,6 +672,12 @@ export function condPhrase(s: string, inAttack: boolean): Condition | null {
     const n = num(m[1]);
     return n === null ? null : cond.cmp(amt.pokemon(scope.myBench()), m[2] === "fewer" ? "<=" : ">=", n);
   }
+  m = /^([A-Z][\w'.-]*(?: [A-Z][\w'.-]*)*) and ([A-Z][\w'.-]*(?: [A-Z][\w'.-]*)*) are on your Bench$/.exec(t);
+  if (m)
+    return cond.and(
+      cond.exists(scope.myBench({ names: [m[1] as string] })),
+      cond.exists(scope.myBench({ names: [m[2] as string] })),
+    );
   m = /^an? (.+?) is on your Bench$/.exec(t);
   if (m) {
     const f = pokemonFilter(m[1] as string);

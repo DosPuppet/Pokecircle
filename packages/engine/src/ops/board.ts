@@ -5,7 +5,7 @@ import { attackEffectsPrevented } from "../damage";
 import { answer, DONE, evalAmount, isAsk, playersOf, resolveRef } from "../effects";
 import { RulesError } from "../errors";
 import { emit } from "../events";
-import { takePrizes } from "../knockout";
+import { endGame, takePrizes } from "../knockout";
 import { matchCard, matchPokemon, scopePokemon } from "../match";
 import type { OpHandlers } from "../opRegistry";
 import { bump, defOf, moveCard, obj, playerOf, pokemonOf, putOnPokemon, shuffleDeck, topDef } from "../state";
@@ -174,7 +174,7 @@ export const HANDLERS: OpHandlers = {
       const pk = pokemonOf(s, t);
       if (pk.cards.length < 2 || attackEffectsPrevented(s, r, t)) continue;
       const top = pk.cards[pk.cards.length - 1] as ObjectId;
-      moveCard(s, top, "hand");
+      moveCard(s, top, e.to ?? "hand");
       const keep = rulesOn(s, "keepConfused", t).length > 0;
       for (const c of ["asleep", "confused", "paralyzed", "poisoned", "burned"] as const)
         if (!(keep && c === "confused")) removeCondition(s, t, c);
@@ -336,6 +336,10 @@ export const HANDLERS: OpHandlers = {
   },
   takePrizes(s, r, e) {
     takePrizes(s, playersOf(s, r, e.side), evalAmount(s, r, e.n));
+    return DONE;
+  },
+  winGame(s, r) {
+    endGame(s, r.player, "effect");
     return DONE;
   },
   useCardEffects(s, r, e) {

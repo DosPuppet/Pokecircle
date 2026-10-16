@@ -42,6 +42,7 @@ export function matchPokemon(s: GameState, id: PokemonId, f: PokemonFilter | und
   if (f.attachedNamed !== undefined && ![...pk.tools, ...pk.energy].some((t) => defOf(s, t).name === f.attachedNamed))
     return false;
   if (f.specialEnergy !== undefined && pk.energy.some((e) => !defOf(s, e).energy?.basic) !== f.specialEnergy) return false;
+  if (f.counters !== undefined && pk.damage / 10 !== f.counters) return false;
   if (f.resistance !== undefined && d.resistance?.type !== f.resistance) return false;
   if (f.maxEnergy !== undefined && pk.energy.length > f.maxEnergy) return false;
   if (f.status) {

@@ -710,6 +710,31 @@ export const COMMON: Template<Ctx>[] = [
     const n = num(w);
     return k && n ? post(fx.if(k, [fx.draw(n)])) : null;
   }),
+  tpl("ko.is", "{x} is Knocked Out.", ([who], ctx) => {
+    const r = pokemonRef(who as string, ctx.inAttack);
+    return r && r !== ref.self ? post({ op: "knockOut", target: r }) : null;
+  }),
+  tpl("draw.thenForEach", "Then, draw a card for each {x}.", ([what], ctx) => {
+    const a = eachPhrase(what as string, ctx.inAttack);
+    return a ? post(fx.draw(a)) : null;
+  }),
+  tpl("draw.thenIfMore", "Then, if {x}, draw {w} more cards.", ([c, w], ctx) => {
+    const k = condPhrase(c as string, ctx.inAttack);
+    const n = num(w);
+    return k && n ? post(fx.if(k, [fx.draw(n)])) : null;
+  }),
+  tpl("hand.discardThenDraw", "Discard a card from your hand. If you do, draw {w} cards.", ([w]) => {
+    const n = num(w);
+    return n
+      ? {
+          post: [
+            fx.chooseCards("hand", "d", msg("Choose a card to discard"), { min: 1, max: 1, notSource: true }),
+            fx.move("d", "discard"),
+            fx.if(cond.cmp(amt.count("d"), ">", 0), [fx.draw(n)]),
+          ],
+        }
+      : null;
+  }),
   tpl("stadium.thenDiscard", "Then, discard that Stadium.", () => post(fx.discardStadium())),
   tpl("search.may", "You may search your deck for {x} and {x}. Then, shuffle your deck.", ([what, dest], ctx) => {
     const m = /^(a|an|up to \w+|any number of|\w+) (.+)$/.exec(what as string);

@@ -19,14 +19,22 @@ const SELF = /^(?:this Pokémon|it|the Pokémon this card is attached to|that Po
 /** The Pokémon a sentence is about. */
 export function subject(p: string, src: StaticSource): PokemonScope | null {
   const t = p.trim().replace(/^(?:all|each) of /i, "");
+  let m: RegExpExecArray | null;
   if (SELF.test(t)) return src === "stadium" ? null : scope.self();
   // "the Stage 2 Pokémon this card is attached to"
-  let m = /^the (.+?) this card is attached to$/i.exec(t);
+  m = /^the (.+?) this card is attached to$/i.exec(t);
   if (m && src === "tool") {
     const f = filterOrName(m[1] as string);
     return f ? { ...scope.self(), filter: f } : null;
   }
   if (/^both Active Pokémon$/i.test(t)) return scope.of("both", "active");
+  // "your {G} Pokémon and {R} Pokémon"
+  m = /^your (\{[A-Z]\}) Pokémon and (\{[A-Z]\}) Pokémon$/.exec(t);
+  if (m) {
+    const a = typeSym(m[1]);
+    const b = typeSym(m[2]);
+    return a && b ? scope.mine({ types: [a, b] }) : null;
+  }
   // "{M} Pokémon (both yours and your opponent's)", "Each Basic Pokémon in play (both yours and your opponent's)"
   m = /^(?:each |all )?(Benched |Active )?(.+?)(?: in play)? \(both yours and your opponent's\)$/i.exec(t);
   if (m) {
@@ -81,7 +89,7 @@ const PREDICATES: Pred[] = [
   ),
   // —— damage dealt ——
   P(
-    /^(?:Attacks used by (.+?)|the attacks (it|this Pokémon) uses) do (\d+) more damage to (?:your|the) opponent's Active (.+?)(?: for each (.+?))? \(before applying Weakness and Resistance\)\.$/,
+    /^(?:Attacks used by (.+?)|[Tt]he attacks (it|this Pokémon) uses) do (\d+) more damage to (?:your|the) opponent's Active (.+?)(?: for each (.+?))? \(before applying Weakness and Resistance\)\.$/,
     ([who, it, n, vs, each], src) => {
       const whoText = (who ?? it) as string;
       // "your Future Pokémon, except any Iron Crown ex"
@@ -271,6 +279,13 @@ const PREDICATES: Pred[] = [
     return [
       { s: "cantPlayPokemon", side: "opp", filter: { category: ["pokemon"], hasAbility: true }, ...(ex ? { except: ex } : {}) },
     ];
+  }),
+  P(/^Whenever you attach an Energy card from your hand to 1 of your Pokémon, heal (\d+) damage from that Pokémon\.$/, ([n]) => [
+    { s: "onAttach", scope: scope.mine(), heal: Number(n) },
+  ]),
+  P(/^Ignore all Energy in the cost of (.+?) used by (.+?)\.$/, ([attack, who], src) => {
+    const sc = subject(who as string, src);
+    return sc ? [{ s: "attackCostIs", scope: sc, attack: attack as string, cost: [] }] : null;
   }),
   // —— Pokémon Checkup ——
   P(/^During Pokémon Checkup, put (\w+) more damage counters? on (.+?)\.$/, ([n, who], src) => {

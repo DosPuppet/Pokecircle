@@ -25,7 +25,9 @@ export function EndOverlay({ view }: { view: GameView }) {
           ? t("A player could not draw at the start of their turn.")
           : view.endReason === "concede"
             ? t("A player conceded.")
-            : t("The game is a draw.");
+            : view.endReason === "effect"
+              ? t("A card's effect decided the game.")
+              : t("The game is a draw.");
   return (
     <div className="modal end">
       <div className="modal-box">

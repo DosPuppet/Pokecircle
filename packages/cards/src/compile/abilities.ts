@@ -73,6 +73,9 @@ const ABILITY_EFFECTS: Template<Ctx>[] = [
     return then ? { post: [fx.flip(), fx.if(cond.heads(), then)] } : null;
   }),
   tpl("ab.discardStadium", "Discard a Stadium in play.", () => ({ post: [fx.discardStadium()], condition: { c: "stadium" } })),
+  tpl("ab.switchIt", "Switch it with your Active Pokémon.", () => ({
+    post: [fx.choosePokemon(scope.self(), "selfId", msg("This Pokémon")), { op: "switch", side: "me", with: "selfId" }],
+  })),
   // This Benched Pokémon becomes the Active one (not a Benched Pokémon of the player's choice).
   tpl("ab.switchSelf", "Switch this Pokémon with your Active Pokémon.", () => ({
     post: [fx.choosePokemon(scope.self(), "selfId", msg("This Pokémon")), { op: "switch", side: "me", with: "selfId" }],
@@ -356,6 +359,11 @@ export function compileAbility(text: string): AbilityParts | { unmatched: string
       /^If this Pokémon is Knocked Out by damage from an attack from your opponent's Pokémon, (.+)$/,
       "knockedOut",
       { byOpponentAttack: true },
+    ],
+    [
+      /^If this Pokémon is in the Active Spot and is Knocked Out by damage from an attack from your opponent's Pokémon, (.+)$/,
+      "knockedOut",
+      { byOpponentAttack: true, condition: { c: "var", key: "ev:wasActive" } },
     ],
     [
       /^During Pokémon Checkup, if this Pokémon is in the Active Spot, (.+)$/,

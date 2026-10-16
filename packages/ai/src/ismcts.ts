@@ -82,11 +82,15 @@ function policyStep(d: GameState): boolean {
   return true;
 }
 
-/** Simulation until the start of `me`'s next turn, the end of the game or `horizon` decisions. */
-export function playout(d: GameState, me: PlayerId, horizon: number): GameState {
+/**
+ * Simulation until the start of `me`'s next turn, the end of the game, `horizon` decisions or the `deadline` (a time
+ * budget: on a slow device one long playout must not overrun it; the position reached is evaluated).
+ */
+export function playout(d: GameState, me: PlayerId, horizon: number, deadline = Number.POSITIVE_INFINITY): GameState {
   const start = d.turn.number;
   for (let i = 0; i < horizon; i++) {
     if (d.turn.number > start && d.turn.active === me && d.pending?.kind === "main") break;
+    if (Date.now() > deadline) break;
     try {
       if (!policyStep(d)) break;
     } catch (e) {
@@ -129,6 +133,7 @@ export function ismctsChoose(s: GameState, me: PlayerId, cands: Candidate[], cfg
   const w = cands.map(() => 0);
   const horizon = cfg.horizon ?? 120;
   const t0 = Date.now();
+  const deadline = cfg.iterations === undefined ? t0 + (cfg.ms ?? 800) : Number.POSITIVE_INFINITY;
   const maxIt = cfg.iterations ?? cfg.maxIterations ?? 400;
   let total = 0;
   while (total < maxIt) {
@@ -152,7 +157,7 @@ export function ismctsChoose(s: GameState, me: PlayerId, cands: Candidate[], cfg
     try {
       applyMutable(d, me, (cands[i] as Candidate).decision);
       settle(d);
-      playout(d, me, horizon);
+      playout(d, me, horizon, deadline);
       reward = d.over ? (d.winner === me ? 1 : d.winner ? 0 : 0.5) : sigmoid((evaluate(d, me) - root) / SCALE);
     } catch (e) {
       // Impossible in this determinization: the visit counts, without reward.

@@ -5,6 +5,7 @@
 import { computeAttackDamage } from "./damage";
 import { evalCond } from "./effects";
 import { canPay, suggestRetreat, unitsOf } from "./energy";
+import { matchCard } from "./match";
 import { defOf, inPlay, isFirstTurnOf, opponentOf, playerOf, pokemonOf, topDef } from "./state";
 import { type AttackOption, benchSize, canPlayKind, canPlayPokemonCard, chars, rulesOn, toolSlots } from "./statics";
 import type { ActionOption, CardDef, GameState, ObjectId, PlayerId, PokemonId } from "./types";
@@ -46,8 +47,11 @@ export function evolveTargets(s: GameState, p: PlayerId, card: ObjectId): Pokemo
     const pk = pokemonOf(s, id);
     // Forest of Vitality: some Pokémon can evolve during the turn they are put into play.
     const fresh = pk.enteredTurn >= s.turn.number || pk.evolvedTurn === s.turn.number;
+    const named =
+      topDef(s, id).name === d.evolvesFrom ||
+      rulesOn(s, "evolvesAs", id).some((st) => st.rule.name === d.evolvesFrom && matchCard(s, d, st.rule.filter, p));
     return (
-      topDef(s, id).name === d.evolvesFrom &&
+      named &&
       (!fresh ||
         // The Evolution card must also be of the rule's types ("{G} Pokémon can evolve into {G} Pokémon").
         rulesOn(s, "evolveSameTurn", id).some(

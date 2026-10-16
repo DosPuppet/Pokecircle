@@ -7,7 +7,17 @@ import type { Amount, CardFilter, Condition, Effect, PokemonFilter, PokemonScope
 
 export type StaticRule = (
   | /** Retreat Cost: +delta, or set to a value. */ { s: "retreat"; scope: PokemonScope; delta?: number; set?: number }
-  | /** Attack costs: −n Colorless (negative: more). */ { s: "attackCost"; scope: PokemonScope; less: Amount }
+  | /** Attack costs: −n Colorless (negative: more); `attack`: only that attack; `anyType`: any Energy symbol. */ {
+      s: "attackCost";
+      scope: PokemonScope;
+      less: Amount;
+      attack?: string;
+      anyType?: boolean;
+    }
+  | /** Attacks of the scope's Pokémon are not affected by effects on the opponent's Active Pokémon (Walking Wake ex). */ {
+      s: "ignoreEffects";
+      scope: PokemonScope;
+    }
   | { s: "hp"; scope: PokemonScope; add: Amount }
   | /**
    * Attacks of the scope's Pokémon do more damage (before Weakness and Resistance), optionally only to Pokémon matching
@@ -81,7 +91,13 @@ export type StaticRule = (
   | /**
    * When an Energy card is attached from the hand to a Pokémon of the scope: damage counters on it, and/or the turn
    * ends (Pachirisu, Gengar ex, Hypno).
-   */ { s: "onAttach"; scope: PokemonScope; counters?: number; endsTurn?: boolean }
+   */ { s: "onAttach"; scope: PokemonScope; counters?: number; endsTurn?: boolean; heal?: number }
+  | /** The scope's Pokémon count as this name for Evolution cards matching `filter` (Eevee ex's Rainbow DNA). */ {
+      s: "evolvesAs";
+      scope: PokemonScope;
+      name: string;
+      filter: CardFilter;
+    }
   | { s: "cantRetreat"; scope: PokemonScope }
   | { s: "cantEvolve"; scope: PokemonScope }
   | /** Bench size of the side's players. */ { s: "benchSize"; side: Side; size: number; scope?: PokemonScope }

@@ -72,6 +72,8 @@ export function computeAttackDamage(
   const attacker = r.source;
   const opponent = t.owner !== r.player;
   const toOppActive = opponent && isActive(s, target);
+  // Walking Wake ex's Azure Seas: none of this Pokémon's attacks are affected by effects on the Defending Pokémon.
+  if (attacker && s.pokemon[attacker] && rulesOn(s, "ignoreEffects", attacker).length) opts = { ...opts, ignoreEffects: true };
   let n = base;
   if (attacker && s.pokemon[attacker] && opponent)
     for (const st of rulesOn(s, "dealt", attacker)) {

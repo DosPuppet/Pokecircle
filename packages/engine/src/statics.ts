@@ -236,13 +236,23 @@ function compute(s: GameState, id: PokemonId): Chars {
   if (less.length)
     for (const a of c.attacks) {
       let n = 0;
-      for (const st of less) n += amountOfStatic(s, st, st.rule.less);
+      let any = 0;
+      for (const st of less) {
+        if (st.rule.attack && st.rule.attack !== a.def.name) continue;
+        if (st.rule.anyType) any += amountOfStatic(s, st, st.rule.less);
+        else n += amountOfStatic(s, st, st.rule.less);
+      }
       for (; n > 0; n--) {
         const i = a.cost.lastIndexOf("C");
         if (i < 0) break;
         a.cost.splice(i, 1);
       }
       for (; n < 0; n++) a.cost.push("C");
+      // "that attack costs 1 Energy less (The Energy can be of any type)": a Colorless symbol first.
+      for (; any > 0 && a.cost.length; any--) {
+        const i = a.cost.lastIndexOf("C");
+        a.cost.splice(i >= 0 ? i : a.cost.length - 1, 1);
+      }
     }
   return c;
 }
@@ -297,6 +307,7 @@ export function canPlayKind(
 
 /** Can a player play this Pokémon card from their hand (Team Rocket's Arbok's Potent Glare)? */
 export function canPlayPokemonCard(s: GameState, p: PlayerId, d: CardDef): boolean {
+  if (d.abilities?.some((a) => a.onlyByEffect)) return false;
   return !rulesOf(s, "cantPlayPokemon").some((st) => {
     const r = st.rule;
     const sides =

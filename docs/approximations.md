@@ -47,3 +47,7 @@ Every approximation of the official rules or of a card's text is listed here whe
 - Team Rocket's Bother-Bot: the Prize card turned face up is revealed to both players, but it does not stay face up
   (Prize cards are hidden from both players).
 - Forretress' Iron Shake-Up: "any amount" is up to 20 moves, one Energy at a time, until the player stops.
+- Tyme: the opponent guesses "100 HP or more?" instead of a number.
+- Sparkling Crystal: the Energy symbol removed is a {C} if the cost has one, else the last symbol.
+- Palafin ex (Hero's Spirit) is never played from the hand; Palafin's Zero to Hero, which puts it into play, is not
+  implemented yet.

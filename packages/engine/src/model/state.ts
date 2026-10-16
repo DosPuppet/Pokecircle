@@ -219,7 +219,7 @@ export interface GameState {
   endReason?: EndReason;
 }
 
-export type EndReason = "prizes" | "noPokemon" | "deckOut" | "concede" | "draw";
+export type EndReason = "prizes" | "noPokemon" | "deckOut" | "concede" | "draw" | "effect";
 
 /** Special Conditions as stored. */
 export type { SpecialCondition };

@@ -44,6 +44,8 @@ export interface PokemonFilter {
   specialEnergy?: boolean;
   /** Has Resistance to this type. */
   resistance?: EType;
+  /** Has exactly this many damage counters ("that has exactly 6 damage counters on it"). */
+  counters?: number;
   /** At most this many Energy cards attached. */
   maxEnergy?: number;
   /** Affected by one of these Special Conditions ("Burned Pokémon"). */
@@ -390,7 +392,9 @@ export type Effect =
   | { op: "switch"; side: "me" | "opp"; chooser?: "me" | "opp"; with?: string }
   /** Put a Pokémon (and everything attached) into the hand / deck / discard pile. */
   | { op: "pokemonTo"; target: PokemonRef; to: "hand" | "deck" | "deckTop" | "discard" | "lostZone"; keepAttached?: boolean }
-  | { op: "devolve"; target: PokemonRef }
+  | { op: "devolve"; target: PokemonRef; to?: "hand" | "deck" }
+  /** "you win this game" (N's Sigilyph). */
+  | { op: "winGame" }
   // —— coins and control ——
   | { op: "flip"; n?: Amount; untilTails?: boolean; store?: string }
   | { op: "if"; cond: Condition; then: Effect[]; else?: Effect[] }

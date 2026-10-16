@@ -102,6 +102,20 @@ function discardForDamage(w: string | undefined, what: string | undefined, n: st
 }
 
 export const ATTACK_TEMPLATES: Template<Ctx>[] = [
+  // Combined sentences first: a shorter template would take their first sentence.
+  tpl("flip.moreAnd", "Flip a coin. If heads, this attack does {n} more damage, and {x}.", ([n, c], ctx) => {
+    const a = clause(c as string, ctx);
+    if (!a || a.pre?.length) return null;
+    return { pre: [fx.flip(), fx.if(cond.heads(), [fx.bonus(Number(n))])], post: [fx.if(cond.heads(), a.post ?? [])] };
+  }),
+  tpl(
+    "tools.beforeParalyze",
+    "Before doing damage, discard all Pokémon Tools from your opponent's Active Pokémon. If you discarded a Pokémon Tool in this way, your opponent's Active Pokémon is now Paralyzed.",
+    () => ({
+      pre: [fx.set("tools", { k: "tools", on: ref.defending }), fx.discardTools(ref.defending)],
+      post: [fx.if(cond.cmp(amt.v("tools"), ">", 0), [fx.condition(ref.defending, "paralyzed")])],
+    }),
+  ),
   // —— damage modifiers ——
   tpl("dmg.moreEach", "This attack does {n} more damage for each {x}.", ([n, what], ctx) => {
     const a = eachPhrase(what as string, ctx.inAttack);
@@ -606,6 +620,24 @@ export const ATTACK_TEMPLATES: Template<Ctx>[] = [
     "During your opponent's next turn, if this Pokémon is damaged by an attack (even if this Pokémon is Knocked Out), put damage counters on the Attacking Pokémon equal to the damage done to this Pokémon.",
     () => post(fx.timed("opponentsNextTurn", { s: "retaliate", scope: scope.self(), counters: 0, asDamage: true }, ref.self)),
   ),
+  tpl("heads.atLeast", "If at least {w} of them are heads, {x}.", ([w, c], ctx) => {
+    const k = num(w);
+    const a = clause(c as string, ctx);
+    return k && a ? guarded(cond.cmp(amt.heads(), ">=", k), a) : null;
+  }),
+  tpl(
+    "may.discardHandMore",
+    "You may discard your hand. If you discarded any cards in this way, this attack does {n} more damage.",
+    ([n]) =>
+      pre(
+        fx.if(cond.cmp(amt.cards("hand", "me"), ">", 0), [
+          fx.may(msg("Discard your hand?"), [fx.moveAll("hand", "me", "discard"), fx.bonus(Number(n))]),
+        ]),
+      ),
+  ),
+  tpl("first.usedLastTurn", "You can use this attack only if this Pokémon used {x} during your last turn.", ([name]) => ({
+    useCondition: { c: "didLastTurn", kind: "attacked", ref: ref.self, key: name as string },
+  })),
   tpl(
     "first.prizeRange",
     "If your opponent doesn't have exactly {w} or {w} Prize cards remaining, this attack does nothing.",

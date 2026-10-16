@@ -3,7 +3,7 @@
  * attaching cards.
  */
 import { clearConditions, endAttackEffects } from "./conditions";
-import { putCounters } from "./damage";
+import { healDamage, putCounters } from "./damage";
 import { emit } from "./events";
 import {
   bump,
@@ -105,6 +105,7 @@ export function attachCard(s: GameState, card: ObjectId, target: PokemonId, from
   if (fromHand && d.category === "energy")
     for (const st of rulesOn(s, "onAttach", target)) {
       if (st.rule.counters) putCounters(s, null, target, st.rule.counters);
+      if (st.rule.heal) healDamage(s, target, st.rule.heal);
       if (st.rule.endsTurn) s.turn.ending = true;
     }
 }

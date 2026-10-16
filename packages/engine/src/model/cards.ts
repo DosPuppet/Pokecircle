@@ -128,6 +128,8 @@ export interface AbilityDef {
   selfKO?: boolean;
   /** "If this Pokémon is in your hand when you are setting up to play, you may put it face down in the Active Spot." */
   setupActive?: boolean;
+  /** "Put this Pokémon into play only with the effect of …": never played from the hand. */
+  onlyByEffect?: boolean;
 }
 
 export interface TrainerDef {
