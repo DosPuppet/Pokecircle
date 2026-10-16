@@ -26,7 +26,13 @@ export function canPlayBasic(s: GameState, p: PlayerId, card: ObjectId): boolean
   const d = defOf(s, card);
   // A Trainer played as a Pokémon (Fossils) is also an Item: Item locks apply.
   const asPokemon = !!d.trainer?.asPokemon && implementedTrainer(d) && canPlayKind(s, p, "item", d.tags);
-  const basic = d.category === "pokemon" && d.stage === "basic" && canPlayPokemonCard(s, p, d);
+  // Klinklang's Emergency Rotation: a Stage 2 played onto the Bench from the hand while its condition holds.
+  const fromHand = d.abilities?.find((a) => a.benchFromHand);
+  const benched =
+    d.category === "pokemon" &&
+    (d.stage === "basic" || (!!fromHand?.benchFromHand && evalCond(s, ctxFor(p, card), fromHand.benchFromHand))) &&
+    canPlayPokemonCard(s, p, d);
+  const basic = benched;
   return (basic || asPokemon) && playerOf(s, p).bench.length < benchSize(s, p);
 }
 

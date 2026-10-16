@@ -58,6 +58,8 @@ export const HANDLERS: OpHandlers = {
     if (e.top !== undefined) zone = zone.slice(0, evalAmount(s, r, e.top));
     if (e.bottom !== undefined) zone = zone.slice(-Math.max(1, evalAmount(s, r, e.bottom)));
     if (e.notSource && r.card) zone = zone.filter((c) => c !== r.card);
+    // "This card can't be put into your hand or deck from the discard pile." (taking from the discard pile)
+    if (e.zone === "discard" && !e.among) zone = zone.filter((c) => !s.defs[obj(s, c).defId]?.trainer?.noRecovery);
     if (e.among) {
       const allowed = new Set((r.vars[e.among] ?? []).map(String));
       zone = zone.filter((c) => allowed.has(c));

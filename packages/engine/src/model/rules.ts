@@ -181,7 +181,7 @@ export type StaticRule = (
   | /** Pokémon of the scope cannot be damaged or affected by the opponent's Abilities/Trainers. */ {
       s: "shielded";
       scope: PokemonScope;
-      from: "abilities" | "trainers" | "all";
+      from: "abilities" | "trainers" | "supporters" | "all";
     }
 ) & {
   /** Applies only while this holds (evaluated in the source's context). */

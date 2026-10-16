@@ -17,6 +17,7 @@ export function addCondition(s: GameState, id: PokemonId, cond: SpecialCondition
   else if (cond === "burned") c.burned = true;
   else {
     c.rotating = cond;
+    delete c.confusion;
     if (cond === "paralyzed") c.paralyzedTurn = s.turn.number;
     else delete c.paralyzedTurn;
   }
@@ -34,6 +35,7 @@ export function removeCondition(s: GameState, id: PokemonId, cond: SpecialCondit
   else {
     delete c.rotating;
     delete c.paralyzedTurn;
+    delete c.confusion;
   }
   bump(s);
   emit({ type: "condition", target: id, cond, on: false });

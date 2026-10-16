@@ -53,3 +53,5 @@ Every approximation of the official rules or of a card's text is listed here whe
   implemented yet.
 - Miraidon's C.O.D.E.: Protect ends when no Miraidon is your Active Pokémon (any Miraidon keeps it).
 - Kilowattrel's Storm Bolt and Scramble Switch move Energy one card at a time (a question each).
+- Cresselia's Crescent Purge: the Prize card is picked at random and revealed to both players, not kept face up.
+- Grand Tree: the Stage 2 step is a separate question after the Stage 1 evolution.

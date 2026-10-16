@@ -130,6 +130,11 @@ export interface AbilityDef {
   setupActive?: boolean;
   /** "Put this Pokémon into play only with the effect of …": never played from the hand. */
   onlyByEffect?: boolean;
+  /**
+   * "Once during your turn, if this Pokémon is in your hand and …, you may put this Pokémon onto your Bench" (Klinklang):
+   * played like a Basic Pokémon while the condition holds (read for the card in the hand).
+   */
+  benchFromHand?: Condition;
 }
 
 export interface TrainerDef {
@@ -159,6 +164,8 @@ export interface TrainerDef {
   asPokemon?: boolean;
   /** "At any time during your turn, you may discard this card from play." */
   discardFromPlay?: boolean;
+  /** "This card can't be put into your hand or deck from the discard pile." (ACE SPEC Items and Stadiums) */
+  noRecovery?: boolean;
 }
 
 export interface EnergyDef {

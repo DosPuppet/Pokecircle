@@ -294,6 +294,7 @@ export const HANDLERS: OpHandlers = {
     });
     if (isAsk(b)) return { ask: b };
     evolvePokemon(s, String(b[0]), target, !e.fromDeck);
+    if (e.store) r.vars[e.store] = [target];
     if (e.fromDeck) shuffleDeck(s, r.player);
     return DONE;
   },

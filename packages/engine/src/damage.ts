@@ -46,11 +46,26 @@ function damagePrevented(
   );
 }
 
-/** Are the effects of an attack (other than damage) on `target` prevented? */
+/**
+ * Are the effects (other than damage) on `target` prevented? Attacks: `prevent` rules; the opponent's Abilities and
+ * Trainer cards: `shielded` rules ("Prevent all effects of your opponent's Pokémon's Abilities done to this Pokémon").
+ */
 export function attackEffectsPrevented(s: GameState, r: Resolution, target: PokemonId): boolean {
-  if (r.kind !== "attack") return false;
   const t = pokemonOf(s, target);
   if (t.owner === r.player) return false;
+  if (r.kind !== "attack") {
+    const d = s.defs[r.defId];
+    const ability = (r.kind === "ability" || r.kind === "trigger") && d?.category === "pokemon";
+    const trainer = r.kind === "trainer" || r.kind === "stadium" || (r.kind === "trigger" && d?.category === "trainer");
+    const supporter = trainer && d?.trainer?.kind === "supporter";
+    return rulesOn(s, "shielded", target).some(
+      (st) =>
+        st.rule.from === "all" ||
+        (st.rule.from === "abilities" && ability) ||
+        (st.rule.from === "trainers" && trainer) ||
+        (st.rule.from === "supporters" && supporter),
+    );
+  }
   return rulesOn(s, "prevent", target).some(
     (st) =>
       (st.rule.what === "effects" || st.rule.what === "all") &&

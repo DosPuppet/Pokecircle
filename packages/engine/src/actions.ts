@@ -177,7 +177,7 @@ export function applyMain(s: GameState, p: PlayerId, d: Decision): void {
       delete s.turn.again;
       // R-ATTACK-2: a Confused Pokémon flips a coin; tails, 3 damage counters on itself and the attack does nothing.
       if (pokemonOf(s, id).cond.rotating === "confused" && !flipCoin(s, p)) {
-        putCounters(s, null, id, 3);
+        putCounters(s, null, id, pokemonOf(s, id).cond.confusion ?? 3);
         emit({ type: "attackFails", player: p, pokemon: id });
         s.turn.ending = true;
         return;

@@ -8,7 +8,9 @@ export const HANDLERS: OpHandlers = {
   condition(s, r, e) {
     for (const t of resolveRef(s, r, e.target)) {
       if (attackEffectsPrevented(s, r, t)) continue;
-      addCondition(s, t, e.cond, e.poison);
+      // "Put 8 damage counters instead of 3 on that Pokémon for this Special Condition."
+      if (addCondition(s, t, e.cond, e.poison) && e.cond === "confused" && e.confusion)
+        s.pokemon[t]!.cond.confusion = e.confusion;
     }
     return DONE;
   },

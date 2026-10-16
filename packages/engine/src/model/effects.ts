@@ -267,7 +267,7 @@ export type Effect =
   | { op: "replaceCard"; target: PokemonRef; card: string }
   | { op: "heal"; target: PokemonRef; amount: Amount | "all" }
   // —— Special Conditions ——
-  | { op: "condition"; target: PokemonRef; cond: SpecialCondition; poison?: number }
+  | { op: "condition"; target: PokemonRef; cond: SpecialCondition; poison?: number; confusion?: number }
   | { op: "cure"; target: PokemonRef; conds?: SpecialCondition[] }
   // —— choices ——
   /** Choose Pokémon in play and store them. */
@@ -359,6 +359,8 @@ export type Effect =
       fromDeck?: boolean;
       /** This Pokémon only, instead of a choice in the scope ("put it onto that Pokémon"). */
       target?: PokemonRef;
+      /** Stores the evolved Pokémon ("If that Pokémon was evolved in this way"). */
+      store?: string;
     }
   /** Move chosen Energy from Pokémon of a scope to one Pokémon (Iron Leaves ex). */
   | {

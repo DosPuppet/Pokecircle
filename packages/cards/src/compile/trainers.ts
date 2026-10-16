@@ -26,6 +26,9 @@ function flipped(text: string): Built | null {
 }
 
 export const TRAINER_TEMPLATES: Template<Ctx>[] = [
+  tpl("only.lastCard", "You can use this card only when it is the last card in your hand.", () => ({
+    condition: cond.cmp(amt.cards("hand", "me"), "==", 1),
+  })),
   tpl("first.supporterOk", "If you go first, you may use this card during your first turn.", () => ({ firstTurn: true })),
   tpl("first.notFirstTurn", "You can't use this card during your first turn.", () => ({
     condition: cond.not({ c: "firstTurn" }),
@@ -152,6 +155,12 @@ function asPokemon(text: string): CompiledTrainer | null {
 
 export function compileTrainer(text: string | undefined, kind: TrainerDef["kind"]): CompiledTrainer | { unmatched: string } {
   if (!text) return { unmatched: "" };
+  // ACE SPEC: "This card can't be put into your hand or deck from the discard pile."
+  const ace = /\s*This card can't be put into your hand or deck from the discard pile\.\s*$/;
+  if (ace.test(normalize(text))) {
+    const c = compileTrainer(normalize(text).replace(ace, ""), kind);
+    return "unmatched" in c ? c : { ...c, trainer: { ...c.trainer, noRecovery: true } };
+  }
   if (kind === "item") {
     const fossil = asPokemon(text);
     if (fossil) return fossil;

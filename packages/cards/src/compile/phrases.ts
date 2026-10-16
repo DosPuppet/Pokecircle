@@ -201,8 +201,10 @@ export function scopePhrase(s: string): PokemonScope | null {
   if (!m) return null;
   const side = m[1] === "your" ? "me" : "opp";
   const where = m[2] === "Benched " ? "bench" : m[2] === "Active " ? "active" : "any";
-  // A Pokémon description, or a name ("your Benched Rattata").
+  // A Pokémon description, or a name ("your Benched Rattata"), or two names ("your Drifloon and Drifblim").
   const name = m[3] as string;
+  const pair = /^([A-Z][\w'.-]*(?: [A-Z][\w'.-]*)*) and ([A-Z][\w'.-]*(?: [A-Z][\w'.-]*)*)$/.exec(name);
+  if (pair && !/Pokémon/.test(name)) return scope.of(side, where, { names: [pair[1] as string, pair[2] as string] });
   const f =
     pokemonFilter(name) ??
     (/^[A-Z][\w'.-]*(?: [A-Z][\w'.-]*)*(?: ex)?$/.test(name) && !/\b(?:Pokémon|Energy|Item|Supporter|Stadium|Tool)\b/.test(name)

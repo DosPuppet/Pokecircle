@@ -27,6 +27,8 @@ export interface CardObject {
 export interface Conditions {
   /** Asleep, Confused and Paralyzed replace each other (R-COND-1). */
   rotating?: "asleep" | "confused" | "paralyzed";
+  /** Damage counters for Confusion when the coin is tails (default 3: Lanturn's Disorienting Flash puts 8). */
+  confusion?: number;
   /** Damage counters put during each Pokémon Checkup. */
   poisoned?: number;
   burned?: boolean;
