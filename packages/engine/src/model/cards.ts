@@ -127,6 +127,13 @@ export interface TrainerDef {
   stadiumAction?: boolean;
   /** Supporter: "If you go first, you may use this card during your first turn." */
   firstTurnOk?: boolean;
+  /**
+   * Item: "Play this card as if it were a 60-HP Basic {C} Pokémon." It is played onto the Bench like a Basic Pokémon
+   * (the definition's `hp`, `types`, `stage`), never during setup; its `statics` apply to it while in play.
+   */
+  asPokemon?: boolean;
+  /** "At any time during your turn, you may discard this card from play." */
+  discardFromPlay?: boolean;
 }
 
 export interface EnergyDef {
@@ -143,7 +150,8 @@ export interface EnergyDef {
   /** Discarded by an effect of its Pokémon's own attack: attached again after attacking (Boomerang Energy). */
   returnAfterAttack?: boolean;
   /** Provides these units instead while attached to a Pokémon matching the filter (Ignition Energy). */
-  providesIf?: { filter: PokemonFilter; provides: string[][] };
+  /** "If this card is attached to a Basic Pokémon, this card provides every type of Energy but…" (`cond`: and if…). */
+  providesIf?: { filter: PokemonFilter; provides: string[][]; cond?: Condition };
 }
 
 export interface CardDef {

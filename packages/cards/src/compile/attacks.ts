@@ -226,6 +226,9 @@ export const ATTACK_TEMPLATES: Template<Ctx>[] = [
     () => pre(fx.bonus({ k: "damageTaken", on: ref.self })),
   ),
   tpl("first.ifFirst", "If you go first, you can use this attack during your first turn.", () => ({ firstTurn: true })),
+  tpl("first.notIfSecond", "If you go second, you can't use this attack during your first turn.", () => ({
+    useCondition: cond.not(cond.and(cond.not({ c: "wentFirst" }), { c: "firstTurn" })),
+  })),
   tpl("first.onlySecond", "You can use this attack only if you go second, and only during your first turn.", () => ({
     useCondition: cond.and(cond.not({ c: "wentFirst" }), { c: "firstTurn" }),
   })),

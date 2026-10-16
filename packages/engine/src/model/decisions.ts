@@ -71,6 +71,8 @@ export type Decision =
   | { type: "playTrainer"; card: ObjectId; target?: PokemonId }
   | { type: "useAbility"; pokemon: PokemonId; ability: number }
   | { type: "stadiumAction" }
+  /** A Trainer card in play as a Pokémon (Fossils): discard it and the cards attached to it. */
+  | { type: "discardFromPlay"; pokemon: PokemonId }
   | { type: "retreat"; to: PokemonId; discard: ObjectId[] }
   | { type: "attack"; index: number; source?: ObjectId }
   | { type: "endTurn" }
@@ -91,6 +93,7 @@ export type ActionOption =
   | { type: "playTrainer"; card: ObjectId; targets?: PokemonId[] }
   | { type: "useAbility"; pokemon: PokemonId; ability: number }
   | { type: "stadiumAction" }
+  | { type: "discardFromPlay"; pokemon: PokemonId }
   | {
       type: "retreat";
       to: PokemonId[];

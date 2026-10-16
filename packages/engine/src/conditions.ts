@@ -4,13 +4,13 @@ import { bump, pokemonOf } from "./state";
 import { rulesOn } from "./statics";
 import type { GameState, PokemonId, SpecialCondition } from "./types";
 
-/** Can a Pokémon be affected by Special Conditions? */
-export function canBeConditioned(s: GameState, id: PokemonId): boolean {
-  return rulesOn(s, "noConditions", id).length === 0;
+/** Can a Pokémon be affected by Special Conditions (by this one)? */
+export function canBeConditioned(s: GameState, id: PokemonId, cond?: SpecialCondition): boolean {
+  return !rulesOn(s, "noConditions", id).some((st) => !st.rule.only || (!!cond && st.rule.only.includes(cond)));
 }
 
 export function addCondition(s: GameState, id: PokemonId, cond: SpecialCondition, poison?: number): boolean {
-  if (!s.pokemon[id] || !canBeConditioned(s, id)) return false;
+  if (!s.pokemon[id] || !canBeConditioned(s, id, cond)) return false;
   const c = pokemonOf(s, id).cond;
   if (cond === "poisoned") c.poisoned = Math.max(c.poisoned ?? 0, poison ?? 1);
   else if (cond === "burned") c.burned = true;

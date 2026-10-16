@@ -38,6 +38,10 @@ export interface PokemonFilter {
   abilityNamed?: string;
   /** Has an attack with this English name ("each of your Pokémon in play that has the Round attack"). */
   attackNamed?: string;
+  /** Has a Pokémon Tool with this English name attached ("has a Future Booster Energy Capsule attached"). */
+  toolNamed?: string;
+  /** Has Energy attached that provides one of these types ("that have {M} Energy attached"). */
+  energyTypes?: EType[];
   /** Put into play before this turn (Rare Candy, evolution). */
   enteredBefore?: boolean;
   not?: PokemonFilter;

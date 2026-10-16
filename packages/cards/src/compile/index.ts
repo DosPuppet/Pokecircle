@@ -62,6 +62,7 @@ export function compileDef(def: CardDef, report?: CompileReport): CardDef {
         note(report, def.id, c.unmatched);
       } else {
         out.trainer = { ...def.trainer, ...c.trainer };
+        if (c.pokemon) Object.assign(out, c.pokemon);
         used.push(...c.templates);
       }
     }

@@ -4,7 +4,7 @@ import { type Ask, answer, DONE, evalAmount, isAsk, playersOf, resolveRef } from
 import { emit } from "../events";
 import { matchCard, scopePokemon } from "../match";
 import type { OpHandlers } from "../opRegistry";
-import { drawCards, moveCard, obj, playerOf, shuffle, shuffleDeck } from "../state";
+import { defOf, drawCards, moveCard, obj, playerOf, shuffle, shuffleDeck } from "../state";
 import { msg } from "../text";
 import type { CardDest, ChoiceValue, GameState, ObjectId } from "../types";
 
@@ -17,6 +17,9 @@ export function moveTo(s: GameState, cards: ObjectId[], to: CardDest): ObjectId[
     if (!s.objects[c]) continue;
     switch (to) {
       case "bench": {
+        // Only a Basic Pokémon, or a Trainer card played as one (Fossils), can go onto the Bench.
+        const d = defOf(s, c);
+        if (!(d.category === "pokemon" && d.stage === "basic") && !d.trainer?.asPokemon) break;
         const pk = benchCard(s, c, false);
         if (pk) out.push(c);
         break;

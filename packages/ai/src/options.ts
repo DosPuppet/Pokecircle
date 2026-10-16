@@ -27,6 +27,9 @@ export function expandOptions(options: ActionOption[]): Decision[] {
       case "stadiumAction":
         out.push({ type: "stadiumAction" });
         break;
+      case "discardFromPlay":
+        out.push({ type: "discardFromPlay", pokemon: o.pokemon });
+        break;
       case "retreat":
         for (const to of o.to) out.push({ type: "retreat", to, discard: o.suggested });
         break;

@@ -1,8 +1,9 @@
 /** Special Energy texts: what the card provides, and its continuous or triggered effects. */
-import type { Condition, Effect, EnergyDef, StaticRule, TriggerDef } from "@pokecircle/engine";
+import type { Condition, Effect, EnergyDef, PokemonScope, StaticRule, TriggerDef } from "@pokecircle/engine";
 import { cond, ref, scope } from "@pokecircle/engine";
 import { COMMON, type Ctx } from "./effects";
-import { typeSym } from "./phrases";
+import { condPhrase, num, pokemonFilter, typeSym } from "./phrases";
+import { compileStatics } from "./statics";
 import { matchAll, normalize, sentence } from "./templates";
 
 const ctx: Ctx = { inAttack: false };
@@ -63,6 +64,21 @@ export function compileEnergy(text: string | undefined): Partial<EnergyDef> | { 
       t = t.slice(m[0].length).trim();
       continue;
     }
+    // "If this card is attached to a Basic Pokémon, this card provides every type of Energy but provides only 1 Energy at
+    // a time." (Reversal Energy: "If you have more Prize cards remaining than your opponent, and if …")
+    m =
+      /^If (?:(.+?), and if )?this card is attached to an? (.+?), this card provides every type of Energy but provides only (\w+) Energy at a time\.\s*/.exec(
+        t,
+      );
+    if (m) {
+      const f = pokemonFilter(m[2] as string);
+      const n = num(m[3]);
+      const k = m[1] ? condPhrase(m[1], false) : undefined;
+      if (!f || !n || k === null) return { unmatched: t };
+      out.providesIf = { filter: f, provides: Array.from({ length: n }, () => ["*"]), ...(k ? { cond: k } : {}) };
+      t = t.slice(m[0].length).trim();
+      continue;
+    }
     m =
       /^If this card is discarded by an effect of an attack used by the Pokémon this card is attached to, attach this card from your discard pile to that Pokémon after attacking\.\s*/.exec(
         t,
@@ -70,6 +86,22 @@ export function compileEnergy(text: string | undefined): Partial<EnergyDef> | { 
     if (m) {
       out.returnAfterAttack = true;
       t = t.slice(m[0].length).trim();
+      continue;
+    }
+    // A continuous rider: "The {M} Pokémon this card is attached to has no Retreat Cost." (only while it is that type).
+    const typed = /the (\{[A-Z]\}) Pokémon this card is attached to/.exec(t);
+    const holderType = typed ? typeSym(typed[1]) : undefined;
+    const rules = compileStatics(
+      t.replace(/the \{[A-Z]\} Pokémon this card is attached to/g, "the Pokémon this card is attached to"),
+      "tool",
+    );
+    if (rules && holderType !== null) {
+      for (const r of rules) {
+        const held = r as { scope?: PokemonScope };
+        if (holderType && held.scope?.self) held.scope = { ...held.scope, filter: { ...held.scope.filter, types: [holderType] } };
+      }
+      statics.push(...rules);
+      t = "";
       continue;
     }
     return { unmatched: t };

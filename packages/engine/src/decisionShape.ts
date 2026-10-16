@@ -31,6 +31,9 @@ export function checkDecisionShape(d: unknown): asserts d is Decision {
     case "useAbility":
       if (!str(x.pokemon) || !int(x.ability)) throw bad();
       return;
+    case "discardFromPlay":
+      if (!str(x.pokemon)) throw bad();
+      return;
     case "retreat":
       if (!str(x.to) || !strs(x.discard)) throw bad();
       return;

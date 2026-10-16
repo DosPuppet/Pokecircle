@@ -16,7 +16,9 @@ export interface ActiveStatic {
   /** The scope's "self": the Pokémon with the Ability, or holding the Tool or Energy. */
   source: PokemonId | null;
   defId: string;
-  kind: "ability" | "tool" | "energy" | "stadium" | "timed";
+  kind: "ability" | "tool" | "energy" | "stadium" | "timed" | "card";
+  /** The Tool or Energy card giving the rule. */
+  card?: ObjectId;
 }
 
 export interface AttackOption {
@@ -79,13 +81,18 @@ function collectRaw(s: GameState): ActiveStatic[] {
     const d = topDef(s, id);
     for (const a of d.abilities ?? [])
       for (const rule of a.statics ?? []) out.push({ rule, owner: pk.owner, source: id, defId: d.id, kind: "ability" });
+    // A Trainer card in play as a Pokémon (Fossils): its own rules.
+    if (d.trainer?.asPokemon)
+      for (const rule of d.trainer.statics ?? []) out.push({ rule, owner: pk.owner, source: id, defId: d.id, kind: "card" });
     for (const t of pk.tools) {
       const td = defOf(s, t);
-      for (const rule of td.trainer?.statics ?? []) out.push({ rule, owner: pk.owner, source: id, defId: td.id, kind: "tool" });
+      for (const rule of td.trainer?.statics ?? [])
+        out.push({ rule, owner: pk.owner, source: id, defId: td.id, kind: "tool", card: t });
     }
     for (const e of pk.energy) {
       const ed = defOf(s, e);
-      for (const rule of ed.energy?.statics ?? []) out.push({ rule, owner: pk.owner, source: id, defId: ed.id, kind: "energy" });
+      for (const rule of ed.energy?.statics ?? [])
+        out.push({ rule, owner: pk.owner, source: id, defId: ed.id, kind: "energy", card: e });
     }
   }
   if (s.stadium) {
@@ -111,7 +118,15 @@ function collect(s: GameState): ActiveStatic[] {
     const locks = raw.filter((st) => st.rule.s === "noAbilities");
     const locked = (id: PokemonId) =>
       locks.some((l) => l.rule.s === "noAbilities" && inScope(s, l.rule.scope, l.owner, l.source, id));
-    return raw.filter((st) => st.kind !== "ability" || !st.source || !locked(st.source));
+    const seen = new Set<string>();
+    return raw.filter((st) => {
+      if (st.kind === "ability" && st.source && locked(st.source)) return false;
+      if (!st.rule.noStack) return true;
+      const key = `${st.owner}:${st.rule.noStack}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
   } finally {
     collecting = false;
   }
@@ -174,7 +189,7 @@ function compute(s: GameState, id: PokemonId): Chars {
   if (collecting) return c;
   const locked = abilitiesLocked(s, id);
   c.abilities = locked ? [] : (d.abilities ?? []).map((_: AbilityDef, i: number) => i);
-  for (const st of rulesOn(s, "hp", id)) c.hp += st.rule.add;
+  for (const st of rulesOn(s, "hp", id)) c.hp += amountOfStatic(s, st, st.rule.add);
   for (const st of rulesOn(s, "addType", id)) if (!c.types.includes(st.rule.type)) c.types.push(st.rule.type);
   if (rulesOn(s, "noWeakness", id).length) delete c.weakness;
   const weak = rulesOn(s, "weakness", id);

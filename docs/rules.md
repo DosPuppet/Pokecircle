@@ -138,6 +138,17 @@ approximation, also listed in `docs/approximations.md`.
 - R-RULEBOX-2 (Tera): while it is on the Bench, prevent all damage done to it by attacks (both players').
 - R-RULEBOX-3: effects that refer to "Pokémon with a Rule Box" include them; ACE SPEC Trainers are not Pokémon.
 
+## Trainer cards played as Pokémon (R-FOSSIL)
+
+- R-FOSSIL-1: an Item that says "Play this card as if it were a 60-HP Basic {C} Pokémon" (the Antique Fossils) is put
+  from the hand onto the Bench during its owner's turn, like a Basic Pokémon; it is still playing an Item (Item locks
+  stop it, it counts as an Item played). It cannot be put into play during setup and does not count as a Basic Pokémon
+  for the mulligan.
+- R-FOSSIL-2: in play it is a Basic Pokémon with the printed HP and type and no attacks; Pokémon evolve from it by its
+  name, and it gives Prize cards when Knocked Out as usual. Everywhere else (hand, deck, discard pile) it is an Item.
+- R-FOSSIL-3: "At any time during your turn, you may discard this card from play": an action of its owner's main phase;
+  the card and everything attached go to the discard pile (no Knock Out, no Prize card).
+
 ## Card text conventions (R-TEXT)
 
 - R-TEXT-1: "once during your turn" is per Pokémon in play, unless the text says otherwise.

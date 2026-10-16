@@ -140,8 +140,15 @@ export function exercise(def: CardDef): Exercise {
           ? { type: "playTrainer", card: o.card, target: o.targets[0] as string }
           : { type: "playTrainer", card: o.card };
       if (o.type === "attachEnergy" && o.targets[0]) return { type: "attachEnergy", card: o.card, target: o.targets[0] };
+      // A Trainer card played as a Pokémon (Fossils).
+      if (o.type === "playBasic") return { type: "playBasic", card: o.card };
       return null;
     });
+    if (def.trainer?.discardFromPlay)
+      run("discard from play", position({ active: { def: filler }, bench: [{ def }] }), (s) => {
+        const o = legalActions(s, "p1").find((x) => x.type === "discardFromPlay");
+        return o?.type === "discardFromPlay" ? { type: "discardFromPlay", pokemon: o.pokemon } : null;
+      });
     // A Stadium's action and a Tool's attacks once in play.
     if (def.trainer?.stadiumAction || def.trainer?.attacks?.length) out.tried.push("(in play: not exercised)");
   }

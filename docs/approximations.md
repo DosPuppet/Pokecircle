@@ -26,3 +26,6 @@ Every approximation of the official rules or of a card's text is listed here whe
   "if attached to anything other than a Team Rocket's Pokémon, discard this card" is not checked afterwards (PLAN-B B1).
 - Metang's Metal Maker and other "shuffle the other cards and put them on the bottom of your deck": the cards go to the
   bottom in their order (unknown to both players either way).
+- Type-based riders ("The {M} Pokémon this card is attached to…", Special Energy) and Pokémon filters read the printed
+  type: a type added by an effect (Scovillain ex's Double Type, Iron Treads' Dual Core) does not count for them; it does
+  count for Weakness and Resistance.

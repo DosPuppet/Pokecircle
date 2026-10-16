@@ -10,6 +10,7 @@ import {
   abilityUsable,
   attachTargets,
   canPlayBasic,
+  discardableFromPlay,
   evolveTargets,
   retreatOption,
   stadiumActionUsable,
@@ -42,6 +43,8 @@ export function applyMain(s: GameState, p: PlayerId, d: Decision): void {
   switch (d.type) {
     case "playBasic": {
       if (!canPlayBasic(s, p, d.card)) throw new RulesError(msg("This Pokémon cannot be put onto your Bench"));
+      const def = defOf(s, d.card);
+      if (def.trainer?.asPokemon) s.turnLog.push({ turn: s.turn.number, player: p, kind: "itemPlayed", defId: def.id });
       benchCard(s, d.card, true);
       return;
     }
@@ -107,6 +110,19 @@ export function applyMain(s: GameState, p: PlayerId, d: Decision): void {
         defId: top.id,
         effects: act.effects,
         ...(act.endsTurn ? { event: { endsTurn: "1" } } : {}),
+      });
+      return;
+    }
+    case "discardFromPlay": {
+      if (!discardableFromPlay(s, p).includes(d.pokemon)) throw new RulesError(msg("This card cannot be discarded now"));
+      const top = topObject(s, d.pokemon);
+      startResolution(s, {
+        kind: "trainer",
+        player: p,
+        source: d.pokemon,
+        card: null,
+        defId: top.defId,
+        effects: [{ op: "pokemonTo", target: "self", to: "discard" }],
       });
       return;
     }

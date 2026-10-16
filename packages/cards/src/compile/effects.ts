@@ -53,7 +53,18 @@ function searchEffects(count: { min: number; max: number }, what: string, dest: 
       fx.move("found", "hand"),
       fx.shuffle(),
     ];
-  if (/^put (?:it|them) onto your Bench$/.test(dest)) return searchToBench(filter ?? {}, count.max, SEARCH_PROMPT());
+  if (/^put (?:it|them) onto your Bench$/.test(dest)) {
+    // Item cards played as Pokémon ('Item cards that have "Antique" in their name'): only those can go onto the Bench.
+    if (filter?.category?.[0] === "trainer") {
+      if (!filter.nameIncludes) return null;
+      return [
+        fx.chooseCards("deck", "found", SEARCH_PROMPT(), { filter, min: 0, max: amt.min(count.max, amt.benchSpace()) }),
+        fx.move("found", "bench"),
+        fx.shuffle(),
+      ];
+    }
+    return searchToBench(filter ?? {}, count.max, SEARCH_PROMPT());
+  }
   const att = /^attach (?:it|them) to (.+)$/.exec(dest);
   if (att && filter?.category?.[0] === "energy") {
     const target = att[1] as string;
@@ -132,6 +143,14 @@ export const COMMON: Template<Ctx>[] = [
   tpl("opp.itemLock", "During your opponent's next turn, they can't play any Item cards from their hand.", () =>
     post(fx.timed("opponentsNextTurn", { s: "cantPlay", side: "opp", kinds: ["item"] })),
   ),
+  tpl("opp.cardLock", "Your opponent can't play any {x} cards from their hand during their next turn.", ([k]) => {
+    const kind = ({ Item: "item", Supporter: "supporter", Stadium: "stadium", "Pokémon Tool": "tool" } as const)[k as "Item"];
+    return kind ? post(fx.timed("opponentsNextTurn", { s: "cantPlay", side: "opp", kinds: [kind] })) : null;
+  }),
+  tpl("opp.benchToDeck", "Shuffle 1 of your opponent's Benched Pokémon and all attached cards into their deck.", () => ({
+    post: [chooseIn(scope.oppBench(), "t", { min: 1, max: 1 }), fx.pokemonTo(ref.v("t"), "deck"), fx.shuffle("opp")],
+    condition: cond.exists(scope.oppBench()),
+  })),
   // —— Special Conditions ——
   tpl("status.now", "{x} is now {x}.", ([who, what], ctx) => {
     const r = pokemonRef(who as string, ctx.inAttack);

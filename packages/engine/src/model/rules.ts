@@ -3,12 +3,12 @@
  * Scopes are relative to the owner of the source (the controller of a timed effect). Read by `statics.ts`.
  */
 import type { CardTag, EType } from "./cards";
-import type { Amount, Condition, PokemonFilter, PokemonScope, Side } from "./effects";
+import type { Amount, Condition, PokemonFilter, PokemonScope, Side, SpecialCondition } from "./effects";
 
 export type StaticRule = (
   | /** Retreat Cost: +delta, or set to a value. */ { s: "retreat"; scope: PokemonScope; delta?: number; set?: number }
   | /** Attack costs: −n Colorless (negative: more). */ { s: "attackCost"; scope: PokemonScope; less: Amount }
-  | { s: "hp"; scope: PokemonScope; add: number }
+  | { s: "hp"; scope: PokemonScope; add: Amount }
   | /**
    * Attacks of the scope's Pokémon do more damage (before Weakness and Resistance), optionally only to Pokémon matching
    * `vs`, only to the opponent's Active Pokémon (`activeOnly`).
@@ -18,6 +18,8 @@ export type StaticRule = (
       scope: PokemonScope;
       add: number;
       from?: PokemonFilter;
+      /** The card giving the rule is discarded once it reduced damage (Berries: "…, and discard this card"). */
+      consume?: boolean;
     }
   | /**
    * Prevent damage and/or effects of attacks (of the opponent's Pokémon, optionally matching `from`); `counters`:
@@ -31,6 +33,8 @@ export type StaticRule = (
       anyAttacker?: boolean;
       /** Only damage of this amount or less ("if that damage is 60 or less"). */
       maxDamage?: number;
+      /** Only damage of this amount or more ("if that damage is 200 or more"). */
+      minDamage?: number;
     }
   | /** Pokémon of the scope have no Abilities. */ { s: "noAbilities"; scope: PokemonScope }
   | /** Players of the side cannot play cards of these kinds. */ {
@@ -76,7 +80,21 @@ export type StaticRule = (
       scope: PokemonScope;
       from: PokemonScope;
     }
-  | /** Pokémon of the scope cannot be affected by Special Conditions. */ { s: "noConditions"; scope: PokemonScope }
+  | /** Pokémon of the scope cannot be affected by Special Conditions (`only`: by these). */ {
+      s: "noConditions";
+      scope: PokemonScope;
+      only?: SpecialCondition[];
+    }
+  | /** During Pokémon Checkup, more damage counters for a Poisoned or Burned Pokémon of the scope. */ {
+      s: "checkupCounters";
+      scope: PokemonScope;
+      status: "poisoned" | "burned";
+      add: number;
+    }
+  | /**
+   * A Pokémon of the scope with full HP that would be Knocked Out by damage from an attack is not: its remaining HP
+   * becomes `hp` (`consume`: the card giving the rule is then discarded).
+   */ { s: "survive"; scope: PokemonScope; hp: number; consume?: boolean; byOpponent?: boolean }
   | /** Tools each Pokémon of the scope can have. */ { s: "toolSlots"; scope: PokemonScope; n: number }
   | /** Pokémon of the scope cannot be damaged or affected by the opponent's Abilities/Trainers. */ {
       s: "shielded";
@@ -86,4 +104,6 @@ export type StaticRule = (
 ) & {
   /** Applies only while this holds (evaluated in the source's context). */
   cond?: Condition;
+  /** "The effect of <name> doesn't stack": one rule per key and player. */
+  noStack?: string;
 };

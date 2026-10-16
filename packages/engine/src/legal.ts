@@ -23,7 +23,14 @@ export function inHand(s: GameState, p: PlayerId, card: ObjectId): boolean {
 export function canPlayBasic(s: GameState, p: PlayerId, card: ObjectId): boolean {
   if (!inHand(s, p, card)) return false;
   const d = defOf(s, card);
-  return d.category === "pokemon" && d.stage === "basic" && playerOf(s, p).bench.length < benchSize(s, p);
+  // A Trainer played as a Pokémon (Fossils) is also an Item: Item locks apply.
+  const asPokemon = !!d.trainer?.asPokemon && implementedTrainer(d) && canPlayKind(s, p, "item", d.tags);
+  return ((d.category === "pokemon" && d.stage === "basic") || asPokemon) && playerOf(s, p).bench.length < benchSize(s, p);
+}
+
+/** Trainer cards in play as Pokémon that their owner may discard (main phase of their turn). */
+export function discardableFromPlay(s: GameState, p: PlayerId): PokemonId[] {
+  return inPlay(s, p).filter((id) => !!topDef(s, id).trainer?.discardFromPlay);
 }
 
 /** R-EVOLVE-2. */
@@ -180,7 +187,9 @@ export function legalActions(s: GameState, p: PlayerId): ActionOption[] {
   }
   for (const card of ps.hand) {
     const d = defOf(s, card);
-    if (d.category === "pokemon") {
+    if (d.trainer?.asPokemon) {
+      if (canPlayBasic(s, p, card)) out.push({ type: "playBasic", card });
+    } else if (d.category === "pokemon") {
       if (canPlayBasic(s, p, card)) out.push({ type: "playBasic", card });
       const targets = evolveTargets(s, p, card);
       if (targets.length) out.push({ type: "evolve", card, targets });
@@ -197,6 +206,7 @@ export function legalActions(s: GameState, p: PlayerId): ActionOption[] {
       if (abilityUsable(s, p, id, i)) out.push({ type: "useAbility", pokemon: id, ability: i });
     });
   if (stadiumActionUsable(s, p)) out.push({ type: "stadiumAction" });
+  for (const pokemon of discardableFromPlay(s, p)) out.push({ type: "discardFromPlay", pokemon });
   const retreat = retreatOption(s, p);
   if (retreat) out.push(retreat);
   for (const a of usableAttacks(s, p)) {

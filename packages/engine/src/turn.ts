@@ -212,9 +212,11 @@ function checkup(s: GameState): void {
     const id = playerOf(s, p).active;
     if (!id) continue;
     const c = pokemonOf(s, id).cond;
-    if (c.poisoned) putCounters(s, null, id, c.poisoned);
+    const more = (k: "poisoned" | "burned") =>
+      rulesOn(s, "checkupCounters", id).reduce((n, st) => n + (st.rule.status === k ? st.rule.add : 0), 0);
+    if (c.poisoned) putCounters(s, null, id, c.poisoned + more("poisoned"));
     if (c.burned) {
-      putCounters(s, null, id, 2);
+      putCounters(s, null, id, 2 + more("burned"));
       if (flipCoin(s, p)) removeCondition(s, id, "burned");
     }
     if (c.rotating === "asleep" && flipCoin(s, p)) removeCondition(s, id, "asleep");
@@ -309,8 +311,9 @@ function askPromotion(s: GameState, p: PlayerId): void {
 function cureProtected(s: GameState): void {
   for (const id of [...inPlay(s, s.playerOrder[0] as PlayerId), ...inPlay(s, s.playerOrder[1] as PlayerId)]) {
     const c = pokemonOf(s, id).cond;
-    if ((c.rotating || c.poisoned || c.burned) && !canBeConditioned(s, id))
-      for (const k of ["asleep", "confused", "paralyzed", "poisoned", "burned"] as const) removeCondition(s, id, k);
+    if (c.rotating || c.poisoned || c.burned)
+      for (const k of ["asleep", "confused", "paralyzed", "poisoned", "burned"] as const)
+        if (!canBeConditioned(s, id, k)) removeCondition(s, id, k);
   }
 }
 

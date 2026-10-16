@@ -38,7 +38,8 @@ export function typeSym(s: string | undefined): EType | null {
 /** "this Pokémon", "your opponent's Active Pokémon", "the Defending Pokémon", "your Active Pokémon". */
 export function pokemonRef(s: string, inAttack: boolean): PokemonRef | null {
   const t = s.trim();
-  if (/^this Pokémon$/i.test(t)) return ref.self;
+  // A Tool's holder is its source Pokémon, like an Ability's.
+  if (/^(?:this Pokémon|the Pokémon this card is attached to)$/i.test(t)) return ref.self;
   if (/^(your opponent's Active Pokémon|the Defending Pokémon)$/i.test(t)) return inAttack ? ref.defending : ref.oppActive;
   // "that Pokémon" after an attack's effect on the opponent's Active Pokémon.
   if (inAttack && /^that Pokémon$/i.test(t)) return ref.defending;
@@ -57,6 +58,30 @@ const STAGES: Record<string, Stage> = { Basic: "basic", "Stage 1": "stage1", "St
 export function pokemonFilter(s: string): PokemonFilter | null {
   let t = s.trim();
   const f: PokemonFilter = {};
+  // Pokémon V are not in Standard: "Pokémon ex and Pokémon V" are the Pokémon ex.
+  t = t.replace(/^(.*Pokémon ex) (?:and|or) Pokémon V$/, "$1");
+  const ability = /^(.*?) that (?:has|have) an Ability$/.exec(t);
+  if (ability) {
+    t = ability[1] as string;
+    f.hasAbility = true;
+  }
+  const withBox = /^(.*?) with a Rule Box$/.exec(t);
+  if (withBox) {
+    t = withBox[1] as string;
+    f.tags = ["ruleBox"];
+  }
+  const nonType = /^(?:(Basic|Stage 1|Stage 2|Evolution) )?non-(\{[A-Z]\}) (.*)$/.exec(t);
+  if (nonType) {
+    const ty = typeSym(nonType[2]);
+    if (!ty) return null;
+    f.not = { types: [ty] };
+    t = `${nonType[1] ? `${nonType[1]} ` : ""}${nonType[3]}`;
+  }
+  const tag = /^(Ancient|Future|Tera) (.*)$/.exec(t);
+  if (tag) {
+    f.tags = [...(f.tags ?? []), tag[1] === "Ancient" ? "ancient" : tag[1] === "Future" ? "future" : "tera"];
+    t = tag[2] as string;
+  }
   const hp = /^(.*?) with (\d+) HP or less$/.exec(t);
   if (hp) {
     t = hp[1] as string;
@@ -85,7 +110,7 @@ export function pokemonFilter(s: string): PokemonFilter | null {
     if (!ty) return null;
     f.types = [ty];
   }
-  if (m[3]) f.tags = ["ex"];
+  if (m[3]) f.tags = [...(f.tags ?? []), "ex"];
   return f;
 }
 
@@ -216,6 +241,12 @@ export function cardFilter(s: string): { filter?: CardFilter } | null {
   }
   const t = raw.replace(/ cards$/, " card").replace(/^(.*Pokémon(?: ex)?)s$/, "$1");
   let m: RegExpExecArray | null;
+  // 'Item cards that have "Antique" in their name'
+  m = /^(.+?) cards? that (?:has|have) "(.+?)" in (?:its|their) name$/.exec(raw.trim());
+  if (m) {
+    const base = cardFilter(`${m[1]} card`);
+    return base ? { filter: { ...base.filter, nameIncludes: m[2] as string } } : null;
+  }
   if (/^card$/.test(t)) return {};
   m = /^(Basic )?(\{[A-Z]\} )?Energy card$/.exec(t);
   if (m) {
@@ -234,6 +265,9 @@ export function cardFilter(s: string): { filter?: CardFilter } | null {
     return { filter: { category: ["trainer"], trainer: [k as "item"] } };
   }
   const pf = pokemonFilter(t.replace(/ card$/, ""));
+  // Only what a card filter can say: anything else ("that has an Ability") would widen the search.
+  const CARD_KEYS = ["stage", "types", "tags", "noTags", "maxHp", "nameIncludes"];
+  if (pf && Object.keys(pf).some((k) => !CARD_KEYS.includes(k))) return null;
   if (pf) {
     const f: CardFilter = { category: ["pokemon"] };
     if (pf.stage) f.stage = pf.stage;
@@ -396,6 +430,28 @@ export function condPhrase(s: string, inAttack: boolean): Condition | null {
   if (m) {
     const r = pokemonRef(m[1] as string, inAttack);
     return r ? cond.not(cond.hasCondition(r)) : null;
+  }
+  m = /^(.+?) is in the Active Spot$/.exec(t);
+  if (m) {
+    const r = pokemonRef(m[1] as string, inAttack);
+    if (r === ref.self) return { c: "isActive", ref: r };
+  }
+  m = /^(.+?) is on your Bench$/.exec(t);
+  if (m) {
+    const r = pokemonRef(m[1] as string, inAttack);
+    if (r === ref.self) return cond.not({ c: "isActive", ref: r });
+  }
+  m = /^you have at least (\w+) other ([A-Z][\w'. -]*?) in play$/.exec(t);
+  if (m) {
+    const n = num(m[1]);
+    return n === null
+      ? null
+      : cond.cmp(amt.pokemon({ ...scope.of("me", "any", { names: [m[2] as string] }), notSelf: true }), ">=", n);
+  }
+  m = /^(.+?) has an? ([A-Z][\w'. -]*?) attached$/.exec(t);
+  if (m && !/Energy$|Tool$/.test(m[2] as string)) {
+    const r = pokemonRef(m[1] as string, inAttack);
+    return r ? cond.matches(r, { toolNamed: m[2] as string }) : null;
   }
   m = /^(.+?) has full HP$/.exec(t);
   if (m) {

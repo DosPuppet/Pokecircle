@@ -77,7 +77,7 @@ export function normalize(text: string): string {
   return (
     text
       // Reminder texts that add nothing to the rule.
-      .replace(/\s*\(Pokémon ex, Pokémon V, etc\. have Rule Boxes\.\)/g, "")
+      .replace(/\s*\(Pokémon ex, Pokémon V, etc\. have Rule Boxes\.?\)/g, "")
       .replace(/\s*\(Existing effects are not removed\. Damage is not an effect\.\)/g, "")
       // Weakness and Resistance never apply to Benched Pokémon (R-ATTACK-5): the reminder adds nothing.
       .replace(/\s*\(Don't apply Weakness and Resistance for Benched Pokémon\.\)/g, "")

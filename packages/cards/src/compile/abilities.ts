@@ -6,6 +6,7 @@ import type { AbilityDef, Condition, Effect, StaticRule, TriggerDef } from "@pok
 import { amt, cond, fx, msg, ref, scope } from "@pokecircle/engine";
 import { COMMON, type Ctx, chooseIn } from "./effects";
 import { condPhrase, num, scopePhrase, typeSym } from "./phrases";
+import { compileStatics } from "./statics";
 import { matchAll, normalize, sentence, type Template, tpl } from "./templates";
 
 const ctx: Ctx = { inAttack: false };
@@ -313,6 +314,8 @@ export function compileAbility(text: string): AbilityParts | { unmatched: string
     const m = st.re.exec(t);
     if (m && m[0].trim().length === t.length && st.build(m.slice(1), holder) && holder.rules) return { statics: holder.rules };
   }
+  const rules = compileStatics(t, "ability");
+  if (rules) return { statics: rules };
   const lim = limits(t);
   let rest = lim.text;
   // Triggered Abilities.

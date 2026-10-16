@@ -85,3 +85,9 @@ Pure, deterministic Pokémon TCG rules engine (`packages/engine/src`). Rules ref
 - `chooseCards.random`: a random pick without a question ("a random card from your opponent's hand"); with `reveal`,
   both players see it. Compiler: a template's `condition` (feasibility, "only if") gates Trainers and Abilities only;
   an attack takes `useCondition` ("You can use this attack only if…"), R-TEXT-3b.
+- Static rules added in B4: `checkupCounters`, `survive` (full HP, Knocked Out by attack damage → remaining HP N),
+  `noConditions.only`, `prevent.minDamage`, `taken.consume` (the Tool is discarded once it reduced damage),
+  `hp.add` as an amount, `noStack` on any rule (one per key and player). Filters `toolNamed`, `energyTypes`.
+- Trainer cards played as Pokémon (`TrainerDef.asPokemon`, Fossils): offered as `playBasic` (an Item played), the
+  definition carries `hp`, `types`, `stage`; their `trainer.statics` apply in play (`kind: "card"`); the decision
+  `discardFromPlay` (`discardFromPlay` flag). `move` to the Bench refuses any other non-Basic card.

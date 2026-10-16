@@ -8,10 +8,10 @@
 import { evalAmount, staticCtx } from "./effects";
 import { emit } from "./events";
 import { matchPokemon } from "./match";
-import { bump, isActive, opponentOf, playerOf, pokemonOf } from "./state";
+import { bump, isActive, moveCard, opponentOf, playerOf, pokemonOf } from "./state";
 import { chars, rulesOn } from "./statics";
 import { queueTriggers } from "./triggers";
-import type { GameState, PlayerId, PokemonId, Resolution } from "./types";
+import type { GameState, ObjectId, PlayerId, PokemonId, Resolution } from "./types";
 
 export interface DamageOptions {
   /** Weakness and Resistance are not applied (they never are outside the opponent's Active Pokémon). */
@@ -40,6 +40,7 @@ function damagePrevented(
       (st.rule.what === "damage" || st.rule.what === "all") &&
       (st.rule.anyAttacker || attackerOwner !== t.owner) &&
       (st.rule.maxDamage === undefined || amount <= st.rule.maxDamage) &&
+      (st.rule.minDamage === undefined || amount >= st.rule.minDamage) &&
       (!st.rule.from || (attacker !== null && !!s.pokemon[attacker] && matchPokemon(s, attacker, st.rule.from))),
   );
 }
@@ -63,8 +64,8 @@ export function computeAttackDamage(
   target: PokemonId,
   base: number,
   opts: DamageOptions = {},
-): { amount: number; weakness: boolean; resistance: boolean; prevented: boolean } {
-  const out = { amount: 0, weakness: false, resistance: false, prevented: false };
+): { amount: number; weakness: boolean; resistance: boolean; prevented: boolean; consumed: ObjectId[] } {
+  const out = { amount: 0, weakness: false, resistance: false, prevented: false, consumed: [] as ObjectId[] };
   if (base <= 0) return out;
   const t = pokemonOf(s, target);
   const attacker = r.source;
@@ -93,6 +94,7 @@ export function computeAttackDamage(
     for (const st of rulesOn(s, "taken", target)) {
       if (st.rule.from && !(attacker && s.pokemon[attacker] && matchPokemon(s, attacker, st.rule.from))) continue;
       n += st.rule.add;
+      if (st.rule.consume && st.card) out.consumed.push(st.card);
     }
   if (damagePrevented(s, attacker, r.player, target, Math.max(0, n))) {
     out.prevented = true;
@@ -107,6 +109,21 @@ export function dealAttackDamage(s: GameState, r: Resolution, target: PokemonId,
   if (!s.pokemon[target] || base <= 0) return 0;
   const res = computeAttackDamage(s, r, target, base, opts);
   const t = pokemonOf(s, target);
+  // "…, and discard this card" (Berries): once it reduced the damage.
+  for (const c of res.consumed) if (s.objects[c]?.host === target) moveCard(s, c, "discard");
+  if (res.amount > 0) {
+    // "If this Pokémon has full HP and would be Knocked Out by damage from an attack, it is not Knocked Out, and its
+    // remaining HP becomes 10."
+    const hp = chars(s, target).hp;
+    if (t.damage === 0 && res.amount >= hp) {
+      const survive = rulesOn(s, "survive", target).find((st) => !st.rule.byOpponent || t.owner !== r.player);
+      if (survive) {
+        res.amount = Math.max(0, hp - survive.rule.hp);
+        if (survive.rule.consume && survive.card && s.objects[survive.card]?.host === target)
+          moveCard(s, survive.card, "discard");
+      }
+    }
+  }
   if (res.amount > 0) {
     t.damage += res.amount;
     bump(s);

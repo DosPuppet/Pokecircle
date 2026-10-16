@@ -103,6 +103,17 @@ export function ActionPanel({ view }: { view: GameView }) {
             <span className="ab-tag">{t("Ability")}</span> {text?.abilities?.[o.ability]?.name ?? ""}
           </button>,
         );
+    if (view.legal.some((o) => o.type === "discardFromPlay" && o.pokemon === id))
+      buttons.push(
+        <button
+          type="button"
+          key="discardFromPlay"
+          className="btn discard-from-play"
+          onClick={() => decide({ type: "discardFromPlay", pokemon: id })}
+        >
+          {t("Discard from play")}
+        </button>,
+      );
     if (me?.active === id) {
       for (const o of view.legal)
         if (o.type === "attack") buttons.push(<AttackButton key={`at${o.index}${o.source ?? ""}`} o={o} view={view} />);

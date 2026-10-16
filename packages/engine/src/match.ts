@@ -2,8 +2,8 @@
  * Filters and scopes. Filters read printed characteristics (the top card's definition) and the state of the Pokémon
  * in play, never computed characteristics: statics can then use them without recursion.
  */
-import { opponentOf, pokemonOf, topDef } from "./state";
-import type { CardDef, CardFilter, GameState, PlayerId, PokemonFilter, PokemonId, PokemonScope, Side } from "./types";
+import { defOf, opponentOf, pokemonOf, topDef } from "./state";
+import type { CardDef, CardFilter, EType, GameState, PlayerId, PokemonFilter, PokemonId, PokemonScope, Side } from "./types";
 
 export function sidePlayers(s: GameState, side: Side, me: PlayerId): PlayerId[] {
   return side === "me" ? [me] : side === "opp" ? [opponentOf(s, me)] : [me, opponentOf(s, me)];
@@ -39,6 +39,13 @@ export function matchPokemon(s: GameState, id: PokemonId, f: PokemonFilter | und
   if (f.selfKOAbility !== undefined && !!d.abilities?.some((a) => a.selfKO) !== f.selfKOAbility) return false;
   if (f.abilityNamed !== undefined && !d.abilities?.some((a) => a.name === f.abilityNamed)) return false;
   if (f.attackNamed !== undefined && !d.attacks?.some((a) => a.name === f.attackNamed)) return false;
+  if (f.toolNamed !== undefined && !pk.tools.some((t) => defOf(s, t).name === f.toolNamed)) return false;
+  if (f.energyTypes) {
+    const types = f.energyTypes;
+    const provides = (e: string) =>
+      (defOf(s, e).energy?.provides ?? []).some((u) => u.some((t) => t === "*" || types.includes(t as EType)));
+    if (!pk.energy.some(provides)) return false;
+  }
   if (f.enteredBefore !== undefined && pk.enteredTurn < s.turn.number !== f.enteredBefore) return false;
   if (f.not && matchPokemon(s, id, f.not)) return false;
   return true;
