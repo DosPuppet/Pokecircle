@@ -231,7 +231,7 @@ export type CardDest =
   | "prizes";
 
 /** How long a timed effect lasts (R-TEXT-4: effects of attacks also end when the Pokémon leaves the Active Spot). */
-export type Duration = "thisTurn" | "opponentsNextTurn" | "yourNextTurn" | "untilYourNextTurn";
+export type Duration = "thisTurn" | "opponentsNextTurn" | "yourNextTurn" | "untilYourNextTurn" | "untilYourNextTurnEnd";
 
 export type Effect =
   // —— attack damage ——

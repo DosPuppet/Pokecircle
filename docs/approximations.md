@@ -51,3 +51,5 @@ Every approximation of the official rules or of a card's text is listed here whe
 - Sparkling Crystal: the Energy symbol removed is a {C} if the cost has one, else the last symbol.
 - Palafin ex (Hero's Spirit) is never played from the hand; Palafin's Zero to Hero, which puts it into play, is not
   implemented yet.
+- Miraidon's C.O.D.E.: Protect ends when no Miraidon is your Active Pokémon (any Miraidon keeps it).
+- Kilowattrel's Storm Bolt and Scramble Switch move Energy one card at a time (a question each).

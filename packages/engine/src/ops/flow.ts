@@ -108,7 +108,9 @@ export const HANDLERS: OpHandlers = {
           ? [t + 1, t + 1]
           : e.duration === "yourNextTurn"
             ? [t + 2, t + 2]
-            : [t, t + 1];
+            : e.duration === "untilYourNextTurnEnd"
+              ? [t, t + 2]
+              : [t, t + 1];
     let rule: StaticRule = e.rule;
     let attackEffect = false;
     if (e.target) {

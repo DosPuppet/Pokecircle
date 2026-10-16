@@ -697,6 +697,26 @@ export function condPhrase(s: string, inAttack: boolean): Condition | null {
     const f = pokemonFilter(m[2] as string);
     if (r && f) return cond.not(cond.matches(r, f));
   }
+  m = /^there are (\w+) or fewer cards in your deck$/.exec(t);
+  if (m) {
+    const n = num(m[1]);
+    return n === null ? null : cond.cmp(amt.cards("deck", "me"), "<=", n);
+  }
+  m = /^your opponent has (\w+) or more Benched Pokémon$/.exec(t);
+  if (m) {
+    const n = num(m[1]);
+    return n === null ? null : cond.cmp(amt.pokemon(scope.oppBench()), ">=", n);
+  }
+  m = /^your opponent has no (.+?) in play$/.exec(t);
+  if (m) {
+    const f = pokemonFilter(m[1] as string);
+    return f ? cond.not(cond.exists(scope.theirs(f))) : null;
+  }
+  m = /^you don't have ([A-Z][\w'.-]*(?: [A-Z][\w'.-]*)*) and ([A-Z][\w'.-]*(?: [A-Z][\w'.-]*)*) on your Bench$/.exec(t);
+  if (m)
+    return cond.not(
+      cond.and(cond.exists(scope.myBench({ names: [m[1] as string] })), cond.exists(scope.myBench({ names: [m[2] as string] }))),
+    );
   if (/^you have no cards in your hand$/.test(t)) return cond.cmp(amt.cards("hand", "me"), "==", 0);
   m = /^(your opponent|you) (?:has|have) exactly (\w+) Prize cards? remaining$/.exec(t);
   if (m) {

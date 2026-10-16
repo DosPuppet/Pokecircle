@@ -735,6 +735,27 @@ export const COMMON: Template<Ctx>[] = [
         }
       : null;
   }),
+  tpl("status.ifItIs", "If {x}, it is now {x}.", ([c, what], ctx) => {
+    if (!/^your opponent's Active Pokémon\b/.test(c as string)) return null;
+    const k = condPhrase(c as string, ctx.inAttack);
+    const st = status(what as string);
+    return k && st ? post(fx.if(k, [fx.condition(ctx.inAttack ? ref.defending : ref.oppActive, st)])) : null;
+  }),
+  tpl("energy.moveAllToBench", "Move all Energy from this Pokémon to 1 of your Benched Pokémon.", () =>
+    post(fx.moveEnergy(ref.self, scope.myBench(), amt.energy(ref.self))),
+  ),
+  tpl("draw.may", "You may draw {w} cards.", ([w]) => {
+    const n = num(w);
+    return n ? post(fx.may(msg("Draw cards?"), [fx.draw(n)])) : null;
+  }),
+  tpl("heal.activeTyped", "Heal {n} damage from your Active {X}.", ([n, who]) => {
+    const f = pokemonFilter(who as string);
+    if (!f) return null;
+    return {
+      post: [fx.heal(ref.myActive, Number(n))],
+      condition: cond.and(cond.matches(ref.myActive, f), cond.cmp(amt.counters(ref.myActive), ">", 0)),
+    };
+  }),
   tpl("stadium.thenDiscard", "Then, discard that Stadium.", () => post(fx.discardStadium())),
   tpl("search.may", "You may search your deck for {x} and {x}. Then, shuffle your deck.", ([what, dest], ctx) => {
     const m = /^(a|an|up to \w+|any number of|\w+) (.+)$/.exec(what as string);

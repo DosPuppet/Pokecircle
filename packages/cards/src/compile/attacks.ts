@@ -14,8 +14,19 @@ const post = (...effects: Effect[]): Built => ({ post: effects });
 /** One clause inside "If heads, …": compiled alone, it must be a single template. */
 function clause(text: string, ctx: Ctx): Built | null {
   const m = matchAll(sentence(text), ATTACK_TEMPLATES, ctx);
-  if ("unmatched" in m || m.parts.length !== 1) return null;
-  return m.parts[0] as Built;
+  if (!("unmatched" in m) && m.parts.length === 1) return m.parts[0] as Built;
+  // "your opponent's Active Pokémon is now Paralyzed, and discard an Energy from that Pokémon": two effects.
+  const two = /^(.+?), and (.+)$/.exec(text.trim());
+  if (!two) return null;
+  const a = clause(two[1] as string, ctx);
+  const b = clause(two[2] as string, ctx);
+  if (!a || !b) return null;
+  const out: Built = {};
+  const pre = [...(a.pre ?? []), ...(b.pre ?? [])];
+  const post = [...(a.post ?? []), ...(b.post ?? [])];
+  if (pre.length) out.pre = pre;
+  if (post.length) out.post = post;
+  return out;
 }
 
 /** The damage options of a `mainDamage` (Weakness, Resistance, effects on the Defending Pokémon). */
@@ -638,6 +649,9 @@ export const ATTACK_TEMPLATES: Template<Ctx>[] = [
   tpl("first.usedLastTurn", "You can use this attack only if this Pokémon used {x} during your last turn.", ([name]) => ({
     useCondition: { c: "didLastTurn", kind: "attacked", ref: ref.self, key: name as string },
   })),
+  tpl("stadium.discardOrNothing", "Discard a Stadium in play. If you can't, this attack does nothing.", () =>
+    pre(fx.if({ c: "stadium" }, [fx.discardStadium()], [{ op: "attackFails" }])),
+  ),
   tpl(
     "first.prizeRange",
     "If your opponent doesn't have exactly {w} or {w} Prize cards remaining, this attack does nothing.",

@@ -287,6 +287,10 @@ const PREDICATES: Pred[] = [
     const sc = subject(who as string, src);
     return sc ? [{ s: "attackCostIs", scope: sc, attack: attack as string, cost: [] }] : null;
   }),
+  P(/^(.+?) can't attack\.$/, ([who], src) => {
+    const sc = subject(who as string, src);
+    return sc ? [{ s: "cantAttack", scope: sc }] : null;
+  }),
   // —— Pokémon Checkup ——
   P(/^During Pokémon Checkup, put (\w+) more damage counters? on (.+?)\.$/, ([n, who], src) => {
     const k = Number(n) || ({ a: 1, an: 1, one: 1, two: 2, three: 3, four: 4, five: 5 } as Record<string, number>)[n as string];
