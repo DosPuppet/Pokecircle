@@ -74,6 +74,7 @@ export function takePrizes(s: GameState, p: PlayerId, n: number): void {
     ps.hand.push(c);
   }
   if (!taken.length) return;
+  s.turnLog.push({ turn: s.turn.number, player: p, kind: "prizesTaken", amount: taken.length });
   ps.prizesTaken += taken.length;
   bump(s);
   emit({ type: "prizes", player: p, cards: taken, defIds: taken.map((c) => obj(s, c).defId) });

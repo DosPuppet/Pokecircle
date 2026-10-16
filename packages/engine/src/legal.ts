@@ -173,7 +173,7 @@ export function attackPreview(s: GameState, p: PlayerId, a: AttackOption): { dam
   const id = playerOf(s, p).active;
   const target = playerOf(s, opponentOf(s, p)).active;
   if (!id || !target || !a.def.damage) return undefined;
-  const r = { player: p, source: id };
+  const r = { player: p, source: id, attack: { name: a.def.name } };
   const { amount } = computeAttackDamage(s, r, target, a.def.damage);
   return { damage: amount, ko: amount > 0 && pokemonOf(s, target).damage + amount >= chars(s, target).hp };
 }

@@ -12,7 +12,15 @@ export type StaticRule = (
   | /**
    * Attacks of the scope's Pokémon do more damage (before Weakness and Resistance), optionally only to Pokémon matching
    * `vs`, only to the opponent's Active Pokémon (`activeOnly`).
-   */ { s: "dealt"; scope: PokemonScope; add: Amount; vs?: PokemonFilter; activeOnly?: boolean }
+   */ {
+      s: "dealt";
+      scope: PokemonScope;
+      add: Amount;
+      vs?: PokemonFilter;
+      activeOnly?: boolean;
+      /** Only this attack ("this Pokémon's Mochi Rush attack does 50 more damage"). */
+      attack?: string;
+    }
   | /** Pokémon of the scope take more (or less, negative) damage from attacks, after Weakness and Resistance. */ {
       s: "taken";
       scope: PokemonScope;
@@ -58,6 +66,7 @@ export type StaticRule = (
       scope: PokemonScope;
     }
   | /** Damage counters on the scope's Pokémon cannot be moved (Patrat). */ { s: "noMoveCounters"; scope: PokemonScope }
+  | /** Pokémon Tools attached to every Pokémon have no effect (Jamming Tower; a Stadium's rule only). */ { s: "noTools" }
   | { s: "cantRetreat"; scope: PokemonScope }
   | { s: "cantEvolve"; scope: PokemonScope }
   | /** Bench size of the side's players. */ { s: "benchSize"; side: Side; size: number; scope?: PokemonScope }
@@ -70,6 +79,10 @@ export type StaticRule = (
       byAttack?: boolean;
       /** "This effect of your <card> can't be applied more than once per game." */
       oncePerGame?: boolean;
+      /** "flip a coin. If heads, take 1 more Prize card": flipped by the rule's owner when the Prizes are taken. */
+      flip?: boolean;
+      /** Only when Knocked Out by an attack of a Pokémon matching this (the opponent's Active Pokémon). */
+      by?: PokemonFilter;
     }
   | /** The scope's Pokémon may use an attack twice in a turn (Festival Lead). */ { s: "attackTwice"; scope: PokemonScope }
   | /** Basic Energy of a type attached to the scope's Pokémon provides these units instead. */ {

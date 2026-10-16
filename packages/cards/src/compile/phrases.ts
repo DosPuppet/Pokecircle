@@ -151,6 +151,13 @@ export function pokemonFilter(s: string): PokemonFilter | null {
     f.not = { types: [ty] };
     t = `${nonType[1] ? `${nonType[1]} ` : ""}${nonType[3]}`;
   }
+  const typeList = /^((?:\{[A-Z]\}, )+(?:or )?\{[A-Z]\}) (Pokémon.*)$/.exec(t);
+  if (typeList) {
+    const types = (typeList[1] as string).match(/\{[A-Z]\}/g)?.map((x) => typeSym(x));
+    if (!types || types.some((x) => !x)) return null;
+    f.types = types as EType[];
+    t = typeList[2] as string;
+  }
   const tag = /^(Ancient|Future|Tera) (.*)$/.exec(t);
   if (tag) {
     f.tags = [...(f.tags ?? []), tag[1] === "Ancient" ? "ancient" : tag[1] === "Future" ? "future" : "tera"];
@@ -288,6 +295,8 @@ export function eachPhrase(s: string, inAttack: boolean): Amount | null {
     if (f) return amt.pokemon(scope.of(m[1] === "your" ? "me" : "opp", m[2] === "Benched " ? "bench" : "any", f));
   }
   if (t === "Prize card your opponent has taken") return amt.prizesTaken("opp");
+  if (t === "Prize card your opponent took during their last turn")
+    return { k: "turnLog", event: "prizesTaken", side: "opp", previous: true, sum: true };
   if (t === "Prize card you have taken") return amt.prizesTaken("me");
   m = /^card in (your opponent's|your) hand$/.exec(t);
   if (m) return amt.cards("hand", m[1] === "your" ? "me" : "opp");
@@ -404,7 +413,7 @@ export function condPhrase(s: string, inAttack: boolean): Condition | null {
   if (m) {
     const r = pokemonRef(m[1] as string, inAttack);
     if (r) return cond.cmp(amt.counters(r), ">", 0);
-    const sc = scopePhrase(m[1] as string);
+    const sc = scopePhrase((m[1] as string).replace(/^any of /, ""));
     return sc ? cond.exists({ ...sc, filter: { ...sc.filter, damaged: true } }) : null;
   }
   m = /^(.+?) (?:has|have) no damage counters on (?:it|them)$/.exec(t);
@@ -562,10 +571,15 @@ export function condPhrase(s: string, inAttack: boolean): Condition | null {
     return cond.cmp(amt.cards("hand", "me"), "==", amt.cards("hand", "opp"));
   if (/^you don't have the same number of cards in your hand as your opponent$/.test(t))
     return cond.cmp(amt.cards("hand", "me"), "!=", amt.cards("hand", "opp"));
-  // "you played Emma from your hand during this turn"
-  m = /^you played ([A-Z][\w'.&-]*(?: [A-Z&][\w'.&-]*)*) from your hand during this turn$/.exec(t);
-  if (m && !/\bcard$/.test(m[1] as string)) {
-    const filter = { names: [m[1] as string] };
+  // "you played Emma from your hand during this turn", "you played a Supporter card that has "Team Rocket" in its name …"
+  m = /^you played (?:an? )?(.+?) from your hand (?:during )?this turn$/.exec(t);
+  const played = m
+    ? /^[A-Z][\w'.&-]*(?: [A-Z&][\w'.&-]*)*$/.test(m[1] as string) && !/\bcard\b/.test(m[1] as string)
+      ? { filter: { names: [m[1] as string] } }
+      : cardFilter(m[1] as string)
+    : null;
+  if (m && played?.filter) {
+    const filter = played.filter;
     return cond.cmp(
       amt.add(
         { k: "turnLog", event: "supporterPlayed", side: "me", filter },
@@ -586,6 +600,42 @@ export function condPhrase(s: string, inAttack: boolean): Condition | null {
   if (m) {
     const n = num(m[1]);
     return n === null ? null : cond.cmp(amt.cards("hand", "opp"), "==", n);
+  }
+  // "you have at least 4 {R} Energy in play"
+  m = /^you have at least (\w+) (\{[A-Z]\} )?Energy in play$/.exec(t);
+  if (m) {
+    const n = num(m[1]);
+    const type = m[2] ? typeSym(m[2].trim()) : undefined;
+    if (n === null || type === null) return null;
+    return cond.cmp(amt.energy(ref.all(scope.mine()), { units: true, ...(type ? { type } : {}) }), ">=", n);
+  }
+  // "you don't have 10 or more Basic {F} Energy cards in your discard pile"
+  m = /^you (don't )?have (\w+) or more (.+?) in your discard pile$/.exec(t);
+  if (m) {
+    const n = num(m[2]);
+    const f = cardFilter(m[3] as string);
+    if (n === null || !f) return null;
+    const k = cond.hasCards("discard", "me", f.filter, n);
+    return m[1] ? cond.not(k) : k;
+  }
+  // "any of your Hop's Pokémon were Knocked Out by damage from an attack during your opponent's last turn"
+  m = /^any of your (.+?) were Knocked Out by damage from an attack during your opponent's last turn$/.exec(t);
+  if (m) {
+    const f = cardFilter(m[1] as string);
+    return f?.filter
+      ? cond.cmp({ k: "turnLog", event: "knockedOut", side: "me", previous: true, filter: f.filter }, ">", 0)
+      : null;
+  }
+  // "this Pokémon used Spiky Rolling during your last turn"
+  m = /^this Pokémon used (.+?) during your last turn$/.exec(t);
+  if (m) return { c: "didLastTurn", kind: "attacked", ref: ref.self, key: m[1] as string };
+  // "this Pokémon is Burned or Poisoned"
+  m = /^(.+?) is (Asleep|Burned|Confused|Paralyzed|Poisoned) or (Asleep|Burned|Confused|Paralyzed|Poisoned)$/.exec(t);
+  if (m) {
+    const r = pokemonRef(m[1] as string, inAttack);
+    const a = status(m[2] as string);
+    const b = status(m[3] as string);
+    return r && a && b ? cond.or(cond.hasCondition(r, a), cond.hasCondition(r, b)) : null;
   }
   if (/^you have no cards in your hand$/.test(t)) return cond.cmp(amt.cards("hand", "me"), "==", 0);
   m = /^(your opponent|you) (?:has|have) exactly (\w+) Prize cards? remaining$/.exec(t);

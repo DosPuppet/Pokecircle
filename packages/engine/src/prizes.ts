@@ -1,6 +1,7 @@
 /** Prize cards for a Knocked Out Pokémon (R-KO-2): 1, 2 for a Pokémon ex, 3 for a Mega Evolution Pokémon ex. */
 
-import { topDef } from "./state";
+import { matchPokemon } from "./match";
+import { flipCoin, opponentOf, playerOf, pokemonOf, topDef } from "./state";
 import { rulesOn } from "./statics";
 import type { CardDef, GameState, PokemonId } from "./types";
 
@@ -17,6 +18,13 @@ export function prizesFor(s: GameState, id: PokemonId, byAttack = false, apply =
   let n = basePrizes(topDef(s, id));
   for (const st of rulesOn(s, "prizes", id)) {
     if (st.rule.byAttack && !byAttack) continue;
+    if (st.rule.by) {
+      const owner = pokemonOf(s, id).owner;
+      const attacker = playerOf(s, opponentOf(s, owner)).active;
+      if (!byAttack || !attacker || !matchPokemon(s, attacker, st.rule.by)) continue;
+    }
+    // A coin is flipped only when the Prize cards are taken (not for previews).
+    if (st.rule.flip && (!apply || !flipCoin(s, st.owner))) continue;
     if (st.rule.oncePerGame) {
       const key = `${st.owner}:prizes:${st.defId}`;
       if (s.usedOnce.includes(key)) continue;

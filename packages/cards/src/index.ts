@@ -12,6 +12,7 @@ import "./scripts/meta2";
 import "./scripts/me05";
 import "./scripts/me04";
 import "./scripts/me03";
+import "./scripts/me02.5";
 import { SET_REGISTRY } from "./setRegistry";
 import { SET_DATA } from "./sets";
 import { buildCatalog } from "./tcgdex";

@@ -9,8 +9,10 @@ import {
   cardsOfPokemon,
   createPokemon,
   defOf,
+  inPlay,
   moveCard,
   obj,
+  opponentOf,
   playerOf,
   pokemonOf,
   putOnPokemon,
@@ -67,6 +69,9 @@ export function switchActive(s: GameState, p: PlayerId, to: PokemonId, retreat =
   s.turnLog.push({ turn: s.turn.number, player: p, kind: "becameActive", pokemon: to });
   if (from) emit({ type: retreat ? "retreat" : "switch", player: p, from, to });
   queueTriggers(s, "becameActive", to);
+  // "Whenever your opponent's Active Pokémon moves to the Bench during their turn" (Team Rocket's Dugtrio, Magcargo).
+  if (from && s.turn.active === p)
+    for (const id of inPlay(s, opponentOf(s, p))) queueTriggers(s, "oppToBench", id, { event: { pokemon: from } });
 }
 
 /** Removes a Pokémon from play, moving all its cards to a zone. */

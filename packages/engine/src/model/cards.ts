@@ -82,6 +82,8 @@ export type TriggerEvent =
   | "checkup"
   /** This card was discarded from its owner's deck by an effect of the opponent (Ferrothorn). */
   | "discardedFromDeck"
+  /** The opponent's Active Pokémon moved to their Bench during their turn (event `pokemon`). */
+  | "oppToBench"
   /** At the end of its owner's turn. */
   | "turnEnd"
   /** The holder of this card used an attack (after it is done). */

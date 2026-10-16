@@ -191,12 +191,13 @@ export function evalAmount(s: GameState, ctx: Ctx, a: Amount): number {
     case "turnLog": {
       const turn = a.previous ? s.turn.number - 1 : s.turn.number;
       const players = sidePlayers(s, a.side ?? "me", ctx.player);
-      return s.turnLog.filter((e) => {
+      const entries = s.turnLog.filter((e) => {
         if (e.turn !== turn || e.kind !== a.event || !players.includes(e.player)) return false;
         if (!a.filter) return true;
         const d = e.defId ? s.defs[e.defId] : undefined;
         return !!d && matchCard(s, d, a.filter, ctx.player);
-      }).length;
+      });
+      return a.sum ? entries.reduce((n, e) => n + (e.amount ?? 0), 0) : entries.length;
     }
   }
 }
@@ -211,6 +212,17 @@ export function setBenchSize(fn: (s: GameState, p: PlayerId) => number): void {
 
 export function evalCond(s: GameState, ctx: Ctx, c: Condition): boolean {
   switch (c.c) {
+    case "didLastTurn": {
+      const ids = resolveRef(s, ctx, c.ref);
+      return s.turnLog.some(
+        (e) =>
+          e.turn === s.turn.number - 2 &&
+          e.kind === c.kind &&
+          !!e.pokemon &&
+          ids.includes(e.pokemon) &&
+          (!c.key || e.key === c.key),
+      );
+    }
     case "weakTo": {
       const target = resolveRef(s, ctx, c.ref)[0];
       const other = resolveRef(s, ctx, c.of)[0];

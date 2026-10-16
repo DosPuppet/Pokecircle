@@ -61,7 +61,7 @@ export function attackEffectsPrevented(s: GameState, r: Resolution, target: Poke
 /** The damage an attack would do to a target (no state change): used by the damage itself and by previews. */
 export function computeAttackDamage(
   s: GameState,
-  r: Pick<Resolution, "player" | "source">,
+  r: Pick<Resolution, "player" | "source"> & { attack?: { name?: string } },
   target: PokemonId,
   base: number,
   opts: DamageOptions = {},
@@ -77,6 +77,7 @@ export function computeAttackDamage(
     for (const st of rulesOn(s, "dealt", attacker)) {
       if (st.rule.activeOnly && !toOppActive) continue;
       if (st.rule.vs && !matchPokemon(s, target, st.rule.vs)) continue;
+      if (st.rule.attack && st.rule.attack !== r.attack?.name) continue;
       n += evalAmount(s, staticCtx(st.owner, st.source), st.rule.add);
     }
   if (toOppActive && !opts.noWR && attacker && s.pokemon[attacker]) {

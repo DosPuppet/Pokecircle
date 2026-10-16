@@ -114,6 +114,8 @@ export interface Frame {
 
 export interface AttackState {
   index: number;
+  /** The attack's English name. */
+  name?: string;
   /** The Defending Pokémon (R-ATTACK-3). */
   defending: PokemonId | null;
   /** Base damage after `setDamage`. */

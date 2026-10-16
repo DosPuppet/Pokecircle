@@ -20,7 +20,7 @@ export function subject(p: string, src: StaticSource): PokemonScope | null {
   // "the Stage 2 Pokémon this card is attached to"
   let m = /^the (.+?) this card is attached to$/i.exec(t);
   if (m && src === "tool") {
-    const f = pokemonFilter(m[1] as string);
+    const f = filterOrName(m[1] as string);
     return f ? { ...scope.self(), filter: f } : null;
   }
   if (/^both Active Pokémon$/i.test(t)) return scope.of("both", "active");
@@ -48,7 +48,7 @@ function filterOrName(p: string): PokemonFilter | null {
   const t = p.trim();
   const f = pokemonFilter(t);
   if (f) return f;
-  if (/^[A-Z][\w'.-]*(?: [A-Z][\w'.-]*)*$/.test(t) && !/Pokémon|Energy|card/.test(t)) return { names: [t] };
+  if (/^[A-Z][\w'.-]*(?: [A-Z][\w'.-]*)*(?: ex)?$/.test(t) && !/Pokémon|Energy|card/.test(t)) return { names: [t] };
   return null;
 }
 
@@ -78,8 +78,8 @@ const PREDICATES: Pred[] = [
   ),
   // —— damage dealt ——
   P(
-    /^(?:Attacks used by (.+?)|the attacks (it|this Pokémon) uses) do (\d+) more damage to (?:your|the) opponent's Active (.+?) \(before applying Weakness and Resistance\)\.$/,
-    ([who, it, n, vs], src) => {
+    /^(?:Attacks used by (.+?)|the attacks (it|this Pokémon) uses) do (\d+) more damage to (?:your|the) opponent's Active (.+?)(?: for each (.+?))? \(before applying Weakness and Resistance\)\.$/,
+    ([who, it, n, vs, each], src) => {
       const whoText = (who ?? it) as string;
       // "your Future Pokémon, except any Iron Crown ex"
       const except = /^(.+?), except any (.+)$/.exec(whoText);
@@ -88,7 +88,9 @@ const PREDICATES: Pred[] = [
       if (except) sc.filter = { ...sc.filter, not: { names: [except[2] as string] } };
       const v = pokemonFilter(vs as string);
       if (!v) return null;
-      const rule: StaticRule = { s: "dealt", scope: sc, add: Number(n), activeOnly: true };
+      const per = each ? eachPhrase(each, false) : undefined;
+      if (per === null) return null;
+      const rule: StaticRule = { s: "dealt", scope: sc, add: per ? amt.mul(Number(n), per) : Number(n), activeOnly: true };
       if (Object.keys(v).length) rule.vs = v;
       return [rule];
     },

@@ -46,6 +46,26 @@ function guarded(c: Parameters<typeof fx.if>[0], b: Built, before: Effect[] = []
 
 const own = (who: string) => /^this Pokémon$/.test(who);
 
+/** "Discard up to 2 {M} Energy from this Pokémon. This attack does 120 damage for each card you discarded in this way." */
+function discardSelfForDamage(w: string | undefined, what: string | undefined, n: string | undefined): Built | null {
+  const k = num(w);
+  const m = /^(?:(\{[A-Z]\}) )?Energy(?: cards?)?$/.exec((what ?? "").trim());
+  const type = m?.[1] ? typeSym(m[1]) : undefined;
+  if (!k || !m || type === null) return null;
+  const opts = type ? { types: [type] } : {};
+  return pre(
+    {
+      op: "chooseNumber",
+      min: 0,
+      max: amt.min(k, amt.energy(ref.self, type ? { type } : {})),
+      store: "k",
+      prompt: msg("How many Energy do you discard?"),
+    },
+    fx.discardEnergy(ref.self, amt.v("k"), opts),
+    fx.setDamage(amt.mul(Number(n), amt.v("k"))),
+  );
+}
+
 /** "Discard up to 2 Energy cards from your hand, and this attack does 60 (more) damage for each card you discarded…" */
 function discardForDamage(w: string | undefined, what: string | undefined, n: string | undefined, more: boolean): Built | null {
   const k = num(w);
@@ -280,6 +300,114 @@ export const ATTACK_TEMPLATES: Template<Ctx>[] = [
         ],
         noMain: true,
       };
+    },
+  ),
+  tpl(
+    "dmg.oppHandEach",
+    "Your opponent reveals their hand, and this attack does {n} damage for each {x} you find there.",
+    ([n, what]) => {
+      const f = cardFilter(what as string);
+      if (!f) return null;
+      return pre({ op: "revealHand", side: "opp" }, fx.setDamage(amt.mul(Number(n), amt.cards("hand", "opp", f.filter))));
+    },
+  ),
+  tpl("does.eachOfN", "This attack does {n} damage to each of {w} of {X}.", ([n, w, who]) => {
+    const k = num(w);
+    const sc = scopePhrase(who as string);
+    if (!k || !sc) return null;
+    return { post: [chooseIn(sc, "t", { min: k, max: k }), fx.damage(ref.v("t"), Number(n))], noMain: true };
+  }),
+  tpl(
+    "discardThen.paralyze",
+    "Discard {w} Energy from this Pokémon, and your opponent's Active Pokémon is now Paralyzed.",
+    ([w]) => {
+      const k = num(w);
+      return k ? post(fx.discardEnergy(ref.self, k), fx.condition(ref.defending, "paralyzed")) : null;
+    },
+  ),
+  tpl(
+    "may.discardParalyze",
+    "You may discard {w} {t} Energy from this Pokémon and make your opponent's Active Pokémon Paralyzed.",
+    ([w, t]) => {
+      const k = num(w);
+      const type = typeSym(t);
+      if (!k || !type) return null;
+      return post(
+        fx.if(cond.cmp(amt.energy(ref.self, { type }), ">=", k), [
+          fx.may(msg("Discard Energy to make the opponent's Active Pokémon Paralyzed?"), [
+            fx.discardEnergy(ref.self, k, { types: [type] }),
+            fx.condition(ref.defending, "paralyzed"),
+          ]),
+        ]),
+      );
+    },
+  ),
+  tpl(
+    "discardAll.counters",
+    "Discard all Energy from this Pokémon and put {w} damage counters on 1 of your opponent's Pokémon.",
+    ([w]) => {
+      const k = num(w);
+      return k
+        ? {
+            post: [
+              fx.discardEnergy(ref.self, "all"),
+              chooseIn(scope.theirs(), "t", { min: 1, max: 1 }),
+              fx.counters(ref.v("t"), k),
+            ],
+          }
+        : null;
+    },
+  ),
+  tpl("ko.oneOf", "Knock Out 1 of your opponent's Pokémon.", () => ({
+    post: [chooseIn(scope.theirs(), "t", { min: 1, max: 1 }), { op: "knockOut", target: ref.v("t") }],
+  })),
+  tpl(
+    "next.attackMore",
+    "During your next turn, this Pokémon's {x} attack does {n} more damage (before applying Weakness and Resistance).",
+    ([name, n]) =>
+      post(
+        fx.timed(
+          "yourNextTurn",
+          { s: "dealt", scope: scope.self(), add: Number(n), activeOnly: true, attack: name as string },
+          ref.self,
+        ),
+      ),
+  ),
+  tpl(
+    "discardThen.alsoBench",
+    "Discard {x} Energy from this Pokémon, and this attack also does {n} damage to 1 of your opponent's Benched Pokémon.",
+    ([w, n]) => {
+      const k = w === "all" ? "all" : num(w);
+      return k
+        ? post(
+            fx.discardEnergy(ref.self, k),
+            fx.if(cond.exists(scope.oppBench()), [
+              chooseIn(scope.oppBench(), "t", { min: 1, max: 1 }),
+              fx.damage(ref.v("t"), Number(n)),
+            ]),
+          )
+        : null;
+    },
+  ),
+  tpl(
+    "dmg.discardSelfEach",
+    "Discard up to {w} {X} from this Pokémon. This attack does {n} damage for each card you discarded in this way.",
+    ([w, what, n]) => discardSelfForDamage(w, what, n),
+  ),
+  tpl(
+    "dmg.discardSelfEachAnd",
+    "Discard up to {w} {X} from this Pokémon, and this attack does {n} damage for each card you discarded in this way.",
+    ([w, what, n]) => discardSelfForDamage(w, what, n),
+  ),
+  tpl(
+    "first.prizeRange",
+    "If your opponent doesn't have exactly {w} or {w} Prize cards remaining, this attack does nothing.",
+    ([a, b]) => {
+      const x = num(a);
+      const y = num(b);
+      if (x === null || y === null) return null;
+      const left = amt.prizesLeft("opp");
+      return pre(fx.if(cond.and(cond.cmp(left, "!=", x), cond.cmp(left, "!=", y)), [{ op: "attackFails" }]));
     },
   ),
   tpl(

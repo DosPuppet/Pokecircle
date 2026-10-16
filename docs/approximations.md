@@ -36,3 +36,5 @@ Every approximation of the official rules or of a card's text is listed here whe
 - Adversity Policy, Chesnaught's Needly Armor: what the holder is (its Weakness, its Energy) is read when the trigger
   resolves; if it was Knocked Out by that damage, Adversity Policy does nothing and Needly Armor counts no Energy.
 - Great Haul Net: "Choose 1 or both" is a choice between the first, the second or both effects.
+- Prize rules limited to the attacker (`by`: Mega Gengar ex, Anthea & Concordia) read the opponent's Active Pokémon as
+  the Knocking Out attacker.

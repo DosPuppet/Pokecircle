@@ -152,7 +152,7 @@ export type Amount =
   /** Damage done to a Pokémon by attacks during the previous turn (the opponent's last turn). */
   | { k: "damageTaken"; on: PokemonRef }
   /** Turn log entries of this turn (or the previous turn) matching a kind. */
-  | { k: "turnLog"; event: TurnEventKind; side?: Side; previous?: boolean; filter?: CardFilter };
+  | { k: "turnLog"; event: TurnEventKind; side?: Side; previous?: boolean; filter?: CardFilter; sum?: boolean };
 
 export type TurnEventKind =
   | "supporterPlayed"
@@ -170,7 +170,9 @@ export type TurnEventKind =
   /** A Pokémon was put onto the Bench. */
   | "benched"
   /** Damage was healed from a Pokémon. */
-  | "healed";
+  | "healed"
+  /** Prize cards were taken (`amount`). */
+  | "prizesTaken";
 
 export type Comparison = ">=" | ">" | "<=" | "<" | "==" | "!=";
 
@@ -178,6 +180,8 @@ export type Condition =
   | { c: "true" }
   /** `ref` has Weakness to a type of `of` ("has Weakness to your opponent's Active Pokémon's type"). */
   | { c: "weakTo"; ref: PokemonRef; of: PokemonRef }
+  /** `ref` did this during its owner's last turn (`key`: the attack's name: "used Spiky Rolling during your last turn"). */
+  | { c: "didLastTurn"; kind: TurnEventKind; ref: PokemonRef; key?: string }
   | { c: "heads"; key?: string }
   | { c: "cmp"; a: Amount; op: Comparison; b: Amount }
   | { c: "and"; of: Condition[] }

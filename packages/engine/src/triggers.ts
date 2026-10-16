@@ -4,7 +4,7 @@
  */
 
 import { defOf, pokemonOf, topDef } from "./state";
-import { abilitiesLocked } from "./statics";
+import { abilitiesLocked, toolsOff } from "./statics";
 import type { CardDef, GameState, ObjectId, PlayerId, PokemonId, QueuedTrigger, TriggerDef, TriggerEvent } from "./types";
 
 /** The trigger a queued entry designates. */
@@ -116,7 +116,7 @@ export function queueTriggers(s: GameState, on: TriggerEvent, pokemon: PokemonId
       });
     });
   if (on !== "playedToBench" && on !== "evolved")
-    for (const c of [...pk.tools, ...pk.energy]) {
+    for (const c of [...(toolsOff(s) ? [] : pk.tools), ...pk.energy]) {
       const d = defOf(s, c);
       (d.trainer?.triggers ?? []).forEach((t, j) => {
         if (matches(t, pk.owner)) push(out, d, `t:${j}`, pk.owner, pokemon, c, info.event);

@@ -172,7 +172,7 @@ export function applyMain(s: GameState, p: PlayerId, d: Decision): void {
         name: a.def.name,
         target: defending,
       });
-      s.turnLog.push({ turn: s.turn.number, player: p, kind: "attacked", pokemon: id, defId: top.id });
+      s.turnLog.push({ turn: s.turn.number, player: p, kind: "attacked", pokemon: id, defId: top.id, key: a.def.name });
       s.turn.attacks++;
       delete s.turn.again;
       // R-ATTACK-2: a Confused Pokémon flips a coin; tails, 3 damage counters on itself and the attack does nothing.
@@ -203,6 +203,7 @@ export function applyMain(s: GameState, p: PlayerId, d: Decision): void {
         effects,
         attack: {
           index: a.index,
+          name: a.def.name,
           defending,
           base: a.def.damage,
           bonus: 0,

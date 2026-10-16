@@ -355,11 +355,14 @@ export function compileAbility(text: string): AbilityParts | { unmatched: string
       { byOpponentAttack: true },
     ],
     [/^During Pokémon Checkup, (.+)$/, "checkup", {}],
+    [/^Whenever your opponent's Active Pokémon moves to the Bench during their turn, (.+)$/, "oppToBench", {}],
   ];
   for (const [re, on, opts] of trig) {
     const m = re.exec(rest);
     if (!m) continue;
-    const b = body(sentence(m[1] as string));
+    // The Pokémon of the event: "that Pokémon" (it moved to the Bench), "their new Active Pokémon".
+    const text = on === "oppToBench" ? (m[1] as string).replace(/\bthat Pokémon\b/g, "the moved Pokémon") : (m[1] as string);
+    const b = body(sentence(text));
     if (!b) return { unmatched: m[1] as string };
     const extra: Partial<TriggerDef> = { ...opts };
     if (lim.onceKey) extra.onceKey = lim.onceKey;
@@ -383,6 +386,18 @@ export function compileAbility(text: string): AbilityParts | { unmatched: string
     );
     condition = cond.cmp(amt.cards("hand", "me"), ">=", n);
     rest = rest.slice(cost[0].length);
+  }
+  // "You must discard a Basic {L} Energy from this Pokémon in order to use this Ability."
+  const selfCost =
+    /^You must discard (a|an|\w+) (Basic )?(\{[A-Z]\} )?Energy from this Pokémon in order to use this Ability\. /.exec(rest);
+  if (selfCost) {
+    const n = num(selfCost[1]) ?? 1;
+    const type = selfCost[3] ? typeSym(selfCost[3].trim()) : undefined;
+    if (type === null) return { unmatched: rest };
+    const opts = { ...(type ? { type } : {}), ...(selfCost[2] ? { basic: true } : {}) };
+    pre.push(fx.discardEnergy(ref.self, n, { ...(type ? { types: [type] } : {}) }));
+    condition = cond.cmp(amt.energy(ref.self, opts), ">=", n);
+    rest = rest.slice(selfCost[0].length);
   }
   const forms: [RegExp, (g: string[]) => boolean][] = [
     [

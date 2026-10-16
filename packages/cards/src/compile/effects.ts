@@ -327,6 +327,98 @@ export const COMMON: Template<Ctx>[] = [
     const k = num(w);
     return k === 1 ? post(fx.moveEnergy(ref.self, scope.myBench(), 1)) : null;
   }),
+  tpl("energy.moveTypedToBench", "Move a {t} Energy from this Pokémon to 1 of your Benched Pokémon.", ([t]) => {
+    const type = typeSym(t);
+    return type ? post(fx.moveEnergy(ref.self, scope.myBench(), 1, [type])) : null;
+  }),
+  tpl("energy.gatherOne", "Move an Energy from 1 of your other Pokémon to this Pokémon.", () => {
+    const from = { ...scope.mine({ hasEnergy: true }), notSelf: true };
+    return {
+      post: [chooseIn(from, "from", { min: 1, max: 1 }), fx.moveEnergy(ref.v("from"), scope.self(), 1)],
+      condition: cond.exists(from),
+    };
+  }),
+  tpl("hand.attachToActiveOf", "Attach an Energy card from your hand to your Active {X}.", ([who]) => {
+    const f = pokemonFilter(who as string);
+    if (!f) return null;
+    const filter = { category: ["energy" as const] };
+    return {
+      post: [
+        fx.chooseCards("hand", "e", msg("Choose an Energy card from your hand"), { filter, min: 1, max: 1 }),
+        fx.attach("e", scope.myActive()),
+      ],
+      condition: cond.and(cond.hasCards("hand", "me", filter), cond.matches(ref.myActive, f)),
+    };
+  }),
+  tpl("draw.eachPlayer", "Each player draws {w} card{s}.", ([w]) => {
+    const k = num(w);
+    return k ? post(fx.draw(k, "me"), fx.draw(k, "opp")) : null;
+  }),
+  tpl("energy.oppActiveToHand", "Put {w} Energy attached to your opponent's Active Pokémon into their hand.", ([w], ctx) => {
+    const k = num(w);
+    return k ? post(fx.discardEnergy(ctx.inAttack ? ref.defending : ref.oppActive, k, { to: "hand" })) : null;
+  }),
+  tpl("counters.onMoved", "Put {w} damage counter{s} on the moved Pokémon.", ([w]) => {
+    const k = num(w);
+    return k ? post(fx.counters({ ev: "pokemon" }, k)) : null;
+  }),
+  tpl("status.newActive", "Their new Active Pokémon is now {x}.", ([what]) => {
+    const st = status(what as string);
+    return st ? post(fx.condition(ref.oppActive, st)) : null;
+  }),
+  tpl("switch.selfTyped", "Switch this Pokémon with 1 of your Benched {X}.", ([who]) => {
+    const sc = scopePhrase(`your Benched ${who}`);
+    if (!sc) return null;
+    return {
+      post: [chooseIn(sc, "w", { min: 1, max: 1 }), { op: "switch", side: "me", with: "w" }],
+      condition: cond.exists(sc),
+    };
+  }),
+  tpl(
+    "switch.mineThenDraw",
+    "Switch your Active Pokémon with 1 of your Benched Pokémon. If you do, draw cards until you have {w} cards in your hand.",
+    ([w]) => {
+      const k = num(w);
+      return k ? { post: [fx.switch("me"), fx.drawUntil(k)], condition: cond.exists(scope.myBench()) } : null;
+    },
+  ),
+  tpl("hand.oppShufflesN", "Your opponent chooses {w} cards from their hand and shuffles those cards into their deck.", ([w]) => {
+    const k = num(w);
+    return k
+      ? post(
+          fx.chooseCards("hand", "x", msg("Choose cards to shuffle into your deck"), {
+            side: "opp",
+            chooser: "opp",
+            min: amt.min(k, amt.cards("hand", "opp")),
+            max: k,
+          }),
+          fx.move("x", "deck"),
+          fx.shuffle("opp"),
+        )
+      : null;
+  }),
+  tpl("hand.attachUpToOne", "Attach up to {w} Basic {t} Energy cards from your hand to 1 of your {X}.", ([w, t, who]) => {
+    const k = num(w);
+    const type = typeSym(t);
+    const sc = scopePhrase(`your ${who}`);
+    if (!k || !type || !sc) return null;
+    const filter = { category: ["energy" as const], basicEnergy: true, energyTypes: [type] };
+    return {
+      post: [
+        fx.chooseCards("hand", "e", msg("Choose Energy cards from your hand"), { filter, min: 0, max: k }),
+        ...attachTo("e", sc, true, k),
+      ],
+      condition: cond.and(cond.hasCards("hand", "me", filter), cond.exists(sc)),
+    };
+  }),
+  tpl("stadium.thenDiscard", "Then, discard that Stadium.", () => post(fx.discardStadium())),
+  tpl("search.may", "You may search your deck for {x} and {x}. Then, shuffle your deck.", ([what, dest], ctx) => {
+    const m = /^(a|an|up to \w+|any number of|\w+) (.+)$/.exec(what as string);
+    const count = m ? countPhrase(m[1] as string) : null;
+    if (!m || !count) return null;
+    const e = searchEffects(count, m[2] as string, dest as string, ctx);
+    return e ? post(fx.may(msg("Search your deck?"), e)) : null;
+  }),
   tpl(
     "energy.mayMoveOppToBench",
     "You may move an Energy from your opponent's Active Pokémon to {w} of their Benched Pokémon.",

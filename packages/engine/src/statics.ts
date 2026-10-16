@@ -74,8 +74,14 @@ function rawStatics(s: GameState): ActiveStatic[] {
   return raw;
 }
 
+/** Jamming Tower: "Pokémon Tools attached to each Pokémon (both yours and your opponent's) have no effect." */
+export function toolsOff(s: GameState): boolean {
+  return !!s.stadium && !!defOf(s, s.stadium).trainer?.statics?.some((r) => r.s === "noTools");
+}
+
 function collectRaw(s: GameState): ActiveStatic[] {
   const out: ActiveStatic[] = [];
+  const noTools = toolsOff(s);
   for (const id of allInPlay(s)) {
     const pk = pokemonOf(s, id);
     const d = topDef(s, id);
@@ -84,7 +90,7 @@ function collectRaw(s: GameState): ActiveStatic[] {
     // A Trainer card in play as a Pokémon (Fossils): its own rules.
     if (d.trainer?.asPokemon)
       for (const rule of d.trainer.statics ?? []) out.push({ rule, owner: pk.owner, source: id, defId: d.id, kind: "card" });
-    for (const t of pk.tools) {
+    for (const t of noTools ? [] : pk.tools) {
       const td = defOf(s, t);
       for (const rule of td.trainer?.statics ?? [])
         out.push({ rule, owner: pk.owner, source: id, defId: td.id, kind: "tool", card: t });
@@ -180,7 +186,7 @@ function compute(s: GameState, id: PokemonId): Chars {
   if (d.weakness) c.weakness = d.weakness;
   if (d.resistance) c.resistance = d.resistance;
   // Attacks given by Tools.
-  for (const t of pk.tools) {
+  for (const t of toolsOff(s) ? [] : pk.tools) {
     const td = defOf(s, t);
     (td.trainer?.attacks ?? []).forEach((def, index) => {
       c.attacks.push({ index, def, source: t, cost: [...def.cost] });
