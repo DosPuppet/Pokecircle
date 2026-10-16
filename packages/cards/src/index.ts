@@ -16,6 +16,7 @@ import "./scripts/me02.5";
 import "./scripts/me02";
 import "./scripts/me01";
 import "./scripts/sv10.5";
+import "./scripts/sv10";
 import { SET_REGISTRY } from "./setRegistry";
 import { SET_DATA } from "./sets";
 import { buildCatalog } from "./tcgdex";

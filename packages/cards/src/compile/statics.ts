@@ -6,7 +6,10 @@
  */
 import type { Amount, Condition, PokemonFilter, PokemonScope, SpecialCondition, StaticRule } from "@pokecircle/engine";
 import { amt, cond, scope } from "@pokecircle/engine";
-import { condPhrase, eachPhrase, num, pokemonFilter, scopePhrase, status, typeSym } from "./phrases";
+import { cardFilter, condPhrase, eachPhrase, num, pokemonFilter, scopePhrase, status, typeSym } from "./phrases";
+
+const cardFilterOf = (s: string) => cardFilter(s)?.filter ?? null;
+
 import { normalize, sentence } from "./templates";
 
 export type StaticSource = "ability" | "tool" | "stadium";
@@ -254,6 +257,20 @@ const PREDICATES: Pred[] = [
   P(/^(.+?) can evolve during your first turn or the turn you play it\.$/, ([who], src) => {
     const sc = subject(who as string, src);
     return sc ? [{ s: "evolveSameTurn", scope: sc, firstTurn: true }] : null;
+  }),
+  P(
+    /^Whenever your opponent plays an Item or Supporter card from their hand, prevent all effects of that card done to (.+?)\.$/,
+    ([who], src) => {
+      const sc = subject(who as string, src);
+      return sc ? [{ s: "shielded", scope: sc, from: "trainers" }] : null;
+    },
+  ),
+  P(/^Your opponent can't play any Pokémon that has an Ability from their hand(?:, except for (.+?))?\.$/, ([except]) => {
+    const ex = except ? cardFilterOf(except) : undefined;
+    if (ex === null) return null;
+    return [
+      { s: "cantPlayPokemon", side: "opp", filter: { category: ["pokemon"], hasAbility: true }, ...(ex ? { except: ex } : {}) },
+    ];
   }),
   // —— Pokémon Checkup ——
   P(/^During Pokémon Checkup, put (\w+) more damage counters? on (.+?)\.$/, ([n, who], src) => {

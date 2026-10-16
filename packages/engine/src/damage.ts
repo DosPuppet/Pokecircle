@@ -151,7 +151,8 @@ export function dealAttackDamage(s: GameState, r: Resolution, target: PokemonId,
     });
     // "If this Pokémon is damaged by an attack (even if it is Knocked Out), put N damage counters on the Attacking Pokémon."
     if (r.source && s.pokemon[r.source] && t.owner !== r.player)
-      for (const st of rulesOn(s, "retaliate", target)) putCounters(s, null, r.source, st.rule.counters);
+      for (const st of rulesOn(s, "retaliate", target))
+        putCounters(s, null, r.source, st.rule.asDamage ? res.amount / 10 : st.rule.counters);
   }
   emit({
     type: "damage",

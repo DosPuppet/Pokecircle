@@ -557,6 +557,56 @@ export const ATTACK_TEMPLATES: Template<Ctx>[] = [
     return { altCost: { cost: types as EType[], cond: k } };
   }),
   tpl(
+    "cost.discardHandKo",
+    "Discard {w} {x} from your hand, and Knock Out your opponent's Active Pokémon. If you can't discard {w} cards in this way, this attack does nothing.",
+    ([w, what, w2]) => {
+      const k = num(w);
+      const f = cardFilter(what as string);
+      if (!k || num(w2) !== k || !f) return null;
+      return pre(
+        fx.if(
+          cond.hasCards("hand", "me", f.filter, k),
+          [
+            fx.chooseCards("hand", "d", msg("Choose cards to discard from your hand"), {
+              ...(f.filter ? { filter: f.filter } : {}),
+              min: k,
+              max: k,
+            }),
+            fx.move("d", "discard"),
+            { op: "knockOut", target: ref.defending },
+          ],
+          [{ op: "attackFails" }],
+        ),
+      );
+    },
+  ),
+  tpl("may.discardStadiumMore", "You may discard a Stadium in play. If you do, this attack does {n} more damage.", ([n]) =>
+    pre(fx.if({ c: "stadium" }, [fx.may(msg("Discard the Stadium in play?"), [fx.discardStadium(), fx.bonus(Number(n))])])),
+  ),
+  tpl(
+    "also.benchDamaged",
+    "This attack also does {n} damage to each Benched Pokémon that has any damage counters on it (both yours and your opponent's).",
+    ([n]) => post(fx.damage(ref.all(scope.of("both", "bench", { damaged: true })), Number(n))),
+  ),
+  tpl(
+    "does.perCountersBench",
+    "This attack does {n} damage to 1 of your opponent's Benched Pokémon for each damage counter on that Pokémon.",
+    ([n]) => ({
+      post: [
+        fx.if(cond.exists(scope.oppBench()), [
+          chooseIn(scope.oppBench(), "t", { min: 1, max: 1 }),
+          fx.damage(ref.v("t"), amt.mul(Number(n), amt.counters(ref.v("t")))),
+        ]),
+      ],
+      noMain: true,
+    }),
+  ),
+  tpl(
+    "next.retaliateDamage",
+    "During your opponent's next turn, if this Pokémon is damaged by an attack (even if this Pokémon is Knocked Out), put damage counters on the Attacking Pokémon equal to the damage done to this Pokémon.",
+    () => post(fx.timed("opponentsNextTurn", { s: "retaliate", scope: scope.self(), counters: 0, asDamage: true }, ref.self)),
+  ),
+  tpl(
     "first.prizeRange",
     "If your opponent doesn't have exactly {w} or {w} Prize cards remaining, this attack does nothing.",
     ([a, b]) => {

@@ -44,3 +44,6 @@ Every approximation of the official rules or of a card's text is listed here whe
 - Strange Timepiece: "any number of Evolution cards" is one, then a question for a second.
 - Hydreigon ex's Greedy Eater: read as "while this Pokémon is your Active Pokémon, a Basic Pokémon Knocked Out by an
   attack of a Hydreigon ex gives 1 more Prize card".
+- Team Rocket's Bother-Bot: the Prize card turned face up is revealed to both players, but it does not stay face up
+  (Prize cards are hidden from both players).
+- Forretress' Iron Shake-Up: "any amount" is up to 20 moves, one Energy at a time, until the player stops.

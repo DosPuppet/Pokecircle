@@ -45,6 +45,19 @@ export interface TriggerInfo {
 }
 
 /** Queues the triggers of an event on a Pokémon (its Abilities, Tools and Energy, or the card concerned). */
+/** Queues triggers, keeping one per player, event and "doesn't stack" key. */
+function enqueue(s: GameState, out: QueuedTrigger[]): void {
+  const stackKey = (q: QueuedTrigger) => {
+    const key = triggerDef(s, q)?.noStack;
+    return key ? `${q.player}:${key}:${JSON.stringify(q.event ?? {})}` : null;
+  };
+  for (const q of out) {
+    const k = stackKey(q);
+    if (k && s.queue.some((other) => stackKey(other) === k)) continue;
+    s.queue.push(q);
+  }
+}
+
 export function queueTriggers(s: GameState, on: TriggerEvent, pokemon: PokemonId | null, info: TriggerInfo = {}): void {
   const out: QueuedTrigger[] = [];
   if (on === "benched") {
@@ -56,7 +69,7 @@ export function queueTriggers(s: GameState, on: TriggerEvent, pokemon: PokemonId
         if (t.on === "benched") push(out, d, `t:${j}`, owner, null, s.stadium, info.event);
       });
     }
-    s.queue.push(...out);
+    enqueue(s, out);
     return;
   }
   const matches = (t: TriggerDef, owner: PlayerId) =>
@@ -70,7 +83,7 @@ export function queueTriggers(s: GameState, on: TriggerEvent, pokemon: PokemonId
     (d.trainer?.triggers ?? []).forEach((t, j) => {
       if (matches(t, owner)) push(out, d, `t:${j}`, owner, pokemon, info.card ?? null, info.event);
     });
-    s.queue.push(...out);
+    enqueue(s, out);
     return;
   }
   // A card of the deck (Ferrothorn): its own Abilities, as a card, not a Pokémon in play.
@@ -82,7 +95,7 @@ export function queueTriggers(s: GameState, on: TriggerEvent, pokemon: PokemonId
         if (matches(t, owner)) push(out, d, `a:${i}:${j}`, owner, null, info.card ?? null, info.event);
       });
     });
-    s.queue.push(...out);
+    enqueue(s, out);
     return;
   }
   if (info.gone) {
@@ -103,7 +116,7 @@ export function queueTriggers(s: GameState, on: TriggerEvent, pokemon: PokemonId
         if (d && matches(t, g.owner)) push(out, d, `e:${j}`, g.owner, pokemon, g.attached[k] ?? null, info.event);
       });
     });
-    s.queue.push(...out);
+    enqueue(s, out);
     return;
   }
   if (!pokemon || !s.pokemon[pokemon]) return;
@@ -125,5 +138,5 @@ export function queueTriggers(s: GameState, on: TriggerEvent, pokemon: PokemonId
         if (matches(t, pk.owner)) push(out, d, `e:${j}`, pk.owner, pokemon, c, info.event);
       });
     }
-  s.queue.push(...out);
+  enqueue(s, out);
 }

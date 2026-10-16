@@ -43,6 +43,11 @@ export function checkKnockouts(s: GameState): boolean {
     const cards: ObjectId[] = cardsOfPokemon(s, id);
     removePokemon(s, id);
     for (const c of cards) moveCard(s, c, "discard");
+    for (const ally of inPlay(s, pk.owner))
+      queueTriggers(s, "allyKnockedOut", ally, {
+        ...(attackerOwner !== undefined ? { attacker: attackerOwner } : {}),
+        event: { pokemon: id, defId: top.id, attached: attached.join(","), ...(byAttack ? { byAttack: "1" } : {}) },
+      });
     queueTriggers(s, "knockedOut", id, {
       ...(attackerOwner !== undefined ? { attacker: attackerOwner } : {}),
       gone: { owner: pk.owner, top: top.id, attached, attachedDefs },

@@ -6,7 +6,7 @@ import { computeAttackDamage } from "./damage";
 import { evalCond } from "./effects";
 import { canPay, suggestRetreat, unitsOf } from "./energy";
 import { defOf, inPlay, isFirstTurnOf, opponentOf, playerOf, pokemonOf, topDef } from "./state";
-import { type AttackOption, benchSize, canPlayKind, chars, rulesOn, toolSlots } from "./statics";
+import { type AttackOption, benchSize, canPlayKind, canPlayPokemonCard, chars, rulesOn, toolSlots } from "./statics";
 import type { ActionOption, CardDef, GameState, ObjectId, PlayerId, PokemonId } from "./types";
 
 const ctxFor = (p: PlayerId, card: ObjectId | null, source: PokemonId | null = null) => ({
@@ -25,7 +25,8 @@ export function canPlayBasic(s: GameState, p: PlayerId, card: ObjectId): boolean
   const d = defOf(s, card);
   // A Trainer played as a Pokémon (Fossils) is also an Item: Item locks apply.
   const asPokemon = !!d.trainer?.asPokemon && implementedTrainer(d) && canPlayKind(s, p, "item", d.tags);
-  return ((d.category === "pokemon" && d.stage === "basic") || asPokemon) && playerOf(s, p).bench.length < benchSize(s, p);
+  const basic = d.category === "pokemon" && d.stage === "basic" && canPlayPokemonCard(s, p, d);
+  return (basic || asPokemon) && playerOf(s, p).bench.length < benchSize(s, p);
 }
 
 /** Trainer cards in play as Pokémon that their owner may discard (main phase of their turn). */
@@ -37,7 +38,7 @@ export function discardableFromPlay(s: GameState, p: PlayerId): PokemonId[] {
 export function evolveTargets(s: GameState, p: PlayerId, card: ObjectId): PokemonId[] {
   if (!inHand(s, p, card)) return [];
   const d = defOf(s, card);
-  if (d.category !== "pokemon" || d.stage === "basic" || !d.evolvesFrom) return [];
+  if (d.category !== "pokemon" || d.stage === "basic" || !d.evolvesFrom || !canPlayPokemonCard(s, p, d)) return [];
   const firstTurn = isFirstTurnOf(s, p);
   return inPlay(s, p).filter((id) => {
     // "This Pokémon can evolve during your first turn or the turn you play it."

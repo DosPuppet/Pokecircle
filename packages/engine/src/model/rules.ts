@@ -3,7 +3,7 @@
  * Scopes are relative to the owner of the source (the controller of a timed effect). Read by `statics.ts`.
  */
 import type { CardTag, EType } from "./cards";
-import type { Amount, Condition, Effect, PokemonFilter, PokemonScope, Side, SpecialCondition } from "./effects";
+import type { Amount, CardFilter, Condition, Effect, PokemonFilter, PokemonScope, Side, SpecialCondition } from "./effects";
 
 export type StaticRule = (
   | /** Retreat Cost: +delta, or set to a value. */ { s: "retreat"; scope: PokemonScope; delta?: number; set?: number }
@@ -145,7 +145,13 @@ export type StaticRule = (
   | /**
    * When a Pokémon of the scope is damaged by an attack of the opponent's Pokémon (even if it is Knocked Out), put
    * damage counters on the Attacking Pokémon.
-   */ { s: "retaliate"; scope: PokemonScope; counters: number }
+   */ { s: "retaliate"; scope: PokemonScope; counters: number; asDamage?: boolean }
+  | /** Players of the side cannot play Pokémon matching `filter` from their hand (Team Rocket's Arbok). */ {
+      s: "cantPlayPokemon";
+      side: Side;
+      filter: CardFilter;
+      except?: CardFilter;
+    }
   | /** At the end of the turn the (timed) rule lasts until, its effects resolve on each Pokémon of the scope ("self"). */ {
       s: "endOfTurn";
       scope: PokemonScope;

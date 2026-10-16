@@ -90,6 +90,10 @@ export type TriggerEvent =
   | "movedToBench"
   /** Another of its owner's Pokémon moved to the Active Spot (event `pokemon`). */
   | "allyBecameActive"
+  /** Another of its owner's Pokémon was Knocked Out (event `pokemon`, `attached`, `byAttack`). */
+  | "allyKnockedOut"
+  /** The opponent played a Pokémon from their hand to evolve one of theirs (event `pokemon`). */
+  | "oppEvolved"
   /** At the end of its owner's turn. */
   | "turnEnd"
   /** The holder of this card used an attack (after it is done). */
@@ -108,6 +112,8 @@ export interface TriggerDef {
   oncePerTurn?: boolean;
   /** Once per turn for every trigger sharing this key ("You can't use more than 1 … Ability each turn"). */
   onceKey?: string;
+  /** "The effect of … doesn't stack": one such trigger per player and event. */
+  noStack?: string;
   effects: Effect[];
 }
 

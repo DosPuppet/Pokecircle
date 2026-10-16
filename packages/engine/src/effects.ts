@@ -230,6 +230,10 @@ export function evalCond(s: GameState, ctx: Ctx, c: Condition): boolean {
       const w = chars(s, target).weakness;
       return !!w && chars(s, other).types.includes(w.type);
     }
+    case "eventCard": {
+      const d = s.defs[String(ctx.vars[`ev:${c.key}`]?.[0] ?? "")];
+      return !!d && matchCard(s, d, c.filter, ctx.player);
+    }
     case "myTurn":
       return s.turn.active === ctx.player;
     case "true":

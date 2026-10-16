@@ -620,6 +620,96 @@ export const COMMON: Template<Ctx>[] = [
       ],
     }),
   ),
+  tpl("energy.moveNToBench", "Move {w} Energy from this Pokémon to 1 of your Benched Pokémon.", ([w]) => {
+    const k = num(w);
+    if (!k || k < 2) return null;
+    return post(fx.moveEnergy(ref.self, scope.myBench(), k));
+  }),
+  tpl("draw.bottom", "Draw {w} cards from the bottom of your deck.", ([w]) => {
+    const k = num(w);
+    return k
+      ? post(
+          fx.chooseCards("deck", "b", msg("The bottom cards of your deck"), { bottom: k, min: 0, max: k, random: true }),
+          fx.move("b", "hand"),
+        )
+      : null;
+  }),
+  tpl("look.oppTopOrder", "Look at the top {w} cards of your opponent's deck and put them back in any order.", ([w]) => {
+    const k = num(w);
+    return k
+      ? post(
+          fx.chooseCards("deck", "top", msg("The top cards of your opponent's deck"), {
+            side: "opp",
+            top: k,
+            min: 0,
+            max: k,
+            random: true,
+          }),
+          { op: "orderCards", key: "top", prompt: msg("Put them back in any order (first = top)") },
+          fx.move("top", "deckTop"),
+        )
+      : null;
+  }),
+  tpl("look.oppPrize", "Look at 1 of your opponent's face-down Prize cards.", () =>
+    post({ op: "look", zone: "prizes", side: "opp", top: 1 }),
+  ),
+  tpl(
+    "delayed.discardDefending",
+    "At the end of your opponent's next turn, discard the Defending Pokémon and all attached cards.",
+    () =>
+      post(
+        fx.timed(
+          "opponentsNextTurn",
+          { s: "endOfTurn", scope: scope.self(), effects: [fx.pokemonTo(ref.self, "discard")] },
+          ref.defending,
+        ),
+      ),
+  ),
+  tpl(
+    "delayed.countersDefending",
+    "At the end of your opponent's next turn, put {w} damage counters on the Defending Pokémon.",
+    ([w]) => {
+      const k = num(w);
+      return k
+        ? post(
+            fx.timed(
+              "opponentsNextTurn",
+              { s: "endOfTurn", scope: scope.self(), effects: [fx.counters(ref.self, k)] },
+              ref.defending,
+            ),
+          )
+        : null;
+    },
+  ),
+  tpl("delayed.koDefending", "At the end of your opponent's next turn, the Defending Pokémon will be Knocked Out.", () =>
+    post(
+      fx.timed(
+        "opponentsNextTurn",
+        { s: "endOfTurn", scope: scope.self(), effects: [{ op: "knockOut", target: ref.self }] },
+        ref.defending,
+      ),
+    ),
+  ),
+  tpl("counters.chooseEach", "Choose {w} of your opponent's Pokémon and put {w} damage counters on each of them.", ([w, n]) => {
+    const k = num(w);
+    const c = num(n);
+    return k && c ? post(chooseIn(scope.theirs(), "t", { min: k, max: k }), fx.counters(ref.v("t"), c)) : null;
+  }),
+  tpl(
+    "switch.mayOpp",
+    "You may switch out your opponent's Active Pokémon to the Bench. (Your opponent chooses the new Active Pokémon.)",
+    () =>
+      post(
+        fx.if(cond.exists(scope.oppBench()), [
+          fx.may(msg("Switch out your opponent's Active Pokémon?"), [fx.switch("opp", "opp")]),
+        ]),
+      ),
+  ),
+  tpl("draw.ifMore", "If {x}, draw {w} more cards.", ([c, w], ctx) => {
+    const k = condPhrase(c as string, ctx.inAttack);
+    const n = num(w);
+    return k && n ? post(fx.if(k, [fx.draw(n)])) : null;
+  }),
   tpl("stadium.thenDiscard", "Then, discard that Stadium.", () => post(fx.discardStadium())),
   tpl("search.may", "You may search your deck for {x} and {x}. Then, shuffle your deck.", ([what, dest], ctx) => {
     const m = /^(a|an|up to \w+|any number of|\w+) (.+)$/.exec(what as string);

@@ -657,6 +657,11 @@ export function condPhrase(s: string, inAttack: boolean): Condition | null {
     const n = num(m[1]);
     return n === null ? null : cond.cmp(amt.pokemon(scope.myBench()), m[2] === "fewer" ? "<=" : ">=", n);
   }
+  m = /^an? (.+?) is on your Bench$/.exec(t);
+  if (m) {
+    const f = pokemonFilter(m[1] as string);
+    if (f) return cond.exists(scope.myBench(f));
+  }
   m = /^([A-Z][\w'.-]*(?: [A-Z][\w'.-]*)*(?: ex)?) is on your Bench$/.exec(t);
   if (m && m[1] !== "This Pokémon") return cond.exists(scope.myBench({ names: [m[1] as string] }));
   m = /^(.+?) has (\{[A-Z]\}) Resistance$/.exec(t);

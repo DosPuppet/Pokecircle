@@ -61,6 +61,7 @@ export const HANDLERS: OpHandlers = {
       const options = pk.energy.filter((c) => {
         const d = defOf(s, c);
         if (e.special && d.energy?.basic) return false;
+        if (e.names && !e.names.includes(d.name)) return false;
         return !e.types || (d.energy?.provides ?? []).some((u) => e.types?.some((x) => u.includes(x) || u.includes("*")));
       });
       const n = e.n === "all" ? options.length : Math.min(evalAmount(s, r, e.n), options.length);

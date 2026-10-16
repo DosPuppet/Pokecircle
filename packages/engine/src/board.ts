@@ -55,7 +55,13 @@ export function evolvePokemon(s: GameState, card: ObjectId, target: PokemonId, f
   endAttackEffects(s, target);
   s.turnLog.push({ turn: s.turn.number, player: pk.owner, kind: "evolved", pokemon: target, defId: obj(s, card).defId });
   emit({ type: "evolve", player: pk.owner, pokemon: target, defId: obj(s, card).defId, from });
-  if (fromHand) queueTriggers(s, "evolved", target, { card });
+  if (fromHand) {
+    queueTriggers(s, "evolved", target, { card });
+    // "Whenever your opponent plays a Pokémon from their hand to evolve 1 of their Pokémon" (Team Rocket's Ampharos).
+    const opp = inPlay(s, opponentOf(s, pk.owner));
+    const batch: Parameters<typeof queueTriggers>[3] = { event: { pokemon: target } };
+    for (const id of opp) queueTriggers(s, "oppEvolved", id, batch);
+  }
 }
 
 /** Switches a player's Active Pokémon with a Benched one (not a retreat, R-RETREAT-4). */
@@ -81,10 +87,10 @@ export function switchActive(s: GameState, p: PlayerId, to: PokemonId, retreat =
 }
 
 /** Removes a Pokémon from play, moving all its cards to a zone. */
-export function pokemonLeaves(s: GameState, id: PokemonId, to: "hand" | "deck" | "discard" | "lostZone"): ObjectId[] {
+export function pokemonLeaves(s: GameState, id: PokemonId, to: "hand" | "deck" | "deckTop" | "discard" | "lostZone"): ObjectId[] {
   const cards = cardsOfPokemon(s, id);
   removePokemon(s, id);
-  return cards.map((c) => moveCard(s, c, to));
+  return cards.map((c) => (to === "deckTop" ? moveCard(s, c, "deck", { top: true }) : moveCard(s, c, to)));
 }
 
 /** Attaches an Energy or Tool card to a Pokémon. `fromHand`: its "when you attach this card from your hand" triggers. */

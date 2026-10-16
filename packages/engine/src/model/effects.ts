@@ -102,6 +102,8 @@ export interface CardFilter {
   attackNamed?: string;
   /** Pokémon with Resistance to this type ("Pokémon with {F} Resistance"). */
   resistance?: EType;
+  /** Pokémon with an Ability. */
+  hasAbility?: boolean;
   /** Pokémon that evolve from a Pokémon of this side in play (Evolution cards). */
   evolvesFromInPlay?: Side;
   /** Evolves from this English name. */
@@ -182,6 +184,8 @@ export type Condition =
   | { c: "true" }
   /** It is the turn of the player the condition is read for. */
   | { c: "myTurn" }
+  /** The card of a trigger's event (`ev:<key>` holds its definition id) matches ("When 1 of your {W} Pokémon is…"). */
+  | { c: "eventCard"; key: string; filter: CardFilter }
   /** `ref` has Weakness to a type of `of` ("has Weakness to your opponent's Active Pokémon's type"). */
   | { c: "weakTo"; ref: PokemonRef; of: PokemonRef }
   /** `ref` did this during its owner's last turn (`key`: the attack's name: "used Spiky Rolling during your last turn"). */
@@ -220,7 +224,9 @@ export type CardDest =
   /** Into the deck (shuffled afterwards by the effect). */
   | "deck"
   /** Basic Pokémon onto the Bench. */
-  | "bench";
+  | "bench"
+  /** Face down among the Prize cards (Team Rocket's Bother-Bot). */
+  | "prizes";
 
 /** How long a timed effect lasts (R-TEXT-4: effects of attacks also end when the Pokémon leaves the Active Spot). */
 export type Duration = "thisTurn" | "opponentsNextTurn" | "yourNextTurn" | "untilYourNextTurn";
@@ -369,6 +375,8 @@ export type Effect =
       from: PokemonRef;
       n: Amount | "all";
       types?: EType[];
+      /** Only Energy cards with these English names ("Discard a Team Rocket's Energy from this Pokémon"). */
+      names?: string[];
       special?: boolean;
       chooser?: "me" | "opp";
       store?: string;
@@ -381,7 +389,7 @@ export type Effect =
   /** Switch the Active Pokémon of a side with a Benched Pokémon chosen by `chooser` (or stored in `with`). */
   | { op: "switch"; side: "me" | "opp"; chooser?: "me" | "opp"; with?: string }
   /** Put a Pokémon (and everything attached) into the hand / deck / discard pile. */
-  | { op: "pokemonTo"; target: PokemonRef; to: "hand" | "deck" | "discard" | "lostZone"; keepAttached?: boolean }
+  | { op: "pokemonTo"; target: PokemonRef; to: "hand" | "deck" | "deckTop" | "discard" | "lostZone"; keepAttached?: boolean }
   | { op: "devolve"; target: PokemonRef }
   // —— coins and control ——
   | { op: "flip"; n?: Amount; untilTails?: boolean; store?: string }

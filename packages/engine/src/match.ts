@@ -105,6 +105,7 @@ export function matchCard(s: GameState, d: CardDef, f: CardFilter | undefined, m
   if (f.noTags?.some((t) => d.tags.includes(t))) return false;
   if (f.maxHp !== undefined && (d.category !== "pokemon" || (d.hp ?? 0) > f.maxHp)) return false;
   if (f.evolvesFrom !== undefined && d.evolvesFrom !== f.evolvesFrom) return false;
+  if (f.hasAbility !== undefined && !!d.abilities?.length !== f.hasAbility) return false;
   if (f.resistance !== undefined && d.resistance?.type !== f.resistance) return false;
   if (f.attackNamed !== undefined && !d.attacks?.some((a) => a.name === f.attackNamed)) return false;
   if (f.abilityNamed !== undefined && !d.abilities?.some((a) => a.name === f.abilityNamed)) return false;

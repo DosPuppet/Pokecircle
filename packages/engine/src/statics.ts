@@ -5,9 +5,21 @@
  * (`noAbilities`) are computed first from every source; the Abilities they lock then contribute nothing.
  */
 import { evalAmount, evalCond, staticCtx } from "./effects";
-import { inScope, scopePokemon } from "./match";
+import { inScope, matchCard, scopePokemon } from "./match";
 import { allInPlay, defOf, obj, opponentOf, pokemonOf, topDef } from "./state";
-import type { AbilityDef, AttackDef, CardTag, EType, GameState, ObjectId, PlayerId, PokemonId, Stage, StaticRule } from "./types";
+import type {
+  AbilityDef,
+  AttackDef,
+  CardDef,
+  CardTag,
+  EType,
+  GameState,
+  ObjectId,
+  PlayerId,
+  PokemonId,
+  Stage,
+  StaticRule,
+} from "./types";
 
 export interface ActiveStatic {
   rule: StaticRule;
@@ -280,6 +292,16 @@ export function canPlayKind(
     const sides =
       r.side === "both" ? [st.owner, opponentOf(s, st.owner)] : r.side === "me" ? [st.owner] : [opponentOf(s, st.owner)];
     return sides.includes(p) && r.kinds.includes(kind) && (!r.tags || r.tags.some((t) => tags.includes(t)));
+  });
+}
+
+/** Can a player play this Pokémon card from their hand (Team Rocket's Arbok's Potent Glare)? */
+export function canPlayPokemonCard(s: GameState, p: PlayerId, d: CardDef): boolean {
+  return !rulesOf(s, "cantPlayPokemon").some((st) => {
+    const r = st.rule;
+    const sides =
+      r.side === "both" ? [st.owner, opponentOf(s, st.owner)] : r.side === "me" ? [st.owner] : [opponentOf(s, st.owner)];
+    return sides.includes(p) && matchCard(s, d, r.filter, p) && !(r.except && matchCard(s, d, r.except, p));
   });
 }
 

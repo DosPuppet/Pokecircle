@@ -357,7 +357,18 @@ export function compileAbility(text: string): AbilityParts | { unmatched: string
       "knockedOut",
       { byOpponentAttack: true },
     ],
+    [
+      /^During Pokémon Checkup, if this Pokémon is in the Active Spot, (.+)$/,
+      "checkup",
+      { condition: { c: "isActive", ref: ref.self } },
+    ],
     [/^During Pokémon Checkup, (.+)$/, "checkup", {}],
+    [
+      /^Once during your turn, when this Pokémon moves from your Bench to the Active Spot, you may (.+)$/,
+      "becameActive",
+      { may: true, oncePerTurn: true, condition: { c: "myTurn" } },
+    ],
+
     [/^Whenever your opponent's Active Pokémon moves to the Bench during their turn, (.+)$/, "oppToBench", {}],
     [
       /^As long as this Pokémon is in the Active Spot, whenever your opponent's Active Pokémon moves to the Bench during their turn, (.+)$/,
