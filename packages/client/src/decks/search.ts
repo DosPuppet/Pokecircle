@@ -17,7 +17,7 @@ export interface Filters {
   standardOnly: boolean;
 }
 
-export const NO_FILTERS: Filters = { text: "", implementedOnly: true, standardOnly: true };
+export const NO_FILTERS: Filters = { text: "", implementedOnly: false, standardOnly: true };
 
 /** Lower case, no accents, single spaces. */
 export function fold(s: string): string {

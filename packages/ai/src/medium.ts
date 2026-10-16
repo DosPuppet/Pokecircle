@@ -70,6 +70,20 @@ function choiceAnswer(s: GameState, p: PlayerId, req: ChoiceRequest, rng: Rng): 
     }
     return { type: "choose", values: best };
   }
+  // "Put up to 9 damage counters on this Pokémon": each value simulated when there are few.
+  if (req.type === "number" && req.max > req.min && req.max - req.min <= 10) {
+    let best = req.suggested;
+    let bestV = Number.NEGATIVE_INFINITY;
+    const det = determinize(s, p, rng);
+    for (let n = req.min; n <= req.max; n++) {
+      const v = simulate(det, p, { type: "choose", values: [n] });
+      if (v > bestV) {
+        bestV = v;
+        best = [n];
+      }
+    }
+    return { type: "choose", values: best };
+  }
   if (req.type === "yesNo") {
     const det = determinize(s, p, rng);
     const yes = simulate(det, p, { type: "choose", values: [1] });

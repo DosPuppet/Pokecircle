@@ -21,7 +21,8 @@ are permuted).
 - **medium** (`medium.ts`): one-step simulation. Every main-phase option (`expandOptions` of `legalActions`) is applied
   to a determinized copy, questions answered with their suggestion (`settle`), and the position evaluated. Actions that
   do not attack are played while they improve the position; then the best attack, or the end of the turn. Questions:
-  small picks and yes/no are simulated, others take the engine's suggestion.
+  small picks, yes/no and numbers from small ranges (up to 11 values: "put up to 9 damage counters on this Pokémon") are
+  simulated, others take the engine's suggestion.
 - **expert** (`ismcts.ts`): ISMCTS at the root of each main-phase decision; questions and the setup are medium's.
   - Candidates (`candidates`): medium's scoring (`scoreMain`, identical copies of a card counted once) gives its own
     choice, the best attack, the end of the turn and the next best actions, up to 5, without those more than 150 below

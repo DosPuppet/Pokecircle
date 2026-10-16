@@ -20,6 +20,9 @@ This file tracks the project between sessions: current state, working rules, pit
 ## State
 
 - PLAN-A lots: see the tracking table at the end of `docs/plans/PLAN-A.md`.
+- PLAN-B (every Standard card, `docs/plans/PLAN-B.md`) done: 2,103 / 2,103 Standard definitions implemented (rules 18).
+  New set releases: import, `coverage --set <set> --unscripted --sentences`, one lot (templates, then
+  `scripts/<set>.ts`), as in PLAN-B's definition of done.
 
 ## Documents
 
