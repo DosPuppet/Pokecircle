@@ -29,3 +29,6 @@ Every approximation of the official rules or of a card's text is listed here whe
 - Type-based riders ("The {M} Pokémon this card is attached to…", Special Energy) and Pokémon filters read the printed
   type: a type added by an effect (Scovillain ex's Double Type, Iron Treads' Dual Core) does not count for them; it does
   count for Weakness and Resistance.
+- Tremendous Bomb: "isn't a Mega Evolution Pokémon ex" is read when the trigger resolves; if the holder was Knocked
+  Out by that damage, it counts as not a Mega Evolution Pokémon ex.
+- "N or less Energy attached" (Bastiodon) counts Energy cards, not the Energy they provide.

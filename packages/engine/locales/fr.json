@@ -21,6 +21,7 @@
   "Expected a yes/no answer": "Une réponse oui ou non est attendue",
   "Go first": "Commencer",
   "Go second": "Jouer en second",
+  "Heads: {heads}, tails: {tails}. Ignore these results and flip the coins again?": "Face : {heads}, pile : {tails}. Ignorer ces résultats et lancer de nouveau les pièces ?",
   "Invalid division": "Répartition invalide",
   "Invalid order": "Ordre invalide",
   "It is not your decision to make": "Ce n'est pas à vous de décider",

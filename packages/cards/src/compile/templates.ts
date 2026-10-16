@@ -81,6 +81,15 @@ export function normalize(text: string): string {
       .replace(/\s*\(Existing effects are not removed\. Damage is not an effect\.\)/g, "")
       // Weakness and Resistance never apply to Benched Pokémon (R-ATTACK-5): the reminder adds nothing.
       .replace(/\s*\(Don't apply Weakness and Resistance for Benched Pokémon\.\)/g, "")
+      // "(This includes new Pokémon that come into play.)": a timed effect on a scope, not on given Pokémon (the default).
+      .replace(/\s*\(This includes new Pokémon that come into play\.\)/g, "")
+      // Wording variants.
+      .replace(
+        /\b([Pp])lace (\w+|any number of) damage counter/g,
+        (_, p: string, n: string) => `${p === "P" ? "Put" : "put"} ${n} damage counter`,
+      )
+      .replace(/^(Look at the (?:top|bottom) \w+ cards of your deck), and you may /, "$1. You may ")
+      .replace(/(\. |^)(Look at the (?:top|bottom) \w+ cards of your deck), and you may /g, "$1$2. You may ")
       // TCGdex leaves some HTML: emphasis tags, Energy symbols as spans.
       .replace(/<span class="energy-symbol (\w+)"[^>]*>\w+<\/span>/g, (_, t: string) => `{${ENERGY_SPAN[t] ?? "C"}}`)
       .replace(/<\/?em>/g, "")

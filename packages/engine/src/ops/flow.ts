@@ -2,26 +2,54 @@
 import { answer, DONE, evalAmount, evalCond, isAsk, playersOf, resolveRef } from "../effects";
 import type { OpHandlers } from "../opRegistry";
 import { bump, flipCoin, newId, topDef } from "../state";
-import { chars } from "../statics";
+import { chars, rulesOn } from "../statics";
+import { msg } from "../text";
 import type { StaticRule, TimedEffect } from "../types";
 
 /** Maximum coins flipped by "flip until you get tails" (an approximation of an unbounded loop, docs/approximations.md). */
 export const MAX_FLIPS = 100;
 
 export const HANDLERS: OpHandlers = {
-  flip(s, r, e) {
-    let heads = 0;
-    let tails = 0;
-    if (e.untilTails) {
-      while (heads < MAX_FLIPS && flipCoin(s, r.player, r.defId)) heads++;
-      tails = 1;
-    } else {
-      const n = e.n === undefined ? 1 : evalAmount(s, r, e.n);
-      for (let i = 0; i < n; i++) {
-        if (flipCoin(s, r.player, r.defId)) heads++;
-        else tails++;
+  flip(s, r, e, key) {
+    const flipAll = (): [number, number] => {
+      let h = 0;
+      let t = 0;
+      if (e.untilTails) {
+        while (h < MAX_FLIPS && flipCoin(s, r.player, r.defId)) h++;
+        t = 1;
+      } else {
+        const n = e.n === undefined ? 1 : evalAmount(s, r, e.n);
+        for (let i = 0; i < n; i++) {
+          if (flipCoin(s, r.player, r.defId)) h++;
+          else t++;
+        }
+      }
+      return [h, t];
+    };
+    // The coins are flipped once: a question (flip again?) resumes this op.
+    const done = key("flipped");
+    if (!r.vars[done]) {
+      r.vars[done] = flipAll();
+    }
+    // Backtrack Badge: once during the turn, the attack's coins may be flipped again.
+    const again = r.kind === "attack" && r.source && s.pokemon[r.source] ? rulesOn(s, "reflip", r.source)[0] : undefined;
+    const used = again ? `reflip:${again.card ?? again.defId}` : "";
+    if (again && !s.turnLog.some((x) => x.turn === s.turn.number && x.key === used)) {
+      const [h0, t0] = (r.vars[done] ?? [0, 0]).map(Number) as [number, number];
+      const a = answer(r, key("reflip"), r.player, {
+        type: "yesNo",
+        prompt: msg("Heads: {heads}, tails: {tails}. Ignore these results and flip the coins again?", { heads: h0, tails: t0 }),
+        intent: "yesNo",
+        suggested: [h0 < t0 ? 1 : 0],
+        source: again.defId,
+      });
+      if (isAsk(a)) return { ask: a };
+      if (a[0] === 1) {
+        s.turnLog.push({ turn: s.turn.number, player: r.player, kind: "abilityUsed", key: used });
+        r.vars[done] = flipAll();
       }
     }
+    const [heads, tails] = (r.vars[done] ?? [0, 0]).map(Number) as [number, number];
     r.vars.heads = [heads];
     r.vars.tails = [tails];
     if (e.store) {

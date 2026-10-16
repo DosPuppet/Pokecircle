@@ -8,7 +8,7 @@
 import { evalAmount, staticCtx } from "./effects";
 import { emit } from "./events";
 import { matchPokemon } from "./match";
-import { bump, isActive, moveCard, opponentOf, playerOf, pokemonOf } from "./state";
+import { bump, flipCoin, isActive, moveCard, opponentOf, playerOf, pokemonOf } from "./state";
 import { chars, rulesOn } from "./statics";
 import { queueTriggers } from "./triggers";
 import type { GameState, ObjectId, PlayerId, PokemonId, Resolution } from "./types";
@@ -115,10 +115,12 @@ export function dealAttackDamage(s: GameState, r: Resolution, target: PokemonId,
     // "If this Pokémon has full HP and would be Knocked Out by damage from an attack, it is not Knocked Out, and its
     // remaining HP becomes 10."
     const hp = chars(s, target).hp;
-    if (t.damage === 0 && res.amount >= hp) {
-      const survive = rulesOn(s, "survive", target).find((st) => !st.rule.byOpponent || t.owner !== r.player);
-      if (survive) {
-        res.amount = Math.max(0, hp - survive.rule.hp);
+    if (t.damage + res.amount >= hp) {
+      const survive = rulesOn(s, "survive", target).find(
+        (st) => (!st.rule.byOpponent || t.owner !== r.player) && (!st.rule.fullHp || t.damage === 0),
+      );
+      if (survive && (!survive.rule.flip || flipCoin(s, t.owner))) {
+        res.amount = Math.max(0, hp - survive.rule.hp - t.damage);
         if (survive.rule.consume && survive.card && s.objects[survive.card]?.host === target)
           moveCard(s, survive.card, "discard");
       }
@@ -128,7 +130,18 @@ export function dealAttackDamage(s: GameState, r: Resolution, target: PokemonId,
     t.damage += res.amount;
     bump(s);
     s.turnLog.push({ turn: s.turn.number, player: t.owner, kind: "damagedByAttack", pokemon: target, amount: res.amount });
-    queueTriggers(s, "damagedByAttack", target, { attacker: r.player, event: r.source ? { attacker: r.source } : {} });
+    queueTriggers(s, "damagedByAttack", target, {
+      attacker: r.player,
+      // Read when the trigger resolves, maybe after a Knock Out: the facts at the time of the damage.
+      event: {
+        ...(r.source ? { attacker: r.source } : {}),
+        amount: String(res.amount),
+        ...(isActive(s, target) ? { wasActive: "1" } : {}),
+      },
+    });
+    // "If this Pokémon is damaged by an attack (even if it is Knocked Out), put N damage counters on the Attacking Pokémon."
+    if (r.source && s.pokemon[r.source] && t.owner !== r.player)
+      for (const st of rulesOn(s, "retaliate", target)) putCounters(s, null, r.source, st.rule.counters);
   }
   emit({
     type: "damage",

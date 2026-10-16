@@ -36,6 +36,7 @@ export function checkKnockouts(s: GameState): boolean {
     const attachedDefs = attached.map((c) => obj(s, c).defId);
     const byAttack = s.turnLog.some((e) => e.turn === s.turn.number && e.kind === "damagedByAttack" && e.pokemon === id);
     const attackerOwner = byAttack ? s.turn.active : undefined;
+    const wasActive = playerOf(s, pk.owner).active === id;
     emit({ type: "knockOut", pokemon: id, defId: top.id, player: pk.owner });
     s.turnLog.push({ turn: s.turn.number, player: pk.owner, kind: "knockedOut", pokemon: id, defId: top.id });
     const cards: ObjectId[] = cardsOfPokemon(s, id);
@@ -44,7 +45,7 @@ export function checkKnockouts(s: GameState): boolean {
     queueTriggers(s, "knockedOut", id, {
       ...(attackerOwner !== undefined ? { attacker: attackerOwner } : {}),
       gone: { owner: pk.owner, top: top.id, attached, attachedDefs },
-      event: { pokemon: id, defId: top.id },
+      event: { pokemon: id, defId: top.id, attached: attached.join(","), ...(wasActive ? { wasActive: "1" } : {}) },
     });
   }
   // Each player takes their Prize cards (R-KO-2).

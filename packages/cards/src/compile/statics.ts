@@ -6,7 +6,7 @@
  */
 import type { Amount, Condition, PokemonFilter, PokemonScope, SpecialCondition, StaticRule } from "@pokecircle/engine";
 import { amt, cond, scope } from "@pokecircle/engine";
-import { condPhrase, eachPhrase, pokemonFilter, scopePhrase, status, typeSym } from "./phrases";
+import { condPhrase, eachPhrase, num, pokemonFilter, scopePhrase, status, typeSym } from "./phrases";
 import { normalize, sentence } from "./templates";
 
 export type StaticSource = "ability" | "tool" | "stadium";
@@ -65,13 +65,13 @@ const P = (re: RegExp, build: Pred["build"]): Pred => ({ re, build });
 const PREDICATES: Pred[] = [
   // —— damage taken ——
   P(
-    /^(.+?) takes? (\d+) less damage from attacks(?: from (?:your|the) opponent's (.+?))? \(after applying Weakness and Resistance\)\.$/,
-    ([who, n, from], src) => {
+    /^(.+?) takes? (\d+) (less|more) damage from attacks(?: from (?:(?:your|the) opponent's )?(.+?))? \(after applying Weakness and Resistance\)\.$/,
+    ([who, n, way, from], src) => {
       const sc = subject(who as string, src);
       if (!sc) return null;
       const f = from ? pokemonFilter(from) : undefined;
       if (f === null) return null;
-      const rule: StaticRule = { s: "taken", scope: sc, add: -Number(n) };
+      const rule: StaticRule = { s: "taken", scope: sc, add: way === "less" ? -Number(n) : Number(n) };
       if (f && Object.keys(f).length) rule.from = f;
       return [rule];
     },
@@ -186,7 +186,7 @@ const PREDICATES: Pred[] = [
   }),
   // —— prevention ——
   P(
-    /^Prevent all damage (?:from attacks )?done to (.+?) by (?:attacks from )?(?:your|the) opponent's (.+?)(?: if that damage is (\d+) or more)?\.$/,
+    /^Prevent all damage (?:from attacks )?done to (.+?) by (?:attacks from )?(?:(?:your|the) opponent's )?(.+?)(?: if that damage is (\d+) or more)?\.$/,
     ([who, from, min], src) => {
       const sc = subject(who as string, src);
       const f = pokemonFilter(from as string);
@@ -234,9 +234,24 @@ const PREDICATES: Pred[] = [
     ([who, opp, hp], src) => {
       const sc = subject(who as string, src);
       if (!sc) return null;
-      const rule: StaticRule = { s: "survive", scope: sc, hp: Number(hp) };
+      const rule: StaticRule = { s: "survive", scope: sc, hp: Number(hp), fullHp: true };
       if (opp) rule.byOpponent = true;
       return [rule];
+    },
+  ),
+  P(
+    /^If (.+?) would be Knocked Out by damage from an attack, flip a coin\. If heads, (?:it|this Pokémon) is not Knocked Out, and its remaining HP becomes (\d+)\.$/,
+    ([who, hp], src) => {
+      const sc = subject(who as string, src);
+      return sc ? [{ s: "survive", scope: sc, hp: Number(hp), flip: true }] : null;
+    },
+  ),
+  P(
+    /^If (.+?) is damaged by an attack(?: from your opponent's Pokémon)? \(even if (?:it|this Pokémon) is Knocked Out\), put (\w+) damage counters? on the Attacking Pokémon\.$/,
+    ([who, n], src) => {
+      const sc = subject(who as string, src);
+      const k = num(n as string);
+      return sc && k ? [{ s: "retaliate", scope: sc, counters: k }] : null;
     },
   ),
 ];
@@ -283,6 +298,9 @@ function staticSentence(t: string, src: StaticSource): StaticRule[] | null {
 /** The rules of a whole static text, or null when a sentence is not understood. */
 export function compileStatics(text: string, src: StaticSource): StaticRule[] | null {
   const t = normalize(text);
+  // A predicate spanning several sentences ("…, flip a coin. If heads, …").
+  const whole = predicate(t, src);
+  if (whole) return whole;
   const sentences = t.split(/(?<=[.)])\s+(?=[A-Z])/);
   const rules: StaticRule[] = [];
   for (const s of sentences) {

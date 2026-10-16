@@ -3,7 +3,17 @@
  * card filters ("Basic {R} Energy card"). Each parser returns null when it does not recognize the whole phrase, so a
  * template using it does not match (the card stays unscripted rather than wrong).
  */
-import type { Amount, CardFilter, Condition, EType, PokemonFilter, PokemonRef, PokemonScope, Stage } from "@pokecircle/engine";
+import type {
+  Amount,
+  CardFilter,
+  Condition,
+  EType,
+  PokemonFilter,
+  PokemonRef,
+  PokemonScope,
+  SpecialCondition,
+  Stage,
+} from "@pokecircle/engine";
 import { amt, cond, ref, scope } from "@pokecircle/engine";
 
 const NUMBERS: Record<string, number> = {
@@ -50,6 +60,27 @@ export function pokemonRef(s: string, inAttack: boolean): PokemonRef | null {
 }
 
 const STAGES: Record<string, Stage> = { Basic: "basic", "Stage 1": "stage1", "Stage 2": "stage2" };
+const STATUS_OF: Record<string, string> = {
+  Asleep: "asleep",
+  Burned: "burned",
+  Confused: "confused",
+  Paralyzed: "paralyzed",
+  Poisoned: "poisoned",
+};
+const SYMBOL_NAMES: Record<string, string> = {
+  G: "Grass",
+  R: "Fire",
+  W: "Water",
+  L: "Lightning",
+  P: "Psychic",
+  F: "Fighting",
+  D: "Darkness",
+  M: "Metal",
+};
+/** A card name as printed with symbols ("Voltaic {L} Energy") → its English name ("Voltaic Lightning Energy"). */
+export function cardName(s: string): string {
+  return s.replace(/\{([GRWLPFDM])\}/g, (_, t: string) => SYMBOL_NAMES[t] ?? t);
+}
 
 /**
  * A Pokémon description: "Pokémon", "Basic Pokémon", "{G} Pokémon", "Pokémon ex", "Evolution Pokémon", "Stage 2
@@ -60,6 +91,39 @@ export function pokemonFilter(s: string): PokemonFilter | null {
   const f: PokemonFilter = {};
   // Pokémon V are not in Standard: "Pokémon ex and Pokémon V" are the Pokémon ex.
   t = t.replace(/^(.*Pokémon ex) (?:and|or) Pokémon V$/, "$1");
+  const named = /^(.*?) that (?:has|have) "(.+?)" in (?:its|their) names?$/.exec(t);
+  if (named) {
+    t = named[1] as string;
+    f.nameIncludes = named[2] as string;
+  }
+  const energy = /^(.*?) that (?:has|have) any (\{[A-Z]\} |Special )?Energy attached$/.exec(t);
+  if (energy) {
+    t = energy[1] as string;
+    if (energy[2] === "Special ") f.specialEnergy = true;
+    else if (energy[2]) {
+      const ty = typeSym(energy[2].trim());
+      if (!ty) return null;
+      f.energyTypes = [ty];
+    } else f.hasEnergy = true;
+  }
+  const fewEnergy = /^(.*?) that (?:has|have) (\w+) or less Energy attached$/.exec(t);
+  if (fewEnergy) {
+    const n = num(fewEnergy[2]);
+    if (n === null) return null;
+    t = fewEnergy[1] as string;
+    f.maxEnergy = n;
+  }
+  const st = /^(Asleep|Burned|Confused|Paralyzed|Poisoned) (.*)$/.exec(t);
+  if (st) {
+    t = st[2] as string;
+    f.status = [STATUS_OF[st[1] as string] as SpecialCondition];
+  }
+  t = t.replace(/^Mega Evolution (Pokémon ex)$/, "Mega $1");
+  const mega = /^Mega (.*)$/.exec(t);
+  if (mega) {
+    t = mega[1] as string;
+    f.tags = [...(f.tags ?? []), "mega"];
+  }
   const ability = /^(.*?) that (?:has|have) an Ability$/.exec(t);
   if (ability) {
     t = ability[1] as string;
@@ -197,6 +261,12 @@ export function eachPhrase(s: string, inAttack: boolean): Amount | null {
     const f = pokemonFilter(m[1] as string);
     if (f) return amt.pokemon(scope.of("me", "any", f));
   }
+  // "of your Benched Pokémon that has any {R} Energy attached", "of your opponent's Mega Evolution Pokémon ex in play"
+  m = /^of (your opponent's|your) (Benched |Active )?(.+?)(?: in play)?$/.exec(t);
+  if (m) {
+    const f = pokemonFilter(m[3] as string);
+    if (f) return amt.pokemon(scope.of(m[1] === "your" ? "me" : "opp", m[2] === "Benched " ? "bench" : "any", f));
+  }
   if (t === "Prize card your opponent has taken") return amt.prizesTaken("opp");
   if (t === "Prize card you have taken") return amt.prizesTaken("me");
   m = /^card in (your opponent's|your) hand$/.exec(t);
@@ -264,6 +334,12 @@ export function cardFilter(s: string): { filter?: CardFilter } | null {
     const k = kind === "Pokémon Tool" ? "tool" : (kind as string).toLowerCase();
     return { filter: { category: ["trainer"], trainer: [k as "item"] } };
   }
+  // A Pokémon by name: "up to 3 Lampent", "a Pikachu", "Maushold and Maushold ex" (any combination).
+  if (
+    /^[A-Z][\w'.-]*(?: [A-Z][\w'.-]*)*(?: ex)?$/.test(t) &&
+    !/\b(?:Pokémon|Energy|card|Item|Supporter|Stadium|Tool|Trainer)\b/.test(t)
+  )
+    return { filter: { names: [t] } };
   const pf = pokemonFilter(t.replace(/ card$/, ""));
   // Only what a card filter can say: anything else ("that has an Ability") would widen the search.
   const CARD_KEYS = ["stage", "types", "tags", "noTags", "maxHp", "nameIncludes"];
@@ -451,7 +527,31 @@ export function condPhrase(s: string, inAttack: boolean): Condition | null {
   m = /^(.+?) has an? ([A-Z][\w'. -]*?) attached$/.exec(t);
   if (m && !/Energy$|Tool$/.test(m[2] as string)) {
     const r = pokemonRef(m[1] as string, inAttack);
-    return r ? cond.matches(r, { toolNamed: m[2] as string }) : null;
+    return r ? cond.matches(r, { attachedNamed: m[2] as string }) : null;
+  }
+  if (/^you have no cards in your hand$/.test(t)) return cond.cmp(amt.cards("hand", "me"), "==", 0);
+  m = /^(your opponent|you) (?:has|have) exactly (\w+) Prize cards? remaining$/.exec(t);
+  if (m) {
+    const n = num(m[2]);
+    return n === null ? null : cond.cmp(amt.prizesLeft(m[1] === "you" ? "me" : "opp"), "==", n);
+  }
+  m = /^(.+?) has (\w+) or more damage counters on it$/.exec(t);
+  if (m) {
+    const r = pokemonRef(m[1] as string, inAttack);
+    const n = num(m[2]);
+    return r && n !== null ? cond.cmp(amt.counters(r), ">=", n) : null;
+  }
+  // "this Pokémon has no Voltaic {L} Energy attached", "your Benched Pokémon have any Shadowy {D} Energy attached"
+  m =
+    /^(.+?) (?:has|have) (no|any) ([A-Z][\w'.-]*(?: [A-Z{][\w'.{}-]*)* (?:Energy|Capsule|Band|Belt|Charm|Cape|Helmet))(?: cards?)? attached$/.exec(
+      t,
+    );
+  if (m && !/^(?:Basic|Special)\b/.test(m[3] as string) && !/^\{[A-Z]\} Energy$/.test(m[3] as string)) {
+    const name = cardName(m[3] as string);
+    const r = pokemonRef(m[1] as string, inAttack);
+    if (r) return m[2] === "no" ? cond.not(cond.matches(r, { attachedNamed: name })) : cond.matches(r, { attachedNamed: name });
+    const sc = scopePhrase(m[1] as string);
+    if (sc && m[2] === "any") return cond.exists({ ...sc, filter: { ...sc.filter, attachedNamed: name } });
   }
   m = /^(.+?) has full HP$/.exec(t);
   if (m) {

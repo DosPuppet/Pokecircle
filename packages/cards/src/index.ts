@@ -9,6 +9,7 @@ import { applyScript } from "./scripts";
 // Hand scripts register themselves before the catalog is compiled.
 import "./scripts/meta";
 import "./scripts/meta2";
+import "./scripts/me05";
 import { SET_REGISTRY } from "./setRegistry";
 import { SET_DATA } from "./sets";
 import { buildCatalog } from "./tcgdex";

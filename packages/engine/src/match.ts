@@ -39,7 +39,15 @@ export function matchPokemon(s: GameState, id: PokemonId, f: PokemonFilter | und
   if (f.selfKOAbility !== undefined && !!d.abilities?.some((a) => a.selfKO) !== f.selfKOAbility) return false;
   if (f.abilityNamed !== undefined && !d.abilities?.some((a) => a.name === f.abilityNamed)) return false;
   if (f.attackNamed !== undefined && !d.attacks?.some((a) => a.name === f.attackNamed)) return false;
-  if (f.toolNamed !== undefined && !pk.tools.some((t) => defOf(s, t).name === f.toolNamed)) return false;
+  if (f.attachedNamed !== undefined && ![...pk.tools, ...pk.energy].some((t) => defOf(s, t).name === f.attachedNamed))
+    return false;
+  if (f.specialEnergy !== undefined && pk.energy.some((e) => !defOf(s, e).energy?.basic) !== f.specialEnergy) return false;
+  if (f.maxEnergy !== undefined && pk.energy.length > f.maxEnergy) return false;
+  if (f.status) {
+    const c = pk.cond;
+    const has = (k: string) => (k === "poisoned" ? !!c.poisoned : k === "burned" ? !!c.burned : c.rotating === k);
+    if (!f.status.some(has)) return false;
+  }
   if (f.energyTypes) {
     const types = f.energyTypes;
     const provides = (e: string) =>
@@ -96,6 +104,7 @@ export function matchCard(s: GameState, d: CardDef, f: CardFilter | undefined, m
   if (f.noTags?.some((t) => d.tags.includes(t))) return false;
   if (f.maxHp !== undefined && (d.category !== "pokemon" || (d.hp ?? 0) > f.maxHp)) return false;
   if (f.evolvesFrom !== undefined && d.evolvesFrom !== f.evolvesFrom) return false;
+  if (f.attackNamed !== undefined && !d.attacks?.some((a) => a.name === f.attackNamed)) return false;
   if (f.abilityNamed !== undefined && !d.abilities?.some((a) => a.name === f.abilityNamed)) return false;
   if (f.evolvesFromInPlay) {
     if (!d.evolvesFrom) return false;

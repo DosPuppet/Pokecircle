@@ -155,6 +155,8 @@ export interface QueuedTrigger {
   /** Index of the trigger in the source's definition: `ability:<i>:<j>`, `tool:<j>`, `energy:<j>`, `stadium:<j>`. */
   trigger: string;
   event?: Record<string, string>;
+  /** A delayed effect (`endOfTurn`): its effects, not a definition's trigger. */
+  effects?: Effect[];
 }
 
 /** A timed effect ("during your opponent's next turn, …"). */

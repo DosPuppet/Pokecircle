@@ -38,8 +38,14 @@ export interface PokemonFilter {
   abilityNamed?: string;
   /** Has an attack with this English name ("each of your Pokémon in play that has the Round attack"). */
   attackNamed?: string;
-  /** Has a Pokémon Tool with this English name attached ("has a Future Booster Energy Capsule attached"). */
-  toolNamed?: string;
+  /** Has a Tool or an Energy card with this English name attached ("has a Future Booster Energy Capsule attached"). */
+  attachedNamed?: string;
+  /** Has Special Energy attached. */
+  specialEnergy?: boolean;
+  /** At most this many Energy cards attached. */
+  maxEnergy?: number;
+  /** Affected by one of these Special Conditions ("Burned Pokémon"). */
+  status?: SpecialCondition[];
   /** Has Energy attached that provides one of these types ("that have {M} Energy attached"). */
   energyTypes?: EType[];
   /** Put into play before this turn (Rare Candy, evolution). */
@@ -90,6 +96,8 @@ export interface CardFilter {
   maxHp?: number;
   /** Pokémon with an Ability of this English name ("Pokémon that have the Hide 'n' Sneak Ability"). */
   abilityNamed?: string;
+  /** Pokémon with an attack of this English name ("Pokémon … that has the Bug Out attack"). */
+  attackNamed?: string;
   /** Pokémon that evolve from a Pokémon of this side in play (Evolution cards). */
   evolvesFromInPlay?: Side;
   /** Evolves from this English name. */
@@ -262,6 +270,8 @@ export type Effect =
       prompt: string;
       /** Only the top N cards of the deck. */
       top?: Amount;
+      /** Only the bottom N cards of the deck. */
+      bottom?: Amount;
       reveal?: boolean;
       chooser?: "me" | "opp";
       /** Cards of different names only. */
@@ -285,7 +295,13 @@ export type Effect =
   | { op: "draw"; n: Amount; who?: "me" | "opp"; store?: string }
   | { op: "drawUntil"; n: Amount; who?: "me" | "opp" }
   /** Move stored cards (from wherever they are). */
-  | { op: "move"; cards: string; to: CardDest }
+  | {
+      op: "move";
+      cards: string;
+      to: CardDest;
+      /** Onto the Bench: Pokémon of any Stage, as the card says ("Search your deck for up to 3 Charjabug and put them onto your Bench"). */
+      anyStage?: boolean;
+    }
   /** Move every card of a zone (optionally filtered); `store`: how many were moved. */
   | { op: "moveAll"; zone: CardZone; side: "me" | "opp"; to: CardDest; filter?: CardFilter; store?: string }
   /** A player reveals their hand (to both players). */

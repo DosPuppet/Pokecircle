@@ -9,7 +9,7 @@ import { msg } from "../text";
 import type { CardDest, ChoiceValue, GameState, ObjectId } from "../types";
 
 /** Moves cards to a destination; returns their ids after the move (a card entering the deck gets a new id). */
-export function moveTo(s: GameState, cards: ObjectId[], to: CardDest): ObjectId[] {
+export function moveTo(s: GameState, cards: ObjectId[], to: CardDest, anyStage = false): ObjectId[] {
   const out: ObjectId[] = [];
   // On top of the deck, the first card ends on top: put them in reverse order.
   const list = to === "deckTop" ? [...cards].reverse() : cards;
@@ -19,7 +19,7 @@ export function moveTo(s: GameState, cards: ObjectId[], to: CardDest): ObjectId[
       case "bench": {
         // Only a Basic Pokémon, or a Trainer card played as one (Fossils), can go onto the Bench.
         const d = defOf(s, c);
-        if (!(d.category === "pokemon" && d.stage === "basic") && !d.trainer?.asPokemon) break;
+        if (!(d.category === "pokemon" && (anyStage || d.stage === "basic")) && !d.trainer?.asPokemon) break;
         const pk = benchCard(s, c, false);
         if (pk) out.push(c);
         break;
@@ -55,6 +55,7 @@ export const HANDLERS: OpHandlers = {
     const chooser = playersOf(s, r, e.chooser);
     let zone = [...playerOf(s, owner)[e.zone]];
     if (e.top !== undefined) zone = zone.slice(0, evalAmount(s, r, e.top));
+    if (e.bottom !== undefined) zone = zone.slice(-Math.max(1, evalAmount(s, r, e.bottom)));
     if (e.notSource && r.card) zone = zone.filter((c) => c !== r.card);
     if (e.among) {
       const allowed = new Set((r.vars[e.among] ?? []).map(String));
@@ -137,7 +138,7 @@ export const HANDLERS: OpHandlers = {
   },
   move(s, r, e) {
     const cards = (r.vars[e.cards] ?? []).map(String);
-    r.vars[e.cards] = moveTo(s, cards, e.to);
+    r.vars[e.cards] = moveTo(s, cards, e.to, !!e.anyStage);
     return DONE;
   },
   moveAll(s, r, e) {

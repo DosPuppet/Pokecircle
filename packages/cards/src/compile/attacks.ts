@@ -5,7 +5,7 @@
 import type { AttackDef, Condition, Effect } from "@pokecircle/engine";
 import { amt, cond, fx, msg, ref, scope } from "@pokecircle/engine";
 import { COMMON, type Ctx, chooseIn } from "./effects";
-import { condPhrase, eachPhrase, num, pokemonFilter, pokemonRef, scopePhrase } from "./phrases";
+import { condPhrase, eachPhrase, num, pokemonFilter, pokemonRef, scopePhrase, typeSym } from "./phrases";
 import { type Built, matchAll, sentence, type Template, tpl } from "./templates";
 
 const pre = (...effects: Effect[]): Built => ({ pre: effects });
@@ -248,6 +248,41 @@ export const ATTACK_TEMPLATES: Template<Ctx>[] = [
       noMain: true,
     };
   }),
+  tpl(
+    "does.perTypedEnergy",
+    "This attack does {n} damage to {w} of {X} for each {t} Energy attached to this Pokémon.",
+    ([n, w, who, t]) => {
+      const k = num(w);
+      const sc = scopePhrase(who as string);
+      const type = typeSym(t);
+      if (!k || !sc || !type) return null;
+      return {
+        post: [
+          chooseIn(sc, "t", { min: k, max: k }),
+          fx.damage(ref.v("t"), amt.mul(Number(n), amt.energy(ref.self, { units: true, type }))),
+        ],
+        noMain: true,
+      };
+    },
+  ),
+  tpl(
+    "dmg.discardFromHand",
+    "Discard up to {w} Basic {t} Energy cards from your hand, and this attack does {n} damage for each card you discarded in this way.",
+    ([w, t, n]) => {
+      const k = num(w);
+      const type = typeSym(t);
+      if (!k || !type) return null;
+      return pre(
+        fx.chooseCards("hand", "d", msg("Choose cards to discard from your hand"), {
+          filter: { category: ["energy"], basicEnergy: true, energyTypes: [type] },
+          min: 0,
+          max: k,
+        }),
+        fx.move("d", "discard"),
+        fx.setDamage(amt.mul(Number(n), amt.count("d"))),
+      );
+    },
+  ),
   tpl(
     "does.discardThen",
     "Discard {x} Energy from this Pokémon, and this attack does {n} damage to {w} of {x}.",

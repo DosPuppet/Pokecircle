@@ -3,7 +3,7 @@
  * Scopes are relative to the owner of the source (the controller of a timed effect). Read by `statics.ts`.
  */
 import type { CardTag, EType } from "./cards";
-import type { Amount, Condition, PokemonFilter, PokemonScope, Side, SpecialCondition } from "./effects";
+import type { Amount, Condition, Effect, PokemonFilter, PokemonScope, Side, SpecialCondition } from "./effects";
 
 export type StaticRule = (
   | /** Retreat Cost: +delta, or set to a value. */ { s: "retreat"; scope: PokemonScope; delta?: number; set?: number }
@@ -92,9 +92,31 @@ export type StaticRule = (
       add: number;
     }
   | /**
-   * A Pokémon of the scope with full HP that would be Knocked Out by damage from an attack is not: its remaining HP
-   * becomes `hp` (`consume`: the card giving the rule is then discarded).
-   */ { s: "survive"; scope: PokemonScope; hp: number; consume?: boolean; byOpponent?: boolean }
+   * A Pokémon of the scope that would be Knocked Out by damage from an attack is not: its remaining HP becomes `hp`
+   * (`fullHp`: only if it had full HP; `flip`: if a coin flip is heads; `consume`: the card giving the rule is then
+   * discarded).
+   */ {
+      s: "survive";
+      scope: PokemonScope;
+      hp: number;
+      fullHp?: boolean;
+      flip?: boolean;
+      consume?: boolean;
+      byOpponent?: boolean;
+    }
+  | /**
+   * When a Pokémon of the scope is damaged by an attack of the opponent's Pokémon (even if it is Knocked Out), put
+   * damage counters on the Attacking Pokémon.
+   */ { s: "retaliate"; scope: PokemonScope; counters: number }
+  | /** At the end of the turn the (timed) rule lasts until, its effects resolve on each Pokémon of the scope ("self"). */ {
+      s: "endOfTurn";
+      scope: PokemonScope;
+      effects: Effect[];
+    }
+  | /** Once during the turn, the scope's Pokémon may flip again the coins of an attack (Backtrack Badge). */ {
+      s: "reflip";
+      scope: PokemonScope;
+    }
   | /** Tools each Pokémon of the scope can have. */ { s: "toolSlots"; scope: PokemonScope; n: number }
   | /** Pokémon of the scope cannot be damaged or affected by the opponent's Abilities/Trainers. */ {
       s: "shielded";

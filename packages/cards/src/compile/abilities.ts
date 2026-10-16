@@ -68,6 +68,10 @@ const ABILITY_EFFECTS: Template<Ctx>[] = [
         : null;
     },
   ),
+  tpl("ab.flipHeads", "Flip a coin. If heads, {x}.", ([h]) => {
+    const then = clause(h as string);
+    return then ? { post: [fx.flip(), fx.if(cond.heads(), then)] } : null;
+  }),
   tpl("ab.discardStadium", "Discard a Stadium in play.", () => ({ post: [fx.discardStadium()], condition: { c: "stadium" } })),
   tpl("ab.switchSelf", "Switch this Pokémon with your Active Pokémon.", () => ({ post: [fx.switch("me")] })),
   ...COMMON,
@@ -360,7 +364,8 @@ export function compileAbility(text: string): AbilityParts | { unmatched: string
     const extra: Partial<TriggerDef> = { ...opts };
     if (lim.onceKey) extra.onceKey = lim.onceKey;
     if (lim.byName) extra.onceKey = `name:${t}`;
-    if (on === "damagedByAttack") extra.condition = { c: "isActive", ref: ref.self };
+    // "(even if this Pokémon is Knocked Out)": where it was when it was damaged.
+    if (on === "damagedByAttack") extra.condition = { c: "var", key: "ev:wasActive" };
     if (b.condition) extra.condition = extra.condition ? cond.and(extra.condition, b.condition) : b.condition;
     return trigger(on, b.effects, extra);
   }

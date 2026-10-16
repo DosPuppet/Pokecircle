@@ -10,6 +10,7 @@ import { evalCond, runResolution, startResolution, staticCtx } from "./effects";
 import { emit } from "./events";
 import { checkKnockouts, checkWinner, endGame, promote, promotionNeeded } from "./knockout";
 import { MAX_FLOW_STEPS, MAX_MULLIGANS } from "./limits";
+import { scopePokemon } from "./match";
 import {
   bump,
   createPokemon,
@@ -202,6 +203,11 @@ function startTurn(s: GameState): void {
 function endTurn(s: GameState): void {
   emit({ type: "endTurn", player: s.turn.active });
   for (const id of inPlay(s, s.turn.active)) queueTriggers(s, "turnEnd", id);
+  // "At the end of your opponent's next turn, …": delayed effects due this turn, on each Pokémon they are bound to.
+  for (const e of s.effects)
+    if (e.rule.s === "endOfTurn" && e.untilTurn === s.turn.number)
+      for (const id of scopePokemon(s, e.rule.scope, e.player, null))
+        s.queue.push({ player: e.player, source: id, card: null, defId: e.defId, trigger: "delayed", effects: e.rule.effects });
   s.flow = "checkup";
 }
 
@@ -257,7 +263,10 @@ function finishResolution(s: GameState): void {
 function startTrigger(s: GameState, q: GameState["queue"][number]): void {
   const t = triggerDef(s, q);
   if (!t) return;
-  const ctx = { ...staticCtx(q.player, q.source), card: q.card, vars: {}, ...(q.event ? { event: q.event } : {}) };
+  // The event's data as variables (`ev:<key>`): the cards attached to a Knocked Out Pokémon, the damage done…
+  const evVars: Record<string, (string | number)[]> = {};
+  for (const [k, v] of Object.entries(q.event ?? {})) evVars[`ev:${k}`] = v === "" ? [] : v.split(",");
+  const ctx = { ...staticCtx(q.player, q.source), card: q.card, vars: evVars, ...(q.event ? { event: q.event } : {}) };
   if (t.condition && !evalCond(s, ctx, t.condition)) return;
   // Once per turn: an optional trigger counts only when the player accepts it.
   const onceKey =
@@ -280,7 +289,7 @@ function startTrigger(s: GameState, q: GameState["queue"][number]): void {
     defId: q.defId,
     effects,
     // The card the trigger belongs to (an attached Energy or Tool): its effects may move it ("discard this card").
-    ...(q.card ? { vars: { thisCard: [q.card] } } : {}),
+    vars: { ...evVars, ...(q.card ? { thisCard: [q.card] } : {}) },
     ...(q.event ? { event: q.event } : {}),
   });
 }

@@ -4,7 +4,19 @@
  */
 import type { CardFilter, Effect, EType, PokemonScope } from "@pokecircle/engine";
 import { amt, cond, fx, msg, ref, scope, searchToBench } from "@pokecircle/engine";
-import { cardFilter, condPhrase, countPhrase, num, pokemonRef, scopePhrase, status, typeSym } from "./phrases";
+import {
+  cardFilter,
+  condPhrase,
+  countPhrase,
+  eachPhrase,
+  num,
+  pokemonFilter,
+  pokemonRef,
+  scopePhrase,
+  status,
+  typeSym,
+} from "./phrases";
+import { compileStatics } from "./statics";
 import { type Built, matchAll, sentence, type Template, tpl } from "./templates";
 
 export interface Ctx {
@@ -63,6 +75,18 @@ function searchEffects(count: { min: number; max: number }, what: string, dest: 
         fx.shuffle(),
       ];
     }
+    // Pokémon named by the text go onto the Bench whatever their Stage (Charjabug, Lampent, Silcoon).
+    const named = !!filter && (!!filter.names || !!filter.anyOf?.every((f) => !!f.names));
+    if (named)
+      return [
+        fx.chooseCards("deck", "found", SEARCH_PROMPT(), {
+          filter: { ...filter, category: ["pokemon"] },
+          min: 0,
+          max: amt.min(count.max, amt.benchSpace()),
+        }),
+        { op: "move", cards: "found", to: "bench", anyStage: true },
+        fx.shuffle(),
+      ];
     return searchToBench(filter ?? {}, count.max, SEARCH_PROMPT());
   }
   const att = /^attach (?:it|them) to (.+)$/.exec(dest);
@@ -316,6 +340,50 @@ export const COMMON: Template<Ctx>[] = [
     post(fx.if({ c: "stadium" }, [fx.may(msg("Discard the Stadium in play?"), [fx.discardStadium()])])),
   ),
   tpl("turn.ends", "Your turn ends.", () => post(fx.endTurn())),
+  // —— timed continuous effects: "During your opponent's next turn, <a static sentence>." ——
+  tpl("timed.statics", "During your {x}next turn, {x}.", ([whose, rest]) => {
+    const duration = whose === "opponent's " ? "opponentsNextTurn" : whose === "" ? "yourNextTurn" : null;
+    const text = `${(rest as string).charAt(0).toUpperCase()}${(rest as string).slice(1)}.`;
+    const rules = duration ? compileStatics(text, "ability") : null;
+    if (!duration || !rules || rules.some((r) => r.cond)) return null;
+    return post(...rules.map((r) => ("scope" in r && r.scope?.self ? fx.timed(duration, r, ref.self) : fx.timed(duration, r))));
+  }),
+  tpl("ko.if", "If {x}, it is Knocked Out.", ([c], ctx) => {
+    if (!/^your opponent's Active Pokémon\b/.test(c as string)) return null;
+    const k = condPhrase(c as string, ctx.inAttack);
+    return k ? post(fx.if(k, [{ op: "knockOut", target: ctx.inAttack ? ref.defending : ref.oppActive }])) : null;
+  }),
+  tpl("heal.oneAll", "Heal all damage from 1 of your {X}.", ([what]) => {
+    const sc = scopePhrase(`your ${what}`);
+    if (!sc) return null;
+    const damaged: PokemonScope = { ...sc, filter: { ...sc.filter, damaged: true } };
+    return {
+      post: [chooseIn(damaged, "healed", { min: 1, max: 1 }), fx.heal(ref.v("healed"), "all")],
+      condition: cond.exists(damaged),
+    };
+  }),
+  tpl("hand.mayDiscardAny", "You may discard any number of cards from your hand.", () =>
+    post(
+      fx.chooseCards("hand", "d", msg("Choose cards to discard from your hand"), { min: 0, max: 60, notSource: true }),
+      fx.move("d", "discard"),
+    ),
+  ),
+  tpl("status.bothActive", "Both Active {x} are now {x}.", ([who, what]) => {
+    const f = pokemonFilter(who as string);
+    const st = status(what as string);
+    return f && st ? post(fx.condition(ref.all(scope.of("both", "active", f)), st)) : null;
+  }),
+  tpl("draw.forEach", "Draw a card for each {x}.", ([what], ctx) => {
+    const a = eachPhrase(what as string, ctx.inAttack);
+    return a ? { post: [fx.draw(a)], condition: cond.deck() } : null;
+  }),
+  tpl("energy.discardOppOne", "Discard an Energy from 1 of your opponent's Pokémon.", () => {
+    const sc = scope.theirs({ hasEnergy: true });
+    return {
+      post: [chooseIn(sc, "t", { min: 1, max: 1 }), fx.discardEnergy(ref.v("t"), 1)],
+      condition: cond.exists(sc),
+    };
+  }),
   // —— the opponent's hand, random cards ——
   tpl("hand.oppReveals", "Your opponent reveals their hand.", () => post({ op: "revealHand", side: "opp" })),
   tpl("hand.oppRandomDiscard", "Discard a random card from your opponent's hand.", () =>

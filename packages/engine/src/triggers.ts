@@ -9,6 +9,7 @@ import type { CardDef, GameState, ObjectId, PlayerId, PokemonId, QueuedTrigger, 
 
 /** The trigger a queued entry designates. */
 export function triggerDef(s: GameState, q: QueuedTrigger): TriggerDef | undefined {
+  if (q.effects) return { on: "turnEnd", effects: q.effects };
   const d = s.defs[q.defId];
   if (!d) return undefined;
   const [kind, i, j] = q.trigger.split(":");
