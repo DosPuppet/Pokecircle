@@ -230,6 +230,8 @@ export function evalCond(s: GameState, ctx: Ctx, c: Condition): boolean {
       const w = chars(s, target).weakness;
       return !!w && chars(s, other).types.includes(w.type);
     }
+    case "myTurn":
+      return s.turn.active === ctx.player;
     case "true":
       return true;
     case "heads":
@@ -283,6 +285,8 @@ export function evalCond(s: GameState, ctx: Ctx, c: Condition): boolean {
       return s.turn.first === ctx.player;
     case "stadium": {
       if (!s.stadium) return false;
+      // "If you have a Stadium in play": a Stadium its player put into play.
+      if (c.owner && (s.objects[s.stadium]?.owner === ctx.player) !== (c.owner === "me")) return false;
       const d = s.defs[s.objects[s.stadium]?.defId ?? ""];
       return !c.names || (!!d && c.names.includes(d.name));
     }

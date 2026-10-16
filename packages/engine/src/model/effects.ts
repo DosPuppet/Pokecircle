@@ -178,6 +178,8 @@ export type Comparison = ">=" | ">" | "<=" | "<" | "==" | "!=";
 
 export type Condition =
   | { c: "true" }
+  /** It is the turn of the player the condition is read for. */
+  | { c: "myTurn" }
   /** `ref` has Weakness to a type of `of` ("has Weakness to your opponent's Active Pokémon's type"). */
   | { c: "weakTo"; ref: PokemonRef; of: PokemonRef }
   /** `ref` did this during its owner's last turn (`key`: the attack's name: "used Spiky Rolling during your last turn"). */
@@ -200,7 +202,7 @@ export type Condition =
   /** The controller went first / second. */
   | { c: "wentFirst" }
   /** A Stadium is in play (optionally by name). */
-  | { c: "stadium"; names?: string[] }
+  | { c: "stadium"; names?: string[]; owner?: "me" | "opp" }
   /** A turn log event of this turn concerns the Pokémon ("if this Pokémon moved from your Bench to the Active Spot this turn"). */
   | { c: "didThisTurn"; kind: TurnEventKind; ref: PokemonRef }
   /** Some card in a zone matches (deck not empty, a Pokémon in the discard pile). */
@@ -267,6 +269,8 @@ export type Effect =
       max?: Amount;
       chooser?: "me" | "opp";
       prompt: string;
+      /** Only the Pokémon with the least HP remaining among the scope (Inteleon's Bring Down). */
+      leastHp?: boolean;
     }
   /**
    * Choose cards from a zone (searching the deck, the top N cards, the discard pile, the hand) and store them. The
@@ -385,7 +389,9 @@ export type Effect =
   /** Look at cards without taking them (shown to the controller). */
   | { op: "look"; zone: CardZone; side: "me" | "opp"; top?: Amount }
   /** Take Prize cards ("take 1 more Prize card"). */
-  | { op: "takePrizes"; n: Amount }
+  | { op: "takePrizes"; n: Amount; side?: "me" | "opp" }
+  /** Use the effect of a stored card (a Supporter discarded by Ninetales) as the effect of this attack. */
+  | { op: "useCardEffects"; cards: string }
   /**
    * "Choose 1 of its attacks and use it as this attack": the attacks of Pokémon in play (a scope) or of stored cards,
    * optionally matching a filter. The chosen attack's damage and effects replace what is left of this attack.

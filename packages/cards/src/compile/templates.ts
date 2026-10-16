@@ -6,7 +6,7 @@
  * (checked by the template's builder, which returns null when the phrase is not understood), `{s}` an optional plural
  * "s", `{it}` "it" or "them".
  */
-import type { Condition, Effect } from "@pokecircle/engine";
+import type { Condition, Effect, EType } from "@pokecircle/engine";
 
 export interface Built {
   /** Before the attack's damage (damage modifiers, coin flips that decide them, "does nothing"). */
@@ -23,6 +23,8 @@ export interface Built {
   noMain?: boolean;
   /** "If you go first, you can use this attack during your first turn." */
   firstTurn?: boolean;
+  /** "If this Pokémon has any damage counters on it, this attack can be used for {D}." */
+  altCost?: { cost: EType[]; cond: Condition };
 }
 
 export interface Template<C> {

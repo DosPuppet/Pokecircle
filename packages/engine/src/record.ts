@@ -18,7 +18,7 @@ import type { CardDef, Decision, GameEvent, GameState, PlayerId } from "./types"
  * 5 (2026-10-16) PLAN-B B2: attack effects (coins, counted damage, damage taken and healing in the turn log,
  * prevention up to N, attack coin flips, first-turn attacks), "to 1 of your Pokémon" attaches to one Pokémon.
  */
-export const RULES_VERSION = 10;
+export const RULES_VERSION = 11;
 export const RECORD_FORMAT = "pokecircle-game";
 /** Formats of records written before the app was renamed (PocketMate): read as the current one. */
 const LEGACY_FORMATS = ["pocketmate-game"];

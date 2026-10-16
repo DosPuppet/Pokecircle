@@ -91,6 +91,11 @@ export function pokemonFilter(s: string): PokemonFilter | null {
   const f: PokemonFilter = {};
   // Pokémon V are not in Standard: "Pokémon ex and Pokémon V" are the Pokémon ex.
   t = t.replace(/^(.*Pokémon ex) (?:and|or) Pokémon V$/, "$1");
+  const counters = /^(.*?) that (?:has|have) any damage counters on (?:it|them)$/.exec(t);
+  if (counters) {
+    t = counters[1] as string;
+    f.damaged = true;
+  }
   const named = /^(.*?) that (?:has|have) "(.+?)" in (?:its|their) names?$/.exec(t);
   if (named) {
     t = named[1] as string;
@@ -105,11 +110,6 @@ export function pokemonFilter(s: string): PokemonFilter | null {
       if (!ty) return null;
       f.energyTypes = [ty];
     } else f.hasEnergy = true;
-  }
-  const counters = /^(.*?) that (?:has|have) any damage counters on (?:it|them)$/.exec(t);
-  if (counters) {
-    t = counters[1] as string;
-    f.damaged = true;
   }
   const tool = /^(.*?) that (?:has|have) a Pokémon Tool attached$/.exec(t);
   if (tool) {
@@ -128,7 +128,7 @@ export function pokemonFilter(s: string): PokemonFilter | null {
     t = st[2] as string;
     f.status = [STATUS_OF[st[1] as string] as SpecialCondition];
   }
-  t = t.replace(/^Mega Evolution (Pokémon ex)$/, "Mega $1");
+  t = t.replace(/^(\{[A-Z]\} )?Mega Evolution (Pokémon ex)$/, "Mega $1$2");
   const mega = /^Mega (.*)$/.exec(t);
   if (mega) {
     t = mega[1] as string;
@@ -151,7 +151,7 @@ export function pokemonFilter(s: string): PokemonFilter | null {
     f.not = { types: [ty] };
     t = `${nonType[1] ? `${nonType[1]} ` : ""}${nonType[3]}`;
   }
-  const typeList = /^((?:\{[A-Z]\}, )+(?:or )?\{[A-Z]\}) (Pokémon.*)$/.exec(t);
+  const typeList = /^((?:\{[A-Z]\}, )+(?:or )?\{[A-Z]\}|\{[A-Z]\} or \{[A-Z]\}) (Pokémon.*)$/.exec(t);
   if (typeList) {
     const types = (typeList[1] as string).match(/\{[A-Z]\}/g)?.map((x) => typeSym(x));
     if (!types || types.some((x) => !x)) return null;
@@ -262,6 +262,7 @@ export function eachPhrase(s: string, inAttack: boolean): Amount | null {
     const on = m[1] as string;
     const all = /^all of (your opponent's|your) Pokémon$/.exec(on);
     if (all) return { k: "tools", on: ref.all(scope.of(all[1] === "your" ? "me" : "opp")) };
+    if (on === "all Pokémon") return { k: "tools", on: ref.all(scope.of("both")) };
     const r = pokemonRef(on, inAttack);
     return r ? { k: "tools", on: r } : null;
   }
@@ -409,6 +410,20 @@ export function status(s: string): (typeof STATUS)[string] | null {
 export function condPhrase(s: string, inAttack: boolean): Condition | null {
   const t = s.trim();
   let m: RegExpExecArray | null;
+  // "this Pokémon is on your Bench, and if you have any Mega Evolution Pokémon ex in play"
+  m = /^(.+?), and if (.+)$/.exec(t);
+  if (m) {
+    const a = condPhrase(m[1] as string, inAttack);
+    const b = condPhrase(m[2] as string, inAttack);
+    if (a && b) return cond.and(a, b);
+  }
+  m = /^(.+?) evolved from (?:[A-Z][\w'.-]*(?: [A-Z][\w'.-]*)*) during this turn$/.exec(t);
+  if (m) {
+    const r = pokemonRef(m[1] as string, inAttack);
+    if (r) return { c: "didThisTurn", kind: "evolved", ref: r };
+  }
+  if (/^you have a Stadium in play$/.test(t)) return { c: "stadium", owner: "me" };
+  if (/^your opponent has a Stadium in play$/.test(t)) return { c: "stadium", owner: "opp" };
   m = /^(.+?) (?:already )?(?:has|have) (?:any )?damage counters on (?:it|them)$/.exec(t);
   if (m) {
     const r = pokemonRef(m[1] as string, inAttack);

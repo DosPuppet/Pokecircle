@@ -58,6 +58,7 @@ export function Hand({ view }: { view: GameView }) {
   const click = (c: string) => {
     if (setup) {
       if (!placeable(view, c)) return;
+      if (activeOnly(view, c) && placing.active && placing.active !== c) return;
       if (placing.active === c) setPlacing({ active: null, bench: placing.bench });
       else if (placing.bench.includes(c)) setPlacing({ ...placing, bench: placing.bench.filter((x) => x !== c) });
       else if (!placing.active) setPlacing({ ...placing, active: c });
@@ -141,5 +142,11 @@ export function Hand({ view }: { view: GameView }) {
 
 function placeable(view: GameView, c: string): boolean {
   const d = defOf(view.faces[c]);
-  return d?.category === "pokemon" && d.stage === "basic";
+  return (d?.category === "pokemon" && d.stage === "basic") || activeOnly(view, c);
+}
+
+/** Cinderace's Explosiveness: a Pokémon that may be put in the Active Spot during setup (never on the Bench). */
+function activeOnly(view: GameView, c: string): boolean {
+  const d = defOf(view.faces[c]);
+  return d?.category === "pokemon" && d.stage !== "basic" && !!d.abilities?.some((a) => a.setupActive);
 }

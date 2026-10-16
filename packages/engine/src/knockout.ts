@@ -94,6 +94,7 @@ export function promote(s: GameState, p: PlayerId, id: PokemonId): void {
   s.turnLog.push({ turn: s.turn.number, player: p, kind: "becameActive", pokemon: id });
   emit({ type: "promote", player: p, pokemon: id });
   queueTriggers(s, "becameActive", id);
+  for (const other of [...ps.bench]) queueTriggers(s, "allyBecameActive", other, { event: { pokemon: id } });
 }
 
 /**

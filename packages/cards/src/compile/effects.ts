@@ -411,6 +411,75 @@ export const COMMON: Template<Ctx>[] = [
       condition: cond.and(cond.hasCards("hand", "me", filter), cond.exists(sc)),
     };
   }),
+  tpl("status.make", "Make your opponent's Active Pokémon {x}.", ([what], ctx) => {
+    const st = status(what as string);
+    return st ? post(fx.condition(ctx.inAttack ? ref.defending : ref.oppActive, st)) : null;
+  }),
+  tpl(
+    "hand.oppRandomToDeckAnd",
+    "Choose a random card from your opponent's hand, and your opponent reveals that card and shuffles it into their deck.",
+    () =>
+      post(
+        fx.chooseCards("hand", "rnd", msg("A random card"), { side: "opp", min: 1, max: 1, random: true, reveal: true }),
+        fx.move("rnd", "deck"),
+        fx.shuffle("opp"),
+      ),
+  ),
+  tpl("hand.oppRevealDiscard", "Your opponent reveals their hand, and you discard a card you find there.", () =>
+    post(
+      { op: "revealHand", side: "opp" },
+      fx.chooseCards("hand", "x", msg("Choose a card to discard"), {
+        side: "opp",
+        min: amt.min(1, amt.cards("hand", "opp")),
+        max: 1,
+      }),
+      fx.move("x", "discard"),
+    ),
+  ),
+  tpl("energy.selfTypedToHand", "Put {w} {t} Energy attached to this Pokémon into your hand.", ([w, t]) => {
+    const k = num(w);
+    const type = typeSym(t);
+    return k && type ? post(fx.discardEnergy(ref.self, k, { types: [type], to: "hand" })) : null;
+  }),
+  tpl("energy.moveBasicTyped", "Move a Basic {t} Energy from 1 of your Pokémon to another of your Pokémon.", ([t]) => {
+    const type = typeSym(t);
+    if (!type) return null;
+    const from = scope.mine({ energyTypes: [type] });
+    return {
+      post: [
+        chooseIn(from, "from", { min: 1, max: 1 }),
+        { op: "moveEnergy", from: ref.v("from"), to: scope.mine(), n: 1, types: [type], basic: true },
+      ],
+      condition: cond.and(cond.exists(from), cond.cmp(amt.pokemon(scope.mine()), ">", 1)),
+    };
+  }),
+  tpl("hand.attachUpToSelf", "Attach up to {w} Basic {t} Energy cards from your hand to this Pokémon.", ([w, t]) => {
+    const k = num(w);
+    const type = typeSym(t);
+    if (!k || !type) return null;
+    const filter = { category: ["energy" as const], basicEnergy: true, energyTypes: [type] };
+    return {
+      post: [
+        fx.chooseCards("hand", "e", msg("Choose Energy cards from your hand"), { filter, min: 0, max: k }),
+        fx.attach("e", scope.self()),
+      ],
+      condition: cond.hasCards("hand", "me", filter),
+    };
+  }),
+  tpl(
+    "top.attachBasics",
+    "Look at the top {w} cards of your deck and attach any number of {x} you find there to your Pokémon in any way you like. Shuffle the other cards back into your deck.",
+    ([w, what]) => {
+      const k = num(w);
+      const f = cardFilter(what as string);
+      if (!k || f?.filter?.category?.[0] !== "energy") return null;
+      return post(
+        fx.chooseCards("deck", "e", msg("Choose Energy cards to attach"), { top: k, filter: f.filter, min: 0, max: k }),
+        fx.attach("e", scope.mine()),
+        fx.shuffle(),
+      );
+    },
+  ),
   tpl("stadium.thenDiscard", "Then, discard that Stadium.", () => post(fx.discardStadium())),
   tpl("search.may", "You may search your deck for {x} and {x}. Then, shuffle your deck.", ([what, dest], ctx) => {
     const m = /^(a|an|up to \w+|any number of|\w+) (.+)$/.exec(what as string);

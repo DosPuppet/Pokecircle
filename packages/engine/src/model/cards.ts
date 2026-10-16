@@ -48,6 +48,8 @@ export interface AttackDef {
   condition?: Condition;
   /** "If you go first, you can use this attack during your first turn." */
   firstTurn?: boolean;
+  /** "If this Pokémon has any damage counters on it, this attack can be used for {D}." */
+  altCost?: { cost: EType[]; cond: Condition };
 }
 
 /** "Once during your turn" limits of an activated Ability. */
@@ -84,6 +86,10 @@ export type TriggerEvent =
   | "discardedFromDeck"
   /** The opponent's Active Pokémon moved to their Bench during their turn (event `pokemon`). */
   | "oppToBench"
+  /** This Pokémon moved from the Active Spot to the Bench. */
+  | "movedToBench"
+  /** Another of its owner's Pokémon moved to the Active Spot (event `pokemon`). */
+  | "allyBecameActive"
   /** At the end of its owner's turn. */
   | "turnEnd"
   /** The holder of this card used an attack (after it is done). */
@@ -114,6 +120,8 @@ export interface AbilityDef {
   triggers?: TriggerDef[];
   /** Using it Knocks Out the Pokémon (Psyduck's Damp turns these off). */
   selfKO?: boolean;
+  /** "If this Pokémon is in your hand when you are setting up to play, you may put it face down in the Active Spot." */
+  setupActive?: boolean;
 }
 
 export interface TrainerDef {

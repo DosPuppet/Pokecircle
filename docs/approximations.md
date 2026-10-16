@@ -38,3 +38,7 @@ Every approximation of the official rules or of a card's text is listed here whe
 - Great Haul Net: "Choose 1 or both" is a choice between the first, the second or both effects.
 - Prize rules limited to the attacker (`by`: Mega Gengar ex, Anthea & Concordia) read the opponent's Active Pokémon as
   the Knocking Out attacker.
+- Rotom ex's Multi Adapter: when the Ability goes away, extra Tools are not discarded (only the second Tool's slot is
+  no longer offered).
+- Cinderace's Explosiveness: a hand with Cinderace and no Basic Pokémon is still a mulligan; the AI never uses it.
+- Strange Timepiece: "any number of Evolution cards" is one, then a question for a second.

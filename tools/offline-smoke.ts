@@ -38,14 +38,22 @@ try {
   check(await page.getByRole("button", { name: "Jouer contre l'IA" }).isVisible(), "home screen offline");
   await page.getByRole("button", { name: "Jouer contre l'IA" }).click();
   let acted = 0;
+  let ended = false;
   for (let i = 0; i < ACTIONS * 4 && acted < ACTIONS; i++) {
     const r = await step(page);
-    if (r === "end") break;
+    if (r === "end") {
+      ended = true;
+      break;
+    }
     if (r === "acted") acted++;
     else await page.waitForTimeout(250);
   }
   await page.screenshot({ path: "test-results/offline.png" });
-  check(acted >= Math.min(ACTIONS, 10), `game against the AI played offline (${acted} actions)`);
+  // A short game (a single Basic Pokémon Knocked Out early) still counts once it reached its end.
+  check(
+    acted >= Math.min(ACTIONS, 10) || (ended && acted > 0),
+    `game against the AI played offline (${acted} actions${ended ? ", to the end" : ""})`,
+  );
   check(errors.length === 0, errors.length ? `page errors: ${errors.join(" | ")}` : "no page error");
 } finally {
   await browser.close();

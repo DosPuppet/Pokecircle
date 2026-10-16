@@ -9,13 +9,18 @@ import { takePrizes } from "../knockout";
 import { matchCard, matchPokemon, scopePokemon } from "../match";
 import type { OpHandlers } from "../opRegistry";
 import { bump, defOf, moveCard, obj, playerOf, pokemonOf, putOnPokemon, topDef } from "../state";
-import { chars } from "../statics";
+import { chars, rulesOn } from "../statics";
 import { msg } from "../text";
 import type { EType, GameState, ObjectId, Resolution } from "../types";
 
 export const HANDLERS: OpHandlers = {
   choosePokemon(s, r, e, key) {
-    const options = scopePokemon(s, e.scope, r.player, r.source);
+    let options = scopePokemon(s, e.scope, r.player, r.source);
+    if (e.leastHp && options.length) {
+      const left = (id: string) => chars(s, id).hp - pokemonOf(s, id).damage;
+      const least = Math.min(...options.map(left));
+      options = options.filter((id) => left(id) === least);
+    }
     const chooser = playersOf(s, r, e.chooser);
     const max = Math.min(e.max === undefined ? 1 : evalAmount(s, r, e.max), options.length);
     const min = Math.min(e.min === undefined ? 1 : evalAmount(s, r, e.min), max);
@@ -169,7 +174,9 @@ export const HANDLERS: OpHandlers = {
       if (pk.cards.length < 2 || attackEffectsPrevented(s, r, t)) continue;
       const top = pk.cards[pk.cards.length - 1] as ObjectId;
       moveCard(s, top, "hand");
-      for (const c of ["asleep", "confused", "paralyzed", "poisoned", "burned"] as const) removeCondition(s, t, c);
+      const keep = rulesOn(s, "keepConfused", t).length > 0;
+      for (const c of ["asleep", "confused", "paralyzed", "poisoned", "burned"] as const)
+        if (!(keep && c === "confused")) removeCondition(s, t, c);
       bump(s);
       emit({ type: "devolve", player: pk.owner, pokemon: t, defId: topDef(s, t).id });
     }
@@ -325,8 +332,13 @@ export const HANDLERS: OpHandlers = {
     return DONE;
   },
   takePrizes(s, r, e) {
-    takePrizes(s, r.player, evalAmount(s, r, e.n));
+    takePrizes(s, playersOf(s, r, e.side), evalAmount(s, r, e.n));
     return DONE;
+  },
+  useCardEffects(s, r, e) {
+    const card = (r.vars[e.cards] ?? []).map(String)[0];
+    const effects = card && s.objects[card] ? (defOf(s, card).trainer?.effects ?? []) : [];
+    return effects.length ? { push: effects } : DONE;
   },
 };
 

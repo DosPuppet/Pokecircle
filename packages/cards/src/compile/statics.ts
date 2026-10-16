@@ -277,7 +277,7 @@ const PREDICATES: Pred[] = [
     },
   ),
   P(
-    /^If (.+?) is damaged by an attack(?: from your opponent's Pokémon)? \(even if (?:it|this Pokémon) is Knocked Out\), put (\w+) damage counters? on the Attacking Pokémon\.$/,
+    /^If (.+?) is damaged by an attack(?: from your opponent's Pokémon)? \(even if .+? is Knocked Out\), put (\w+) damage counters? on the Attacking Pokémon\.$/,
     ([who, n], src) => {
       const sc = subject(who as string, src);
       const k = num(n as string);

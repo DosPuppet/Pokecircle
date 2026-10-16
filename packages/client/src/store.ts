@@ -13,7 +13,7 @@ import { create } from "zustand";
 import { soundsFor } from "./audio/eventSounds";
 import { playSound } from "./audio/sfx";
 import { type BoardChoice, isBoardChoice, PACES, type Pace, paceFactor } from "./boardThemes";
-import { defsOf } from "./cards";
+import { defOf, defsOf } from "./cards";
 import { deckById } from "./decks/store";
 import { fastMode } from "./fast";
 import { decisionOnTarget, directOption, myTurn } from "./game/interaction";
@@ -756,12 +756,14 @@ export const useGame = create<Store>((set, get) => {
       if (v.pending?.kind === "setup" && v.pending.player === v.me) {
         const { placing } = get();
         const bench = placing.bench.filter((c) => c !== card);
+        // A Pokémon allowed only in the Active Spot (Cinderace's Explosiveness) never goes to the Bench.
+        const basic = (c: string) => defOf(v.faces[c])?.stage === "basic";
         if (at.zone === "active" || (!placing.active && at.zone)) {
-          const old = placing.active && placing.active !== card ? [placing.active] : [];
+          const old = placing.active && placing.active !== card && basic(placing.active) ? [placing.active] : [];
           set({ placing: { active: card, bench: [...bench, ...old].slice(0, 5) } });
           return true;
         }
-        if (at.zone === "bench" && bench.length < 5) {
+        if (at.zone === "bench" && bench.length < 5 && basic(card)) {
           set({ placing: { active: placing.active === card ? null : placing.active, bench: [...bench, card] } });
           return true;
         }

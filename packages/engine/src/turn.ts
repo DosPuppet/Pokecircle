@@ -163,7 +163,10 @@ export function placeSetup(s: GameState, p: PlayerId, active: ObjectId, bench: O
   const ps = playerOf(s, p);
   const all = [active, ...bench];
   if (new Set(all).size !== all.length) return msg("A card can be placed only once");
-  if (!all.every((c) => ps.hand.includes(c) && isBasic(s, c))) return msg("Only Basic Pokémon from your hand can be placed");
+  // Cinderace's Explosiveness: it may be put in the Active Spot during setup.
+  const activeOk = (c: ObjectId) => isBasic(s, c) || !!s.defs[obj(s, c).defId]?.abilities?.some((a) => a.setupActive);
+  if (!all.every((c) => ps.hand.includes(c)) || !activeOk(active) || !bench.every((c) => isBasic(s, c)))
+    return msg("Only Basic Pokémon from your hand can be placed");
   if (bench.length > 5) return msg("At most 5 Benched Pokémon");
   for (const c of all) {
     const o = obj(s, c);

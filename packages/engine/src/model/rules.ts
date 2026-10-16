@@ -67,6 +67,14 @@ export type StaticRule = (
     }
   | /** Damage counters on the scope's Pokémon cannot be moved (Patrat). */ { s: "noMoveCounters"; scope: PokemonScope }
   | /** Pokémon Tools attached to every Pokémon have no effect (Jamming Tower; a Stadium's rule only). */ { s: "noTools" }
+  | /** Confused Pokémon of the scope stay Confused when they evolve or devolve (Dizzying Valley). */ {
+      s: "keepConfused";
+      scope: PokemonScope;
+    }
+  | /**
+   * When an Energy card is attached from the hand to a Pokémon of the scope: damage counters on it, and/or the turn
+   * ends (Pachirisu, Gengar ex, Hypno).
+   */ { s: "onAttach"; scope: PokemonScope; counters?: number; endsTurn?: boolean }
   | { s: "cantRetreat"; scope: PokemonScope }
   | { s: "cantEvolve"; scope: PokemonScope }
   | /** Bench size of the side's players. */ { s: "benchSize"; side: Side; size: number; scope?: PokemonScope }

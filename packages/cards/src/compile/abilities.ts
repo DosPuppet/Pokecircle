@@ -73,7 +73,10 @@ const ABILITY_EFFECTS: Template<Ctx>[] = [
     return then ? { post: [fx.flip(), fx.if(cond.heads(), then)] } : null;
   }),
   tpl("ab.discardStadium", "Discard a Stadium in play.", () => ({ post: [fx.discardStadium()], condition: { c: "stadium" } })),
-  tpl("ab.switchSelf", "Switch this Pokémon with your Active Pokémon.", () => ({ post: [fx.switch("me")] })),
+  // This Benched Pokémon becomes the Active one (not a Benched Pokémon of the player's choice).
+  tpl("ab.switchSelf", "Switch this Pokémon with your Active Pokémon.", () => ({
+    post: [fx.choosePokemon(scope.self(), "selfId", msg("This Pokémon")), { op: "switch", side: "me", with: "selfId" }],
+  })),
   ...COMMON,
 ];
 
@@ -356,6 +359,16 @@ export function compileAbility(text: string): AbilityParts | { unmatched: string
     ],
     [/^During Pokémon Checkup, (.+)$/, "checkup", {}],
     [/^Whenever your opponent's Active Pokémon moves to the Bench during their turn, (.+)$/, "oppToBench", {}],
+    [
+      /^As long as this Pokémon is in the Active Spot, whenever your opponent's Active Pokémon moves to the Bench during their turn, (.+)$/,
+      "oppToBench",
+      { condition: { c: "isActive", ref: ref.self } },
+    ],
+    [
+      /^Once during your turn, when this Pokémon moves from the Active Spot to your Bench, you may use this Ability\. (.+)$/,
+      "movedToBench",
+      { may: true, oncePerTurn: true, condition: { c: "myTurn" } },
+    ],
   ];
   for (const [re, on, opts] of trig) {
     const m = re.exec(rest);
@@ -437,6 +450,17 @@ export function compileAbility(text: string): AbilityParts | { unmatched: string
     [
       /^Once during your turn, you may (?:use this Ability\. )?(.+)$/,
       ([x]) => {
+        rest = sentence(x as string);
+        return true;
+      },
+    ],
+    [
+      /^As often as you like during your turn, if (.+?), you may (?:use this Ability\. )?(.+)$/,
+      ([c, x]) => {
+        const k = condPhrase(c as string, false);
+        if (!k) return false;
+        condition = condition ? cond.and(condition, k) : k;
+        limit.once = "none";
         rest = sentence(x as string);
         return true;
       },

@@ -3,6 +3,7 @@
  * attaching cards.
  */
 import { clearConditions, endAttackEffects } from "./conditions";
+import { putCounters } from "./damage";
 import { emit } from "./events";
 import {
   bump,
@@ -19,7 +20,7 @@ import {
   removePokemon,
   topDef,
 } from "./state";
-import { benchSize } from "./statics";
+import { benchSize, rulesOn } from "./statics";
 import { queueTriggers } from "./triggers";
 import type { GameState, ObjectId, PlayerId, PokemonId } from "./types";
 
@@ -47,7 +48,10 @@ export function evolvePokemon(s: GameState, card: ObjectId, target: PokemonId, f
   putOnPokemon(s, card, target, "cards");
   const pk = pokemonOf(s, target);
   pk.evolvedTurn = s.turn.number;
+  // Dizzying Valley: a Confused Pokémon stays Confused when it evolves.
+  const keep = pk.cond.rotating === "confused" && rulesOn(s, "keepConfused", target).length > 0;
   clearConditions(s, target);
+  if (keep) pk.cond.rotating = "confused";
   endAttackEffects(s, target);
   s.turnLog.push({ turn: s.turn.number, player: pk.owner, kind: "evolved", pokemon: target, defId: obj(s, card).defId });
   emit({ type: "evolve", player: pk.owner, pokemon: target, defId: obj(s, card).defId, from });
@@ -69,6 +73,8 @@ export function switchActive(s: GameState, p: PlayerId, to: PokemonId, retreat =
   s.turnLog.push({ turn: s.turn.number, player: p, kind: "becameActive", pokemon: to });
   if (from) emit({ type: retreat ? "retreat" : "switch", player: p, from, to });
   queueTriggers(s, "becameActive", to);
+  for (const id of inPlay(s, p)) if (id !== to) queueTriggers(s, "allyBecameActive", id, { event: { pokemon: to } });
+  if (from) queueTriggers(s, "movedToBench", from);
   // "Whenever your opponent's Active Pokémon moves to the Bench during their turn" (Team Rocket's Dugtrio, Magcargo).
   if (from && s.turn.active === p)
     for (const id of inPlay(s, opponentOf(s, p))) queueTriggers(s, "oppToBench", id, { event: { pokemon: from } });
@@ -89,4 +95,10 @@ export function attachCard(s: GameState, card: ObjectId, target: PokemonId, from
   emit({ type: "attach", player: owner, card, defId: d.id, pokemon: target });
   if (d.category === "energy") s.turnLog.push({ turn: s.turn.number, player: owner, kind: "energyAttached", pokemon: target });
   if (fromHand) queueTriggers(s, "attached", target, { card });
+  // "whenever they attach an Energy card from their hand to the Defending Pokémon, place 8 damage counters on it"
+  if (fromHand && d.category === "energy")
+    for (const st of rulesOn(s, "onAttach", target)) {
+      if (st.rule.counters) putCounters(s, null, target, st.rule.counters);
+      if (st.rule.endsTurn) s.turn.ending = true;
+    }
 }

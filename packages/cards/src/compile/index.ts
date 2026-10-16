@@ -38,6 +38,7 @@ export function compileDef(def: CardDef, report?: CompileReport): CardDef {
         effects: c.effects,
         ...(c.condition ? { condition: c.condition } : {}),
         ...(c.firstTurn ? { firstTurn: true } : {}),
+        ...(c.altCost ? { altCost: c.altCost } : {}),
       };
     });
     out.abilities = (def.abilities ?? []).map((ab): AbilityDef => {

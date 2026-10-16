@@ -2,7 +2,7 @@
  * Attack texts. The attack's printed damage (`mainDamage`) goes after the "pre" effects (damage modifiers, coin flips
  * deciding them, "this attack does nothing") and before the others (R-ATTACK-3, R-ATTACK-4).
  */
-import type { AttackDef, Condition, Effect } from "@pokecircle/engine";
+import type { AttackDef, Condition, Effect, EType } from "@pokecircle/engine";
 import { amt, cond, fx, msg, ref, scope } from "@pokecircle/engine";
 import { COMMON, type Ctx, chooseIn } from "./effects";
 import { cardFilter, condPhrase, eachPhrase, num, pokemonFilter, pokemonRef, scopePhrase, typeSym } from "./phrases";
@@ -45,6 +45,24 @@ function guarded(c: Parameters<typeof fx.if>[0], b: Built, before: Effect[] = []
 }
 
 const own = (who: string) => /^this Pokémon$/.test(who);
+
+/** "Discard the top 6 cards of your deck, and this attack does 100 damage for each Basic {W} Energy card (that) you discarded…" */
+function millForDamage(w: string | undefined, n: string | undefined, what: string): Built | null {
+  const k = num(w);
+  const f = cardFilter(what);
+  if (!k || !f) return null;
+  return pre(
+    { op: "mill", side: "me", n: k, store: "m" },
+    fx.chooseCards("discard", "w", msg("Cards discarded in this way"), {
+      among: "m",
+      ...(f.filter ? { filter: f.filter } : {}),
+      min: 0,
+      max: k,
+      random: true,
+    }),
+    fx.setDamage(amt.mul(Number(n), amt.count("w"))),
+  );
+}
 
 /** "Discard up to 2 {M} Energy from this Pokémon. This attack does 120 damage for each card you discarded in this way." */
 function discardSelfForDamage(w: string | undefined, what: string | undefined, n: string | undefined): Built | null {
@@ -400,6 +418,124 @@ export const ATTACK_TEMPLATES: Template<Ctx>[] = [
     ([w, what, n]) => discardSelfForDamage(w, what, n),
   ),
   tpl(
+    "cost.discardHandOrNothing",
+    "Discard {w} {x} from your hand. If you can't discard {w} cards in this way, this attack does nothing.",
+    ([w, what, w2]) => {
+      const k = num(w);
+      const f = cardFilter(what as string);
+      if (!k || num(w2) !== k || !f) return null;
+      return pre(
+        fx.if(
+          cond.hasCards("hand", "me", f.filter, k),
+          [
+            fx.chooseCards("hand", "d", msg("Choose cards to discard from your hand"), {
+              ...(f.filter ? { filter: f.filter } : {}),
+              min: k,
+              max: k,
+            }),
+            fx.move("d", "discard"),
+          ],
+          [{ op: "attackFails" }],
+        ),
+      );
+    },
+  ),
+  tpl(
+    "may.selfDamageParalyze",
+    "You may have this Pokémon also do {n} damage to itself and make your opponent's Active Pokémon Paralyzed.",
+    ([n]) =>
+      post(
+        fx.may(msg("Do damage to this Pokémon to make the opponent's Active Pokémon Paralyzed?"), [
+          fx.damage(ref.self, Number(n)),
+          fx.condition(ref.defending, "paralyzed"),
+        ]),
+      ),
+  ),
+  tpl(
+    "discardThen.eachOfN",
+    "Discard {w} Energy from this Pokémon, and this attack does {n} damage to each of {w} of {X}.",
+    ([w, n, w2, who]) => {
+      const k = num(w);
+      const j = num(w2);
+      const sc = scopePhrase(who as string);
+      if (!k || !j || !sc) return null;
+      return {
+        post: [fx.discardEnergy(ref.self, k), chooseIn(sc, "t", { min: j, max: j }), fx.damage(ref.v("t"), Number(n))],
+        noMain: true,
+      };
+    },
+  ),
+  tpl(
+    "dmg.millEach",
+    "Discard the top {w} cards of your deck, and this attack does {n} damage for each {x} you discarded in this way.",
+    ([w, n, what]) => millForDamage(w, n, (what as string).replace(/ that$/, "")),
+  ),
+  tpl(
+    "dmg.discardAnyFromPokemon",
+    "Discard any amount of {t} Energy from among your Pokémon, and this attack does {n} damage for each card you discarded in this way.",
+    ([t, n]) => {
+      const type = typeSym(t);
+      if (!type) return null;
+      return pre(
+        {
+          op: "discardEnergyFrom",
+          scope: scope.mine(),
+          min: 0,
+          max: 60,
+          types: [type],
+          store: "d",
+          prompt: msg("Choose Energy to discard"),
+        },
+        fx.setDamage(amt.mul(Number(n), amt.v("d"))),
+      );
+    },
+  ),
+  tpl("may.costForMore", "You may {x} and have this attack do {n} more damage.", ([action, n]) => {
+    const a = action as string;
+    const e =
+      a === "discard all Energy from this Pokémon"
+        ? fx.discardEnergy(ref.self, "all")
+        : a === "shuffle all Energy attached to this Pokémon into your deck"
+          ? fx.discardEnergy(ref.self, "all", { to: "deck" })
+          : a === "put all Energy attached to this Pokémon into your hand"
+            ? fx.discardEnergy(ref.self, "all", { to: "hand" })
+            : null;
+    if (!e) return null;
+    const shuffle = a.includes("into your deck") ? [fx.shuffle()] : [];
+    return pre(
+      fx.if(cond.cmp(amt.energy(ref.self), ">", 0), [fx.may(msg("Do more damage?"), [e, ...shuffle, fx.bonus(Number(n))])]),
+    );
+  }),
+  tpl("dmg.baseIs", "If {x}, this attack's base damage is {n}.", ([c, n], ctx) => {
+    const k = condPhrase(c as string, ctx.inAttack);
+    return k ? pre(fx.if(k, [fx.setDamage(Number(n))])) : null;
+  }),
+  tpl(
+    "ko.ifSelfAttack",
+    "If your opponent's Pokémon is Knocked Out by damage from this attack, during your opponent's next turn, prevent all damage from and effects of attacks done to this Pokémon.",
+    () =>
+      post(
+        fx.if(cond.matches(ref.defending, { maxRemainingHp: 0 }), [
+          fx.timed("opponentsNextTurn", { s: "prevent", scope: scope.self(), what: "all" }, ref.self),
+        ]),
+      ),
+  ),
+  tpl(
+    "ko.exactCounters",
+    "If your opponent's Active Pokémon has exactly {w} damage counters on it, that Pokémon is Knocked Out.",
+    ([w]) => {
+      const k = num(w);
+      return k ? post(fx.if(cond.cmp(amt.counters(ref.defending), "==", k), [{ op: "knockOut", target: ref.defending }])) : null;
+    },
+  ),
+  tpl("cost.alt", "If {x}, this attack can be used for {X}.", ([c, cost], ctx) => {
+    const k = condPhrase(c as string, ctx.inAttack);
+    const types = (cost as string).match(/\{[A-Z]\}/g)?.map((x) => typeSym(x));
+    if (!k || !types || types.some((x) => !x) || types.join("").length === 0 || (cost as string).replace(/\{[A-Z]\}/g, "") !== "")
+      return null;
+    return { altCost: { cost: types as EType[], cond: k } };
+  }),
+  tpl(
     "first.prizeRange",
     "If your opponent doesn't have exactly {w} or {w} Prize cards remaining, this attack does nothing.",
     ([a, b]) => {
@@ -577,6 +713,7 @@ export interface CompiledAttack {
   /** "You can use this attack only if…". */
   condition?: Condition;
   firstTurn?: boolean;
+  altCost?: { cost: EType[]; cond: Condition };
 }
 
 /** Compiles an attack's text; null when a part of it is not understood (it then needs a script). */
@@ -599,5 +736,7 @@ export function compileAttack(a: AttackDef, name?: string): CompiledAttack | { u
   const conds = m.parts.flatMap((p) => (p.useCondition ? [p.useCondition] : []));
   if (conds.length) out.condition = conds.length === 1 ? (conds[0] as Condition) : cond.and(...conds);
   if (m.parts.some((p) => p.firstTurn)) out.firstTurn = true;
+  const alt = m.parts.find((p) => p.altCost)?.altCost;
+  if (alt) out.altCost = alt;
   return out;
 }

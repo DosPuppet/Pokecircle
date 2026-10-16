@@ -210,6 +210,9 @@ function compute(s: GameState, id: PokemonId): Chars {
           c.attacks.push({ index, def, source: top, cost: [...def.cost] });
       });
     }
+  // "If this Pokémon has any damage counters on it, this attack can be used for {D}."
+  for (const a of c.attacks)
+    if (a.def.altCost && evalCond(s, staticCtx(pk.owner, id), a.def.altCost.cond)) a.cost = [...a.def.altCost.cost];
   for (const st of rulesOn(s, "attackCostIs", id))
     for (const a of c.attacks) if (a.def.name === st.rule.attack) a.cost = [...st.rule.cost];
   let retreat = c.retreat;
