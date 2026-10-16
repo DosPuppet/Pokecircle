@@ -106,6 +106,16 @@ export function pokemonFilter(s: string): PokemonFilter | null {
       f.energyTypes = [ty];
     } else f.hasEnergy = true;
   }
+  const counters = /^(.*?) that (?:has|have) any damage counters on (?:it|them)$/.exec(t);
+  if (counters) {
+    t = counters[1] as string;
+    f.damaged = true;
+  }
+  const tool = /^(.*?) that (?:has|have) a Pokémon Tool attached$/.exec(t);
+  if (tool) {
+    t = tool[1] as string;
+    f.hasTool = true;
+  }
   const fewEnergy = /^(.*?) that (?:has|have) (\w+) or less Energy attached$/.exec(t);
   if (fewEnergy) {
     const n = num(fewEnergy[2]);
@@ -184,7 +194,13 @@ export function scopePhrase(s: string): PokemonScope | null {
   if (!m) return null;
   const side = m[1] === "your" ? "me" : "opp";
   const where = m[2] === "Benched " ? "bench" : m[2] === "Active " ? "active" : "any";
-  const f = pokemonFilter(m[3] as string);
+  // A Pokémon description, or a name ("your Benched Rattata").
+  const name = m[3] as string;
+  const f =
+    pokemonFilter(name) ??
+    (/^[A-Z][\w'.-]*(?: [A-Z][\w'.-]*)*(?: ex)?$/.test(name) && !/\b(?:Pokémon|Energy|Item|Supporter|Stadium|Tool)\b/.test(name)
+      ? { names: [name] }
+      : null);
   if (!f) return null;
   return Object.keys(f).length ? scope.of(side, where, f) : scope.of(side, where);
 }
@@ -197,6 +213,7 @@ export function eachPhrase(s: string, inAttack: boolean): Amount | null {
   const t = s.trim().replace(/\s+/g, " ");
   let m: RegExpExecArray | null;
   if (t === "heads") return amt.heads();
+  if (t === "Energy attached to all Pokémon") return amt.energy(ref.all(scope.of("both")), { units: true });
   m = /^(?:(Basic) )?(\{[A-Z]\} )?Energy attached to (.+)$/.exec(t);
   if (m) {
     const type = m[2] ? typeSym(m[2].trim()) : undefined;
@@ -251,7 +268,6 @@ export function eachPhrase(s: string, inAttack: boolean): Amount | null {
     const r = pokemonRef(m[1] as string, inAttack);
     return r ? { k: "conditions", on: r } : null;
   }
-  if (t === "Energy attached to all Pokémon") return amt.energy(ref.all(scope.of("both")), { units: true });
   m = /^type of Basic Energy attached to all of (your opponent's|your) Pokémon$/.exec(t);
   if (m) return { k: "energyTypes", on: ref.all(scope.of(m[1] === "your" ? "me" : "opp")) };
   m = /^of your Pokémon in play that has the (.+?) attack$/.exec(t);
@@ -261,6 +277,10 @@ export function eachPhrase(s: string, inAttack: boolean): Amount | null {
     const f = pokemonFilter(m[1] as string);
     if (f) return amt.pokemon(scope.of("me", "any", f));
   }
+  // "of your Beedrill and Beedrill ex in play"
+  m = /^of your ([A-Z][\w'.-]*(?: [A-Z][\w'.-]*)*(?: ex)?) and ([A-Z][\w'.-]*(?: [A-Z][\w'.-]*)*(?: ex)?) in play$/.exec(t);
+  if (m && !/Pokémon/.test(`${m[1]}${m[2]}`))
+    return amt.pokemon(scope.of("me", "any", { names: [m[1] as string, m[2] as string] }));
   // "of your Benched Pokémon that has any {R} Energy attached", "of your opponent's Mega Evolution Pokémon ex in play"
   m = /^of (your opponent's|your) (Benched |Active )?(.+?)(?: in play)?$/.exec(t);
   if (m) {
@@ -317,7 +337,7 @@ export function cardFilter(s: string): { filter?: CardFilter } | null {
     const base = cardFilter(`${m[1]} card`);
     return base ? { filter: { ...base.filter, nameIncludes: m[2] as string } } : null;
   }
-  if (/^card$/.test(t)) return {};
+  if (/^cards?$/.test(t)) return {};
   m = /^(Basic )?(\{[A-Z]\} )?Energy card$/.exec(t);
   if (m) {
     const type = m[2] ? typeSym(m[2].trim()) : undefined;
@@ -334,10 +354,17 @@ export function cardFilter(s: string): { filter?: CardFilter } | null {
     const k = kind === "Pokémon Tool" ? "tool" : (kind as string).toLowerCase();
     return { filter: { category: ["trainer"], trainer: [k as "item"] } };
   }
+  // "Ancient card", "Future card": Pokémon or Trainer cards with the tag.
+  m = /^(Ancient|Future) cards?$/.exec(raw.trim());
+  if (m) return { filter: { tags: [m[1] === "Ancient" ? "ancient" : "future"] } };
+  // A Trainer card by name: "up to 2 Transformation Tome cards".
+  m = /^([A-Z][\w'.-]*(?: [A-Z][\w'.-]*)*) cards?$/.exec(raw.trim());
+  if (m && !/\b(?:Pokémon|Energy|Item|Supporter|Stadium|Tool|Trainer|Basic|Ancient|Future|Tera|Mega|ACE)\b/.test(m[1] as string))
+    return { filter: { names: [m[1] as string] } };
   // A Pokémon by name: "up to 3 Lampent", "a Pikachu", "Maushold and Maushold ex" (any combination).
   if (
     /^[A-Z][\w'.-]*(?: [A-Z][\w'.-]*)*(?: ex)?$/.test(t) &&
-    !/\b(?:Pokémon|Energy|card|Item|Supporter|Stadium|Tool|Trainer)\b/.test(t)
+    !/\b(?:Pokémon|Energy|card|Item|Supporter|Stadium|Tool|Trainer|Ancient|Future|Tera|Mega|ACE)\b/.test(t)
   )
     return { filter: { names: [t] } };
   const pf = pokemonFilter(t.replace(/ card$/, ""));
@@ -458,6 +485,8 @@ export function condPhrase(s: string, inAttack: boolean): Condition | null {
   m = /^you have ([A-Z][\w'. -]*?) and ([A-Z][\w'. -]*?) in play$/.exec(t);
   if (m)
     return cond.and(cond.exists(scope.mine({ names: [m[1] as string] })), cond.exists(scope.mine({ names: [m[2] as string] })));
+  m = /^you have ([A-Z][\w'.-]*(?: [A-Z][\w'.-]*)*(?: ex)?) in play$/.exec(t);
+  if (m && !/\b(?:Pokémon|Energy)\b/.test(m[1] as string)) return cond.exists(scope.mine({ names: [m[1] as string] }));
   m = /^you have any (.+?) in play$/.exec(t);
   if (m) {
     const f = pokemonFilter(m[1] as string);
@@ -528,6 +557,35 @@ export function condPhrase(s: string, inAttack: boolean): Condition | null {
   if (m && !/Energy$|Tool$/.test(m[2] as string)) {
     const r = pokemonRef(m[1] as string, inAttack);
     return r ? cond.matches(r, { attachedNamed: m[2] as string }) : null;
+  }
+  if (/^you have the same number of cards in your hand as your opponent$/.test(t))
+    return cond.cmp(amt.cards("hand", "me"), "==", amt.cards("hand", "opp"));
+  if (/^you don't have the same number of cards in your hand as your opponent$/.test(t))
+    return cond.cmp(amt.cards("hand", "me"), "!=", amt.cards("hand", "opp"));
+  // "you played Emma from your hand during this turn"
+  m = /^you played ([A-Z][\w'.&-]*(?: [A-Z&][\w'.&-]*)*) from your hand during this turn$/.exec(t);
+  if (m && !/\bcard$/.test(m[1] as string)) {
+    const filter = { names: [m[1] as string] };
+    return cond.cmp(
+      amt.add(
+        { k: "turnLog", event: "supporterPlayed", side: "me", filter },
+        { k: "turnLog", event: "itemPlayed", side: "me", filter },
+      ),
+      ">",
+      0,
+    );
+  }
+  m = /^([A-Z][\w'.&-]*(?: [A-Z&][\w'.&-]*)*) is in your discard pile$/.exec(t);
+  if (m) return cond.hasCards("discard", "me", { names: [m[1] as string] });
+  m = /^(.+?) has no Retreat Cost$/.exec(t);
+  if (m) {
+    const r = pokemonRef(m[1] as string, inAttack);
+    return r ? cond.cmp({ k: "retreatCost", on: r }, "==", 0) : null;
+  }
+  m = /^your opponent has exactly (\w+) cards? in their hand$/.exec(t);
+  if (m) {
+    const n = num(m[1]);
+    return n === null ? null : cond.cmp(amt.cards("hand", "opp"), "==", n);
   }
   if (/^you have no cards in your hand$/.test(t)) return cond.cmp(amt.cards("hand", "me"), "==", 0);
   m = /^(your opponent|you) (?:has|have) exactly (\w+) Prize cards? remaining$/.exec(t);

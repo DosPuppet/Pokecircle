@@ -41,6 +41,7 @@ function damagePrevented(
       (st.rule.anyAttacker || attackerOwner !== t.owner) &&
       (st.rule.maxDamage === undefined || amount <= st.rule.maxDamage) &&
       (st.rule.minDamage === undefined || amount >= st.rule.minDamage) &&
+      !st.rule.flip &&
       (!st.rule.from || (attacker !== null && !!s.pokemon[attacker] && matchPokemon(s, attacker, st.rule.from))),
   );
 }
@@ -111,6 +112,14 @@ export function dealAttackDamage(s: GameState, r: Resolution, target: PokemonId,
   const t = pokemonOf(s, target);
   // "…, and discard this card" (Berries): once it reduced the damage.
   for (const c of res.consumed) if (s.objects[c]?.host === target) moveCard(s, c, "discard");
+  // "If any damage is done to this Pokémon by attacks, flip a coin. If heads, prevent that damage."
+  if (res.amount > 0 && t.owner !== r.player)
+    for (const st of rulesOn(s, "prevent", target))
+      if (st.rule.flip && (st.rule.what === "damage" || st.rule.what === "all") && flipCoin(s, t.owner)) {
+        res.amount = 0;
+        res.prevented = true;
+        break;
+      }
   if (res.amount > 0) {
     // "If this Pokémon has full HP and would be Knocked Out by damage from an attack, it is not Knocked Out, and its
     // remaining HP becomes 10."

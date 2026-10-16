@@ -93,6 +93,26 @@ const PREDICATES: Pred[] = [
       return [rule];
     },
   ),
+  P(/^Attacks used by (.+?) do (\d+) less damage \(before applying Weakness and Resistance\)\.$/, ([who, n], src) => {
+    const sc = subject(who as string, src);
+    return sc ? [{ s: "dealt", scope: sc, add: -Number(n) }] : null;
+  }),
+  P(/^Ignore all \{C\} Energy in the costs of attacks used by (.+?)\.$/, ([who], src) => {
+    const sc = subject(who as string, src);
+    return sc ? [{ s: "attackCost", scope: sc, less: 20 }] : null;
+  }),
+  P(/^Damage counters on (.+?) can't be moved to other Pokémon\.$/, ([who], src) => {
+    const sc = subject(who as string, src);
+    return sc ? [{ s: "noMoveCounters", scope: sc }] : null;
+  }),
+  P(
+    /^When your opponent's Active Pokémon retreats, your opponent flips a coin\. If tails, Energy for its Retreat Cost is not discarded, and they don't switch Pokémon\.$/,
+    () => [{ s: "retreatFlip", scope: scope.oppActive() }],
+  ),
+  P(/^If any damage is done to (.+?) by attacks, flip a coin\. If heads, prevent that damage\.$/, ([who], src) => {
+    const sc = subject(who as string, src);
+    return sc ? [{ s: "prevent", scope: sc, what: "damage", flip: true }] : null;
+  }),
   // —— Retreat Cost ——
   P(/^(.+?)'s? Retreat Cost is ((?:\{C\})+) (less|more)\.$/, ([who, c, way], src) => {
     const sc = subject(who as string, src);
@@ -205,6 +225,14 @@ const PREDICATES: Pred[] = [
     if (Object.keys(f).length) rule.from = f;
     return [rule];
   }),
+  P(/^Prevent all effects of your opponent's Pokémon's Abilities done to (.+?)\.$/, ([who], src) => {
+    const sc = subject(who as string, src);
+    return sc ? [{ s: "shielded", scope: sc, from: "abilities" }] : null;
+  }),
+  P(/^(.+?) can evolve during your first turn or the turn you play it\.$/, ([who], src) => {
+    const sc = subject(who as string, src);
+    return sc ? [{ s: "evolveSameTurn", scope: sc, firstTurn: true }] : null;
+  }),
   // —— Pokémon Checkup ——
   P(/^During Pokémon Checkup, put (\w+) more damage counters? on (.+?)\.$/, ([n, who], src) => {
     const k = Number(n) || ({ a: 1, an: 1, one: 1, two: 2, three: 3, four: 4, five: 5 } as Record<string, number>)[n as string];
@@ -286,7 +314,8 @@ function staticSentence(t: string, src: StaticSource): StaticRule[] | null {
   const parts = c.rest.split(/, and (?=the attacks|its |it )/);
   const out: StaticRule[] = [];
   for (const part of parts) {
-    const rules = predicate(sentence(part.replace(/\.$/, "")), src);
+    const body = part.replace(/\.$/, "");
+    const rules = predicate(`${body.charAt(0).toUpperCase()}${body.slice(1)}.`, src);
     if (!rules) return null;
     out.push(...rules);
   }
@@ -297,10 +326,17 @@ function staticSentence(t: string, src: StaticSource): StaticRule[] | null {
 
 /** The rules of a whole static text, or null when a sentence is not understood. */
 export function compileStatics(text: string, src: StaticSource): StaticRule[] | null {
-  const t = normalize(text);
+  let t = normalize(text);
+  // "The effect of <name> doesn't stack." at the end: every rule of the text.
+  const stack = /\s*The effect of (.+?) doesn't stack\.$/.exec(t);
+  if (stack) t = t.slice(0, stack.index);
+  const mark = (rules: StaticRule[] | null) => {
+    if (rules && stack) for (const r of rules) r.noStack = stack[1] as string;
+    return rules;
+  };
   // A predicate spanning several sentences ("…, flip a coin. If heads, …").
   const whole = predicate(t, src);
-  if (whole) return whole;
+  if (whole) return mark(whole);
   const sentences = t.split(/(?<=[.)])\s+(?=[A-Z])/);
   const rules: StaticRule[] = [];
   for (const s of sentences) {
@@ -314,5 +350,5 @@ export function compileStatics(text: string, src: StaticSource): StaticRule[] | 
     if (!r) return null;
     rules.push(...r);
   }
-  return rules.length ? rules : null;
+  return rules.length ? mark(rules) : null;
 }

@@ -6,12 +6,12 @@ import { answer, DONE, evalAmount, isAsk, playersOf, resolveRef } from "../effec
 import { RulesError } from "../errors";
 import { emit } from "../events";
 import { takePrizes } from "../knockout";
-import { matchCard, scopePokemon } from "../match";
+import { matchCard, matchPokemon, scopePokemon } from "../match";
 import type { OpHandlers } from "../opRegistry";
 import { bump, defOf, moveCard, obj, playerOf, pokemonOf, putOnPokemon, topDef } from "../state";
 import { chars } from "../statics";
 import { msg } from "../text";
-import type { GameState, ObjectId, Resolution } from "../types";
+import type { EType, GameState, ObjectId, Resolution } from "../types";
 
 export const HANDLERS: OpHandlers = {
   choosePokemon(s, r, e, key) {
@@ -292,7 +292,8 @@ export const HANDLERS: OpHandlers = {
     if (!to) return DONE;
     const options = scopePokemon(s, e.from, r.player, r.source)
       .filter((id) => id !== to)
-      .flatMap((id) => pokemonOf(s, id).energy);
+      .flatMap((id) => pokemonOf(s, id).energy)
+      .filter((c) => !e.types || (defOf(s, c).energy?.provides ?? []).some((u) => u.some((t) => e.types?.includes(t as EType))));
     const max = Math.min(evalAmount(s, r, e.max), options.length);
     const min = Math.min(evalAmount(s, r, e.min), max);
     const a = answer(r, key("e"), r.player, {
@@ -312,6 +313,17 @@ export const HANDLERS: OpHandlers = {
     }
     return DONE;
   },
+  replaceCard(s, r, e) {
+    const target = resolveRef(s, r, e.target)[0];
+    const card = (r.vars[e.card] ?? []).map(String)[0];
+    if (!target || !card || !s.objects[card]) return DONE;
+    const pk = pokemonOf(s, target);
+    const old = pk.cards[pk.cards.length - 1] as ObjectId;
+    // The new card takes the old one's place: the old one goes to the discard pile.
+    putOnPokemon(s, card, target, "cards");
+    moveCard(s, old, "discard");
+    return DONE;
+  },
   takePrizes(s, r, e) {
     takePrizes(s, r.player, evalAmount(s, r, e.n));
     return DONE;
@@ -321,6 +333,8 @@ export const HANDLERS: OpHandlers = {
 /** Boomerang Energy: discarded by an effect of its own Pokémon's attack, it comes back after the attack. */
 function noteBoomerang(s: GameState, r: Resolution, card: ObjectId): void {
   if (r.kind !== "attack" || !r.source || s.objects[card]?.host !== r.source) return;
-  if (!defOf(s, card).energy?.returnAfterAttack) return;
-  r.vars.boomerang = [...(r.vars.boomerang ?? []), defOf(s, card).id];
+  const e = defOf(s, card).energy;
+  if (!e?.returnAfterAttack || (e.returnFilter && !matchPokemon(s, r.source, e.returnFilter))) return;
+  if (e.returnAfterAttack === "hand") r.vars.toHand = [...(r.vars.toHand ?? []), card];
+  else r.vars.boomerang = [...(r.vars.boomerang ?? []), defOf(s, card).id];
 }

@@ -5,7 +5,7 @@
 import type { AbilityDef, Condition, Effect, StaticRule, TriggerDef } from "@pokecircle/engine";
 import { amt, cond, fx, msg, ref, scope } from "@pokecircle/engine";
 import { COMMON, type Ctx, chooseIn } from "./effects";
-import { condPhrase, num, scopePhrase, typeSym } from "./phrases";
+import { cardFilter, condPhrase, num, scopePhrase, typeSym } from "./phrases";
 import { compileStatics } from "./statics";
 import { matchAll, normalize, sentence, type Template, tpl } from "./templates";
 
@@ -444,6 +444,24 @@ export function compileAbility(text: string): AbilityParts | { unmatched: string
     }
   }
   if (!matched) return { unmatched: rest };
+  // "…, you may discard a Basic {R} Energy card from your hand in order to use this Ability. Draw cards until…"
+  const handCost = /^Discard (an?|\w+) (.+?) from your hand in order to use this Ability\. (.+)$/.exec(rest);
+  if (handCost) {
+    const n = num(handCost[1]) ?? 1;
+    const f = cardFilter(handCost[2] as string);
+    if (!f) return { unmatched: rest };
+    pre.push(
+      fx.chooseCards("hand", "cost", msg("Choose cards to discard from your hand"), {
+        ...(f.filter ? { filter: f.filter } : {}),
+        min: n,
+        max: n,
+      }),
+      fx.move("cost", "discard"),
+    );
+    const k = cond.hasCards("hand", "me", f.filter, n);
+    condition = condition ? cond.and(condition, k) : k;
+    rest = handCost[3] as string;
+  }
   const b = body(rest);
   if (!b) return { unmatched: rest };
   const act: NonNullable<AbilityDef["activated"]> = { effects: [...pre, ...b.effects] };

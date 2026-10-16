@@ -211,6 +211,13 @@ export function setBenchSize(fn: (s: GameState, p: PlayerId) => number): void {
 
 export function evalCond(s: GameState, ctx: Ctx, c: Condition): boolean {
   switch (c.c) {
+    case "weakTo": {
+      const target = resolveRef(s, ctx, c.ref)[0];
+      const other = resolveRef(s, ctx, c.of)[0];
+      if (!target || !other) return false;
+      const w = chars(s, target).weakness;
+      return !!w && chars(s, other).types.includes(w.type);
+    }
     case "true":
       return true;
     case "heads":

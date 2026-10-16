@@ -80,6 +80,8 @@ export type TriggerEvent =
   | "becameActive"
   /** During Pokémon Checkup. */
   | "checkup"
+  /** This card was discarded from its owner's deck by an effect of the opponent (Ferrothorn). */
+  | "discardedFromDeck"
   /** At the end of its owner's turn. */
   | "turnEnd"
   /** The holder of this card used an attack (after it is done). */
@@ -128,6 +130,11 @@ export interface TrainerDef {
   /** Supporter: "If you go first, you may use this card during your first turn." */
   firstTurnOk?: boolean;
   /**
+   * Stadium: put into play only by discarding this Stadium in play, even the turn it was played (Ange Floette and
+   * Prism Tower).
+   */
+  replaces?: string;
+  /**
    * Item: "Play this card as if it were a 60-HP Basic {C} Pokémon." It is played onto the Bench like a Basic Pokémon
    * (the definition's `hp`, `types`, `stage`), never during setup; its `statics` apply to it while in play.
    */
@@ -147,8 +154,13 @@ export interface EnergyDef {
   triggers?: TriggerDef[];
   /** Attaching it is only allowed to Pokémon matching this condition (`self` = the target). */
   attachCondition?: Condition;
-  /** Discarded by an effect of its Pokémon's own attack: attached again after attacking (Boomerang Energy). */
-  returnAfterAttack?: boolean;
+  /** Only when its Pokémon matches this (Nitro Fire Energy: "the {R} Pokémon this card is attached to"). */
+  returnFilter?: PokemonFilter;
+  /**
+   * Discarded by an effect of its Pokémon's own attack: attached again after attacking (Boomerang Energy), or put into
+   * the hand ("hand", Nitro Fire Energy).
+   */
+  returnAfterAttack?: boolean | "hand";
   /** Provides these units instead while attached to a Pokémon matching the filter (Ignition Energy). */
   /** "If this card is attached to a Basic Pokémon, this card provides every type of Energy but…" (`cond`: and if…). */
   providesIf?: { filter: PokemonFilter; provides: string[][]; cond?: Condition };

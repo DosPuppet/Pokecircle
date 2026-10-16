@@ -6,6 +6,7 @@ import { matchCard, scopePokemon } from "../match";
 import type { OpHandlers } from "../opRegistry";
 import { defOf, drawCards, moveCard, obj, playerOf, shuffle, shuffleDeck } from "../state";
 import { msg } from "../text";
+import { queueTriggers } from "../triggers";
 import type { CardDest, ChoiceValue, GameState, ObjectId } from "../types";
 
 /** Moves cards to a destination; returns their ids after the move (a card entering the deck gets a new id). */
@@ -160,6 +161,9 @@ export const HANDLERS: OpHandlers = {
     const p = playersOf(s, r, e.side);
     const cards = playerOf(s, p).deck.slice(0, evalAmount(s, r, e.n));
     const moved = moveTo(s, cards, e.to ?? "discard");
+    // "If this Pokémon is discarded from your deck by an effect of … your opponent" (Ferrothorn).
+    if (p !== r.player && (e.to ?? "discard") === "discard")
+      for (const c of moved) queueTriggers(s, "discardedFromDeck", null, { card: c, attacker: r.player });
     if (e.store) r.vars[e.store] = moved;
     return DONE;
   },
@@ -217,7 +221,7 @@ export const HANDLERS: OpHandlers = {
     if (!targets.length) return DONE;
     const picks: string[] = [];
     for (let i = 0; i < cards.length; i++) {
-      const a = answer(r, key(`t${i}`), r.player, {
+      const a = answer(r, key(`t${i}`), playersOf(s, r, e.chooser), {
         type: "pick",
         options: targets,
         min: 1,

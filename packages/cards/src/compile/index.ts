@@ -55,7 +55,7 @@ export function compileDef(def: CardDef, report?: CompileReport): CardDef {
     });
     if (!out.abilities.length) delete out.abilities;
   } else if (def.category === "trainer" && def.trainer) {
-    if (!def.trainer.effects && !def.trainer.statics && !def.trainer.triggers) {
+    if (!def.trainer.effects && !def.trainer.statics && !def.trainer.triggers && !def.trainer.attacks) {
       const c = compileTrainer(def.text.en.text, def.trainer.kind);
       if ("unmatched" in c) {
         missing.push(def.text.en.text ?? def.name);

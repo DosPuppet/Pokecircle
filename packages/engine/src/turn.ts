@@ -242,6 +242,9 @@ function finishResolution(s: GameState): void {
   if (r.kind === "trainer" && r.card && s.objects[r.card]?.zone === "resolving") moveCard(s, r.card, "discard");
   if (r.kind === "attack") {
     // Boomerang Energy discarded by this attack's effects: attached again to the attacker.
+    // Nitro Fire Energy: "put this card into your hand after attack damage and effects".
+    for (const c of (r.vars.toHand ?? []).map(String))
+      if (s.objects[c]?.zone === "discard" && s.objects[c]?.owner === r.player) moveCard(s, c, "hand");
     const back = (r.vars.boomerang ?? []).map(String);
     if (back.length && r.source && s.pokemon[r.source]) {
       const discard = playerOf(s, r.player).discard;

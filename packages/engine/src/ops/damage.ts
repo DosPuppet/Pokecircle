@@ -5,6 +5,7 @@ import { emit } from "../events";
 import { scopePokemon } from "../match";
 import type { OpHandlers } from "../opRegistry";
 import { bump, pokemonOf } from "../state";
+import { rulesOn } from "../statics";
 
 /** The damage options of an op ("isn't affected by Weakness or Resistance", "…by any effects…"). */
 function damageOptions(e: {
@@ -94,6 +95,7 @@ export const HANDLERS: OpHandlers = {
     const from = resolveRef(s, r, e.from)[0];
     const to = resolveRef(s, r, e.to)[0];
     if (!from || !to) return DONE;
+    if (rulesOn(s, "noMoveCounters", from).length) return DONE;
     const pk = pokemonOf(s, from);
     const n = e.n === "all" ? pk.damage / 10 : Math.min(pk.damage / 10, evalAmount(s, r, e.n));
     if (n <= 0) return DONE;

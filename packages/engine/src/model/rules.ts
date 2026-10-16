@@ -35,6 +35,8 @@ export type StaticRule = (
       maxDamage?: number;
       /** Only damage of this amount or more ("if that damage is 200 or more"). */
       minDamage?: number;
+      /** "flip a coin. If heads, prevent that damage." (flipped when the damage is done) */
+      flip?: boolean;
     }
   | /** Pokémon of the scope have no Abilities. */ { s: "noAbilities"; scope: PokemonScope }
   | /** Players of the side cannot play cards of these kinds. */ {
@@ -45,10 +47,17 @@ export type StaticRule = (
       tags?: CardTag[];
     }
   | { s: "cantAttack"; scope: PokemonScope; attack?: string }
-  | /** Before attacking, the Pokémon's owner flips a coin: tails, the attack doesn't happen. */ {
+  | /** Before attacking, the Pokémon's owner flips a coin (`coins`: that many, all heads needed): tails, no attack. */ {
       s: "attackFlip";
       scope: PokemonScope;
+      coins?: number;
     }
+  | /** Energy cannot be attached from the hand to the scope's Pokémon. */ { s: "cantAttach"; scope: PokemonScope }
+  | /** When a Pokémon of the scope retreats, its owner flips a coin: tails, nothing happens (Goodra). */ {
+      s: "retreatFlip";
+      scope: PokemonScope;
+    }
+  | /** Damage counters on the scope's Pokémon cannot be moved (Patrat). */ { s: "noMoveCounters"; scope: PokemonScope }
   | { s: "cantRetreat"; scope: PokemonScope }
   | { s: "cantEvolve"; scope: PokemonScope }
   | /** Bench size of the side's players. */ { s: "benchSize"; side: Side; size: number; scope?: PokemonScope }
@@ -70,9 +79,10 @@ export type StaticRule = (
       provides: string[][];
     }
   | /** The Weakness of the scope's Pokémon is now this type. */ { s: "weakness"; scope: PokemonScope; type: EType }
-  | /** The scope's Pokémon can evolve during the turn they are put into play (not on the first turn). */ {
+  | /** The scope's Pokémon can evolve during the turn they are put into play (`firstTurn`: and during the first turn). */ {
       s: "evolveSameTurn";
       scope: PokemonScope;
+      firstTurn?: boolean;
     }
   | /** An attack of the scope's Pokémon costs this. */ { s: "attackCostIs"; scope: PokemonScope; attack: string; cost: EType[] }
   | /** The scope's Pokémon can use the attacks of the Pokémon of `from` (Mew ex). */ {

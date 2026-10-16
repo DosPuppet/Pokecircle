@@ -147,6 +147,11 @@ export function applyMain(s: GameState, p: PlayerId, d: Decision): void {
       if (!opt || !active || !opt.to.includes(d.to)) throw new RulesError(msg("Your Active Pokémon cannot retreat now"));
       if (!isRetreatPayment(s, active, d.discard, chars(s, active).retreat))
         throw new RulesError(msg("Discard Energy equal to the Retreat Cost"));
+      // Goodra's Slimy Sliding: on tails, no Energy is discarded and the Pokémon don't switch (the retreat is used).
+      if (rulesOn(s, "retreatFlip", active).length && !flipCoin(s, p)) {
+        s.turn.retreated = true;
+        return;
+      }
       for (const c of d.discard) moveCard(s, c, "discard");
       s.turn.retreated = true;
       s.turnLog.push({ turn: s.turn.number, player: p, kind: "retreated", pokemon: active });
@@ -178,7 +183,12 @@ export function applyMain(s: GameState, p: PlayerId, d: Decision): void {
         return;
       }
       // "If the Defending Pokémon tries to use an attack, your opponent flips a coin. If tails, that attack doesn't happen."
-      if (rulesOn(s, "attackFlip", id).length && !flipCoin(s, p)) {
+      // "flip a coin (2 coins): if tails (either of them is tails), the attack doesn't happen".
+      const flips = rulesOn(s, "attackFlip", id);
+      const coins = flips.length ? Math.max(...flips.map((st) => st.rule.coins ?? 1)) : 0;
+      let ok = true;
+      for (let i = 0; i < coins; i++) if (!flipCoin(s, p)) ok = false;
+      if (!ok) {
         emit({ type: "attackFails", player: p, pokemon: id });
         s.turn.ending = true;
         return;

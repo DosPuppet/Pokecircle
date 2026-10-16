@@ -5,7 +5,7 @@
 import type { AttackDef, Condition, Effect } from "@pokecircle/engine";
 import { amt, cond, fx, msg, ref, scope } from "@pokecircle/engine";
 import { COMMON, type Ctx, chooseIn } from "./effects";
-import { condPhrase, eachPhrase, num, pokemonFilter, pokemonRef, scopePhrase, typeSym } from "./phrases";
+import { cardFilter, condPhrase, eachPhrase, num, pokemonFilter, pokemonRef, scopePhrase, typeSym } from "./phrases";
 import { type Built, matchAll, sentence, type Template, tpl } from "./templates";
 
 const pre = (...effects: Effect[]): Built => ({ pre: effects });
@@ -45,6 +45,23 @@ function guarded(c: Parameters<typeof fx.if>[0], b: Built, before: Effect[] = []
 }
 
 const own = (who: string) => /^this Pokémon$/.test(who);
+
+/** "Discard up to 2 Energy cards from your hand, and this attack does 60 (more) damage for each card you discarded…" */
+function discardForDamage(w: string | undefined, what: string | undefined, n: string | undefined, more: boolean): Built | null {
+  const k = num(w);
+  const f = cardFilter(what as string);
+  if (!k || !f) return null;
+  const total = amt.mul(Number(n), amt.count("d"));
+  return pre(
+    fx.chooseCards("hand", "d", msg("Choose cards to discard from your hand"), {
+      ...(f.filter ? { filter: f.filter } : {}),
+      min: 0,
+      max: k,
+    }),
+    fx.move("d", "discard"),
+    more ? fx.bonus(total) : fx.setDamage(total),
+  );
+}
 
 export const ATTACK_TEMPLATES: Template<Ctx>[] = [
   // —— damage modifiers ——
@@ -267,21 +284,13 @@ export const ATTACK_TEMPLATES: Template<Ctx>[] = [
   ),
   tpl(
     "dmg.discardFromHand",
-    "Discard up to {w} Basic {t} Energy cards from your hand, and this attack does {n} damage for each card you discarded in this way.",
-    ([w, t, n]) => {
-      const k = num(w);
-      const type = typeSym(t);
-      if (!k || !type) return null;
-      return pre(
-        fx.chooseCards("hand", "d", msg("Choose cards to discard from your hand"), {
-          filter: { category: ["energy"], basicEnergy: true, energyTypes: [type] },
-          min: 0,
-          max: k,
-        }),
-        fx.move("d", "discard"),
-        fx.setDamage(amt.mul(Number(n), amt.count("d"))),
-      );
-    },
+    "Discard up to {w} {x} from your hand, and this attack does {n} damage for each card you discarded in this way.",
+    ([w, what, n]) => discardForDamage(w, what, n, false),
+  ),
+  tpl(
+    "dmg.mayDiscardFromHand",
+    "You may discard up to {w} {x} from your hand, and this attack does {n} more damage for each card you discarded in this way.",
+    ([w, what, n]) => discardForDamage(w, what, n, true),
   ),
   tpl(
     "does.discardThen",
@@ -355,6 +364,27 @@ export const ATTACK_TEMPLATES: Template<Ctx>[] = [
     "opp.attackFlip",
     "During your opponent's next turn, if the Defending Pokémon tries to use an attack, your opponent flips a coin. If tails, that attack doesn't happen.",
     () => post(fx.timed("opponentsNextTurn", { s: "attackFlip", scope: scope.oppActive() }, ref.defending)),
+  ),
+  tpl(
+    "opp.attackFlip2",
+    "During your opponent's next turn, if the Defending Pokémon tries to use an attack, your opponent flips 2 coins. If either of them is tails, that attack doesn't happen.",
+    () => post(fx.timed("opponentsNextTurn", { s: "attackFlip", scope: scope.oppActive(), coins: 2 }, ref.defending)),
+  ),
+  tpl(
+    "opp.cantAttach",
+    "During your opponent's next turn, Energy can't be attached from your opponent's hand to the Defending Pokémon.",
+    () => post(fx.timed("opponentsNextTurn", { s: "cantAttach", scope: scope.oppActive() }, ref.defending)),
+  ),
+  tpl(
+    "opp.lockAttack",
+    "Choose 1 of your opponent's Active Pokémon's attacks. During your opponent's next turn, that Pokémon can't use that attack.",
+    () =>
+      post({
+        op: "lockAttack",
+        target: ref.defending,
+        duration: "opponentsNextTurn",
+        prompt: msg("Choose an attack of your opponent's Active Pokémon"),
+      }),
   ),
   tpl(
     "opp.preventFrom",

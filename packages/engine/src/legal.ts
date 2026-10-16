@@ -38,8 +38,10 @@ export function evolveTargets(s: GameState, p: PlayerId, card: ObjectId): Pokemo
   if (!inHand(s, p, card)) return [];
   const d = defOf(s, card);
   if (d.category !== "pokemon" || d.stage === "basic" || !d.evolvesFrom) return [];
-  if (isFirstTurnOf(s, p)) return [];
+  const firstTurn = isFirstTurnOf(s, p);
   return inPlay(s, p).filter((id) => {
+    // "This Pokémon can evolve during your first turn or the turn you play it."
+    if (firstTurn && !rulesOn(s, "evolveSameTurn", id).some((st) => st.rule.firstTurn)) return false;
     const pk = pokemonOf(s, id);
     // Forest of Vitality: some Pokémon can evolve during the turn they are put into play.
     const fresh = pk.enteredTurn >= s.turn.number || pk.evolvedTurn === s.turn.number;
@@ -60,7 +62,11 @@ export function attachTargets(s: GameState, p: PlayerId, card: ObjectId): Pokemo
   if (!inHand(s, p, card) || s.turn.energyAttached) return [];
   const d = defOf(s, card);
   if (d.category !== "energy") return [];
-  return inPlay(s, p).filter((id) => !d.energy?.attachCondition || evalCond(s, ctxFor(p, card, id), d.energy.attachCondition));
+  return inPlay(s, p).filter(
+    (id) =>
+      rulesOn(s, "cantAttach", id).length === 0 &&
+      (!d.energy?.attachCondition || evalCond(s, ctxFor(p, card, id), d.energy.attachCondition)),
+  );
 }
 
 function implementedTrainer(d: CardDef): boolean {
@@ -76,6 +82,8 @@ export function trainerPlayable(s: GameState, p: PlayerId, card: ObjectId): bool
   // R-TURN-3: no Supporter on the first player's first turn, unless the card says so (it went first, by definition).
   if (t.kind === "supporter" && (s.turn.supporterPlayed || (s.turn.number === 1 && !t.firstTurnOk))) return false;
   if (t.kind === "stadium") {
+    // "You can put this card into play only if you discard a Prism Tower in play, … during the same turn".
+    if (t.replaces) return !!s.stadium && defOf(s, s.stadium).name === t.replaces;
     if (s.turn.stadiumPlayed) return false;
     if (s.stadium && defOf(s, s.stadium).name === d.name) return false;
   }

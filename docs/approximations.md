@@ -32,3 +32,7 @@ Every approximation of the official rules or of a card's text is listed here whe
 - Tremendous Bomb: "isn't a Mega Evolution Pokémon ex" is read when the trigger resolves; if the holder was Knocked
   Out by that damage, it counts as not a Mega Evolution Pokémon ex.
 - "N or less Energy attached" (Bastiodon) counts Energy cards, not the Energy they provide.
+- Tool Scrapper: a Pokémon is chosen for each Tool; a Pokémon with 2 Tools loses both.
+- Adversity Policy, Chesnaught's Needly Armor: what the holder is (its Weakness, its Energy) is read when the trigger
+  resolves; if it was Knocked Out by that damage, Adversity Policy does nothing and Needly Armor counts no Energy.
+- Great Haul Net: "Choose 1 or both" is a choice between the first, the second or both effects.

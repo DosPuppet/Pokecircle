@@ -73,6 +73,18 @@ export function queueTriggers(s: GameState, on: TriggerEvent, pokemon: PokemonId
     s.queue.push(...out);
     return;
   }
+  // A card of the deck (Ferrothorn): its own Abilities, as a card, not a Pokémon in play.
+  if (on === "discardedFromDeck" && info.card) {
+    const d = defOf(s, info.card);
+    const owner = s.objects[info.card]?.owner as PlayerId;
+    (d.abilities ?? []).forEach((a, i) => {
+      (a.triggers ?? []).forEach((t, j) => {
+        if (matches(t, owner)) push(out, d, `a:${i}:${j}`, owner, null, info.card ?? null, info.event);
+      });
+    });
+    s.queue.push(...out);
+    return;
+  }
   if (info.gone) {
     const g = info.gone;
     const top = s.defs[g.top];

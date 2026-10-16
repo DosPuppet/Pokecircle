@@ -176,6 +176,14 @@ export const COMMON: Template<Ctx>[] = [
     condition: cond.exists(scope.oppBench()),
   })),
   // —— Special Conditions ——
+  tpl(
+    "status.poisonMore",
+    "Your opponent's Active Pokémon is now Poisoned. During Pokémon Checkup, put {w} damage counters on that Pokémon instead of 1.",
+    ([w], ctx) => {
+      const n = num(w);
+      return n ? post(fx.condition(ctx.inAttack ? ref.defending : ref.oppActive, "poisoned", n)) : null;
+    },
+  ),
   tpl("status.now", "{x} is now {x}.", ([who, what], ctx) => {
     const r = pokemonRef(who as string, ctx.inAttack);
     if (!r) return null;
@@ -376,6 +384,75 @@ export const COMMON: Template<Ctx>[] = [
   tpl("draw.forEach", "Draw a card for each {x}.", ([what], ctx) => {
     const a = eachPhrase(what as string, ctx.inAttack);
     return a ? { post: [fx.draw(a)], condition: cond.deck() } : null;
+  }),
+  tpl("discardPile.toBench", "Put up to {w} {x} from your discard pile onto your Bench.", ([w, what]) => {
+    const k = num(w);
+    const f = cardFilter(what as string);
+    if (!k || !f?.filter || f.filter.category?.[0] !== "pokemon") return null;
+    const filter = { ...f.filter, stage: ["basic" as const] };
+    return {
+      post: [
+        fx.chooseCards("discard", "found", msg("Choose Basic Pokémon to put onto your Bench"), {
+          filter,
+          min: 0,
+          max: amt.min(k, amt.benchSpace()),
+        }),
+        fx.move("found", "bench"),
+      ],
+      condition: cond.and(cond.hasCards("discard", "me", filter), cond.cmp(amt.benchSpace(), ">", 0)),
+    };
+  }),
+  tpl(
+    "counters.moveAllToActive",
+    "Move all damage counters from 1 of your {X} to your opponent's Active Pokémon.",
+    ([who], ctx) => {
+      const sc = scopePhrase(`your ${who}`);
+      if (!sc) return null;
+      const damaged: PokemonScope = { ...sc, filter: { ...sc.filter, damaged: true } };
+      return {
+        post: [
+          chooseIn(damaged, "from", { min: 1, max: 1 }),
+          { op: "moveCounters", from: ref.v("from"), to: ctx.inAttack ? ref.defending : ref.oppActive, n: "all" },
+        ],
+        condition: cond.exists(damaged),
+      };
+    },
+  ),
+  tpl("energy.discardAttacker", "Discard an Energy from the Attacking Pokémon.", () =>
+    post(fx.discardEnergy({ ev: "attacker" }, 1)),
+  ),
+  tpl(
+    "opp.poisonedCantRetreat",
+    "During your opponent's next turn, their Poisoned Pokémon can't retreat. (This includes newly Poisoned Pokémon.)",
+    () => post(fx.timed("opponentsNextTurn", { s: "cantRetreat", scope: scope.theirs({ status: ["poisoned"] }) })),
+  ),
+  tpl("heal.everyone", "Heal {n} damage from each Pokémon (both yours and your opponent's).", ([n]) =>
+    post(fx.heal(ref.all(scope.of("both")), Number(n))),
+  ),
+  tpl("ko.lowHp", "Knock Out each of your opponent's Pokémon that has {n} HP or less remaining.", ([n]) =>
+    post({ op: "knockOut", target: ref.all(scope.theirs({ maxRemainingHp: Number(n) })) }),
+  ),
+  tpl("energy.benchToActive", "Move a {t} Energy from 1 of your Benched Pokémon to your Active Pokémon.", ([t]) => {
+    const type = typeSym(t);
+    if (!type) return null;
+    const from = scope.myBench({ energyTypes: [type] });
+    return {
+      post: [chooseIn(from, "from", { min: 1, max: 1 }), fx.moveEnergy(ref.v("from"), scope.myActive(), 1, [type])],
+      condition: cond.exists(from),
+    };
+  }),
+  tpl("hand.attachTyped", "Attach a Basic {t} Energy card from your hand to 1 of your {X}.", ([t, who]) => {
+    const type = typeSym(t);
+    const sc = scopePhrase(`your ${who}`);
+    if (!type || !sc) return null;
+    const filter = { category: ["energy" as const], basicEnergy: true, energyTypes: [type] };
+    return {
+      post: [
+        fx.chooseCards("hand", "e", msg("Choose an Energy card from your hand"), { filter, min: 1, max: 1 }),
+        fx.attach("e", sc),
+      ],
+      condition: cond.and(cond.hasCards("hand", "me", filter), cond.exists(sc)),
+    };
   }),
   tpl("energy.discardOppOne", "Discard an Energy from 1 of your opponent's Pokémon.", () => {
     const sc = scope.theirs({ hasEnergy: true });

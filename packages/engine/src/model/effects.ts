@@ -98,6 +98,8 @@ export interface CardFilter {
   abilityNamed?: string;
   /** Pokémon with an attack of this English name ("Pokémon … that has the Bug Out attack"). */
   attackNamed?: string;
+  /** Pokémon with Resistance to this type ("Pokémon with {F} Resistance"). */
+  resistance?: EType;
   /** Pokémon that evolve from a Pokémon of this side in play (Evolution cards). */
   evolvesFromInPlay?: Side;
   /** Evolves from this English name. */
@@ -174,6 +176,8 @@ export type Comparison = ">=" | ">" | "<=" | "<" | "==" | "!=";
 
 export type Condition =
   | { c: "true" }
+  /** `ref` has Weakness to a type of `of` ("has Weakness to your opponent's Active Pokémon's type"). */
+  | { c: "weakTo"; ref: PokemonRef; of: PokemonRef }
   | { c: "heads"; key?: string }
   | { c: "cmp"; a: Amount; op: Comparison; b: Amount }
   | { c: "and"; of: Condition[] }
@@ -240,6 +244,11 @@ export type Effect =
   /** Put N damage counters on Pokémon of a scope "in any way you like". */
   | { op: "spreadCounters"; scope: PokemonScope; n: Amount; prompt: string }
   | { op: "moveCounters"; from: PokemonRef; to: PokemonRef; n: Amount | "all" }
+  /**
+   * The stored card takes the place of the target's top card, which goes to the discard pile; attached cards, damage
+   * counters, Special Conditions and turns in play stay (Transformation Tome, Ogre's Mask).
+   */
+  | { op: "replaceCard"; target: PokemonRef; card: string }
   | { op: "heal"; target: PokemonRef; amount: Amount | "all" }
   // —— Special Conditions ——
   | { op: "condition"; target: PokemonRef; cond: SpecialCondition; poison?: number }
@@ -310,13 +319,31 @@ export type Effect =
   /** Discard (or move) the top N cards of a deck. */
   | { op: "mill"; side: "me" | "opp"; n: Amount; to?: CardDest; store?: string }
   /** Attach stored cards (Energy, Tools) to a Pokémon chosen for each one among the scope; `store`: the Pokémon. */
-  | { op: "attach"; cards: string; to: PokemonScope; prompt: string; store?: string; target?: PokemonRef }
+  | {
+      op: "attach";
+      cards: string;
+      to: PokemonScope;
+      prompt: string;
+      store?: string;
+      target?: PokemonRef;
+      /** Who places the cards (the opponent places their own: Delibird). */
+      chooser?: "me" | "opp";
+    }
   /** Evolve a stored Pokémon with a stored card (Rare Candy, "search for a card that evolves from…"). */
   | { op: "evolveWith"; card: string; target: PokemonRef; skipStage1?: boolean }
   /** Choose a Pokémon of a scope, then an Evolution card from the hand for it, and evolve (Rare Candy: skipping Stage 1). */
   | { op: "evolveFromHand"; scope: PokemonScope; skipStage1?: boolean; prompt: string }
   /** Move chosen Energy from Pokémon of a scope to one Pokémon (Iron Leaves ex). */
-  | { op: "gatherEnergy"; from: PokemonScope; to: PokemonRef; min: Amount; max: Amount; prompt: string }
+  | {
+      op: "gatherEnergy";
+      from: PokemonScope;
+      to: PokemonRef;
+      min: Amount;
+      max: Amount;
+      prompt: string;
+      /** Only Energy providing one of these types ("Move any amount of {M} Energy"). */
+      types?: EType[];
+    }
   // —— attached cards ——
   | {
       op: "discardEnergy";
