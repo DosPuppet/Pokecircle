@@ -1,40 +1,290 @@
-/** Interface state (P0 shell; the game state arrives in P3). */
+/**
+ * Interface state: screens and settings, the game in progress (view, playback of the host's frames, log), what the
+ * player is selecting, and the decisions sent to the session.
+ */
+import type { AiLevel } from "@pocketmate/ai";
+import type { DeckEntries } from "@pocketmate/cards";
+import { PRECONS } from "@pocketmate/cards/decks";
+import type { Decision, GameEvent, GameView, ObjectId, PokemonId } from "@pocketmate/engine";
+import { msg } from "@pocketmate/engine";
 import { create } from "zustand";
+import { soundsFor } from "./audio/eventSounds";
+import { playSound } from "./audio/sfx";
+import { defsOf } from "./cards";
+import { fastMode } from "./fast";
+import { describeEvent, rememberPokemon } from "./i18n";
+import type { FromWorker } from "./protocol";
+import { clearSaved, loadSaved, SaveWriter } from "./savedGame";
+import { LocalSession, type Session } from "./session";
 import { type Lang, setTextLang } from "./translate";
 
-export type Screen = "home" | "decks" | "game" | "online";
+export type Screen = "home" | "game" | "decks" | "online";
 
-const LANG_KEY = "pocketmate.lang";
+export interface LogLine {
+  id: number;
+  text: string;
+  turn: number;
+}
+
+export type Selection = { kind: "card"; id: ObjectId } | { kind: "pokemon"; id: PokemonId } | null;
+
+interface Update {
+  view: GameView;
+  events: GameEvent[];
+}
+
+const STORE = "pocketmate.settings";
+
+interface Settings {
+  deck: string;
+  aiDeck: string;
+  aiLevel: AiLevel;
+}
+
+function loadSettings(): Settings {
+  const fallback: Settings = { deck: PRECONS[0]?.id ?? "", aiDeck: PRECONS[1]?.id ?? PRECONS[0]?.id ?? "", aiLevel: "medium" };
+  try {
+    return { ...fallback, ...(JSON.parse(localStorage.getItem(STORE) ?? "{}") as Partial<Settings>) };
+  } catch {
+    return fallback;
+  }
+}
 
 function storedLang(): Lang {
   try {
-    const v = localStorage.getItem(LANG_KEY);
-    return v === "en" ? "en" : "fr";
+    return localStorage.getItem("pocketmate.lang") === "en" ? "en" : "fr";
   } catch {
     return "fr";
   }
 }
 
-interface Store {
+export interface Store extends Settings {
   screen: Screen;
   lang: Lang;
-  setLang: (lang: Lang) => void;
-  go: (screen: Screen) => void;
+  view: GameView | null;
+  log: LogLine[];
+  /** Coin flips being shown (results), with a key per batch. */
+  flips: { results: boolean[]; key: number } | null;
+  selected: Selection;
+  /** Retreat: choosing the Benched Pokémon to switch in. */
+  retreating: boolean;
+  /** Setup placement in progress. */
+  placing: { active: ObjectId | null; bench: ObjectId[] };
+  error: string | null;
+  notice: string | null;
+  preview: { defId: string; print?: string } | null;
+  zone: { player: string; zone: "discard" | "lostZone" } | null;
+  logOpen: boolean;
+  /** Updates still to show (playback of the host's frames). */
+  queue: Update[];
+  busy: boolean;
+  hasSaved: boolean;
+  setLang(l: Lang): void;
+  go(s: Screen): void;
+  setSettings(p: Partial<Settings>): void;
+  startGame(): void;
+  resumeGame(): void;
+  quitGame(): void;
+  decide(d: Decision): void;
+  select(sel: Selection): void;
+  setRetreating(on: boolean): void;
+  setPlacing(p: { active: ObjectId | null; bench: ObjectId[] }): void;
+  notify(text: string): void;
+  showPreview(p: Store["preview"]): void;
+  showZone(z: Store["zone"]): void;
+  toggleLog(): void;
 }
 
-export const useGame = create<Store>((set) => {
+let session: Session | null = null;
+let saver: SaveWriter | null = null;
+let logId = 0;
+
+function deckOf(id: string): DeckEntries {
+  return PRECONS.find((p) => p.id === id)?.main ?? PRECONS[0]?.main ?? [];
+}
+
+/** Pause after an update, so the player can follow (coin flips, attacks, Knock Outs). */
+function pauseFor(events: GameEvent[], fast: boolean): number {
+  if (fast) return 0;
+  let ms = 0;
+  for (const e of events) {
+    if (e.type === "coinFlip") ms = Math.max(ms, 1300);
+    else if (e.type === "knockOut") ms = Math.max(ms, 900);
+    else if (e.type === "attack") ms = Math.max(ms, 700);
+    else if (e.type === "damage" || e.type === "counters") ms = Math.max(ms, 500);
+  }
+  return ms;
+}
+
+export const useGame = create<Store>((set, get) => {
+  const settings = loadSettings();
   const lang = storedLang();
   setTextLang(lang);
+
+  const pump = async () => {
+    if (get().busy) return;
+    set({ busy: true });
+    try {
+      for (;;) {
+        const u = get().queue[0];
+        if (!u) break;
+        set({ queue: get().queue.slice(1) });
+        rememberPokemon(u.view);
+        const lines: LogLine[] = [];
+        for (const e of u.events) {
+          const text = describeEvent(e, u.view);
+          if (text) lines.push({ id: ++logId, text, turn: u.view.turn.number });
+        }
+        const flips = u.events.filter((e) => e.type === "coinFlip").map((e) => (e.type === "coinFlip" ? e.heads : false));
+        set({
+          view: u.view,
+          log: lines.length ? [...get().log, ...lines].slice(-300) : get().log,
+          ...(flips.length ? { flips: { results: flips, key: logId } } : {}),
+        });
+        for (const k of soundsFor(u.events, u.view.me)) playSound(k);
+        if (u.view.over) clearSaved();
+        const ms = pauseFor(u.events, fastMode());
+        if (ms) await new Promise((r) => setTimeout(r, ms));
+        if (flips.length) set({ flips: null });
+      }
+    } finally {
+      set({ busy: false });
+    }
+  };
+
+  const onMessage = (m: FromWorker) => {
+    switch (m.type) {
+      case "update":
+        set({ queue: [...get().queue, { view: m.view, events: m.events }], selected: null, retreating: false });
+        void pump();
+        return;
+      case "error":
+        set({ error: m.message });
+        playSound("error");
+        return;
+      case "saved":
+        if (m.header) saver?.header(m.header);
+        saver?.progress(m.decisions, m.checkpoints);
+        return;
+      case "resumeFailed":
+        clearSaved();
+        set({ screen: "home", notice: msg("The saved game could not be resumed: {why}.", { why: m.message }), hasSaved: false });
+        return;
+      case "record":
+        return;
+    }
+  };
+
+  const newSession = () => {
+    session?.close();
+    session = new LocalSession(onMessage);
+    set({ view: null, log: [], queue: [], selected: null, retreating: false, placing: { active: null, bench: [] }, error: null });
+  };
+
   return {
+    ...settings,
     screen: "home",
     lang,
-    setLang: (l) => {
+    view: null,
+    log: [],
+    flips: null,
+    selected: null,
+    retreating: false,
+    placing: { active: null, bench: [] },
+    error: null,
+    notice: null,
+    preview: null,
+    zone: null,
+    logOpen: false,
+    queue: [],
+    busy: false,
+    hasSaved: !!loadSaved(),
+    setLang(l) {
       setTextLang(l);
       try {
-        localStorage.setItem(LANG_KEY, l);
+        localStorage.setItem("pocketmate.lang", l);
       } catch {}
       set({ lang: l });
     },
-    go: (screen) => set({ screen }),
+    go(screen) {
+      set({ screen });
+    },
+    setSettings(p) {
+      set(p);
+      const { deck, aiDeck, aiLevel } = get();
+      try {
+        localStorage.setItem(STORE, JSON.stringify({ deck, aiDeck, aiLevel }));
+      } catch {}
+    },
+    startGame() {
+      newSession();
+      const { deck, aiDeck, aiLevel, lang: l } = get();
+      const mine = deckOf(deck);
+      const theirs = deckOf(aiDeck);
+      saver = new SaveWriter(aiLevel);
+      session?.send({
+        type: "start",
+        seed: Math.floor(Math.random() * 2 ** 31),
+        playerName: l === "fr" ? "Vous" : "You", // i18n-ignore: the player's own name
+        aiName: l === "fr" ? "IA" : "AI", // i18n-ignore: the AI's name
+        playerDeck: mine,
+        aiDeck: theirs,
+        defs: defsOf(mine, theirs),
+        aiLevel,
+        fast: fastMode(),
+      });
+      set({ screen: "game", hasSaved: false });
+    },
+    resumeGame() {
+      const saved = loadSaved();
+      if (!saved) return;
+      newSession();
+      saver = new SaveWriter(saved.aiLevel);
+      saver.resume(saved);
+      const decks = saved.record.players.map((p) => p.deck.map(([id]) => [1, id] as [number, string]));
+      session?.send({
+        type: "resume",
+        record: saved.record,
+        defs: defsOf(...decks),
+        aiLevel: saved.aiLevel as AiLevel,
+        fast: fastMode(),
+      });
+      set({ screen: "game" });
+    },
+    quitGame() {
+      saver?.flush();
+      session?.close();
+      session = null;
+      set({ screen: "home", view: null, queue: [], hasSaved: !!loadSaved() });
+    },
+    decide(d) {
+      const v = get().view;
+      if (!v || get().queue.length || !v.pending || v.pending.player !== v.me) return;
+      set({ selected: null, retreating: false, error: null });
+      session?.send({ type: "decision", decision: d });
+    },
+    select(sel) {
+      set({ selected: sel, retreating: false });
+    },
+    setRetreating(on) {
+      set({ retreating: on });
+    },
+    setPlacing(p) {
+      set({ placing: p });
+    },
+    notify(text) {
+      set({ notice: text });
+    },
+    showPreview(p) {
+      set({ preview: p });
+    },
+    showZone(z) {
+      set({ zone: z });
+    },
+    toggleLog() {
+      set({ logOpen: !get().logOpen });
+    },
   };
 });
+
+if (typeof window !== "undefined") window.addEventListener("pagehide", () => saver?.flush());

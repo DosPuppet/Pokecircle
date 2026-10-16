@@ -82,3 +82,6 @@ This file tracks the project between sessions: current state, working rules, pit
 
 - **Vite under WSL** may serve a stale engine module: restart `npm run dev` before a browser test.
 - Dev server: Vite on 5174, game server on 8788 (Planecircle uses 5173 and 8787 on the same machine).
+- **Playwright is pinned to 1.63.0**: its browsers are already cached (`~/.cache/ms-playwright/*-1243`, shared with
+  Planecircle); another version would need `npx playwright install`.
+- Interface tests wait for the playback to end (`window.__pm` store: `queue` empty, not `busy`) before clicking.

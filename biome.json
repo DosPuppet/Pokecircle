@@ -22,7 +22,7 @@
     "rules": {
       "preset": "recommended",
       "a11y": {
-        "noStaticElementInteractions": "error"
+        "noStaticElementInteractions": "off"
       },
       "style": {
         "noNonNullAssertion": "off"

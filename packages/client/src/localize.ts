@@ -1,6 +1,7 @@
-/** Texts in the interface language (`useT`), re-rendered when the language changes. */
+/** Texts in the interface language: interface texts (`useT`) and engine texts with card names (`useLoc`). */
 import type { TextArg } from "@pocketmate/engine";
 import { useCallback } from "react";
+import { localizeText } from "./i18n";
 import { useGame } from "./store";
 import { tr } from "./translate";
 
@@ -11,4 +12,10 @@ import { tr } from "./translate";
 export function useT(): (template: string, args?: Record<string, TextArg>) => string {
   const lang = useGame((s) => s.lang);
   return useCallback((template: string, args?: Record<string, TextArg>) => tr(lang, template, args), [lang]);
+}
+
+/** An engine or interface text held in a variable (prompts, log lines, errors), with card names. */
+export function useLoc(): (text: string) => string {
+  const lang = useGame((s) => s.lang);
+  return useCallback((text: string) => localizeText(text, lang), [lang]);
 }

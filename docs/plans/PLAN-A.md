@@ -257,3 +257,4 @@ Renames on copy: `@mtgx`→`@pocketmate`, `planecircle.*`→`pocketmate.*`, `MTG
 | P0 Bootstrap | done 2026-10-16 | workspaces, generic engine text/errors/events, client shell, guard tests, verify, docs |
 | P1 Card data | done 2026-10-16 | 23 registry entries, 3,478 prints → 2,273 definitions (2,103 Standard); tags from pokemon-tcg-data; decklists FR/EN; 2 starter decks |
 | P2 Engine core [rules] | done 2026-10-16 | rules 1; model, setup/mulligans, turns, attacks/damage pipeline, conditions/Checkup, KO/Prizes/win, statics, energy solver, interpreter + ops, view, host, records; compiler (47% of Standard), random/chaos agents, invariants, fuzz, golden games; 85 tests |
+| P3 Slice vs AI | done 2026-10-16 | medium AI (92% vs random), beginner; worker session, board, hand, action bar, prompts, setup, coin flips, log, sounds, saves; ui-smoke and lang-smoke in French and English |

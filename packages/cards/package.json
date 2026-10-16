@@ -6,7 +6,8 @@
   "exports": {
     ".": "./src/index.ts",
     "./decks": "./src/decks.ts",
-    "./locales": "./src/locales.ts"
+    "./locales": "./src/locales.ts",
+    "./images": "./src/images.ts"
   },
   "dependencies": {
     "@pocketmate/engine": "^0.1.0"

@@ -9,6 +9,7 @@ import { SET_REGISTRY } from "./setRegistry";
 import { SET_DATA } from "./sets";
 import { buildCatalog } from "./tcgdex";
 
+export type { DeckEntries, DeckList, Format } from "./decklist";
 export { FRENCH_CATALOGS } from "./locales";
 export type { RawCard } from "./raw";
 export { SET_REGISTRY } from "./setRegistry";
