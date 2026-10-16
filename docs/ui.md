@@ -19,3 +19,9 @@
   by the worker when the page is reopened.
 - **Interface tests**: `npx tsx tools/ui-smoke.ts` (a whole game in French by clicking) and `tools/lang-smoke.ts`
   (both languages, no raw marker, no untranslated text). Vite must run (`npm run dev`, port 5174).
+- **Deck builder** (`decks/`): catalog search in French or English (names, attacks, texts; `search.ts`, tested), filters
+  (category, stage, Trainer kind, type, set, tags, playable only), click to add / right-click to remove, art choice per
+  print, legality panel (`validateDeck`), TCG Live import and export (French or English), share by link (`#deck=1.…`,
+  deflate + base64url, `share.ts`) and QR code (uqr). The player's decks live in `localStorage` (`pocketmate.decks`,
+  `decks/store.ts`); deck pickers (`DeckPicker`) show them next to the precons, an unplayable one dimmed.
+  `tools/deck-smoke.ts` drives it end to end.

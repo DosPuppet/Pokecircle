@@ -1,7 +1,6 @@
 /** Home screen: choose your deck, the opponent's deck and the AI level, then play (or resume the saved game). */
 import { AI_LEVELS, type AiLevel } from "@pocketmate/ai";
-import { PRECONS } from "@pocketmate/cards/decks";
-import { CardImage } from "./game/CardImage";
+import { DeckPicker } from "./decks/DeckPicker";
 import { LangToggle } from "./LangToggle";
 import { useLoc, useT } from "./localize";
 import { useGame } from "./store";
@@ -9,7 +8,6 @@ import { useGame } from "./store";
 export function Home() {
   const t = useT();
   const loc = useLoc();
-  const lang = useGame((s) => s.lang);
   const deck = useGame((s) => s.deck);
   const aiDeck = useGame((s) => s.aiDeck);
   const aiLevel = useGame((s) => s.aiLevel);
@@ -21,16 +19,7 @@ export function Home() {
   const notify = useGame((s) => s.notify);
   const go = useGame((s) => s.go);
   const LEVEL: Record<AiLevel, string> = { beginner: t("Beginner"), medium: t("Intermediate"), expert: t("Expert") };
-  const deckList = (value: string, onPick: (id: string) => void) => (
-    <div className="deck-list">
-      {PRECONS.map((p) => (
-        <button type="button" key={p.id} className={`deck-tile${value === p.id ? " chosen" : ""}`} onClick={() => onPick(p.id)}>
-          <CardImage defId={p.cover} />
-          <span>{lang === "fr" ? (p.fr ?? p.name) : p.name}</span>
-        </button>
-      ))}
-    </div>
-  );
+  const deckList = (value: string, onPick: (id: string) => void) => <DeckPicker value={value} onPick={onPick} />;
   return (
     <div className="home">
       <header className="home-top">
@@ -67,6 +56,9 @@ export function Home() {
           </button>
           <button type="button" className="btn big" onClick={() => go("online")}>
             {t("Play online")}
+          </button>
+          <button type="button" className="btn big" onClick={() => go("decks")}>
+            {t("My decks")}
           </button>
         </div>
       </main>

@@ -3,9 +3,8 @@
  * share its code or link, or join a room by its code.
  */
 import { AI_LEVELS, type AiLevel } from "@pocketmate/ai";
-import { PRECONS } from "@pocketmate/cards/decks";
 import { useState } from "react";
-import { CardImage } from "./game/CardImage";
+import { DeckPicker } from "./decks/DeckPicker";
 import { LangToggle } from "./LangToggle";
 import { useLoc, useT } from "./localize";
 import { useGame } from "./store";
@@ -13,7 +12,6 @@ import { useGame } from "./store";
 export function Online() {
   const t = useT();
   const loc = useLoc();
-  const lang = useGame((s) => s.lang);
   const nickname = useGame((s) => s.nickname);
   const deck = useGame((s) => s.deck);
   const setSettings = useGame((s) => s.setSettings);
@@ -71,19 +69,7 @@ export function Online() {
           <input value={nickname} maxLength={20} onChange={(e) => setSettings({ nickname: e.target.value })} />
         </label>
         <h2>{t("Your deck")}</h2>
-        <div className="deck-list">
-          {PRECONS.map((p) => (
-            <button
-              type="button"
-              key={p.id}
-              className={`deck-tile${deck === p.id ? " chosen" : ""}`}
-              onClick={() => setSettings({ deck: p.id })}
-            >
-              <CardImage defId={p.cover} />
-              <span>{lang === "fr" ? (p.fr ?? p.name) : p.name}</span>
-            </button>
-          ))}
-        </div>
+        <DeckPicker value={deck} onPick={(id) => setSettings({ deck: id })} />
         <div className="online-actions">
           <section className="panel">
             <h2>{t("Create a room")}</h2>

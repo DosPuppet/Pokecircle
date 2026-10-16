@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./App";
 import { playSound, unlockAudio, useAudio } from "./audio/sfx";
+import { decodeDeck, sharedDeckData } from "./decks/share";
 import { savedOnline, useGame } from "./store";
 import "./styles.css";
 
@@ -33,6 +34,13 @@ document.addEventListener("keydown", (e) => {
   useAudio.getState().toggleMute();
 });
 
-// Page reopened: resume the online game (by its token); an invitation link (?room=CODE) opens online play.
-if (new URLSearchParams(location.search).has("room") && !savedOnline()) useGame.getState().go("online");
+// A deck link (#deck=…, scanned QR code): the deck builder offers to import it. Otherwise, page reopened: resume the
+// online game (by its token); an invitation link (?room=CODE) opens online play.
+const deckData = sharedDeckData(location.hash);
+if (deckData) {
+  history.replaceState(null, "", location.pathname + location.search);
+  void decodeDeck(deckData).then((text) => {
+    if (text) useGame.setState({ screen: "decks", sharedDeck: text });
+  });
+} else if (new URLSearchParams(location.search).has("room") && !savedOnline()) useGame.getState().go("online");
 else if (savedOnline()) useGame.getState().rejoinRoom();

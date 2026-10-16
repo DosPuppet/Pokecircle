@@ -4,6 +4,7 @@
     "packages/cards/src/setRegistry.ts": "French set names (data)",
     "tools/online-smoke.ts": "drives the French interface by its labels",
     "tools/ui-smoke.ts": "drives the French interface by its labels",
-    "tools/lang-smoke.ts": "drives the French interface by its labels"
+    "tools/lang-smoke.ts": "drives the French interface by its labels",
+    "tools/deck-smoke.ts": "drives the French interface by its labels"
   }
 }

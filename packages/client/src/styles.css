@@ -1010,3 +1010,177 @@ button.pokemon {
   position: relative;
   z-index: 6;
 }
+
+/* —— deck builder —— */
+.builder {
+  height: 100dvh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+.builder-top {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 12px;
+  flex-wrap: wrap;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.deck-name,
+.search,
+.share-link,
+.filters select {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  padding: 6px 10px;
+  font: inherit;
+}
+.deck-name {
+  min-width: 14em;
+}
+.builder-body {
+  display: grid;
+  grid-template-columns: 1fr minmax(260px, 340px);
+  min-height: 0;
+}
+.catalog {
+  overflow: auto;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.search {
+  flex: 1;
+  min-width: 14em;
+}
+.check {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.results-count {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+.results {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 8px;
+}
+.result {
+  position: relative;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.result .card-face {
+  --cw: 120px;
+}
+.result.unplayable,
+.deck-tile.unplayable {
+  opacity: 0.45;
+}
+.in-deck {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: var(--accent);
+  color: #222;
+  font-weight: 800;
+  border-radius: 999px;
+  min-width: 1.6em;
+  padding: 0 5px;
+}
+.decklist {
+  overflow: auto;
+  padding: 10px 12px;
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.deck-size {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #e57373;
+}
+.deck-size.ok {
+  color: var(--ok);
+}
+.problems {
+  margin: 0;
+  padding-left: 18px;
+  color: #f0a58a;
+  font-size: 0.85rem;
+}
+.valid {
+  color: var(--ok);
+  font-weight: 600;
+}
+.deck-group-title {
+  font-weight: 700;
+  color: var(--muted);
+  margin-top: 6px;
+}
+.deck-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 0;
+}
+.deck-count {
+  font-weight: 800;
+  width: 1.5em;
+  text-align: right;
+}
+.deck-card-name {
+  flex: 1;
+  font-size: 0.9rem;
+}
+.modal-box.wide {
+  width: min(94vw, 760px);
+}
+.list-text {
+  width: 100%;
+  min-height: 300px;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: ui-monospace, monospace;
+  font-size: 0.85rem;
+  padding: 8px;
+}
+.qr svg {
+  width: 240px;
+  height: 240px;
+  background: #fff;
+  padding: 8px;
+  border-radius: 8px;
+}
+.share-link {
+  width: 100%;
+}
+.deck-open {
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}

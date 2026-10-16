@@ -13,6 +13,7 @@ import { create } from "zustand";
 import { soundsFor } from "./audio/eventSounds";
 import { playSound } from "./audio/sfx";
 import { defsOf } from "./cards";
+import { deckById } from "./decks/store";
 import { fastMode } from "./fast";
 import { describeEvent, rememberPokemon } from "./i18n";
 import type { FromWorker } from "./protocol";
@@ -111,6 +112,9 @@ export interface Store extends Settings {
   /** "local": against the AI in the browser; "online": against a player through the server. */
   mode: "local" | "online";
   online: Online;
+  /** A deck list received by a link (#deck=…), offered for import in the deck builder. */
+  sharedDeck: string | null;
+  clearSharedDeck(): void;
   setLang(l: Lang): void;
   createRoom(o: { bestOf: 1 | 3; ai?: AiLevel }): void;
   joinRoom(code: string): void;
@@ -138,7 +142,7 @@ let saver: SaveWriter | null = null;
 let logId = 0;
 
 function deckOf(id: string): DeckEntries {
-  return PRECONS.find((p) => p.id === id)?.main ?? PRECONS[0]?.main ?? [];
+  return deckById(id)?.main ?? PRECONS[0]?.main ?? [];
 }
 
 /** Pause after an update, so the player can follow (coin flips, attacks, Knock Outs). */
@@ -298,6 +302,10 @@ export const useGame = create<Store>((set, get) => {
     hasSaved: !!loadSaved(),
     mode: "local",
     online: { room: null, clock: null, opponent: null, connecting: false },
+    sharedDeck: null,
+    clearSharedDeck() {
+      set({ sharedDeck: null });
+    },
     createRoom(o) {
       const { deck, nickname } = get();
       remote().raw({
