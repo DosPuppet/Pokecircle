@@ -146,5 +146,7 @@ approximation, also listed in `docs/approximations.md`.
 - R-TEXT-3: a Trainer card cannot be played if its effect cannot be done at all (searching an empty deck, switching
   without a Benched Pokémon); a card's printed condition ("You can use this card only if…") is checked before it is
   played.
+- R-TEXT-3b: an attack can be used even when its effect has nothing to do (searching an empty deck, a full Bench); only
+  a printed restriction ("You can use this attack only if…") stops it.
 - R-TEXT-4: the effects of attacks applied to a Pokémon end when it leaves the Active Spot or evolves.
 - R-TEXT-5: coin flips are random and shown to both players.

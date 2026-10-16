@@ -17,6 +17,7 @@ import { OpponentHand, PlayerBar } from "./PlayerBar";
 import { Preview } from "./Preview";
 import { Prompt } from "./Prompt";
 import { ReplayBar } from "./ReplayBar";
+import { Revealed } from "./Revealed";
 import { SetupBar } from "./SetupBar";
 import { Side } from "./Side";
 import { DrawerToggle, Sidebar } from "./Sidebar";
@@ -80,6 +81,7 @@ export function GameScreen() {
       {replay ? <ReplayBar /> : null}
       <Prompt view={view} />
       <CoinFlip />
+      <Revealed />
       <Preview />
       <ZoneViewer view={view} />
       {replay || tutorial ? null : <EndOverlay view={view} />}

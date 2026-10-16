@@ -1554,6 +1554,43 @@ button.counter {
   pointer-events: none;
   background: rgba(0, 0, 0, 0.25);
 }
+.reveal-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 27;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.35);
+  animation: reveal-in 0.25s ease-out;
+}
+.reveal-title {
+  color: #fff;
+  font-weight: 700;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+.reveal-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  max-width: min(92vw, 900px);
+  padding: 0 16px;
+}
+.reveal-card {
+  width: clamp(64px, 11vw, 130px);
+  border-radius: 6px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+}
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
 .coins {
   display: flex;
   gap: 14px;

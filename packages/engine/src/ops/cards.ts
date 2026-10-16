@@ -77,7 +77,11 @@ export const HANDLERS: OpHandlers = {
     };
     // Looking through a hidden zone is a question even without a choice, so that the chooser sees it.
     let chosen: string[];
-    if (e.distinctNames) {
+    if (e.random) {
+      const pool = [...options];
+      shuffle(s, pool);
+      chosen = pool.slice(0, max);
+    } else if (e.distinctNames) {
       // One card at a time, each among the names not chosen yet: every offered answer is valid.
       chosen = [];
       for (let k = 0; k < max; k++) {

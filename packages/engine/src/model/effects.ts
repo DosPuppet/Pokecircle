@@ -266,6 +266,8 @@ export type Effect =
       notSource?: boolean;
       /** Only among stored cards. */
       among?: string;
+      /** Chosen at random ("a random card from your opponent's hand"): no question. */
+      random?: boolean;
     }
   /** Put stored cards in an order chosen by the controller (first = top). */
   | { op: "orderCards"; key: string; prompt: string }

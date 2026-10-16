@@ -51,4 +51,41 @@ describe("hidden information", () => {
       expect(theirs.faces[id]).toBeUndefined();
     }
   });
+
+  it("a random card from the opponent's hand: no question, the card is revealed to both, the rest stays hidden", () => {
+    const random = trainer(
+      "item",
+      [
+        fx.chooseCards("hand", "r", "Random", { side: "opp", min: 1, max: 1, random: true, reveal: true }),
+        fx.move("r", "discard"),
+      ],
+      {},
+      "Random",
+    );
+    const sc = scenario({ p1: { active: plain, hand: [random] }, p2: { active: plain, hand: [fire, plain, fire] } });
+    const { state, events } = submit(sc.s, "p1", { type: "playTrainer", card: handOf(sc.s, "p1", random)[0] as string });
+    expect(state.pending?.kind).toBe("main");
+    expect(state.players.p2?.hand).toHaveLength(2);
+    for (const viewer of ["p1", "p2"] as const) {
+      const reveal = filterEvents(events, viewer).find((e) => e.type === "reveal");
+      expect(reveal?.type === "reveal" && reveal.defIds).toHaveLength(1);
+    }
+    const v = projectView(state, "p1");
+    for (const id of state.players.p2?.hand ?? []) expect(v.faces[id]).toBeUndefined();
+  });
+
+  it("the opponent chooses what they discard from their own hand: only they see the question", () => {
+    const discard = trainer(
+      "item",
+      [fx.chooseCards("hand", "d", "Discard", { side: "opp", chooser: "opp", min: 1, max: 1 }), fx.move("d", "discard")],
+      {},
+      "Discarder",
+    );
+    const sc = scenario({ p1: { active: plain, hand: [discard] }, p2: { active: plain, hand: [fire, plain] } });
+    const after = submit(sc.s, "p1", { type: "playTrainer", card: handOf(sc.s, "p1", discard)[0] as string }).state;
+    expect(after.pending?.kind === "choice" && after.pending.player).toBe("p2");
+    expect(projectView(after, "p1").pending?.request).toBeUndefined();
+    expect(projectView(after, "p2").pending?.request?.cards).toBeDefined();
+    for (const id of after.players.p2?.hand ?? []) expect(projectView(after, "p1").faces[id]).toBeUndefined();
+  });
 });

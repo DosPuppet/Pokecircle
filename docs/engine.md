@@ -82,3 +82,6 @@ Pure, deterministic Pokémon TCG rules engine (`packages/engine/src`). Rules ref
 - The turn log records amounts (`damagedByAttack`, `healed`). Rules: `prevent.maxDamage`, `attackFlip` (a coin before
   attacking), `prizes.oncePerGame`; ops `lockAttack`; Energy `providesIf`; Supporters `firstTurnOk`; a trigger's own card
   is `thisCard` in its effects.
+- `chooseCards.random`: a random pick without a question ("a random card from your opponent's hand"); with `reveal`,
+  both players see it. Compiler: a template's `condition` (feasibility, "only if") gates Trainers and Abilities only;
+  an attack takes `useCondition` ("You can use this attack only if…"), R-TEXT-3b.

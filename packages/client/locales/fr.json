@@ -285,6 +285,7 @@
   "Your opponent is disconnected": "Votre adversaire est déconnecté",
   "Your opponent is disconnected: {s} s to come back": "Votre adversaire est déconnecté : {s} s pour revenir",
   "Your opponent plays their turn: they draw a card, then they attack your Active Pokémon.": "Votre adversaire joue son tour : il pioche une carte, puis il attaque votre Pokémon Actif.",
+  "Your opponent reveals": "Votre adversaire montre",
   "Your time: {s} s": "Votre temps : {s} s",
   "Your turn": "Votre tour",
   "Your turn is over when you attack or when you end it. Press **End turn**.": "Votre tour se termine quand vous attaquez ou quand vous y mettez fin. Appuyez sur **Finir le tour**.",

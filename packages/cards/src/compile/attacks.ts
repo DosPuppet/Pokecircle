@@ -227,7 +227,7 @@ export const ATTACK_TEMPLATES: Template<Ctx>[] = [
   ),
   tpl("first.ifFirst", "If you go first, you can use this attack during your first turn.", () => ({ firstTurn: true })),
   tpl("first.onlySecond", "You can use this attack only if you go second, and only during your first turn.", () => ({
-    condition: cond.and(cond.not({ c: "wentFirst" }), { c: "firstTurn" }),
+    useCondition: cond.and(cond.not({ c: "wentFirst" }), { c: "firstTurn" }),
   })),
   tpl("also.eachBench", "This attack also does {n} damage to each Benched Pokémon (both yours and your opponent's).", ([n]) =>
     post(fx.damage(ref.all(scope.of("both", "bench")), Number(n))),
@@ -399,7 +399,8 @@ export function compileAttack(a: AttackDef, name?: string): CompiledAttack | { u
   const flags = options ? withDamageOptions(options) : null;
   const apply = (e: Effect): Effect => (flags && noMain && e.op === "damage" ? { ...e, ...flags } : e);
   const out: CompiledAttack = { effects: [...preFx.map(apply), ...main, ...postFx.map(apply)], templates: m.ids };
-  const conds = m.parts.flatMap((p) => (p.condition ? [p.condition] : []));
+  // Only explicit restrictions: what makes an effect possible ("search your deck") never stops the attack.
+  const conds = m.parts.flatMap((p) => (p.useCondition ? [p.useCondition] : []));
   if (conds.length) out.condition = conds.length === 1 ? (conds[0] as Condition) : cond.and(...conds);
   if (m.parts.some((p) => p.firstTurn)) out.firstTurn = true;
   return out;

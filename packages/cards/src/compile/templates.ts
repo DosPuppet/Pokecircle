@@ -13,8 +13,10 @@ export interface Built {
   pre?: Effect[];
   /** After the attack's damage (or the effect of an Ability or a Trainer card). */
   post?: Effect[];
-  /** "You can use this card only if…", or what makes the effect possible (R-TEXT-3). */
+  /** "You can use this card only if…", or what makes the effect possible (R-TEXT-3). Ignored for attacks. */
   condition?: Condition;
+  /** "You can use this attack only if…": an attack can be used even when its effect has nothing to do. */
+  useCondition?: Condition;
   /** The attack's own damage goes to another Pokémon ("…does 50 damage to the new Active Pokémon"). */
   mainOptions?: Extract<Effect, { op: "mainDamage" }>;
   /** No main damage ("This attack does 30 damage to 1 of your opponent's Pokémon" replaces it). */

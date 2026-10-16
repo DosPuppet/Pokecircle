@@ -5,7 +5,8 @@
 - **Game against the AI**: the engine and the AI run in a Web Worker (`worker/game.worker.ts`, `LocalSession`); the
   worker receives the definitions of the decks' cards (it does not bundle the card database).
 - **Playback**: the host sends one update per visible step (`frames`); the store plays them in order with pauses (coin
-  flips, attacks, Knock Outs; none with `?fast` in dev). Decisions are ignored during playback.
+  flips, attacks, Knock Outs; none with `?fast` in dev). Decisions are ignored during playback. Cards the opponent
+  reveals (their hand, a searched or random card) show over the board for a moment (`game/Revealed.tsx`).
 - **Look** (as Pokémon TCG Live, after Planecircle): Fredoka (titles, numbers, buttons) and Inter, dark glass panels,
   an amber main button. **Playmats** (`boardThemes.ts`, `[data-board]` in `styles.css`): Stadium, Meadow, Ocean,
   Volcano, Thunder, Psychic, Poké Ball, Night or random per game; pure CSS (gradients, SVG patterns, noise), also the

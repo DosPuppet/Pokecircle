@@ -50,7 +50,7 @@ describe("attack templates", () => {
   });
 
   it("leaves unknown texts unmatched", () => {
-    expect(attack("Your opponent reveals their hand.")).toMatch(/^unmatched/);
+    expect(attack("Your opponent rearranges the stars in the sky.")).toMatch(/^unmatched/);
   });
 });
 

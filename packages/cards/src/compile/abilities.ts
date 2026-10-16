@@ -115,6 +115,42 @@ type AbilityParts = Pick<AbilityDef, "activated" | "statics" | "triggers">;
 
 const STATIC_TEMPLATES: Template<Ctx & { rules?: StaticRule[] }>[] = [
   tpl(
+    "st.noEffects",
+    "Prevent all effects of attacks used by your opponent's Pokémon done to this Pokémon. (Damage is not an effect.)",
+    (_g, c) => {
+      c.rules = [{ s: "prevent", scope: scope.self(), what: "effects" }];
+      return {};
+    },
+  ),
+  tpl(
+    "st.benchShieldSelf",
+    "As long as this Pokémon is on your Bench, prevent all damage from and effects of attacks from your opponent's Pokémon done to this Pokémon.",
+    (_g, c) => {
+      c.rules = [{ s: "prevent", scope: scope.self(), what: "all", cond: cond.not({ c: "isActive", ref: ref.self }) }];
+      return {};
+    },
+  ),
+  tpl(
+    "st.activeIntimidate",
+    "As long as this Pokémon is in the Active Spot, attacks used by your opponent's Active Pokémon do {n} less damage (before applying Weakness and Resistance).",
+    ([n], c) => {
+      c.rules = [{ s: "dealt", scope: scope.oppActive(), add: -Number(n), cond: { c: "isActive", ref: ref.self } }];
+      return {};
+    },
+  ),
+  tpl("st.noEnergyFreeRetreat", "If this Pokémon has no Energy attached, it has no Retreat Cost.", (_g, c) => {
+    c.rules = [{ s: "retreat", scope: scope.self(), set: 0, cond: cond.cmp(amt.energy(ref.self), "==", 0) }];
+    return {};
+  }),
+  tpl(
+    "st.dampAll",
+    "Pokémon in play (both yours and your opponent's) lose all Abilities that require those Pokémon to be Knocked Out.",
+    (_g, c) => {
+      c.rules = [{ s: "noAbilities", scope: scope.of("both", "any", { selfKOAbility: true }) }];
+      return {};
+    },
+  ),
+  tpl(
     "st.hideNSneak",
     "Prevent all effects of your opponent's Pokémon's attacks and Abilities done to this Pokémon. (Damage is not an effect.)",
     (_g, c) => {
@@ -350,7 +386,15 @@ export function compileAbility(text: string): AbilityParts | { unmatched: string
       },
     ],
     [
-      /^Once during your turn, if (.+?), you may (.+)$/,
+      /^Once during your turn, if this Pokémon is on your Bench, you may use this Ability\. (.+)$/,
+      ([x]) => {
+        where = "bench";
+        rest = sentence(x as string);
+        return true;
+      },
+    ],
+    [
+      /^Once during your turn, if (.+?), you may (?:use this Ability\. )?(.+)$/,
       ([c, x]) => {
         const k = condPhrase(c as string, false);
         if (!k) return false;

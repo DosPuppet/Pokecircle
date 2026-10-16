@@ -345,6 +345,9 @@ export function condPhrase(s: string, inAttack: boolean): Condition | null {
     const f = pokemonFilter(m[1] as string);
     return f ? cond.exists(scope.of("me", "bench", f)) : null;
   }
+  m = /^you have ([A-Z][\w'. -]*?) and ([A-Z][\w'. -]*?) in play$/.exec(t);
+  if (m)
+    return cond.and(cond.exists(scope.mine({ names: [m[1] as string] })), cond.exists(scope.mine({ names: [m[2] as string] })));
   m = /^you have any (.+?) in play$/.exec(t);
   if (m) {
     const f = pokemonFilter(m[1] as string);

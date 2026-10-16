@@ -5,7 +5,7 @@
 import type { AiLevel } from "@pokecircle/ai";
 import type { DeckEntries } from "@pokecircle/cards";
 import { PRECONS } from "@pokecircle/cards/decks";
-import type { Decision, GameEvent, GameRecord, GameView, ObjectId, PokemonId } from "@pokecircle/engine";
+import type { Decision, GameEvent, GameRecord, GameView, ObjectId, PlayerId, PokemonId } from "@pokecircle/engine";
 import { msg, RULES_VERSION } from "@pokecircle/engine";
 import type { Clock, RoomInfo, ServerMessage } from "@pokecircle/server/protocol";
 import { PROTOCOL_VERSION } from "@pokecircle/server/protocol";
@@ -112,6 +112,8 @@ export interface Store extends Settings {
   log: LogLine[];
   /** Coin flips being shown (results), with a key per batch. */
   flips: { results: boolean[]; key: number } | null;
+  /** Cards the opponent reveals (their hand, a searched card), shown for a moment. */
+  revealed: { player: PlayerId; defIds: string[]; key: number } | null;
   selected: Selection;
   /** Retreat: choosing the Benched Pokémon to switch in. */
   retreating: boolean;
@@ -284,17 +286,22 @@ export const useGame = create<Store>((set, get) => {
           if (text) lines.push({ id: ++logId, text, turn: u.view.turn.number });
         }
         const flips = u.events.filter((e) => e.type === "coinFlip").map((e) => (e.type === "coinFlip" ? e.heads : false));
+        const shown = u.events.findLast((e) => e.type === "reveal" && e.player !== u.view.me);
+        const revealed = shown?.type === "reveal" ? { player: shown.player, defIds: shown.defIds, key: logId } : null;
         set({
           view: u.view,
           log: lines.length ? [...get().log, ...lines].slice(-300) : get().log,
           ...(flips.length ? { flips: { results: flips, key: logId } } : {}),
+          ...(revealed ? { revealed } : {}),
         });
         for (const k of soundsFor(u.events, u.view.me)) playSound(k);
         advanceTutorial(u.view, u.events);
         if (u.view.over) clearSaved();
-        const ms = pauseFor(u.events, fastMode(), paceFactor(get().pace));
+        const factor = paceFactor(get().pace);
+        const ms = Math.max(pauseFor(u.events, fastMode(), factor), revealed && !fastMode() ? Math.round(1600 * factor) : 0);
         if (ms) await new Promise((r) => setTimeout(r, ms));
         if (flips.length) set({ flips: null });
+        if (revealed) set({ revealed: null });
       }
     } finally {
       set({ busy: false });
@@ -439,6 +446,7 @@ export const useGame = create<Store>((set, get) => {
     view: null,
     log: [],
     flips: null,
+    revealed: null,
     selected: null,
     retreating: false,
     placing: { active: null, bench: [] },

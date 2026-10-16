@@ -4,7 +4,7 @@
  */
 import type { CardFilter, Effect, EType, PokemonScope } from "@pokecircle/engine";
 import { amt, cond, fx, msg, ref, scope, searchToBench } from "@pokecircle/engine";
-import { cardFilter, countPhrase, num, pokemonRef, scopePhrase, status, typeSym } from "./phrases";
+import { cardFilter, condPhrase, countPhrase, num, pokemonRef, scopePhrase, status, typeSym } from "./phrases";
 import { type Built, matchAll, sentence, type Template, tpl } from "./templates";
 
 export interface Ctx {
@@ -297,6 +297,134 @@ export const COMMON: Template<Ctx>[] = [
     post(fx.if({ c: "stadium" }, [fx.may(msg("Discard the Stadium in play?"), [fx.discardStadium()])])),
   ),
   tpl("turn.ends", "Your turn ends.", () => post(fx.endTurn())),
+  // —— the opponent's hand, random cards ——
+  tpl("hand.oppReveals", "Your opponent reveals their hand.", () => post({ op: "revealHand", side: "opp" })),
+  tpl("hand.oppRandomDiscard", "Discard a random card from your opponent's hand.", () =>
+    post(
+      fx.chooseCards("hand", "rnd", msg("A random card"), { side: "opp", min: 1, max: 1, random: true, reveal: true }),
+      fx.move("rnd", "discard"),
+    ),
+  ),
+  tpl(
+    "hand.oppRandomToDeck",
+    "Choose a random card from your opponent's hand. Your opponent reveals that card and shuffles it into their deck.",
+    () =>
+      post(
+        fx.chooseCards("hand", "rnd", msg("A random card"), { side: "opp", min: 1, max: 1, random: true, reveal: true }),
+        fx.move("rnd", "deck"),
+        fx.shuffle("opp"),
+      ),
+  ),
+  tpl("hand.oppDiscards", "Your opponent discards {w} card{s} from their hand.", ([w]) => {
+    const k = num(w);
+    return k
+      ? post(
+          fx.chooseCards("hand", "od", msg("Choose cards to discard from your hand"), {
+            side: "opp",
+            chooser: "opp",
+            min: k,
+            max: k,
+          }),
+          fx.move("od", "discard"),
+        )
+      : null;
+  }),
+  tpl("hand.discardOne", "Discard a card from your hand.", () => ({
+    post: [
+      fx.chooseCards("hand", "d", msg("Choose a card to discard"), { min: 1, max: 1, notSource: true }),
+      fx.move("d", "discard"),
+    ],
+  })),
+  tpl("cost.discardAnother", "You can use this card only if you discard another card from your hand.", () => ({
+    pre: [
+      fx.chooseCards("hand", "cost", msg("Choose a card to discard"), { min: 1, max: 1, notSource: true }),
+      fx.move("cost", "discard"),
+    ],
+    condition: cond.hasCards("hand", "me", undefined, 2),
+  })),
+  tpl("only.secondFirstTurn", "You can use this card only if you go second, and only during your first turn.", () => ({
+    condition: cond.and(cond.not({ c: "wentFirst" }), { c: "firstTurn" }),
+  })),
+  tpl("only.if", "You can use this card only if {x}.", ([c]) => {
+    const k = condPhrase(c as string, false);
+    return k ? { condition: k } : null;
+  }),
+  tpl("then.draw", "Then, draw {w} card{s}.", ([w]) => {
+    const k = num(w);
+    return k ? post(fx.draw(k)) : null;
+  }),
+  // —— deck top ——
+  tpl("top.mayDiscard", "Look at the top card of your deck. You may discard that card.", () =>
+    post(
+      fx.chooseCards("deck", "top", msg("You may discard the top card of your deck"), { top: 1, min: 0, max: 1 }),
+      fx.move("top", "discard"),
+    ),
+  ),
+  tpl(
+    "top.pokemonToBench",
+    "Look at the top {w} cards of your deck. You may put any number of Pokémon you find there onto your Bench. Shuffle the other cards back into your deck.",
+    ([w]) => {
+      const k = num(w);
+      return k
+        ? post(
+            fx.chooseCards("deck", "found", msg("Choose Basic Pokémon to put onto your Bench"), {
+              top: k,
+              filter: { category: ["pokemon"], stage: ["basic"] },
+              min: 0,
+              max: amt.benchSpace(),
+            }),
+            fx.move("found", "bench"),
+            fx.shuffle(),
+          )
+        : null;
+    },
+  ),
+  tpl(
+    "search.anyBasicsToBench",
+    "Search your deck for any number of Basic Pokémon and put them onto your Bench. Then, shuffle your deck.",
+    () => ({
+      post: searchToBench({ category: ["pokemon"], stage: ["basic"] }, amt.benchSpace() as never, SEARCH_PROMPT()),
+      condition: benchDest("onto your Bench"),
+    }),
+  ),
+  tpl(
+    "search.mayUpTo",
+    "You may search your deck for up to {w} cards and put them into your hand. Then, shuffle your deck.",
+    ([w]) => {
+      const k = num(w);
+      return k
+        ? post(fx.chooseCards("deck", "found", SEARCH_PROMPT(), { min: 0, max: k }), fx.move("found", "hand"), fx.shuffle())
+        : null;
+    },
+  ),
+  tpl("self.mayShuffleIn", "You may shuffle this Pokémon and all attached cards into your deck.", () =>
+    post(
+      fx.may(msg("Shuffle this Pokémon and all attached cards into your deck?"), [fx.pokemonTo(ref.self, "deck"), fx.shuffle()]),
+    ),
+  ),
+  tpl(
+    "hand.attachBasicsAny",
+    "You may attach any number of Basic Energy cards from your hand to your Pokémon in any way you like.",
+    () =>
+      post(
+        fx.chooseCards("hand", "e", msg("Choose Basic Energy cards to attach"), {
+          filter: { category: ["energy"], basicEnergy: true },
+          min: 0,
+          max: 60,
+        }),
+        fx.attach("e", scope.mine()),
+      ),
+  ),
+  tpl("energy.mayOppToHand", "You may put {w} Energy attached to your opponent's Active Pokémon into their hand.", ([w], ctx) => {
+    const k = num(w);
+    return k
+      ? post(
+          fx.may(msg("Put Energy attached to your opponent's Active Pokémon into their hand?"), [
+            fx.discardEnergy(ctx.inAttack ? ref.defending : ref.oppActive, k, { to: "hand" }),
+          ]),
+        )
+      : null;
+  }),
   tpl("mill.me", "Discard the top {w} card{s} of your deck.", ([n]) => {
     const k = num(n);
     return k ? post(fx.mill("me", k)) : null;
