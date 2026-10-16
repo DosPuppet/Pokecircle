@@ -47,6 +47,9 @@ function postProgress(header?: GameRecord): void {
   sent = rec.decisions.length;
 }
 
+/** Thinking time of the expert AI per decision (ms): absorbed by the 0.9 s pause between AI actions. */
+const AI_BUDGET = 700;
+
 function makeHost(
   state: GameHost["state"],
   record: GameRecord,
@@ -58,7 +61,8 @@ function makeHost(
   return new GameHost(
     state,
     {
-      agents: { [AI]: aiAgent(level, { seed: seed + 1 }) },
+      // Expert level: thinking within the pause between two AI actions (0.15 s in fast mode).
+      agents: { [AI]: aiAgent(level, { seed: seed + 1, budget: fast ? 150 : AI_BUDGET }) },
       aiDelay: fast && import.meta.env.DEV ? 0 : 900,
       sleep,
       frames: true,

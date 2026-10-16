@@ -61,8 +61,18 @@ function cacheOf(s: GameState): Cache {
   return c;
 }
 
-/** Every rule from every source, before locks and conditions. */
+const rawCaches = new WeakMap<GameState, { version: number; raw: ActiveStatic[] }>();
+
+/** Every rule from every source, before locks and conditions (cached by state version). */
 function rawStatics(s: GameState): ActiveStatic[] {
+  const c = rawCaches.get(s);
+  if (c && c.version === s.version) return c.raw;
+  const raw = collectRaw(s);
+  rawCaches.set(s, { version: s.version, raw });
+  return raw;
+}
+
+function collectRaw(s: GameState): ActiveStatic[] {
   const out: ActiveStatic[] = [];
   for (const id of allInPlay(s)) {
     const pk = pokemonOf(s, id);

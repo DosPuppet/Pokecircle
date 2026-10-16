@@ -174,6 +174,10 @@ if (!ci && !flag("no-ui") && (full || flag("ui") || uiTouched)) {
       ...(online
         ? [{ name: "online-smoke", cmd: "npx tsx tools/online-smoke.ts", show: /^ok: .*$/, needs: "tools/online-smoke.ts" }]
         : []),
+      // AI level selector and expert latency (real time, about a minute): with --full or when the AI changed.
+      ...(full || changed.some((f) => f.startsWith("packages/ai/"))
+        ? [{ name: "ai-smoke", cmd: "npx tsx tools/ai-smoke.ts", show: /^ok: AI.*$/, needs: "tools/ai-smoke.ts" }]
+        : []),
       {
         name: "lang-smoke",
         cmd: `npx tsx tools/lang-smoke.ts ${full ? 150 : 50}`,

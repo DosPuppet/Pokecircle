@@ -84,3 +84,14 @@ export function randomSetup(s: GameState, p: PlayerId, rng: Rng): Decision {
   const bench = basics.slice(1, 1 + Math.floor(rng() * Math.min(5, basics.length)));
   return { type: "setup", active: basics[0] as string, bench };
 }
+
+/** The decisions without duplicates: playing one copy of a card or another (same definition) is the same decision. */
+export function distinctDecisions(s: GameState, ds: Decision[]): Decision[] {
+  const seen = new Set<string>();
+  return ds.filter((d) => {
+    const k = "card" in d ? JSON.stringify({ ...d, card: s.objects[d.card]?.defId }) : JSON.stringify(d);
+    if (seen.has(k)) return false;
+    seen.add(k);
+    return true;
+  });
+}

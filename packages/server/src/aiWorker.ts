@@ -23,6 +23,8 @@ export type FromAiWorker = { id: number; decision: Decision } | { id: number; er
 
 const defsByRoom = new Map<string, Record<string, CardDef>>();
 const MAX_ROOMS = 64;
+/** Thinking time of the expert AI per decision (ms). */
+const AI_BUDGET = 700;
 
 parentPort?.on("message", (m: ToAiWorker) => {
   if (m.type === "forget") {
@@ -38,7 +40,7 @@ parentPort?.on("message", (m: ToAiWorker) => {
   if (m.defs) Object.assign(defs, m.defs);
   try {
     const state = { ...m.state, defs } as GameState;
-    const decision = aiAgent(m.level, { seed: m.seed })(state, m.seat);
+    const decision = aiAgent(m.level, { seed: m.seed, budget: AI_BUDGET })(state, m.seat);
     parentPort?.postMessage({ id: m.id, decision } satisfies FromAiWorker);
   } catch (e) {
     parentPort?.postMessage({ id: m.id, error: e instanceof Error ? e.message : String(e) } satisfies FromAiWorker);

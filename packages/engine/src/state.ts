@@ -28,12 +28,25 @@ export function flipCoin(s: GameState, player: PlayerId, source?: string): boole
   return heads;
 }
 
+/** Deep copy of plain JSON data (the state is pure JSON: a fuzz invariant). Several times faster than `structuredClone`. */
+function copyJson<T>(v: T): T {
+  if (typeof v !== "object" || v === null) return v;
+  if (Array.isArray(v)) {
+    const out = new Array(v.length);
+    for (let i = 0; i < v.length; i++) out[i] = copyJson(v[i]);
+    return out as T;
+  }
+  const out: Record<string, unknown> = {};
+  for (const k in v) out[k] = copyJson((v as Record<string, unknown>)[k]);
+  return out as T;
+}
+
 /**
  * Working copy of a state. Definitions are immutable and shared (they are the largest part of the state).
  */
 export function cloneState(s: GameState): GameState {
   const { defs, ...rest } = s;
-  const copy = structuredClone(rest) as GameState;
+  const copy = copyJson(rest) as GameState;
   copy.defs = defs;
   return copy;
 }

@@ -34,3 +34,46 @@ describe("determinization", () => {
     expect(changedOpp).toBe(true);
   });
 });
+
+describe("determinization of the opponent's hidden cards", () => {
+  it("draws them from what was seen of the opponent (and Basic Energy of their types)", () => {
+    const decks = decksFor("meta", 9);
+    let state = createGame({
+      seed: 9,
+      players: [
+        { id: "p1", name: "A", deck: decks[0] },
+        { id: "p2", name: "B", deck: decks[1] },
+      ],
+    }).state;
+    // Past the setup: the opponent's Pokémon are revealed.
+    for (let i = 0; i < 40 && state.flow === "setup"; i++) {
+      const p = state.pending;
+      if (!p) break;
+      const d =
+        p.kind === "choice"
+          ? { type: "choose" as const, values: p.request.suggested }
+          : p.kind === "setup"
+            ? setupOf(state, p.player)
+            : { type: "endTurn" as const };
+      state = submit(state, p.player, d).state;
+    }
+    const opp = state.players.p2;
+    if (!opp) throw new Error("p2");
+    const seen = new Set<string>();
+    for (const pk of Object.values(state.pokemon))
+      if (pk.owner === "p2") for (const c of [...pk.cards, ...pk.energy, ...pk.tools]) seen.add(state.objects[c]?.defId ?? "");
+    const d = determinize(state, "p1", mulberry32(4));
+    for (const id of [...opp.hand, ...opp.deck, ...opp.prizes]) {
+      const def = d.defs[d.objects[id]?.defId ?? ""];
+      expect(seen.has(def?.id ?? "") || !!def?.energy?.basic).toBe(true);
+    }
+  });
+});
+
+function setupOf(s: Parameters<typeof determinize>[0], p: string) {
+  const basics = (s.players[p]?.hand ?? []).filter((c) => {
+    const d = s.defs[s.objects[c]?.defId ?? ""];
+    return d?.category === "pokemon" && d.stage === "basic";
+  });
+  return { type: "setup" as const, active: basics[0] as string, bench: basics.slice(1, 3) };
+}

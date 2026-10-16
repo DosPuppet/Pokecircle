@@ -2,6 +2,7 @@ export * from "./chaos";
 export * from "./determinize";
 export * from "./evaluate";
 export * from "./invariants";
+export * from "./ismcts";
 export * from "./levels";
 export * from "./medium";
 export * from "./options";

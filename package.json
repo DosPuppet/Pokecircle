@@ -22,6 +22,7 @@
     "coverage": "tsx tools/card-coverage.ts",
     "server": "tsx packages/server/src/main.ts",
     "build:server": "tsx tools/build-server.ts",
+    "ai-smoke": "tsx tools/ai-smoke.ts",
     "ui-smoke": "tsx tools/ui-smoke.ts",
     "lang-smoke": "tsx tools/lang-smoke.ts",
     "online-smoke": "tsx tools/online-smoke.ts",

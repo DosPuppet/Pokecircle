@@ -15,7 +15,7 @@ import {
 } from "@pocketmate/engine";
 import { determinize } from "./determinize";
 import { evaluate } from "./evaluate";
-import { mainDecisions, randomAnswer } from "./options";
+import { distinctDecisions, mainDecisions, randomAnswer } from "./options";
 import { mulberry32, type Rng } from "./rng";
 
 export interface MediumOptions {
@@ -79,6 +79,42 @@ function choiceAnswer(s: GameState, p: PlayerId, req: ChoiceRequest, rng: Rng): 
   return { type: "choose", values: req.suggested };
 }
 
+export interface ScoredMain {
+  /** Value of the position before acting. */
+  base: number;
+  /** Each decision but the end of the turn, with its simulated value. */
+  options: { decision: Decision; value: number }[];
+  /** The medium level's decision: the best action while it improves the position, then the best attack. */
+  choice: Decision;
+}
+
+/** The medium level's scoring of the main-phase decisions `all` on the state `s` (already determinized). */
+export function scoreMain(s: GameState, p: PlayerId, all: Decision[] = mainDecisions(s, p)): ScoredMain {
+  const base = evaluate(s, p);
+  const options: { decision: Decision; value: number }[] = [];
+  let bestAction: Decision | null = null;
+  let bestActionV = Number.NEGATIVE_INFINITY;
+  let bestAttack: Decision | null = null;
+  let bestAttackV = Number.NEGATIVE_INFINITY;
+  for (const d of distinctDecisions(s, all)) {
+    if (d.type === "endTurn") continue;
+    const v = simulate(s, p, d);
+    if (v === Number.NEGATIVE_INFINITY) continue;
+    options.push({ decision: d, value: v });
+    if (d.type === "attack") {
+      if (v > bestAttackV) {
+        bestAttackV = v;
+        bestAttack = d;
+      }
+    } else if (v > bestActionV) {
+      bestActionV = v;
+      bestAction = d;
+    }
+  }
+  const choice: Decision = bestAction && bestActionV > base + 0.5 ? bestAction : (bestAttack ?? { type: "endTurn" });
+  return { base, options, choice };
+}
+
 export function mediumAgent(o: MediumOptions): Agent {
   const rng = mulberry32(o.seed);
   return (s, p) => {
@@ -91,30 +127,11 @@ export function mediumAgent(o: MediumOptions): Agent {
     }
     const all = mainDecisions(s, p);
     const det = determinize(s, p, rng);
-    const base = evaluate(det, p);
-    let bestAction: Decision | null = null;
-    let bestActionV = Number.NEGATIVE_INFINITY;
-    let bestAttack: Decision | null = null;
-    let bestAttackV = Number.NEGATIVE_INFINITY;
-    for (const d of all) {
-      if (d.type === "endTurn") continue;
-      const v = simulate(det, p, d);
-      if (d.type === "attack") {
-        if (v > bestAttackV) {
-          bestAttackV = v;
-          bestAttack = d;
-        }
-      } else if (v > bestActionV) {
-        bestActionV = v;
-        bestAction = d;
-      }
-    }
+    const scored = scoreMain(det, p, all);
     if (o.noise && rng() < o.noise) {
       const others = all.filter((d) => d.type !== "endTurn");
       if (others.length) return others[Math.floor(rng() * others.length)] as Decision;
     }
-    if (bestAction && bestActionV > base + 0.5) return bestAction;
-    if (bestAttack) return bestAttack;
-    return { type: "endTurn" };
+    return scored.choice;
   };
 }
