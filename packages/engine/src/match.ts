@@ -28,6 +28,9 @@ export function matchPokemon(s: GameState, id: PokemonId, f: PokemonFilter | und
     if (!!(c.rotating || c.poisoned || c.burned) !== f.conditioned) return false;
   }
   if (f.maxHp !== undefined && (d.hp ?? 0) > f.maxHp) return false;
+  if (f.selfKOAbility !== undefined && !!d.abilities?.some((a) => a.selfKO) !== f.selfKOAbility) return false;
+  if (f.abilityNamed !== undefined && !d.abilities?.some((a) => a.name === f.abilityNamed)) return false;
+  if (f.enteredBefore !== undefined && pk.enteredTurn < s.turn.number !== f.enteredBefore) return false;
   if (f.not && matchPokemon(s, id, f.not)) return false;
   return true;
 }
@@ -85,6 +88,7 @@ export function matchCard(s: GameState, d: CardDef, f: CardFilter | undefined, m
     });
     if (!names.includes(d.evolvesFrom)) return false;
   }
+  if (f.anyOf && !f.anyOf.some((x) => matchCard(s, d, x, me))) return false;
   if (f.not && matchCard(s, d, f.not, me)) return false;
   return true;
 }

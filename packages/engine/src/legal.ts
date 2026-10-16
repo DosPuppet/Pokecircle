@@ -34,10 +34,15 @@ export function evolveTargets(s: GameState, p: PlayerId, card: ObjectId): Pokemo
   if (isFirstTurnOf(s, p)) return [];
   return inPlay(s, p).filter((id) => {
     const pk = pokemonOf(s, id);
+    // Forest of Vitality: some Pokémon can evolve during the turn they are put into play.
+    const fresh = pk.enteredTurn >= s.turn.number || pk.evolvedTurn === s.turn.number;
     return (
       topDef(s, id).name === d.evolvesFrom &&
-      pk.enteredTurn < s.turn.number &&
-      pk.evolvedTurn !== s.turn.number &&
+      (!fresh ||
+        // The Evolution card must also be of the rule's types ("{G} Pokémon can evolve into {G} Pokémon").
+        rulesOn(s, "evolveSameTurn", id).some(
+          (st) => !st.rule.scope.filter?.types || st.rule.scope.filter.types.some((t) => d.types?.includes(t)),
+        )) &&
       rulesOn(s, "cantEvolve", id).length === 0
     );
   });
@@ -60,7 +65,7 @@ export function trainerPlayable(s: GameState, p: PlayerId, card: ObjectId): bool
   if (!inHand(s, p, card)) return false;
   const d = defOf(s, card);
   const t = d.trainer;
-  if (!t || !implementedTrainer(d) || !canPlayKind(s, p, t.kind)) return false;
+  if (!t || !implementedTrainer(d) || !canPlayKind(s, p, t.kind, d.tags)) return false;
   if (t.kind === "supporter" && (s.turn.supporterPlayed || s.turn.number === 1)) return false;
   if (t.kind === "stadium") {
     if (s.turn.stadiumPlayed) return false;
@@ -126,13 +131,18 @@ export function retreatOption(s: GameState, p: PlayerId): Extract<ActionOption, 
 /** The attacks of the Active Pokémon that can be used now (R-ATTACK-1, R-COND-2, R-TURN-4). */
 export function usableAttacks(s: GameState, p: PlayerId): AttackOption[] {
   const id = playerOf(s, p).active;
-  if (!id || s.turn.number === 1) return [];
+  if (!id) return [];
   const pk = pokemonOf(s, id);
   if (pk.cond.rotating === "asleep" || pk.cond.rotating === "paralyzed") return [];
   const locks = rulesOn(s, "cantAttack", id);
   const units = unitsOf(s, id);
+  const again = s.turn.again;
   return chars(s, id).attacks.filter(
     (a) =>
+      // R-TURN-4: no attack on the first player's first turn, except attacks that say so.
+      (s.turn.number !== 1 || a.def.firstTurn) &&
+      // After a first attack, only the attack it may use again (Festival Lead).
+      (s.turn.attacks === 0 || (!!again && again.index === a.index && again.source === a.source)) &&
       !locks.some((l) => !l.rule.attack || l.rule.attack === a.def.name) &&
       canPay(units, a.cost) &&
       (a.def.effects !== undefined || !a.def.text) &&
@@ -155,6 +165,16 @@ export function legalActions(s: GameState, p: PlayerId): ActionOption[] {
   if (s.pending?.kind !== "main" || s.pending.player !== p) return [];
   const out: ActionOption[] = [];
   const ps = playerOf(s, p);
+  // After a first attack (Festival Lead): the second attack, or the end of the turn.
+  if (s.turn.attacks > 0) {
+    for (const a of usableAttacks(s, p)) {
+      const o: Extract<ActionOption, { type: "attack" }> = { type: "attack", index: a.index, name: a.def.name, cost: a.cost };
+      if (a.source) o.source = a.source;
+      out.push(o);
+    }
+    out.push({ type: "endTurn" });
+    return out;
+  }
   for (const card of ps.hand) {
     const d = defOf(s, card);
     if (d.category === "pokemon") {

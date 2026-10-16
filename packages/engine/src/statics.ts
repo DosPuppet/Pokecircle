@@ -167,6 +167,20 @@ function compute(s: GameState, id: PokemonId): Chars {
   for (const st of rulesOn(s, "hp", id)) c.hp += st.rule.add;
   for (const st of rulesOn(s, "addType", id)) if (!c.types.includes(st.rule.type)) c.types.push(st.rule.type);
   if (rulesOn(s, "noWeakness", id).length) delete c.weakness;
+  const weak = rulesOn(s, "weakness", id);
+  if (weak.length) c.weakness = { type: (weak[weak.length - 1] as (typeof weak)[number]).rule.type, mult: 2 };
+  // Attacks of other Pokémon it can use (Mew ex's Memory Helix): their cards give them.
+  for (const st of rulesOn(s, "borrowAttacks", id))
+    for (const other of scopePokemon(s, st.rule.from, st.owner, st.source)) {
+      if (other === id) continue;
+      const top = pokemonOf(s, other).cards.at(-1) as ObjectId;
+      (defOf(s, top).attacks ?? []).forEach((def, index) => {
+        if (!c.attacks.some((a) => a.source === top && a.index === index))
+          c.attacks.push({ index, def, source: top, cost: [...def.cost] });
+      });
+    }
+  for (const st of rulesOn(s, "attackCostIs", id))
+    for (const a of c.attacks) if (a.def.name === st.rule.attack) a.cost = [...st.rule.cost];
   let retreat = c.retreat;
   const sets = rulesOn(s, "retreat", id).filter((st) => st.rule.set !== undefined);
   for (const st of rulesOn(s, "retreat", id)) if (st.rule.delta) retreat += st.rule.delta;
@@ -220,13 +234,18 @@ export function benchSize(s: GameState, p: PlayerId): number {
   return size;
 }
 
-/** Can a player play a Trainer card of this kind (item locks)? */
-export function canPlayKind(s: GameState, p: PlayerId, kind: "item" | "supporter" | "stadium" | "tool"): boolean {
+/** Can a player play a Trainer card of this kind (item locks; ACE SPEC locks with `tags`)? */
+export function canPlayKind(
+  s: GameState,
+  p: PlayerId,
+  kind: "item" | "supporter" | "stadium" | "tool",
+  tags: readonly string[] = [],
+): boolean {
   return !rulesOf(s, "cantPlay").some((st) => {
     const r = st.rule;
     const sides =
       r.side === "both" ? [st.owner, opponentOf(s, st.owner)] : r.side === "me" ? [st.owner] : [opponentOf(s, st.owner)];
-    return sides.includes(p) && r.kinds.includes(kind);
+    return sides.includes(p) && r.kinds.includes(kind) && (!r.tags || r.tags.some((t) => tags.includes(t)));
   });
 }
 

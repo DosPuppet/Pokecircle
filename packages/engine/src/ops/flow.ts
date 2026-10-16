@@ -95,11 +95,12 @@ export const HANDLERS: OpHandlers = {
     bump(s);
     return DONE;
   },
+  markUsed(s, r, e) {
+    s.turnLog.push({ turn: s.turn.number, player: r.player, kind: "abilityUsed", key: e.key });
+    return DONE;
+  },
   endTurn(s) {
     s.turn.ending = true;
     return DONE;
-  },
-  useAttackOf() {
-    throw new Error("useAttackOf: copying attacks is not implemented yet");
   },
 };

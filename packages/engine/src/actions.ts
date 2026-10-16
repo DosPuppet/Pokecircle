@@ -36,6 +36,9 @@ function checkIds(s: GameState, p: PlayerId, d: Decision): void {
 
 export function applyMain(s: GameState, p: PlayerId, d: Decision): void {
   checkIds(s, p, d);
+  // After a first attack (Festival Lead), only the second attack or the end of the turn.
+  if (s.turn.attacks > 0 && d.type !== "attack" && d.type !== "endTurn")
+    throw new RulesError(msg("This decision is not expected now"));
   switch (d.type) {
     case "playBasic": {
       if (!canPlayBasic(s, p, d.card)) throw new RulesError(msg("This Pokémon cannot be put onto your Bench"));
@@ -149,6 +152,8 @@ export function applyMain(s: GameState, p: PlayerId, d: Decision): void {
         target: defending,
       });
       s.turnLog.push({ turn: s.turn.number, player: p, kind: "attacked", pokemon: id, defId: top.id });
+      s.turn.attacks++;
+      delete s.turn.again;
       // R-ATTACK-2: a Confused Pokémon flips a coin; tails, 3 damage counters on itself and the attack does nothing.
       if (pokemonOf(s, id).cond.rotating === "confused" && !flipCoin(s, p)) {
         putCounters(s, null, id, 3);

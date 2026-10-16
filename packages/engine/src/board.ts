@@ -29,6 +29,9 @@ export function benchCard(s: GameState, card: ObjectId, fromHand: boolean): Poke
   const id = createPokemon(s, card);
   ps.bench.push(id);
   bump(s);
+  s.turnLog.push({ turn: s.turn.number, player: o.owner, kind: "benched", pokemon: id, defId: o.defId });
+  // Stadiums that watch every Pokémon put onto a Bench during its owner's turn (Risky Ruins).
+  if (o.owner === s.turn.active) queueTriggers(s, "benched", id, { event: { pokemon: id } });
   if (fromHand) {
     emit({ type: "playBasic", player: o.owner, card, defId: o.defId, pokemon: id });
     queueTriggers(s, "playedToBench", id, { card });
@@ -61,6 +64,7 @@ export function switchActive(s: GameState, p: PlayerId, to: PokemonId, retreat =
   }
   ps.active = to;
   bump(s);
+  s.turnLog.push({ turn: s.turn.number, player: p, kind: "becameActive", pokemon: to });
   if (from) emit({ type: retreat ? "retreat" : "switch", player: p, from, to });
   queueTriggers(s, "becameActive", to);
 }

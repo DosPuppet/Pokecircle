@@ -55,10 +55,6 @@ export const TRAINER_TEMPLATES: Template<Ctx>[] = [
     const n = num(w);
     return n ? { post: [fx.moveAll("hand", "me", "deck"), fx.shuffle("me"), fx.draw(n)] } : null;
   }),
-  tpl("hand.discardDraw", "Discard your hand and draw {w} cards.", ([w]) => {
-    const n = num(w);
-    return n ? { post: [fx.moveAll("hand", "me", "discard"), fx.draw(n)], condition: cond.deck() } : null;
-  }),
   tpl(
     "heal.superPotion",
     "Heal {n} damage from 1 of your Pokémon. If you healed any damage in this way, discard an Energy from that Pokémon.",
@@ -87,6 +83,9 @@ export const TRAINER_TEMPLATES: Template<Ctx>[] = [
   ),
   tpl("tool.retreatLess", "The Retreat Cost of the Pokémon this card is attached to is {C} less.", () =>
     statics({ s: "retreat", scope: holder(), delta: -1 }),
+  ),
+  tpl("tool.retreatLess2", "The Retreat Cost of the Pokémon this card is attached to is {C}{C} less.", () =>
+    statics({ s: "retreat", scope: holder(), delta: -2 }),
   ),
   tpl(
     "tool.dealt",

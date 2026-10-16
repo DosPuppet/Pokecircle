@@ -122,7 +122,14 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     if (m.type() === "error" && !/Failed to load resource/.test(m.text())) errors.push(m.text());
   });
   await page.goto(URL);
-  await page.evaluate(() => localStorage.clear());
+  // PM_DECK / PM_AI_DECK: precon ids to play (default: the first two).
+  await page.evaluate(
+    ([deck, aiDeck]) => {
+      localStorage.clear();
+      if (deck) localStorage.setItem("pocketmate.settings", JSON.stringify({ deck, aiDeck: aiDeck ?? deck }));
+    },
+    [process.env.PM_DECK, process.env.PM_AI_DECK] as const,
+  );
   await page.goto(URL);
   await page.getByRole("button", { name: /Jouer contre l'IA/ }).click();
   await page.waitForSelector(".game");

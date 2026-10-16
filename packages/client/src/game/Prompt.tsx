@@ -4,6 +4,7 @@
  */
 import type { ChoiceRequest, ChoiceValue, GameView } from "@pocketmate/engine";
 import { useEffect, useState } from "react";
+import { defOf, textOf } from "../cards";
 import { useLoc, useT } from "../localize";
 import { useGame } from "../store";
 import { CardImage } from "./CardImage";
@@ -17,7 +18,24 @@ export function Prompt({ view }: { view: GameView }) {
 
 function OptionFace({ view, req, id }: { view: GameView; req: ChoiceRequest; id: string }) {
   const loc = useLoc();
+  const lang = useGame((s) => s.lang);
   const showPreview = useGame((s) => s.showPreview);
+  const atk = req.attacks?.[id];
+  if (atk) {
+    const def = defOf(atk.defId);
+    const a = def?.attacks?.[atk.index];
+    return (
+      <div className="opt-attack" onMouseEnter={() => showPreview({ defId: atk.defId })} onMouseLeave={() => showPreview(null)}>
+        <div className="opt-card">
+          <CardImage defId={atk.defId} />
+        </div>
+        <span>
+          {def ? (textOf(def, lang).attacks?.[atk.index]?.name ?? a?.name) : id}{" "}
+          {a?.damage ? `${a.damage}${a.suffix === "x" ? "×" : (a.suffix ?? "")}` : ""}
+        </span>
+      </div>
+    );
+  }
   const pk = view.pokemon[id];
   if (pk) {
     const top = pk.cards[pk.cards.length - 1] ?? "";

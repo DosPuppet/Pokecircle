@@ -6,11 +6,12 @@ import { answer, DONE, evalAmount, isAsk, playersOf, resolveRef } from "../effec
 import { RulesError } from "../errors";
 import { emit } from "../events";
 import { takePrizes } from "../knockout";
-import { scopePokemon } from "../match";
+import { matchCard, scopePokemon } from "../match";
 import type { OpHandlers } from "../opRegistry";
 import { bump, defOf, moveCard, obj, playerOf, pokemonOf, putOnPokemon, topDef } from "../state";
+import { chars } from "../statics";
 import { msg } from "../text";
-import type { ObjectId } from "../types";
+import type { GameState, ObjectId, Resolution } from "../types";
 
 export const HANDLERS: OpHandlers = {
   choosePokemon(s, r, e, key) {
@@ -72,6 +73,7 @@ export const HANDLERS: OpHandlers = {
       discarded.push(...a.map(String));
     }
     for (const c of discarded) {
+      noteBoomerang(s, r, c);
       moveCard(s, c, e.to === "hand" ? "hand" : e.to === "lostZone" ? "lostZone" : e.to === "deck" ? "deck" : "discard");
       total++;
     }
@@ -84,7 +86,9 @@ export const HANDLERS: OpHandlers = {
     const chooser = playersOf(s, r, e.chooser);
     const pk = pokemonOf(s, from);
     const options = pk.energy.filter(
-      (c) => !e.types || (defOf(s, c).energy?.provides ?? []).some((u) => e.types?.some((x) => u.includes(x))),
+      (c) =>
+        (!e.basic || !!defOf(s, c).energy?.basic) &&
+        (!e.types || (defOf(s, c).energy?.provides ?? []).some((u) => e.types?.some((x) => u.includes(x)))),
     );
     const n = Math.min(evalAmount(s, r, e.n), options.length);
     const targets = scopePokemon(s, e.to, r.player, r.source).filter((x) => x !== from);
@@ -171,8 +175,152 @@ export const HANDLERS: OpHandlers = {
     }
     return DONE;
   },
+  knockOut(s, r, e) {
+    for (const t of resolveRef(s, r, e.target)) {
+      const pk = pokemonOf(s, t);
+      pk.damage = Math.max(pk.damage, chars(s, t).hp);
+      bump(s);
+    }
+    return DONE;
+  },
+  discardEnergyFrom(s, r, e, key) {
+    const options = scopePokemon(s, e.scope, r.player, r.source).flatMap((id) =>
+      pokemonOf(s, id).energy.filter((c) => {
+        const d = defOf(s, c);
+        if (e.basic && !d.energy?.basic) return false;
+        return !e.types || (d.energy?.provides ?? []).some((u) => e.types?.some((x) => u.includes(x) || u.includes("*")));
+      }),
+    );
+    const max = Math.min(evalAmount(s, r, e.max), options.length);
+    const min = Math.min(evalAmount(s, r, e.min), max);
+    const a = answer(r, key("e"), r.player, {
+      type: "pick",
+      options,
+      min,
+      max,
+      prompt: e.prompt,
+      intent: "energy",
+      suggested: options.slice(0, min),
+      source: r.defId,
+    });
+    if (isAsk(a)) return { ask: a };
+    const to = e.to === "hand" ? "hand" : e.to === "deck" ? "deck" : e.to === "lostZone" ? "lostZone" : "discard";
+    for (const c of a.map(String)) {
+      noteBoomerang(s, r, c);
+      moveCard(s, c, to);
+    }
+    if (e.store) r.vars[e.store] = [a.length];
+    return DONE;
+  },
+  useAttackOf(s, r, e, key) {
+    if (!r.attack) return DONE;
+    const cards =
+      "cards" in e.from
+        ? (r.vars[e.from.cards] ?? []).map(String).filter((c) => s.objects[c])
+        : scopePokemon(s, e.from, r.player, r.source).map((id) => pokemonOf(s, id).cards.at(-1) as ObjectId);
+    const attacks: Record<string, { defId: string; index: number }> = {};
+    for (const c of cards) {
+      const d = defOf(s, c);
+      if (d.category !== "pokemon" || (e.filter && !matchCard(s, d, e.filter, r.player))) continue;
+      (d.attacks ?? []).forEach((a, index) => {
+        // An attack that itself copies attacks is not offered (no endless chain of copies).
+        if (a.effects?.some((x) => x.op === "useAttackOf")) return;
+        attacks[`${c}:${index}`] = { defId: d.id, index };
+      });
+    }
+    const options = Object.keys(attacks);
+    if (!options.length) return DONE;
+    const a = answer(r, key("atk"), r.player, {
+      type: "pick",
+      options,
+      min: 1,
+      max: 1,
+      prompt: e.prompt,
+      intent: "mode",
+      suggested: [options[0] as string],
+      attacks,
+      source: r.defId,
+    });
+    if (isAsk(a)) return { ask: a };
+    const chosen = attacks[String(a[0])];
+    const atk = chosen ? s.defs[chosen.defId]?.attacks?.[chosen.index] : undefined;
+    if (!atk) return DONE;
+    // The chosen attack becomes this attack: its damage and its effects.
+    r.attack.base = atk.damage;
+    r.attack.bonus = 0;
+    const effects = atk.effects ?? (atk.damage > 0 && !atk.text ? [{ op: "mainDamage" as const }] : []);
+    return { push: effects };
+  },
+  evolveFromHand(s, r, e, key) {
+    const hand = playerOf(s, r.player).hand;
+    const fits = (card: ObjectId, target: string) => {
+      const d = defOf(s, card);
+      const base = topDef(s, target);
+      return e.skipStage1 ? d.stage === "stage2" && (d.basicOf ?? []).includes(base.name) : d.evolvesFrom === base.name;
+    };
+    const targets = scopePokemon(s, e.scope, r.player, r.source).filter((t) => hand.some((c) => fits(c, t)));
+    if (!targets.length) return DONE;
+    const a = answer(r, key("pk"), r.player, {
+      type: "pick",
+      options: targets,
+      min: 1,
+      max: 1,
+      prompt: e.prompt,
+      intent: "target",
+      suggested: [targets[0] as string],
+      source: r.defId,
+    });
+    if (isAsk(a)) return { ask: a };
+    const target = String(a[0]);
+    const cards = hand.filter((c) => fits(c, target));
+    const b = answer(r, key("card"), r.player, {
+      type: "pick",
+      options: cards,
+      min: 1,
+      max: 1,
+      prompt: msg("Choose the Evolution card"),
+      intent: "search",
+      suggested: [cards[0] as string],
+      source: r.defId,
+    });
+    if (isAsk(b)) return { ask: b };
+    evolvePokemon(s, String(b[0]), target, true);
+    return DONE;
+  },
+  gatherEnergy(s, r, e, key) {
+    const to = resolveRef(s, r, e.to)[0];
+    if (!to) return DONE;
+    const options = scopePokemon(s, e.from, r.player, r.source)
+      .filter((id) => id !== to)
+      .flatMap((id) => pokemonOf(s, id).energy);
+    const max = Math.min(evalAmount(s, r, e.max), options.length);
+    const min = Math.min(evalAmount(s, r, e.min), max);
+    const a = answer(r, key("e"), r.player, {
+      type: "pick",
+      options,
+      min,
+      max,
+      prompt: e.prompt,
+      intent: "energy",
+      suggested: [],
+      source: r.defId,
+    });
+    if (isAsk(a)) return { ask: a };
+    for (const c of a.map(String)) {
+      putOnPokemon(s, c, to, "energy");
+      emit({ type: "attach", player: r.player, card: c, defId: obj(s, c).defId, pokemon: to });
+    }
+    return DONE;
+  },
   takePrizes(s, r, e) {
     takePrizes(s, r.player, evalAmount(s, r, e.n));
     return DONE;
   },
 };
+
+/** Boomerang Energy: discarded by an effect of its own Pokémon's attack, it comes back after the attack. */
+function noteBoomerang(s: GameState, r: Resolution, card: ObjectId): void {
+  if (r.kind !== "attack" || !r.source || s.objects[card]?.host !== r.source) return;
+  if (!defOf(s, card).energy?.returnAfterAttack) return;
+  r.vars.boomerang = [...(r.vars.boomerang ?? []), defOf(s, card).id];
+}

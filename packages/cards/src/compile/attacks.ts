@@ -161,8 +161,13 @@ export const ATTACK_TEMPLATES: Template<Ctx>[] = [
   tpl("next.cantAttack", "During your next turn, this Pokémon can't attack.", () =>
     post(fx.timed("yourNextTurn", { s: "cantAttack", scope: scope.self() }, ref.self)),
   ),
+  tpl("next.cantUseAttacks", "During your next turn, this Pokémon can't use attacks.", () =>
+    post(fx.timed("yourNextTurn", { s: "cantAttack", scope: scope.self() }, ref.self)),
+  ),
   tpl("next.cantUse", "During your next turn, this Pokémon can't use {x}.", ([name]) =>
-    post(fx.timed("yourNextTurn", { s: "cantAttack", scope: scope.self(), attack: name as string }, ref.self)),
+    name === "attacks"
+      ? null
+      : post(fx.timed("yourNextTurn", { s: "cantAttack", scope: scope.self(), attack: name as string }, ref.self)),
   ),
   tpl("opp.cantRetreat", "During your opponent's next turn, {x} can't retreat.", ([who], ctx) => {
     const r = pokemonRef(who as string, ctx.inAttack);

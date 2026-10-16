@@ -3,7 +3,9 @@
  * (attack, Ability, Trainer or Energy text) is compiled or scripted; what is not is listed in `missing`.
  */
 import type { AbilityDef, CardDef } from "@pocketmate/engine";
+import { compileAbility } from "./abilities";
 import { compileAttack } from "./attacks";
+import { compileEnergy } from "./energies";
 import { compileTrainer } from "./trainers";
 
 export interface CompileReport {
@@ -34,14 +36,21 @@ export function compileDef(def: CardDef, report?: CompileReport): CardDef {
       return { ...a, effects: c.effects };
     });
     out.abilities = (def.abilities ?? []).map((ab): AbilityDef => {
-      if (ab.activated || ab.statics || ab.triggers) return ab;
-      missing.push(ab.text);
-      note(report, def.id, ab.text);
-      return ab;
+      const selfKO = /this Pokémon is Knocked Out\.?$/.test(ab.text.trim());
+      const marked = selfKO ? { ...ab, selfKO: true } : ab;
+      if (ab.activated || ab.statics || ab.triggers) return marked;
+      const c = compileAbility(ab.text);
+      if ("unmatched" in c) {
+        missing.push(ab.text);
+        note(report, def.id, c.unmatched || ab.text);
+        return marked;
+      }
+      used.push("ability");
+      return { ...marked, ...c };
     });
     if (!out.abilities.length) delete out.abilities;
   } else if (def.category === "trainer" && def.trainer) {
-    if (!def.trainer.effects && !def.trainer.statics) {
+    if (!def.trainer.effects && !def.trainer.statics && !def.trainer.triggers) {
       const c = compileTrainer(def.text.en.text, def.trainer.kind);
       if ("unmatched" in c) {
         missing.push(def.text.en.text ?? def.name);
@@ -53,8 +62,14 @@ export function compileDef(def: CardDef, report?: CompileReport): CardDef {
     }
   } else if (def.category === "energy" && def.energy && !def.energy.basic) {
     if (!def.energy.provides.length) {
-      missing.push(def.text.en.text ?? def.name);
-      note(report, def.id, def.text.en.text ?? "");
+      const c = compileEnergy(def.text.en.text);
+      if ("unmatched" in c) {
+        missing.push(def.text.en.text ?? def.name);
+        note(report, def.id, c.unmatched);
+      } else {
+        out.energy = { ...def.energy, ...c };
+        used.push("energy");
+      }
     }
   }
   out.implemented = missing.length === 0;

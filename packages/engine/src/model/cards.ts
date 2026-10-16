@@ -46,6 +46,8 @@ export interface AttackDef {
   effects?: Effect[];
   /** "You can use this attack only if…" (checked before the attack is offered). */
   condition?: Condition;
+  /** "If you go first, you can use this attack during your first turn." */
+  firstTurn?: boolean;
 }
 
 /** "Once during your turn" limits of an activated Ability. */
@@ -81,7 +83,9 @@ export type TriggerEvent =
   /** At the end of its owner's turn. */
   | "turnEnd"
   /** The holder of this card used an attack (after it is done). */
-  | "attacked";
+  | "attacked"
+  /** Any Pokémon was put onto its owner's Bench during their turn (Stadiums). */
+  | "benched";
 
 export interface TriggerDef {
   on: TriggerEvent;
@@ -92,6 +96,8 @@ export interface TriggerDef {
   condition?: Condition;
   /** Once during the turn (Abilities that say "Once during your turn, when…"). */
   oncePerTurn?: boolean;
+  /** Once per turn for every trigger sharing this key ("You can't use more than 1 … Ability each turn"). */
+  onceKey?: string;
   effects: Effect[];
 }
 
@@ -102,6 +108,8 @@ export interface AbilityDef {
   activated?: ActivatedAbility;
   statics?: StaticRule[];
   triggers?: TriggerDef[];
+  /** Using it Knocks Out the Pokémon (Psyduck's Damp turns these off). */
+  selfKO?: boolean;
 }
 
 export interface TrainerDef {
@@ -130,6 +138,8 @@ export interface EnergyDef {
   triggers?: TriggerDef[];
   /** Attaching it is only allowed to Pokémon matching this condition (`self` = the target). */
   attachCondition?: Condition;
+  /** Discarded by an effect of its Pokémon's own attack: attached again after attacking (Boomerang Energy). */
+  returnAfterAttack?: boolean;
 }
 
 export interface CardDef {

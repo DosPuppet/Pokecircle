@@ -13,6 +13,13 @@ Every approximation of the official rules or of a card's text is listed here whe
 - R-KO-4: when both players must promote, the player whose turn it is chooses first, and the choice is shown at once.
 - Sudden Death (R-WIN-4) ends the game with no winner until PLAN-A P8.
 
+- Copying attacks (`useAttackOf`: N's Zoroark ex's Night Joker, Slowking's Seek Inspiration, Mew ex): an attack that
+  itself copies attacks is not offered, so copies never chain (a Night Joker copying another Night Joker would loop).
+
 ## Cards
 
-(none yet)
+- Brock's Scouting: the player chooses "up to 2 Basic Pokémon" or "1 Evolution Pokémon" before searching (the same
+  result as choosing while looking at the deck).
+- Briar: the extra Prize is taken when the Knocked Out Pokémon was damaged by an attack this turn while a Tera Pokémon is
+  the player's Active Pokémon (the attacker is the Active Pokémon in every legal play).
+- Festival Lead: the second attack must be the same attack (the text says "an attack it has twice").

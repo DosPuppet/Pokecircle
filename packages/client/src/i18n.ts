@@ -15,9 +15,11 @@ import {
 import { cardName } from "./cards";
 import { type Lang, localize } from "./translate";
 
-/** A text with card references, in a language. */
+/** A text with card references, in a language; Energy symbols ({G}…) become type names. */
 export function localizeText(text: string, lang: Lang): string {
-  return localize(text, lang, (defId) => cardName(defId, lang));
+  return localize(text, lang, (defId) => cardName(defId, lang)).replace(/\{([GRWLPFDMNCY])\}/g, (_, t: string) =>
+    localize(TYPE_LABEL[t] as string, lang, (d) => d),
+  );
 }
 
 export const CONDITION_LABEL: Record<SpecialCondition, string> = {

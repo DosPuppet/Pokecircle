@@ -9,8 +9,9 @@ export function basePrizes(d: Pick<CardDef, "tags">): number {
   return d.tags.includes("ruleBox") ? 2 : 1;
 }
 
-export function prizesFor(s: GameState, id: PokemonId): number {
+/** `byAttack`: Knocked Out by damage from an attack (rules that only count then). */
+export function prizesFor(s: GameState, id: PokemonId, byAttack = false): number {
   let n = basePrizes(topDef(s, id));
-  for (const st of rulesOn(s, "prizes", id)) n += st.rule.delta;
+  for (const st of rulesOn(s, "prizes", id)) if (!st.rule.byAttack || byAttack) n += st.rule.delta;
   return Math.max(0, n);
 }

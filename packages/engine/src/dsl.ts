@@ -115,7 +115,12 @@ export const fx = {
     prompt: string,
     opts: { min?: Amount; max?: Amount; chooser?: "me" | "opp" } = {},
   ): Effect => ({ op: "choosePokemon", scope: s, store, prompt, ...opts }),
-  draw: (n: Amount, who?: "me" | "opp"): Effect => (who ? { op: "draw", n, who } : { op: "draw", n }),
+  draw: (n: Amount, who?: "me" | "opp", store?: string): Effect => ({
+    op: "draw",
+    n,
+    ...(who ? { who } : {}),
+    ...(store ? { store } : {}),
+  }),
   drawUntil: (n: Amount, who?: "me" | "opp"): Effect => (who ? { op: "drawUntil", n, who } : { op: "drawUntil", n }),
   chooseCards: (
     zone: CardZone,
@@ -127,11 +132,17 @@ export const fx = {
   moveAll: (zone: CardZone, side: "me" | "opp", to: CardDest, filter?: CardFilter): Effect =>
     filter ? { op: "moveAll", zone, side, to, filter } : { op: "moveAll", zone, side, to },
   shuffle: (who?: "me" | "opp"): Effect => (who ? { op: "shuffleDeck", who } : { op: "shuffleDeck" }),
-  attach: (cards: string, to: PokemonScope, prompt = msg("Choose the Pokémon to attach the card to")): Effect => ({
+  attach: (
+    cards: string,
+    to: PokemonScope,
+    prompt = msg("Choose the Pokémon to attach the card to"),
+    store?: string,
+  ): Effect => ({
     op: "attach",
     cards,
     to,
     prompt,
+    ...(store ? { store } : {}),
   }),
   evolveWith: (card: string, target: PokemonRef, skipStage1?: boolean): Effect =>
     skipStage1 ? { op: "evolveWith", card, target, skipStage1 } : { op: "evolveWith", card, target },

@@ -63,6 +63,7 @@ export function blankState(seed: number, players: { id: PlayerId; name: string }
       supporterPlayed: false,
       stadiumPlayed: false,
       retreated: false,
+      attacks: 0,
       ending: false,
     },
     flow: "setup",

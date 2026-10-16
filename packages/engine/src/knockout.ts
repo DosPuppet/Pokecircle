@@ -30,7 +30,8 @@ export function checkKnockouts(s: GameState): boolean {
     const pk = pokemonOf(s, id);
     const top = topDef(s, id);
     const taker = opponentOf(s, pk.owner);
-    prizes[taker] = (prizes[taker] ?? 0) + prizesFor(s, id);
+    const hit = s.turnLog.some((e) => e.turn === s.turn.number && e.kind === "damagedByAttack" && e.pokemon === id);
+    prizes[taker] = (prizes[taker] ?? 0) + prizesFor(s, id, hit);
     const attached = [...pk.tools, ...pk.energy];
     const attachedDefs = attached.map((c) => obj(s, c).defId);
     const byAttack = s.turnLog.some((e) => e.turn === s.turn.number && e.kind === "damagedByAttack" && e.pokemon === id);
@@ -81,6 +82,7 @@ export function promote(s: GameState, p: PlayerId, id: PokemonId): void {
   ps.bench = ps.bench.filter((x) => x !== id);
   ps.active = id;
   bump(s);
+  s.turnLog.push({ turn: s.turn.number, player: p, kind: "becameActive", pokemon: id });
   emit({ type: "promote", player: p, pokemon: id });
   queueTriggers(s, "becameActive", id);
 }

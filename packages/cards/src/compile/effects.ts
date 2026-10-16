@@ -3,9 +3,9 @@
  * says whether "your opponent's Active Pokémon" is the Defending Pokémon.
  */
 import type { CardFilter, Effect, EType, PokemonScope } from "@pocketmate/engine";
-import { cond, fx, msg, ref, scope, searchToBench } from "@pocketmate/engine";
+import { amt, cond, fx, msg, ref, scope, searchToBench } from "@pocketmate/engine";
 import { cardFilter, countPhrase, num, pokemonRef, scopePhrase, status, typeSym } from "./phrases";
-import { type Built, type Template, tpl } from "./templates";
+import { type Built, matchAll, sentence, type Template, tpl } from "./templates";
 
 export interface Ctx {
   inAttack: boolean;
@@ -27,6 +27,11 @@ export function chooseIn(sc: PokemonScope, key: string, count: { min: number; ma
 }
 
 const SEARCH_PROMPT = () => msg("Choose cards from your deck");
+
+/** A deck search can be done; onto the Bench, a free place is needed too (R-TEXT-3). */
+function benchDest(dest: string) {
+  return /onto your Bench/.test(dest) ? cond.and(cond.deck(), cond.cmp(amt.benchSpace(), ">", 0)) : cond.deck();
+}
 
 /** Where found cards go: "put it into your hand", "put them onto your Bench", "attach it to this Pokémon". */
 function searchEffects(count: { min: number; max: number }, what: string, dest: string, ctx: Ctx): Effect[] | null {
@@ -67,10 +72,10 @@ function attachScope(target: string, _ctx: Ctx): PokemonScope | null {
   if (/^your Pokémon in any way you like$/.test(target)) return scope.mine();
   if (/^your Benched Pokémon in any way you like$/.test(target)) return scope.myBench();
   if (/^your Active Pokémon$/.test(target)) return scope.myActive();
-  const typed = /^1 of your (\{[A-Z]\}) Pokémon$/.exec(target);
+  const typed = /^1 of your (Benched )?(\{[A-Z]\}) Pokémon$/.exec(target);
   if (typed) {
-    const t = typeSym(typed[1]);
-    return t ? scope.mine({ types: [t] }) : null;
+    const t = typeSym(typed[2]);
+    return t ? scope.of("me", typed[1] ? "bench" : "any", { types: [t] }) : null;
   }
   return null;
 }
@@ -82,6 +87,33 @@ function typesOf(s: string | undefined): EType[] | undefined | null {
 }
 
 export const COMMON: Template<Ctx>[] = [
+  // —— the Pokémon itself ——
+  tpl("self.toHand", "Put this Pokémon and all attached cards into your hand.", () => post(fx.pokemonTo(ref.self, "hand"))),
+  tpl("self.toDeck", "Shuffle this Pokémon and all attached cards into your deck.", () =>
+    post(fx.pokemonTo(ref.self, "deck"), fx.shuffle()),
+  ),
+  tpl("self.energyToHand", "Put an Energy attached to this Pokémon into your hand.", () =>
+    post(fx.discardEnergy(ref.self, 1, { to: "hand" })),
+  ),
+  tpl("draw.thenIf", "Draw {w} cards. If you drew any cards in this way, {x}.", ([n, rest], ctx) => {
+    const k = num(n);
+    const m = matchAll(sentence(rest as string), COMMON, ctx);
+    if (!k || "unmatched" in m) return null;
+    return post(
+      fx.draw(k, undefined, "drawn"),
+      fx.if(
+        cond.cmp(amt.v("drawn"), ">", 0),
+        m.parts.flatMap((p) => [...(p.pre ?? []), ...(p.post ?? [])]),
+      ),
+    );
+  }),
+  tpl("hand.discardDraw", "Discard your hand and draw {w} cards.", ([w]) => {
+    const n = num(w);
+    return n ? { post: [fx.moveAll("hand", "me", "discard"), fx.draw(n)], condition: cond.deck() } : null;
+  }),
+  tpl("opp.itemLock", "During your opponent's next turn, they can't play any Item cards from their hand.", () =>
+    post(fx.timed("opponentsNextTurn", { s: "cantPlay", side: "opp", kinds: ["item"] })),
+  ),
   // —— Special Conditions ——
   tpl("status.now", "{x} is now {x}.", ([who, what], ctx) => {
     const r = pokemonRef(who as string, ctx.inAttack);
@@ -114,14 +146,14 @@ export const COMMON: Template<Ctx>[] = [
     const count = m ? countPhrase(m[1] as string) : null;
     if (!m || !count) return null;
     const e = searchEffects(count, m[2] as string, dest as string, ctx);
-    return e ? { post: e, condition: cond.deck() } : null;
+    return e ? { post: e, condition: benchDest(dest as string) } : null;
   }),
   tpl("search.plain", "Search your deck for {x} and {x}. Then, shuffle your deck.", ([what, dest], ctx) => {
     const m = /^(a|an|up to \w+|\w+) (.+)$/.exec(what as string);
     const count = m ? countPhrase(m[1] as string) : null;
     if (!m || !count) return null;
     const e = searchEffects(count, m[2] as string, dest as string, ctx);
-    return e ? { post: e, condition: cond.deck() } : null;
+    return e ? { post: e, condition: benchDest(dest as string) } : null;
   }),
   tpl("discardPile.toHand", "Put {x} from your discard pile into your hand.", ([what]) => {
     const m = /^(a|an|up to \w+|\w+) (.+)$/.exec(what as string);
@@ -201,6 +233,9 @@ export const COMMON: Template<Ctx>[] = [
   }),
   // —— switching ——
   tpl("switch.self", "Switch this Pokémon with 1 of your Benched Pokémon.", () => post(fx.switch("me"))),
+  tpl("switch.maySelf", "You may switch this Pokémon with 1 of your Benched Pokémon.", () =>
+    post(fx.if(cond.bench("me"), [fx.may(msg("Switch this Pokémon with 1 of your Benched Pokémon?"), [fx.switch("me")])])),
+  ),
   tpl("switch.mine", "Switch your Active Pokémon with 1 of your Benched Pokémon.", () => ({
     post: [fx.switch("me")],
     condition: cond.bench("me"),

@@ -1,18 +1,19 @@
 /** Card ops: drawing, choosing cards from a zone, moving them, shuffling. */
 import { attachCard, benchCard } from "../board";
-import { type Ask, answer, DONE, evalAmount, isAsk, playersOf } from "../effects";
-import { RulesError } from "../errors";
+import { type Ask, answer, DONE, evalAmount, isAsk, playersOf, resolveRef } from "../effects";
 import { emit } from "../events";
 import { matchCard, scopePokemon } from "../match";
 import type { OpHandlers } from "../opRegistry";
-import { drawCards, moveCard, obj, playerOf, shuffleDeck } from "../state";
+import { drawCards, moveCard, obj, playerOf, shuffle, shuffleDeck } from "../state";
 import { msg } from "../text";
 import type { CardDest, ChoiceValue, GameState, ObjectId } from "../types";
 
 /** Moves cards to a destination; returns their ids after the move (a card entering the deck gets a new id). */
 export function moveTo(s: GameState, cards: ObjectId[], to: CardDest): ObjectId[] {
   const out: ObjectId[] = [];
-  for (const c of cards) {
+  // On top of the deck, the first card ends on top: put them in reverse order.
+  const list = to === "deckTop" ? [...cards].reverse() : cards;
+  for (const c of list) {
     if (!s.objects[c]) continue;
     switch (to) {
       case "bench": {
@@ -31,12 +32,13 @@ export function moveTo(s: GameState, cards: ObjectId[], to: CardDest): ObjectId[
         out.push(moveCard(s, c, to));
     }
   }
-  return out;
+  return to === "deckTop" ? out.reverse() : out;
 }
 
 export const HANDLERS: OpHandlers = {
   draw(s, r, e) {
-    drawCards(s, playersOf(s, r, e.who), evalAmount(s, r, e.n));
+    const drawn = drawCards(s, playersOf(s, r, e.who), evalAmount(s, r, e.n));
+    if (e.store) r.vars[e.store] = [drawn.length];
     return DONE;
   },
   drawUntil(s, r, e) {
@@ -51,6 +53,10 @@ export const HANDLERS: OpHandlers = {
     let zone = [...playerOf(s, owner)[e.zone]];
     if (e.top !== undefined) zone = zone.slice(0, evalAmount(s, r, e.top));
     if (e.notSource && r.card) zone = zone.filter((c) => c !== r.card);
+    if (e.among) {
+      const allowed = new Set((r.vars[e.among] ?? []).map(String));
+      zone = zone.filter((c) => allowed.has(c));
+    }
     const options = zone.filter((c) => matchCard(s, s.defs[obj(s, c).defId]!, e.filter, r.player));
     const max = Math.min(evalAmount(s, r, e.max), options.length);
     const min = Math.min(e.min === undefined ? 0 : evalAmount(s, r, e.min), max);
@@ -70,15 +76,32 @@ export const HANDLERS: OpHandlers = {
       source: r.defId,
     };
     // Looking through a hidden zone is a question even without a choice, so that the chooser sees it.
-    const a: ChoiceValue[] | Ask =
-      hidden && zone.length && !r.answers[key("pick")]
-        ? { player: chooser, key: key("pick"), request: req }
-        : answer(r, key("pick"), chooser, req);
-    if (isAsk(a)) return { ask: a };
-    const chosen = a.map(String);
+    let chosen: string[];
     if (e.distinctNames) {
-      const names = chosen.map((c) => s.defs[obj(s, c).defId]?.name);
-      if (new Set(names).size !== names.length) throw new RulesError(msg("Choose cards with different names"));
+      // One card at a time, each among the names not chosen yet: every offered answer is valid.
+      chosen = [];
+      for (let k = 0; k < max; k++) {
+        const names = new Set(chosen.map((c) => s.defs[obj(s, c).defId]?.name));
+        const left = options.filter((c) => !chosen.includes(c) && !names.has(s.defs[obj(s, c).defId]?.name));
+        if (!left.length) break;
+        const a = answer(r, key(`pick${k}`), chooser, {
+          ...req,
+          options: left,
+          min: k < min ? 1 : 0,
+          max: 1,
+          suggested: left.slice(0, 1),
+        });
+        if (isAsk(a)) return { ask: a };
+        if (!a.length) break;
+        chosen.push(String(a[0]));
+      }
+    } else {
+      const a: ChoiceValue[] | Ask =
+        hidden && zone.length && !r.answers[key("pick")]
+          ? { player: chooser, key: key("pick"), request: req }
+          : answer(r, key("pick"), chooser, req);
+      if (isAsk(a)) return { ask: a };
+      chosen = a.map(String);
     }
     r.vars[e.store] = chosen;
     if (e.reveal && chosen.length)
@@ -113,13 +136,43 @@ export const HANDLERS: OpHandlers = {
   moveAll(s, r, e) {
     const owner = playersOf(s, r, e.side);
     const cards = playerOf(s, owner)[e.zone].filter((c) => matchCard(s, s.defs[obj(s, c).defId]!, e.filter, r.player));
+    // A hand put into a deck goes in a random order (it is shuffled first).
+    if (e.to === "deckBottom" || e.to === "deckTop") shuffle(s, cards);
     moveTo(s, cards, e.to);
+    if (e.store) r.vars[e.store] = [cards.length];
+    return DONE;
+  },
+  revealHand(s, r, e) {
+    const p = playersOf(s, r, e.side);
+    const hand = playerOf(s, p).hand;
+    if (hand.length) emit({ type: "reveal", player: p, cards: [...hand], defIds: hand.map((c) => obj(s, c).defId) });
     return DONE;
   },
   mill(s, r, e) {
     const p = playersOf(s, r, e.side);
     const cards = playerOf(s, p).deck.slice(0, evalAmount(s, r, e.n));
-    moveTo(s, cards, e.to ?? "discard");
+    const moved = moveTo(s, cards, e.to ?? "discard");
+    if (e.store) r.vars[e.store] = moved;
+    return DONE;
+  },
+  orderCards(s, r, e, key) {
+    const items = (r.vars[e.key] ?? []).map(String).filter((c) => s.objects[c]);
+    const a = answer(r, key("order"), r.player, {
+      type: "order",
+      items,
+      prompt: e.prompt,
+      intent: "order",
+      suggested: items,
+      cards: Object.fromEntries(items.map((c) => [c, obj(s, c).defId])),
+      source: r.defId,
+    });
+    if (isAsk(a)) return { ask: a };
+    r.vars[e.key] = a.map(String);
+    return DONE;
+  },
+  varMinus(_s, r, e) {
+    const minus = new Set((r.vars[e.minus] ?? []).map(String));
+    r.vars[e.key] = (r.vars[e.key] ?? []).filter((x) => !minus.has(String(x)));
     return DONE;
   },
   shuffleDeck(s, r, e) {
@@ -151,7 +204,8 @@ export const HANDLERS: OpHandlers = {
   },
   attach(s, r, e, key) {
     const cards = (r.vars[e.cards] ?? []).map(String).filter((c) => s.objects[c]);
-    const targets = scopePokemon(s, e.to, r.player, r.source);
+    const fixed = e.target ? resolveRef(s, r, e.target)[0] : undefined;
+    const targets = fixed ? [fixed] : scopePokemon(s, e.to, r.player, r.source);
     if (!targets.length) return DONE;
     const picks: string[] = [];
     for (let i = 0; i < cards.length; i++) {
@@ -173,6 +227,7 @@ export const HANDLERS: OpHandlers = {
       const fromHand = obj(s, c).zone === "hand";
       attachCard(s, c, picks[i] as string, fromHand);
     });
+    if (e.store) r.vars[e.store] = [...new Set([...(r.vars[e.store] ?? []).map(String), ...picks])];
     return DONE;
   },
 };

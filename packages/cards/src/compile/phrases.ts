@@ -41,6 +41,8 @@ export function pokemonRef(s: string, inAttack: boolean): PokemonRef | null {
   if (/^this Pokémon$/i.test(t)) return ref.self;
   if (/^(your opponent's Active Pokémon|the Defending Pokémon)$/i.test(t)) return inAttack ? ref.defending : ref.oppActive;
   if (/^your Active Pokémon$/i.test(t)) return ref.myActive;
+  // A trigger's event: the Pokémon that attacked.
+  if (/^the Attacking Pokémon$/i.test(t)) return { ev: "attacker" };
   return null;
 }
 
@@ -53,6 +55,11 @@ const STAGES: Record<string, Stage> = { Basic: "basic", "Stage 1": "stage1", "St
 export function pokemonFilter(s: string): PokemonFilter | null {
   let t = s.trim();
   const f: PokemonFilter = {};
+  const hp = /^(.*?) with (\d+) HP or less$/.exec(t);
+  if (hp) {
+    t = hp[1] as string;
+    f.maxHp = Number(hp[2]);
+  }
   const ruleBox = /^(.*?) that (?:doesn't|don't) have a Rule Box$/.exec(t);
   if (ruleBox) {
     t = ruleBox[1] as string;
@@ -97,7 +104,8 @@ export function eachPhrase(s: string, inAttack: boolean): Amount | null {
   if (m) {
     const type = m[2] ? typeSym(m[2].trim()) : undefined;
     if (type === null) return null;
-    const opts = { ...(type ? { type } : {}), ...(m[1] ? { basic: true } : {}) };
+    // "for each Energy" counts the Energy provided (a card providing 2 counts twice); "Basic Energy" counts cards.
+    const opts = { ...(type ? { type } : {}), ...(m[1] ? { basic: true } : { units: true }) };
     const on = m[3] as string;
     if (on === "both Active Pokémon") return amt.add(amt.energy(ref.myActive, opts), amt.energy(ref.oppActive, opts));
     if (/^all of (your opponent's|your) Pokémon$/.test(on)) {
@@ -158,10 +166,19 @@ export function countPhrase(s: string): { min: number; max: number } | null {
  * card", "Supporter card", "Item card", "Trainer card", "Pokémon Tool card", "Stadium card", "Evolution Pokémon".
  */
 export function cardFilter(s: string): { filter?: CardFilter } | null {
-  const t = s
-    .trim()
-    .replace(/s$/, "")
-    .replace(/ cards?$/, " card");
+  const combination = /^in any combination of /.test(s.trim());
+  const raw = s.trim().replace(/^in any combination of /, "");
+  // "a Pokémon or a Basic Energy card"; "in any combination of {G} Pokémon and Stadium cards". A plain "X and Y" is two
+  // separate cards (Hilda), not one of either: not a filter.
+  if (!combination && / and /.test(raw)) return null;
+  const parts = raw.split(/ or an? (?!less|more|fewer)| or (?!less|more|fewer)| and /);
+  if (parts.length > 1) {
+    const all = parts.map((p) => cardFilter(p.replace(/^an? /, "")));
+    if (all.some((x) => !x)) return null;
+    const filters = all.map((x) => x?.filter ?? {});
+    return { filter: { anyOf: filters } };
+  }
+  const t = raw.replace(/ cards$/, " card").replace(/^(.*Pokémon(?: ex)?)s$/, "$1");
   let m: RegExpExecArray | null;
   if (/^card$/.test(t)) return {};
   m = /^(Basic )?(\{[A-Z]\} )?Energy card$/.exec(t);
@@ -187,6 +204,7 @@ export function cardFilter(s: string): { filter?: CardFilter } | null {
     if (pf.types) f.types = pf.types;
     if (pf.tags) f.tags = pf.tags;
     if (pf.noTags) f.noTags = pf.noTags;
+    if (pf.maxHp !== undefined) f.maxHp = pf.maxHp;
     return { filter: f };
   }
   return null;
@@ -243,7 +261,7 @@ export function condPhrase(s: string, inAttack: boolean): Condition | null {
     const n = num(m[2]);
     const type = m[3] ? typeSym(m[3].trim()) : undefined;
     if (!r || n === null || type === null) return null;
-    return cond.cmp(amt.energy(r, type ? { type } : {}), ">=", n);
+    return cond.cmp(amt.energy(r, { units: true, ...(type ? { type } : {}) }), ">=", n);
   }
   m = /^your opponent has (\w+) or (fewer|more) Prize cards remaining$/.exec(t);
   if (m) {
@@ -260,11 +278,25 @@ export function condPhrase(s: string, inAttack: boolean): Condition | null {
     const n = num(m[1]);
     return n === null ? null : cond.cmp(amt.cards("hand", "me"), m[2] === "fewer" ? "<=" : ">=", n);
   }
-  if (/^any of your Pokémon were Knocked Out by damage from an attack during your opponent's last turn$/.test(t))
+  if (/^any of your Pokémon were Knocked Out (?:by damage from an attack )?during your opponent's last turn$/.test(t))
     return cond.cmp({ k: "turnLog", event: "knockedOut", side: "me", previous: true }, ">", 0);
   if (/^you played a Supporter card from your hand during this turn$/.test(t))
     return cond.cmp({ k: "turnLog", event: "supporterPlayed", side: "me" }, ">", 0);
   if (/^you go second$/.test(t) || /^you went second$/.test(t)) return cond.not({ c: "wentFirst" });
+  if (/^a Stadium is in play$/.test(t)) return { c: "stadium" };
+  m = /^your Active Pokémon has the (.+?) Ability$/.exec(t);
+  if (m) return cond.matches(ref.myActive, { abilityNamed: m[1] as string });
+  if (/^there is no Stadium in play$/.test(t)) return cond.not({ c: "stadium" });
+  m = /^(.+?) moved from your Bench to the Active Spot this turn$/.exec(t);
+  if (m) {
+    const r = pokemonRef(m[1] as string, inAttack);
+    return r ? { c: "didThisTurn", kind: "becameActive", ref: r } : null;
+  }
+  m = /^(.+?) has a Pokémon Tool attached$/.exec(t);
+  if (m) {
+    const r = pokemonRef(m[1] as string, inAttack);
+    return r ? cond.matches(r, { hasTool: true }) : null;
+  }
   if (/^you go first$/.test(t) || /^you went first$/.test(t)) return { c: "wentFirst" };
   return null;
 }

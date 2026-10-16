@@ -30,6 +30,12 @@ export interface PokemonFilter {
   /** Has a Special Condition. */
   conditioned?: boolean;
   maxHp?: number;
+  /** Has an Ability that Knocks Out the Pokémon using it (Psyduck's Damp). */
+  selfKOAbility?: boolean;
+  /** Has an Ability with this English name. */
+  abilityNamed?: string;
+  /** Put into play before this turn (Rare Candy, evolution). */
+  enteredBefore?: boolean;
   not?: PokemonFilter;
 }
 
@@ -55,6 +61,8 @@ export type PokemonRef =
   | "oppActive"
   /** Pokémon stored in a variable (`choosePokemon`, triggers). */
   | { var: string }
+  /** A Pokémon of the trigger's event (`attacker`: the Attacking Pokémon). */
+  | { ev: string }
   /** Every Pokémon of a scope. */
   | { scope: PokemonScope };
 
@@ -76,6 +84,8 @@ export interface CardFilter {
   evolvesFromInPlay?: Side;
   /** Evolves from this English name. */
   evolvesFrom?: string;
+  /** Matches if any of these does ("Pokémon or Basic Energy cards"). */
+  anyOf?: CardFilter[];
   not?: CardFilter;
 }
 
@@ -122,7 +132,11 @@ export type TurnEventKind =
   | "retreated"
   | "attacked"
   | "abilityUsed"
-  | "damagedByAttack";
+  | "damagedByAttack"
+  /** A Pokémon moved from the Bench to the Active Spot. */
+  | "becameActive"
+  /** A Pokémon was put onto the Bench. */
+  | "benched";
 
 export type Comparison = ">=" | ">" | "<=" | "<" | "==" | "!=";
 
@@ -147,6 +161,8 @@ export type Condition =
   | { c: "wentFirst" }
   /** A Stadium is in play (optionally by name). */
   | { c: "stadium"; names?: string[] }
+  /** A turn log event of this turn concerns the Pokémon ("if this Pokémon moved from your Bench to the Active Spot this turn"). */
+  | { c: "didThisTurn"; kind: TurnEventKind; ref: PokemonRef }
   /** Some card in a zone matches (deck not empty, a Pokémon in the discard pile). */
   | { c: "hasCards"; zone: CardZone; side: Side; filter?: CardFilter; atLeast?: number };
 
@@ -220,25 +236,37 @@ export type Effect =
       distinctNames?: boolean;
       /** Exclude the card being played. */
       notSource?: boolean;
+      /** Only among stored cards. */
+      among?: string;
     }
+  /** Put stored cards in an order chosen by the controller (first = top). */
+  | { op: "orderCards"; key: string; prompt: string }
+  /** Remove from a stored list the ones stored in another. */
+  | { op: "varMinus"; key: string; minus: string }
   /** A number from min to max ("discard up to 2"). */
   | { op: "chooseNumber"; min: Amount; max: Amount; store: string; prompt: string }
   /** Store an amount. */
   | { op: "set"; key: string; amount: Amount }
   // —— cards ——
-  | { op: "draw"; n: Amount; who?: "me" | "opp" }
+  | { op: "draw"; n: Amount; who?: "me" | "opp"; store?: string }
   | { op: "drawUntil"; n: Amount; who?: "me" | "opp" }
   /** Move stored cards (from wherever they are). */
   | { op: "move"; cards: string; to: CardDest }
-  /** Move every card of a zone (optionally filtered). */
-  | { op: "moveAll"; zone: CardZone; side: "me" | "opp"; to: CardDest; filter?: CardFilter }
+  /** Move every card of a zone (optionally filtered); `store`: how many were moved. */
+  | { op: "moveAll"; zone: CardZone; side: "me" | "opp"; to: CardDest; filter?: CardFilter; store?: string }
+  /** A player reveals their hand (to both players). */
+  | { op: "revealHand"; side: "me" | "opp" }
   | { op: "shuffleDeck"; who?: "me" | "opp" }
   /** Discard (or move) the top N cards of a deck. */
-  | { op: "mill"; side: "me" | "opp"; n: Amount; to?: CardDest }
-  /** Attach stored cards (Energy, Tools) to a Pokémon chosen for each one among the scope. */
-  | { op: "attach"; cards: string; to: PokemonScope; prompt: string }
+  | { op: "mill"; side: "me" | "opp"; n: Amount; to?: CardDest; store?: string }
+  /** Attach stored cards (Energy, Tools) to a Pokémon chosen for each one among the scope; `store`: the Pokémon. */
+  | { op: "attach"; cards: string; to: PokemonScope; prompt: string; store?: string; target?: PokemonRef }
   /** Evolve a stored Pokémon with a stored card (Rare Candy, "search for a card that evolves from…"). */
   | { op: "evolveWith"; card: string; target: PokemonRef; skipStage1?: boolean }
+  /** Choose a Pokémon of a scope, then an Evolution card from the hand for it, and evolve (Rare Candy: skipping Stage 1). */
+  | { op: "evolveFromHand"; scope: PokemonScope; skipStage1?: boolean; prompt: string }
+  /** Move chosen Energy from Pokémon of a scope to one Pokémon (Iron Leaves ex). */
+  | { op: "gatherEnergy"; from: PokemonScope; to: PokemonRef; min: Amount; max: Amount; prompt: string }
   // —— attached cards ——
   | {
       op: "discardEnergy";
@@ -250,7 +278,7 @@ export type Effect =
       store?: string;
       to?: CardDest;
     }
-  | { op: "moveEnergy"; from: PokemonRef; to: PokemonScope; n: Amount; types?: EType[]; chooser?: "me" | "opp" }
+  | { op: "moveEnergy"; from: PokemonRef; to: PokemonScope; n: Amount; types?: EType[]; basic?: boolean; chooser?: "me" | "opp" }
   | { op: "discardTools"; from: PokemonRef }
   | { op: "discardStadium" }
   // —— Pokémon ——
@@ -275,5 +303,24 @@ export type Effect =
   | { op: "look"; zone: CardZone; side: "me" | "opp"; top?: Amount }
   /** Take Prize cards ("take 1 more Prize card"). */
   | { op: "takePrizes"; n: Amount }
-  /** Use one of the attacks of a Pokémon (copying attacks). */
-  | { op: "useAttackOf"; from: PokemonScope | "discardOrDeck"; prompt: string };
+  /**
+   * "Choose 1 of its attacks and use it as this attack": the attacks of Pokémon in play (a scope) or of stored cards,
+   * optionally matching a filter. The chosen attack's damage and effects replace what is left of this attack.
+   */
+  | { op: "useAttackOf"; from: PokemonScope | { cards: string }; filter?: CardFilter; prompt: string }
+  /** Records a once-per-turn use (a "you may" trigger counts only when accepted). */
+  | { op: "markUsed"; key: string }
+  /** "This Pokémon is Knocked Out" (an Ability's cost). */
+  | { op: "knockOut"; target: PokemonRef }
+  /** Choose Energy attached to Pokémon of a scope and discard (or move) them; `store`: how many. */
+  | {
+      op: "discardEnergyFrom";
+      scope: PokemonScope;
+      min: Amount;
+      max: Amount;
+      basic?: boolean;
+      types?: EType[];
+      store?: string;
+      to?: CardDest;
+      prompt: string;
+    };

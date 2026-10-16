@@ -118,6 +118,9 @@ export function dealAttackDamage(s: GameState, r: Resolution, target: PokemonId,
 export function putCounters(s: GameState, r: Resolution | null, target: PokemonId, n: number): number {
   if (!s.pokemon[target] || n <= 0) return 0;
   if (r && attackEffectsPrevented(s, r, target)) return 0;
+  // Battle Cage: no damage counters on Benched Pokémon from effects of the opponent's attacks and Abilities.
+  if (r && (r.kind === "attack" || r.kind === "ability") && pokemonOf(s, target).owner !== r.player && !isActive(s, target))
+    if (rulesOn(s, "prevent", target).some((st) => st.rule.what === "counters")) return 0;
   pokemonOf(s, target).damage += n * 10;
   bump(s);
   emit({ type: "counters", target, n });

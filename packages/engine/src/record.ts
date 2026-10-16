@@ -11,9 +11,10 @@ import type { CardDef, Decision, GameState, PlayerId } from "./types";
 /**
  * Rules version: advanced on every change of engine behavior. A record of another version may not replay identically.
  *
- * History: 1 (2026-10-16) first engine.
+ * History: 1 (2026-10-16) first engine; 2 (2026-10-16) meta mechanics: copied attacks, Festival Lead, Energy
+ * provision, Weakness changes, turn log of benched and Active Pokémon (PLAN-A P6).
  */
-export const RULES_VERSION = 1;
+export const RULES_VERSION = 2;
 export const RECORD_FORMAT = "pocketmate-game";
 export const CHECKPOINT_EVERY = 25;
 

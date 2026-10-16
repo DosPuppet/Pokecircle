@@ -3,7 +3,8 @@
  * decision, `advance` runs what can run without a player (resolutions, triggers, Knock Outs, win checks) until a
  * decision is pending or the game is over.
  */
-import { clearConditions, removeCondition } from "./conditions";
+import { attachCard } from "./board";
+import { canBeConditioned, clearConditions, removeCondition } from "./conditions";
 import { putCounters } from "./damage";
 import { evalCond, runResolution, startResolution, staticCtx } from "./effects";
 import { emit } from "./events";
@@ -22,7 +23,7 @@ import {
   pokemonOf,
   shuffleDeck,
 } from "./state";
-import { benchSize } from "./statics";
+import { benchSize, rulesOn } from "./statics";
 import { cardRef, msg } from "./text";
 import { queueTriggers, triggerDef } from "./triggers";
 import type { ChoiceValue, Effect, GameState, ObjectId, PlayerId } from "./types";
@@ -182,6 +183,8 @@ function startTurn(s: GameState): void {
   t.supporterPlayed = false;
   t.stadiumPlayed = false;
   t.retreated = false;
+  t.attacks = 0;
+  delete t.again;
   t.ending = false;
   s.effects = s.effects.filter((e) => e.untilTurn >= t.number);
   s.turnLog = s.turnLog.filter((e) => e.turn >= t.number - 2);
@@ -230,7 +233,20 @@ function finishResolution(s: GameState): void {
   if (!r) return;
   if (r.kind === "trainer" && r.card && s.objects[r.card]?.zone === "resolving") moveCard(s, r.card, "discard");
   if (r.kind === "attack") {
-    s.turn.ending = true;
+    // Boomerang Energy discarded by this attack's effects: attached again to the attacker.
+    const back = (r.vars.boomerang ?? []).map(String);
+    if (back.length && r.source && s.pokemon[r.source]) {
+      const discard = playerOf(s, r.player).discard;
+      for (const defId of back) {
+        const c = [...discard].reverse().find((x) => s.objects[x]?.defId === defId);
+        if (c) attachCard(s, c, r.source, false);
+      }
+    }
+    // Festival Lead: a Pokémon that may attack twice keeps its turn after its first attack.
+    const twice =
+      s.turn.attacks === 1 && !!r.source && !!s.pokemon[r.source] && !!r.attack && rulesOn(s, "attackTwice", r.source).length > 0;
+    if (twice && r.attack) s.turn.again = { index: r.attack.index, ...(r.attack.source ? { source: r.attack.source } : {}) };
+    else s.turn.ending = true;
     if (r.source && s.pokemon[r.source]) queueTriggers(s, "attacked", r.source);
   }
   if (r.event?.endsTurn) s.turn.ending = true;
@@ -241,14 +257,18 @@ function startTrigger(s: GameState, q: GameState["queue"][number]): void {
   if (!t) return;
   const ctx = { ...staticCtx(q.player, q.source), card: q.card, vars: {}, ...(q.event ? { event: q.event } : {}) };
   if (t.condition && !evalCond(s, ctx, t.condition)) return;
-  if (t.oncePerTurn) {
-    const key = `trigger:${q.source ?? q.card}:${q.defId}:${q.trigger}`;
-    if (s.turnLog.some((e) => e.turn === s.turn.number && e.key === key)) return;
-    s.turnLog.push({ turn: s.turn.number, player: q.player, kind: "abilityUsed", key });
-  }
+  // Once per turn: an optional trigger counts only when the player accepts it.
+  const onceKey =
+    t.oncePerTurn || t.onceKey
+      ? t.onceKey
+        ? `once:${q.player}:${t.onceKey}`
+        : `trigger:${q.source ?? q.card}:${q.defId}:${q.trigger}`
+      : null;
+  if (onceKey && s.turnLog.some((e) => e.turn === s.turn.number && e.key === onceKey)) return;
+  const body: Effect[] = onceKey ? [{ op: "markUsed", key: onceKey }, ...t.effects] : t.effects;
   const effects: Effect[] = t.may
-    ? [{ op: "may", prompt: msg("Use the effect of {card}?", { card: cardRef(q.defId) }), then: t.effects }]
-    : t.effects;
+    ? [{ op: "may", prompt: msg("Use the effect of {card}?", { card: cardRef(q.defId) }), then: body }]
+    : body;
   emit({ type: "ability", player: q.player, pokemon: q.source, defId: q.defId, name: "" });
   startResolution(s, {
     kind: "trigger",
@@ -283,6 +303,15 @@ function askPromotion(s: GameState, p: PlayerId): void {
   };
 }
 
+/** Pokémon that cannot be affected by Special Conditions recover from them (Festival Grounds). */
+function cureProtected(s: GameState): void {
+  for (const id of [...inPlay(s, s.playerOrder[0] as PlayerId), ...inPlay(s, s.playerOrder[1] as PlayerId)]) {
+    const c = pokemonOf(s, id).cond;
+    if ((c.rotating || c.poisoned || c.burned) && !canBeConditioned(s, id))
+      for (const k of ["asleep", "confused", "paralyzed", "poisoned", "burned"] as const) removeCondition(s, id, k);
+  }
+}
+
 /** R-BENCH-2: a player with more Benched Pokémon than allowed discards some (asked to the owner). */
 function benchOverflow(s: GameState): PlayerId | null {
   return s.playerOrder.find((p) => playerOf(s, p).bench.length > benchSize(s, p)) ?? null;
@@ -302,6 +331,7 @@ export function advance(s: GameState): void {
       continue;
     }
     if (s.flow !== "setup") {
+      cureProtected(s);
       if (checkKnockouts(s)) continue;
       if (checkWinner(s)) return;
       const p = promotionNeeded(s);

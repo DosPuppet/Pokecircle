@@ -87,6 +87,7 @@ export function resolveRef(s: GameState, ctx: Ctx, ref: PokemonRef): PokemonId[]
   if (ref === "defending")
     return ctx.attack ? alive([ctx.attack.defending]) : alive([playerOf(s, opponentOf(s, ctx.player)).active]);
   if ("var" in ref) return alive((ctx.vars[ref.var] ?? []).map(String));
+  if ("ev" in ref) return alive([ctx.event?.[ref.ev]]);
   return scopePokemon(s, ref.scope, ctx.player, ctx.source);
 }
 
@@ -231,6 +232,10 @@ export function evalCond(s: GameState, ctx: Ctx, c: Condition): boolean {
       if (!s.stadium) return false;
       const d = s.defs[s.objects[s.stadium]?.defId ?? ""];
       return !c.names || (!!d && c.names.includes(d.name));
+    }
+    case "didThisTurn": {
+      const ids = resolveRef(s, ctx, c.ref);
+      return s.turnLog.some((e) => e.turn === s.turn.number && e.kind === c.kind && !!e.pokemon && ids.includes(e.pokemon));
     }
     case "hasCards": {
       const players = sidePlayers(s, c.side, ctx.player);

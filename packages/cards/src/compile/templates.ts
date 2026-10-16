@@ -57,13 +57,18 @@ export function tpl<C>(id: string, pattern: string, build: (g: string[], ctx: C)
 
 /** Text normalized for matching: one space, straight quotes. */
 export function normalize(text: string): string {
-  return text
-    .replace(/[‘’]/g, "'")
-    .replace(/[“”]/g, '"')
-    .replace(/[–—]/g, "-")
-    .replace(/\bPokemon\b/g, "Pokémon")
-    .replace(/\s+/g, " ")
-    .trim();
+  return (
+    text
+      // Reminder texts that add nothing to the rule.
+      .replace(/\s*\(Pokémon ex, Pokémon V, etc\. have Rule Boxes\.\)/g, "")
+      .replace(/\s*\(Existing effects are not removed\. Damage is not an effect\.\)/g, "")
+      .replace(/[‘’]/g, "'")
+      .replace(/[“”]/g, '"')
+      .replace(/[–—]/g, "-")
+      .replace(/\bPokemon\b/g, "Pokémon")
+      .replace(/\s+/g, " ")
+      .trim()
+  );
 }
 
 export interface Match {

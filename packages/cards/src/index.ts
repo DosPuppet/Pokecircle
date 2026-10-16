@@ -5,6 +5,8 @@
 import type { CardDef, PrintInfo } from "@pocketmate/engine";
 import { type CompileReport, compileDef } from "./compile/index";
 import { applyScript } from "./scripts";
+// Hand scripts register themselves before the catalog is compiled.
+import "./scripts/meta";
 import { SET_REGISTRY } from "./setRegistry";
 import { SET_DATA } from "./sets";
 import { buildCatalog } from "./tcgdex";

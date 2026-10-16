@@ -78,6 +78,12 @@ export function ActionBar({ view }: { view: GameView }) {
           );
     }
   }
+  if (mine && view.legal.some((o) => o.type === "stadiumAction"))
+    buttons.push(
+      <button type="button" key="stadium" className="btn ability" onClick={() => decide({ type: "stadiumAction" })}>
+        {t("Use the Stadium")}
+      </button>,
+    );
   const status = view.over
     ? null
     : view.pending?.player === view.me
@@ -113,7 +119,8 @@ function AttackButton({ o, view }: { o: Extract<ActionOption, { type: "attack" }
   const active = view.players[view.me]?.active;
   const pk = active ? view.pokemon[active] : undefined;
   const sourceDef = o.source ? defOf(view.faces[o.source]) : defOf(view.faces[pk?.cards[pk.cards.length - 1] ?? ""]);
-  const attacks = o.source ? sourceDef?.trainer?.attacks : sourceDef?.attacks;
+  // A Tool's attack, a borrowed attack (the card of a Benched Pokémon), or the Active Pokémon's own.
+  const attacks = sourceDef?.trainer?.attacks ?? sourceDef?.attacks;
   const a = attacks?.[o.index];
   const text = sourceDef ? textOf(sourceDef, lang) : undefined;
   const name = (o.source ? undefined : text?.attacks?.[o.index]?.name) ?? o.name;

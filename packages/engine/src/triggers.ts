@@ -46,6 +46,18 @@ export interface TriggerInfo {
 /** Queues the triggers of an event on a Pokémon (its Abilities, Tools and Energy, or the card concerned). */
 export function queueTriggers(s: GameState, on: TriggerEvent, pokemon: PokemonId | null, info: TriggerInfo = {}): void {
   const out: QueuedTrigger[] = [];
+  if (on === "benched") {
+    // Only the Stadium watches every Bench.
+    if (s.stadium) {
+      const d = defOf(s, s.stadium);
+      const owner = s.objects[s.stadium]?.owner as PlayerId;
+      (d.trainer?.triggers ?? []).forEach((t, j) => {
+        if (t.on === "benched") push(out, d, `t:${j}`, owner, null, s.stadium, info.event);
+      });
+    }
+    s.queue.push(...out);
+    return;
+  }
   const matches = (t: TriggerDef, owner: PlayerId) =>
     t.on === on && (!t.byOpponentAttack || (info.attacker !== undefined && info.attacker !== owner));
   if (on === "attached" && info.card) {

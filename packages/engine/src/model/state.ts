@@ -94,6 +94,10 @@ export interface TurnState {
   supporterPlayed: boolean;
   stadiumPlayed: boolean;
   retreated: boolean;
+  /** Attacks used this turn. */
+  attacks: number;
+  /** A second attack is allowed (Festival Lead): the attack it may repeat. */
+  again?: { index: number; source?: ObjectId };
   /** The attack (or an effect) ends the turn. */
   ending: boolean;
 }

@@ -37,6 +37,8 @@ export type ChoiceRequest = {
   cards?: Record<string, string>;
   /** The card the question comes from (definition id). */
   source?: string;
+  /** Options that are attacks (copied attacks): the card and the attack's index, named by the interface. */
+  attacks?: Record<string, { defId: string; index: number }>;
 } & (
   | { type: "pick"; options: string[]; min: number; max: number }
   | { type: "number"; min: number; max: number }
