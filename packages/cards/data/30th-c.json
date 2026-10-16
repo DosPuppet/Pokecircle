@@ -1,0 +1,1526 @@
+[
+ {
+  "id": "30th-c-001",
+  "set": "30th-c",
+  "localId": "001",
+  "category": "Pokemon",
+  "name": "Charizard",
+  "standard": false,
+  "rarity": "None",
+  "hp": 120,
+  "types": [
+   "R"
+  ],
+  "stage": "Stage2",
+  "abilities": [
+   {
+    "type": "Pokemon Power",
+    "name": "Energy Burn",
+    "effect": "As often as you like during your turn (before your attack), you may turn all Energy attached to Charizard into Fire Energy for the rest of the turn. This power can't be used if Charizard is Asleep, Confused, or Paralyzed."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Fire Spin",
+    "cost": [
+     "R",
+     "R",
+     "R",
+     "R"
+    ],
+    "damage": "100",
+    "effect": "Discard 2 Energy cards attached to Charizard in order to use this attack."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "W",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 3,
+  "illustrator": "Mitsuhiro Arita",
+  "fr": {
+   "name": "Dracaufeu",
+   "abilities": [
+    {
+     "name": "Combustion d'Énergie",
+     "effect": "Aussi souvent que vous le souhaitez pendant votre tour (avant votre attaque), vous pouvez transformer toutes les Énergies attachées à Dracaufeu en Énergies Fire jusqu'à la fin du tour. Ce pouvoir ne peut être utilisé si Dracaufeu est Endormi, Confus ou Paralysé."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Danseflamme",
+     "effect": "Défaussez 2 cartes Énergies attachées à Dracaufeu pour pouvoir utiliser cette attaque."
+    }
+   ]
+  }
+ },
+ {
+  "id": "30th-c-002",
+  "set": "30th-c",
+  "localId": "002",
+  "category": "Pokemon",
+  "name": "Delcatty",
+  "standard": false,
+  "rarity": "None",
+  "hp": 70,
+  "types": [
+   "C"
+  ],
+  "stage": "Stage1",
+  "attacks": [
+   {
+    "name": "Max Energy Source",
+    "cost": [
+     "C"
+    ],
+    "damage": "10×",
+    "effect": "Does 10 damage times the amount of Energy attached to all of your Active Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "illustrator": "Atsuko Nishida",
+  "fr": {
+   "name": "Delcatty",
+   "attacks": [
+    {
+     "name": "Source d'énergie maximale",
+     "effect": "Inflige 10 dégâts pour chaque Énergie attachée à vos Pokémon Actifs."
+    }
+   ]
+  }
+ },
+ {
+  "id": "30th-c-003",
+  "set": "30th-c",
+  "localId": "003",
+  "category": "Pokemon",
+  "name": "Metagross",
+  "standard": false,
+  "rarity": "None",
+  "hp": 100,
+  "types": [
+   "L"
+  ],
+  "stage": "Stage2",
+  "attacks": [
+   {
+    "name": "Crush and Burn",
+    "cost": [
+     "L",
+     "M"
+    ],
+    "damage": "30+",
+    "effect": "You may discard as many Energy cards as you like attached to your Pokémon in play. If you do, this attack does 30 damage plus 20 more damage for each Energy card you discarded."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "G",
+    "value": "-30"
+   }
+  ],
+  "retreat": 3,
+  "illustrator": "Masakazu Fukuda",
+  "fr": {
+   "name": "Metalosse",
+   "attacks": [
+    {
+     "name": "Écra-brûle",
+     "effect": "Vous pouvez défausser autant de cartes Énergie attachées aux Pokémon que vous avez en jeu que vous voulez. Cette attaque inflige alors 30 dégâts plus 20 dégâts supplémentaires pour chaque carte Énergie défaussée."
+    }
+   ]
+  }
+ },
+ {
+  "id": "30th-c-004",
+  "set": "30th-c",
+  "localId": "004",
+  "category": "Pokemon",
+  "name": "Genesect EX",
+  "standard": false,
+  "rarity": "None",
+  "hp": 170,
+  "types": [
+   "G"
+  ],
+  "stage": "Basic",
+  "suffix": "EX",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Red Signal",
+    "effect": "When you attach a Plasma Energy from your hand to this Pokémon, you may switch 1 of your opponent's Benched Pokémon with his or her Active Pokémon."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Megalo Cannon",
+    "cost": [
+     "G",
+     "G",
+     "C"
+    ],
+    "damage": "100",
+    "effect": "Does 20 damage to 1 of your opponent's Benched Pokémon. <em>\t   (Don't apply Weakness and Resistance for Benched Pokémon.)</em>"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "illustrator": "Eske Yoshinob",
+  "fr": {
+   "name": "Genesect EX",
+   "abilities": [
+    {
+     "name": "Signal Rouge",
+     "effect": "Lorsque vous attachez une Énergie Plasma de votre main à ce Pokémon, vous pouvez échanger 1 des Pokémon de Banc de votre adversaire avec son Pokémon Actif."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Mégalo Canon",
+     "effect": "Inflige 20 dégâts à 1 des Pokémon de Banc de votre adversaire. <em>(N'appliquez ni la Faiblesse ni la Résistance aux Pokémon de Banc.)</em>"
+    }
+   ]
+  }
+ },
+ {
+  "id": "30th-c-005",
+  "set": "30th-c",
+  "localId": "005",
+  "category": "Trainer",
+  "name": "Misty",
+  "standard": false,
+  "rarity": "None",
+  "trainerType": "Supporter",
+  "illustrator": "Ken Sugimori",
+  "fr": {
+   "name": "Ondine"
+  }
+ },
+ {
+  "id": "30th-c-006",
+  "set": "30th-c",
+  "localId": "006",
+  "category": "Pokemon",
+  "name": "Dark Tyranitar",
+  "standard": false,
+  "rarity": "None",
+  "hp": 120,
+  "types": [
+   "D"
+  ],
+  "stage": "Stage2",
+  "attacks": [
+   {
+    "name": "Grind",
+    "cost": [
+     "C"
+    ],
+    "damage": "10+",
+    "effect": "Does 10 damage plus 10 more damage for each Energy attached to Dark Tyranitar."
+   },
+   {
+    "name": "Spinning Tail",
+    "cost": [
+     "D",
+     "C",
+     "C"
+    ],
+    "effect": "Does 20 damage to each of your opponent's Pokémon. <em>\t   (Don't apply Weakness and Resistance for Benched Pokémon.)</em>"
+   },
+   {
+    "name": "Bite Off",
+    "cost": [
+     "D",
+     "D",
+     "C",
+     "C",
+     "C"
+    ],
+    "damage": "70+",
+    "effect": "If the Defending Pokémon is Pokémon-<em>ex</em>, this attack does 70 damage plus 50 more damage."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "P",
+    "value": "-30"
+   }
+  ],
+  "retreat": 2,
+  "illustrator": "Nakaoka",
+  "fr": {
+   "name": "Tyranocif obscur",
+   "attacks": [
+    {
+     "name": "Écrase",
+     "effect": "Inflige 10 dégâts plus 10 supplémentaires pour chaque Énergie attachée à Tyranocif obscur."
+    },
+    {
+     "name": "Queue tournante",
+     "effect": "Inflige 20 dégâts à chacun des Pokémon de votre adversaire. <em>(N'appliquez ni la Faiblesse ni la Résistance aux Pokémon de Banc.)</em>"
+    },
+    {
+     "name": "Arracher d'un coup de dent",
+     "effect": "Si le Pokémon Défenseur est un Pokémon-<em>ex</em>, cette attaque inflige 70 dégâts plus 50 dégâts supplémentaires."
+    }
+   ]
+  }
+ },
+ {
+  "id": "30th-c-007",
+  "set": "30th-c",
+  "localId": "007",
+  "category": "Pokemon",
+  "name": "Sneasel",
+  "standard": false,
+  "rarity": "None",
+  "hp": 60,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Fury Swipes",
+    "cost": [
+     "C"
+    ],
+    "damage": "10×",
+    "effect": "Flip 3 coins. This attack does 10 damage times the number of heads."
+   },
+   {
+    "name": "Beat Up",
+    "cost": [
+     "D",
+     "D"
+    ],
+    "damage": "20×",
+    "effect": "Flip a coin for each of your Pokémon in play (including this one). This attack does 20 damage times the number of heads."
+   }
+  ],
+  "resistances": [
+   {
+    "type": "P",
+    "value": "-30"
+   }
+  ],
+  "retreat": 0,
+  "illustrator": "Ken Sugimori",
+  "fr": {
+   "name": "Farfuret",
+   "attacks": [
+    {
+     "name": "Combo-griffe",
+     "effect": "Lancez 3 pièces. Cette attaque inflige 10 dégâts multipliés par le nombre de faces."
+    },
+    {
+     "name": "Baston",
+     "effect": "Lancez une pièce pour chacun de vos Pokémon en jeu <em>(y compris celui-là)</em>. Cette attaque inflige 20 dégâts multipliés par le nombre de faces."
+    }
+   ]
+  }
+ },
+ {
+  "id": "30th-c-008",
+  "set": "30th-c",
+  "localId": "008",
+  "category": "Pokemon",
+  "name": "Pikachu & Zekrom GX",
+  "standard": false,
+  "rarity": "None",
+  "hp": 240,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "suffix": "GX",
+  "attacks": [
+   {
+    "name": "Full Blitz",
+    "cost": [
+     "L",
+     "L",
+     "L"
+    ],
+    "damage": "150",
+    "effect": "Search your deck for up to 3 <span class=\"energy-symbol Lightning\" title=\"Lightning\">Lightning</span> Energy cards and attach them to 1 of your Pokémon. Then, shuffle your deck."
+   },
+   {
+    "name": "Tag Bolt {GX}",
+    "cost": [
+     "L",
+     "L",
+     "L"
+    ],
+    "damage": "200",
+    "effect": "If this Pokémon has at least 3 extra <span class=\"energy-symbol Lightning\" title=\"Lightning\">Lightning</span> Energy attached to it <em>(in addition to this attack's cost)</em>, this attack does 170 damage to 1 of your opponent's Benched Pokémon. <em>(Don't apply Weakness and Resistance for Benched Pokémon.) (You can't use more than 1 <em>GX</em> attack in a game.)</em>"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "M",
+    "value": "-20"
+   }
+  ],
+  "retreat": 3,
+  "illustrator": "Mitsuhiro Arita",
+  "fr": {
+   "name": "Pikachu et Zekrom GX",
+   "attacks": [
+    {
+     "name": "Attaque Absolue",
+     "effect": "Cherchez jusqu'à 3 cartes Énergie <span class=\"energy-symbol Lightning\" title=\"Électrique\">Lightning</span> dans votre deck et attachez-les à l'un de vos Pokémon. Mélangez ensuite votre deck."
+    },
+    {
+     "name": "Escouade Foudroyante {GX}",
+     "effect": "Si au moins 3 Énergies <span class=\"energy-symbol Lightning\" title=\"Électrique\">Lightning</span> supplémentaires sont attachées à ce Pokémon <em>(en plus du coût de cette attaque)</em>, cette attaque inflige 170 dégâts à l'un des Pokémon de Banc de votre adversaire. <em>(N'appliquez ni la Faiblesse ni la Résistance aux Pokémon de Banc.)</em><em>(Vous ne pouvez utiliser qu'une attaque <em>GX</em> par partie.)</em>"
+    }
+   ]
+  }
+ },
+ {
+  "id": "30th-c-009",
+  "set": "30th-c",
+  "localId": "009",
+  "category": "Pokemon",
+  "name": "Greninja BREAK",
+  "standard": false,
+  "rarity": "None",
+  "hp": 170,
+  "types": [
+   "W"
+  ],
+  "stage": "BREAK",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Giant Water Shuriken",
+    "effect": "Once during your turn (before your attack)\t   , if this Pokémon is your Active Pokémon, you may discard a Water Energy card from your hand. If you do, put 6 damage counters on 1 of your oppponent's Pokémon."
+   }
+  ],
+  "retreat": 0,
+  "illustrator": "5ban Graphics",
+  "fr": {
+   "name": "Amphinobi TURBO",
+   "abilities": [
+    {
+     "name": "Sheauriken Géant",
+     "effect": "Une seule fois pendant votre tour (avant votre attaque), si ce Pokémon est votre Pokémon Actif, vous pouvez défausser une carte Énergie Water de votre main. Dans ce cas, placez 6 marqueurs de dégâts sur l'un des Pokémon de votre adversaire."
+    }
+   ]
+  }
+ },
+ {
+  "id": "30th-c-010",
+  "set": "30th-c",
+  "localId": "010",
+  "category": "Pokemon",
+  "name": "Uxie",
+  "standard": false,
+  "rarity": "None",
+  "hp": 70,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Psychic Restore",
+    "cost": [
+     "C"
+    ],
+    "damage": "20",
+    "effect": "You may put Uxie and all cards attached to it on the bottom of your deck in any order."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "P",
+    "value": "+20"
+   }
+  ],
+  "retreat": 1,
+  "illustrator": "Ken Sugimori",
+  "fr": {
+   "name": "Créhelf",
+   "attacks": [
+    {
+     "name": "Restitution psy",
+     "effect": "Vous pouvez placer Créhelf ainsi que toutes les cartes qui lui sont attachées au dessous de votre deck dans n'importe quel ordre."
+    }
+   ]
+  }
+ },
+ {
+  "id": "30th-c-011",
+  "set": "30th-c",
+  "localId": "011",
+  "category": "Pokemon",
+  "name": "Crobat G",
+  "standard": false,
+  "rarity": "None",
+  "hp": 80,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "suffix": "SP",
+  "attacks": [
+   {
+    "name": "Toxic Fang",
+    "cost": [
+     "P",
+     "C"
+    ],
+    "effect": "The Defending Pokémon is now Poisoned. Put 2 damage counters instead of 1 on the Defending Pokémon between turns."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "L",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-20"
+   }
+  ],
+  "retreat": 0,
+  "illustrator": "Makoto Imai",
+  "fr": {
+   "name": "Nostenfert G",
+   "attacks": [
+    {
+     "name": "Croc toxik",
+     "effect": "Le Pokémon Défenseur est maintenant Empoisonné. Placez 2 marqueurs de dégât au lieu d'1 sur le Pokémon Défenseur entre deux tours."
+    }
+   ]
+  }
+ },
+ {
+  "id": "30th-c-012",
+  "set": "30th-c",
+  "localId": "012",
+  "category": "Pokemon",
+  "name": "Raikou",
+  "standard": false,
+  "rarity": "None",
+  "hp": 110,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Amazing Shot",
+    "cost": [
+     "G",
+     "L",
+     "M"
+    ],
+    "damage": "120",
+    "effect": "This attack also does 120 damage to 1 of your opponent's Benched Pokémon. <em>(Don't apply Weakness and Resistance for Benched Pokémon.)</em>"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "illustrator": "Hideki Ishikawa",
+  "fr": {
+   "name": "Raikou",
+   "attacks": [
+    {
+     "name": "Coup Magnifique",
+     "effect": "Cette attaque inflige aussi 120 dégâts à l'un des Pokémon de Banc de votre adversaire. <em>(N'appliquez ni la Faiblesse ni la Résistance aux Pokémon de Banc.)</em>"
+    }
+   ]
+  }
+ },
+ {
+  "id": "30th-c-013",
+  "set": "30th-c",
+  "localId": "013",
+  "category": "Pokemon",
+  "name": "Buzzwole GX",
+  "standard": false,
+  "rarity": "None",
+  "hp": 190,
+  "types": [
+   "F"
+  ],
+  "stage": "Basic",
+  "suffix": "GX",
+  "attacks": [
+   {
+    "name": "Jet Punch",
+    "cost": [
+     "F"
+    ],
+    "damage": "30",
+    "effect": "This attack does 30 damage to 1 of your opponent's Benched Pokémon. <em>(Don't apply Weakness and Resistance for Benched Pokémon.)</em>"
+   },
+   {
+    "name": "Knuckle Impact",
+    "cost": [
+     "F",
+     "F",
+     "F"
+    ],
+    "damage": "160",
+    "effect": "This Pokémon can't attack during your next turn."
+   },
+   {
+    "name": "Absorption {GX}",
+    "cost": [
+     "F",
+     "F",
+     "F"
+    ],
+    "damage": "40×",
+    "effect": "This attack does 40 damage for each of your remaining Prize cards. <em>(You can't use more than 1 <em>GX</em> attack in a game.)</em>"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "P",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "illustrator": "5ban Graphics",
+  "fr": {
+   "name": "Mouscoto GX",
+   "attacks": [
+    {
+     "name": "Coup Rapide",
+     "effect": "Cette attaque inflige 30 dégâts à l'un des Pokémon de Banc de votre adversaire. <em>(N'appliquez ni la Faiblesse ni la Résistance aux Pokémon de Banc.)</em>"
+    },
+    {
+     "name": "Coup d'Articulations",
+     "effect": "Ce Pokémon ne peut pas attaquer pendant votre prochain tour."
+    },
+    {
+     "name": "Expansion {GX}",
+     "effect": "Cette attaque inflige 40 dégâts pour chacune des cartes Récompense qu'il vous reste. <em>(Vous ne pouvez utiliser qu'une attaque <em>GX</em> par partie.)</em>"
+    }
+   ]
+  }
+ },
+ {
+  "id": "30th-c-014",
+  "set": "30th-c",
+  "localId": "014",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": false,
+  "rarity": "None",
+  "hp": 40,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Gnaw",
+    "cost": [
+     "C"
+    ],
+    "damage": "10"
+   },
+   {
+    "name": "Thunder Jolt",
+    "cost": [
+     "L",
+     "C"
+    ],
+    "damage": "30",
+    "effect": "Flip a coin. If tails, Pikachu does 10 damage to itself."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "illustrator": "Mitsuhiro Arita",
+  "fr": {
+   "name": "Pikachu",
+   "attacks": [
+    {
+     "name": "Rogne"
+    },
+    {
+     "name": "Secousse Tonnerre",
+     "effect": "Lancez une pièce. Si c'est pile, Pikachu s'inflige 10 dégâts."
+    }
+   ]
+  }
+ },
+ {
+  "id": "30th-c-015",
+  "set": "30th-c",
+  "localId": "015",
+  "category": "Pokemon",
+  "name": "Erika's Jigglypuff",
+  "standard": false,
+  "rarity": "None",
+  "hp": 50,
+  "types": [
+   "C"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Group Therapy",
+    "cost": [
+     "C"
+    ],
+    "effect": "You and your opponent remove 1 damage counter from each of your Pokémon with damage counters on them."
+   },
+   {
+    "name": "Pulled Punch",
+    "cost": [
+     "C",
+     "C"
+    ],
+    "damage": "40-",
+    "effect": "If the Defending Pokémon has no damage counters on it, this attack does 40 damage. If it has any damage counters on it, this attack does 10 damage."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "P",
+    "value": "-30"
+   }
+  ],
+  "retreat": 1,
+  "illustrator": "Ken Sugimori",
+  "fr": {
+   "name": "Rondoudou d'Erika",
+   "attacks": [
+    {
+     "name": "Thérapie de groupe",
+     "effect": "Votre adversaire et vous retirez 1 marqueur de dégât de chacun de vos Pokémon ayant des marqueurs de dégât."
+    },
+    {
+     "name": "Poing doux",
+     "effect": "Si le Pokémon Défenseur n'a aucun marqueur de dégât, cette attaque inflige 40 dégâts. S'il a au moins un marqueur de dégât, cette attaque inflige 10 dégâts."
+    }
+   ]
+  }
+ },
+ {
+  "id": "30th-c-016",
+  "set": "30th-c",
+  "localId": "016",
+  "category": "Pokemon",
+  "name": "Rayquaza EX",
+  "standard": false,
+  "rarity": "None",
+  "hp": 170,
+  "types": [
+   "N"
+  ],
+  "stage": "Basic",
+  "suffix": "EX",
+  "attacks": [
+   {
+    "name": "Celestial Roar",
+    "cost": [
+     "C"
+    ],
+    "effect": "Discard the top 3 cards of your deck. If any of those cards are Energy cards, attach them to this Pokémon."
+   },
+   {
+    "name": "Dragon Burst",
+    "cost": [
+     "R",
+     "L"
+    ],
+    "damage": "60×",
+    "effect": "Discard all basic <span class=\"energy-symbol Fire\" title=\"Fire\">Fire</span> Energy or all basic <span class=\"energy-symbol Lightning\" title=\"Lightning\">Lightning</span> Energy attached to this Pokémon. This attack does 60 damage times the number of Energy cards you discarded."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "N",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "illustrator": "Eske Yoshinob",
+  "fr": {
+   "name": "Rayquaza EX",
+   "attacks": [
+    {
+     "name": "Cri du Ciel",
+     "effect": "Défaussez les 3 cartes du dessus de votre deck. Si vous y trouvez des cartes Énergie, attachez-les à ce Pokémon."
+    },
+    {
+     "name": "Fureur du Dragon",
+     "effect": "Défaussez toutes les Énergies <span class=\"energy-symbol Fire\" title=\"Feu\">Fire</span> de base ou toutes les Énergies <span class=\"energy-symbol Lightning\" title=\"Électrique\">Lightning</span> de base attachées à ce Pokémon. Cette attaque inflige 60 dégâts multipliés par le nombre de cartes Énergie que vous avez défaussées."
+    }
+   ]
+  }
+ },
+ {
+  "id": "30th-c-017",
+  "set": "30th-c",
+  "localId": "017",
+  "category": "Pokemon",
+  "name": "Solgaleo GX",
+  "standard": false,
+  "rarity": "None",
+  "hp": 250,
+  "types": [
+   "M"
+  ],
+  "stage": "Basic",
+  "suffix": "GX",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Ultra Road",
+    "effect": "Once during your turn\t\t(before your attack), you may switch your Active Pokémon with 1 of your Benched Pokémon."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Sunsteel Strike",
+    "cost": [
+     "M",
+     "M",
+     "C"
+    ],
+    "damage": "230",
+    "effect": "Discard all Energy from this Pokémon."
+   },
+   {
+    "name": "Sol Burst {GX}",
+    "cost": [
+     "M"
+    ],
+    "effect": "Search your deck for up to 5 Energy cards and attach them to your Pokémon in any way you like. Then, shuffle your deck. <em>(You can't use more than 1 <em>GX</em> attack in a game.)</em>"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "P",
+    "value": "-20"
+   }
+  ],
+  "retreat": 3,
+  "illustrator": "PLANETA",
+  "fr": {
+   "name": "Solgaleo GX",
+   "abilities": [
+    {
+     "name": "Ultra-Route",
+     "effect": "Une seule fois pendant votre tour (avant votre attaque), vous pouvez échanger votre Pokémon Actif avec l'un de vos Pokémon de Banc."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Choc Météore",
+     "effect": "Défaussez toute l'Énergie de ce Pokémon."
+    },
+    {
+     "name": "Éclat Solaire {GX}",
+     "effect": "Cherchez jusqu'à 5 cartes Énergie dans votre deck et attachez-les à vos Pokémon, de la manière que vous voulez. Mélangez ensuite votre deck. <em>(Vous ne pouvez utiliser qu'une attaque <em>GX</em> par partie.)</em>"
+    }
+   ]
+  }
+ },
+ {
+  "id": "30th-c-018",
+  "set": "30th-c",
+  "localId": "018",
+  "category": "Pokemon",
+  "name": "Gengar",
+  "standard": false,
+  "rarity": "None",
+  "hp": 130,
+  "types": [
+   "P"
+  ],
+  "stage": "Stage2",
+  "attacks": [
+   {
+    "name": "Hurl into Darkness",
+    "cost": [
+     "P"
+    ],
+    "effect": "Look at your opponent's hand and choose a number of Pokémon you find there up to the number of <span class=\"energy-symbol Psychic\" title=\"Psychic\">Psychic</span> Energy attached to Gengar. Put the Pokémon you chose in the Lost Zone."
+   },
+   {
+    "name": "Cursed Drop",
+    "cost": [
+     "P",
+     "C"
+    ],
+    "effect": "Put 4 damage counters on your opponent's Pokémon in any way you like."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "C",
+    "value": "-20"
+   }
+  ],
+  "retreat": 0,
+  "illustrator": "Takashi Yamaguchi",
+  "fr": {
+   "name": "Ectoplasma",
+   "attacks": [
+    {
+     "name": "Jet dans les Ténèbres",
+     "effect": "Regardez la main de votre adversaire et choisissez-y autant de Pokémon qu'il existe de cartes Énergie <span class=\"energy-symbol Psychic\" title=\"Psy\">Psychic</span> attachées à Ectoplasma. Placez les Pokémon que vous avez choisis dans la Zone Perdue."
+    },
+    {
+     "name": "Chute maudite",
+     "effect": "Placez 4 marqueurs de dégât sur les Pokémon de votre adversaire, comme bon vous semble."
+    }
+   ]
+  }
+ },
+ {
+  "id": "30th-c-019",
+  "set": "30th-c",
+  "localId": "019",
+  "category": "Pokemon",
+  "name": "Darkrai & Cresselia LEGEND",
+  "standard": false,
+  "rarity": "None",
+  "hp": 150,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "suffix": "Legend",
+  "retreat": 0,
+  "illustrator": "Shinji Higuchi + Noriko Takaya 樋口 真嗣 + 高屋 法子",
+  "fr": {
+   "name": "Darkrai & Cresselia LÉGENDE"
+  }
+ },
+ {
+  "id": "30th-c-020",
+  "set": "30th-c",
+  "localId": "020",
+  "category": "Pokemon",
+  "name": "Darkrai & Cresselia LEGEND",
+  "standard": false,
+  "rarity": "None",
+  "hp": 150,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "suffix": "Legend",
+  "attacks": [
+   {
+    "name": "Lost Crisis",
+    "cost": [
+     "D",
+     "D",
+     "C",
+     "C"
+    ],
+    "damage": "100",
+    "effect": "Choose 2 Energy attached to Darkrai & Cresselia LEGEND and put them into the Lost Zone. If any of your opponent's Pokémon would be Knocked Out by damage from this attack, put that Pokémon and all cards attached to it in the Lost Zone instead of discarding it."
+   },
+   {
+    "name": "Moon's Invite",
+    "cost": [
+     "P"
+    ],
+    "effect": "Move as many damage counters on your opponent's Pokémon as you like to any of your opponent's other Pokémon in any way you like."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "P",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "illustrator": "Shinji Higuchi",
+  "fr": {
+   "name": "Darkrai & Cresselia LÉGENDE",
+   "attacks": [
+    {
+     "name": "Crise perdue",
+     "effect": "Choisissez 2 cartes Énergie attachées à Darkrai & Cresselia LÉGENDE et placez-les dans la Zone Perdue. Si l'un des Pokémon de votre adversaire est mis K.O. par cette attaque, placez ce Pokémon et toutes les cartes qui lui sont attachées dans la Zone Perdue au lieu de le défausser."
+    },
+    {
+     "name": "Invitation lunaire",
+     "effect": "Retirez autant de marqueurs de dégât que vous le voulez aux Pokémon de votre adversaire et attribuez-les comme bon vous semble aux autres Pokémon de votre adversaire."
+    }
+   ]
+  }
+ },
+ {
+  "id": "30th-c-021",
+  "set": "30th-c",
+  "localId": "021",
+  "category": "Trainer",
+  "name": "N",
+  "standard": false,
+  "rarity": "None",
+  "trainerType": "Supporter",
+  "illustrator": "Ken Sugimori",
+  "fr": {
+   "name": "N"
+  }
+ },
+ {
+  "id": "30th-c-022",
+  "set": "30th-c",
+  "localId": "022",
+  "category": "Pokemon",
+  "name": "Palkia",
+  "standard": false,
+  "rarity": "None",
+  "hp": 120,
+  "types": [
+   "W"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Hydro Reflect",
+    "cost": [
+     "W",
+     "W",
+     "W"
+    ],
+    "damage": "60",
+    "effect": "You may move all Energy cards attached to Palkia to your Benched Pokémon in any way you like. (Ignore this effect if you don't have any Benched Pokémon.)"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "L",
+    "value": "×2"
+   }
+  ],
+  "retreat": 3,
+  "illustrator": "Ryo Ueda",
+  "fr": {
+   "name": "Palkia",
+   "attacks": [
+    {
+     "name": "Hydro-reflet",
+     "effect": "Vous pouvez déplacer toutes les cartes Énergies attachées à Palkia sur vos Pokémon de Banc de la façon que vous voulez. (Ignorez cet effet si vous ne possédez pas de Pokémon de Banc.)"
+    }
+   ]
+  }
+ },
+ {
+  "id": "30th-c-023",
+  "set": "30th-c",
+  "localId": "023",
+  "category": "Pokemon",
+  "name": "M Gardevoir EX",
+  "standard": false,
+  "rarity": "None",
+  "hp": 210,
+  "types": [
+   "Y"
+  ],
+  "stage": "Basic",
+  "suffix": "EX",
+  "attacks": [
+   {
+    "name": "Brilliant Arrow",
+    "cost": [
+     "Y",
+     "C",
+     "C"
+    ],
+    "damage": "30×",
+    "effect": "This attack does 30 damage times the amount of <span class=\"energy-symbol Fairy\" title=\"Fairy\">Fairy</span> Energy attached to all of your Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "M",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "D",
+    "value": "-20"
+   }
+  ],
+  "retreat": 2,
+  "illustrator": "5ban Graphics",
+  "fr": {
+   "name": "M-Gardevoir EX",
+   "attacks": [
+    {
+     "name": "Flèche Éclatante",
+     "effect": "Cette attaque inflige 30 dégâts multipliés par le nombre d'Énergies <span class=\"energy-symbol Fairy\" title=\"Fée\">Fairy</span> attachées à tous vos Pokémon."
+    }
+   ]
+  }
+ },
+ {
+  "id": "30th-c-024",
+  "set": "30th-c",
+  "localId": "024",
+  "category": "Pokemon",
+  "name": "Shining Celebi",
+  "standard": false,
+  "rarity": "None",
+  "hp": 50,
+  "types": [
+   "G"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Healing Water",
+    "cost": [
+     "W"
+    ],
+    "effect": "Remove a number of damage counters from 1 of your Benched Pokémon equal to the number of <span class=\"energy-symbol Water\" title=\"Water\">Water</span> Energy cards attached to Shining Celebi. If the Pokémon has fewer damage counters than that, remove all of them."
+   },
+   {
+    "name": "Miracle Leaf",
+    "cost": [
+     "G",
+     "P"
+    ],
+    "damage": "10",
+    "effect": "Flip a number of coins equal to the number of Energy attached to the Defending Pokémon. If you get 1 or more heads, the Defending Pokémon is now Asleep, Confused, or Poisoned (your choice)."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "illustrator": "Hironobu Yoshida",
+  "fr": {
+   "name": "Celebi brillant",
+   "attacks": [
+    {
+     "name": "Eau de soin",
+     "effect": "Retirez un nombre de marqueurs de dégâts sur un des Pokémon de votre Banc égal au nombre d'Énergies <span class=\"energy-symbol Water\" title=\"Eau\">Water</span> attachées à Celebi brillant. Si le Pokémon a moins de marqueurs de dégâts, retirez-les tous."
+    },
+    {
+     "name": "Feuille miracle",
+     "effect": "Lancez un nombre de pièces égal au nombre de cartes Énergie attachées au Pokémon Défenseur. Si vous obtenez au moins une face, le Pokémon Défenseur est maintenant Endormi, Confus ou Empoisonné (selon votre choix)."
+    }
+   ]
+  }
+ },
+ {
+  "id": "30th-c-025",
+  "set": "30th-c",
+  "localId": "025",
+  "category": "Pokemon",
+  "name": "Scizor ex",
+  "standard": false,
+  "rarity": "None",
+  "hp": 120,
+  "types": [
+   "M"
+  ],
+  "stage": "Basic",
+  "suffix": "EX",
+  "attacks": [
+   {
+    "name": "Steel Wing",
+    "cost": [
+     "M",
+     "C"
+    ],
+    "damage": "40",
+    "effect": "During your opponent's next turn, any damage done to Scizor <em>ex</em> by attacks is reduced by 20 <em>(after applying Weakness and Resistance)</em>."
+   },
+   {
+    "name": "Cross-Cut",
+    "cost": [
+     "C",
+     "C",
+     "C"
+    ],
+    "damage": "50+",
+    "effect": "If the Defending Pokémon is an Evolved Pokémon, this attack does 50 damage plus 30 more damage."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "G",
+    "value": "-30"
+   }
+  ],
+  "retreat": 1,
+  "illustrator": "Mitsuhiro Arita",
+  "fr": {
+   "name": "Cizayox ex",
+   "attacks": [
+    {
+     "name": "Aile d'acier",
+     "effect": "Lors du prochain tour de votre adversaire, les dégâts infligés à Cizayox <em>ex</em> par des attaques sont réduits de 20 <em>(après application de la Faiblesse et de la Résistance)</em>."
+    },
+    {
+     "name": "Coupe transversale",
+     "effect": "Si le Pokémon Défenseur est un Pokémon Évolué, cette attaque inflige 50 dégâts plus 30 dégâts supplémentaires."
+    }
+   ]
+  }
+ },
+ {
+  "id": "30th-c-026",
+  "set": "30th-c",
+  "localId": "026",
+  "category": "Pokemon",
+  "name": "Mew VMAX",
+  "standard": false,
+  "rarity": "None",
+  "hp": 310,
+  "types": [
+   "P"
+  ],
+  "stage": "VMAX",
+  "attacks": [
+   {
+    "name": "Cross Fusion Strike",
+    "cost": [
+     "C",
+     "C"
+    ],
+    "effect": "Choose 1 of your Benched Fusion Strike Pokémon's attacks and use it as this attack."
+   },
+   {
+    "name": "Max Miracle",
+    "cost": [
+     "P",
+     "P"
+    ],
+    "damage": "130",
+    "effect": "This attack's damage isn't affected by any effects on your opponent's Active Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 0,
+  "illustrator": "5ban Graphics",
+  "fr": {
+   "name": "Mew-VMAX",
+   "attacks": [
+    {
+     "name": "Poing de Fusion Croisé",
+     "effect": "Choisissez l'une des attaques de vos Pokémon Poing de Fusion de Banc et utilisez-la en tant que cette attaque."
+    },
+    {
+     "name": "Miraclomax",
+     "effect": "Les dégâts de cette attaque ne sont affectés par aucun effet en action sur le Pokémon Actif de votre adversaire."
+    }
+   ]
+  }
+ },
+ {
+  "id": "30th-c-027",
+  "set": "30th-c",
+  "localId": "027",
+  "category": "Pokemon",
+  "name": "Arceus VSTAR",
+  "standard": false,
+  "rarity": "None",
+  "hp": 280,
+  "types": [
+   "C"
+  ],
+  "stage": "Basic",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Starbirth",
+    "effect": "During your turn, you may search your deck for up to 2 cards and put them into your hand. Then, shuffle your deck. (You can't use more than 1 VSTAR Power in a game.)"
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Trinity Nova",
+    "cost": [
+     "C",
+     "C",
+     "C"
+    ],
+    "damage": "200",
+    "effect": "Search your deck for up to 3 basic Energy cards and attach them to your Pokémon V in any way you like. Then, shuffle your deck."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "illustrator": "5ban Graphics",
+  "fr": {
+   "name": "Arceus-VSTAR",
+   "abilities": [
+    {
+     "name": "Naissance Star",
+     "effect": "Pendant votre tour, vous pouvez chercher dans votre deck jusqu'à 2 cartes, puis les ajouter à votre main. Mélangez ensuite votre deck. (Vous ne pouvez utiliser qu'une seule Puissance VSTAR par partie.)"
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Nova Trinité",
+     "effect": "Cherchez dans votre deck jusqu'à 3 cartes Énergie de base, puis attachez-les à vos Pokémon-V comme il vous plaît. Mélangez ensuite votre deck."
+    }
+   ]
+  }
+ },
+ {
+  "id": "30th-c-028",
+  "set": "30th-c",
+  "localId": "028",
+  "category": "Pokemon",
+  "name": "Zacian V",
+  "standard": false,
+  "rarity": "None",
+  "hp": 220,
+  "types": [
+   "M"
+  ],
+  "stage": "Basic",
+  "suffix": "V",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Intrepid Sword",
+    "effect": "Once during your turn, you may look at the top 3 cards of your deck and attach any number of Metal Energy cards you find there to this Pokémon. Put the other cards into your hand. If you use this Ability, your turn ends."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Brave Blade",
+    "cost": [
+     "M",
+     "M",
+     "M"
+    ],
+    "damage": "230",
+    "effect": "During your next turn, this Pokémon can't attack."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "G",
+    "value": "-30"
+   }
+  ],
+  "retreat": 2,
+  "illustrator": "5ban Graphics",
+  "fr": {
+   "name": "Zacian-V",
+   "abilities": [
+    {
+     "name": "Lame Indomptable",
+     "effect": "Une fois pendant votre tour, vous pouvez regarder les 3 cartes du dessus de votre deck, puis attacher à ce Pokémon le nombre voulu de cartes Énergie Metal que vous y trouvez. Ajoutez les autres cartes à votre main. Si vous utilisez ce talent, votre tour se termine."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Lame Vaillante",
+     "effect": "Pendant votre prochain tour, ce Pokémon ne peut pas attaquer."
+    }
+   ]
+  }
+ },
+ {
+  "id": "30th-c-029",
+  "set": "30th-c",
+  "localId": "029",
+  "category": "Pokemon",
+  "name": "Lugia",
+  "standard": false,
+  "rarity": "None",
+  "hp": 80,
+  "types": [
+   "C"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Psychic",
+    "cost": [
+     "R",
+     "P"
+    ],
+    "damage": "10×",
+    "effect": "This attack does 10 damage times the number of Energy cards attached to the Defending Pokémon."
+   },
+   {
+    "name": "Steam Blast",
+    "cost": [
+     "R",
+     "W",
+     "W",
+     "C"
+    ],
+    "damage": "50",
+    "effect": "Discard an Energy card attached to Lugia."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "P",
+    "value": "×2"
+   }
+  ],
+  "retreat": 3,
+  "illustrator": "Naoyo Kimura",
+  "fr": {
+   "name": "Lugia",
+   "attacks": [
+    {
+     "name": "Psyko",
+     "effect": "Inflige 10 dégâts multipliés par le nombre de cartes Énergie attachées au Pokémon Défenseur."
+    },
+    {
+     "name": "Coud' vapeur",
+     "effect": "Défaussez-vous d'une carte Énergie attachée à Lugia."
+    }
+   ]
+  }
+ },
+ {
+  "id": "30th-c-030",
+  "set": "30th-c",
+  "localId": "030",
+  "category": "Pokemon",
+  "name": "Magikarp",
+  "standard": false,
+  "rarity": "None",
+  "hp": 30,
+  "types": [
+   "W"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Expert Splasher",
+    "cost": [
+     "W"
+    ],
+    "damage": "10+",
+    "effect": "Flip 2 coins. If both of them are heads, this attack does 20 more damage."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "L",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "illustrator": "Shinji Kanda",
+  "fr": {
+   "name": "Magicarpe",
+   "attacks": [
+    {
+     "name": "Éclabousseur Expert",
+     "effect": "Lancez 2 pièces. Si vous obtenez 2 côtés face, cette attaque inflige 20 dégâts supplémentaires."
+    }
+   ]
+  }
+ }
+]

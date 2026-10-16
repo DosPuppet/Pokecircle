@@ -1,0 +1,314 @@
+[
+ {
+  "id": "sve-001",
+  "set": "sve",
+  "localId": "001",
+  "category": "Energy",
+  "name": "Grass Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Plante"
+  }
+ },
+ {
+  "id": "sve-002",
+  "set": "sve",
+  "localId": "002",
+  "category": "Energy",
+  "name": "Fire Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Feu"
+  }
+ },
+ {
+  "id": "sve-003",
+  "set": "sve",
+  "localId": "003",
+  "category": "Energy",
+  "name": "Water Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Eau"
+  }
+ },
+ {
+  "id": "sve-004",
+  "set": "sve",
+  "localId": "004",
+  "category": "Energy",
+  "name": "Lightning Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Electrik"
+  }
+ },
+ {
+  "id": "sve-005",
+  "set": "sve",
+  "localId": "005",
+  "category": "Energy",
+  "name": "Psychic Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Psy"
+  }
+ },
+ {
+  "id": "sve-006",
+  "set": "sve",
+  "localId": "006",
+  "category": "Energy",
+  "name": "Fighting Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Combat"
+  }
+ },
+ {
+  "id": "sve-007",
+  "set": "sve",
+  "localId": "007",
+  "category": "Energy",
+  "name": "Darkness Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Obscurité"
+  }
+ },
+ {
+  "id": "sve-008",
+  "set": "sve",
+  "localId": "008",
+  "category": "Energy",
+  "name": "Metal Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Métal"
+  }
+ },
+ {
+  "id": "sve-009",
+  "set": "sve",
+  "localId": "009",
+  "category": "Energy",
+  "name": "Grass Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Plante"
+  }
+ },
+ {
+  "id": "sve-010",
+  "set": "sve",
+  "localId": "010",
+  "category": "Energy",
+  "name": "Fire Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Feu"
+  }
+ },
+ {
+  "id": "sve-011",
+  "set": "sve",
+  "localId": "011",
+  "category": "Energy",
+  "name": "Water Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Eau"
+  }
+ },
+ {
+  "id": "sve-012",
+  "set": "sve",
+  "localId": "012",
+  "category": "Energy",
+  "name": "Lightning Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Electrik"
+  }
+ },
+ {
+  "id": "sve-013",
+  "set": "sve",
+  "localId": "013",
+  "category": "Energy",
+  "name": "Psychic Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Psy"
+  }
+ },
+ {
+  "id": "sve-014",
+  "set": "sve",
+  "localId": "014",
+  "category": "Energy",
+  "name": "Fighting Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Combat"
+  }
+ },
+ {
+  "id": "sve-015",
+  "set": "sve",
+  "localId": "015",
+  "category": "Energy",
+  "name": "Darkness Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Obscurité"
+  }
+ },
+ {
+  "id": "sve-016",
+  "set": "sve",
+  "localId": "016",
+  "category": "Energy",
+  "name": "Metal Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Métal"
+  }
+ },
+ {
+  "id": "sve-017",
+  "set": "sve",
+  "localId": "017",
+  "category": "Energy",
+  "name": "Grass Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Plante"
+  }
+ },
+ {
+  "id": "sve-018",
+  "set": "sve",
+  "localId": "018",
+  "category": "Energy",
+  "name": "Fire Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Feu"
+  }
+ },
+ {
+  "id": "sve-019",
+  "set": "sve",
+  "localId": "019",
+  "category": "Energy",
+  "name": "Water Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Eau"
+  }
+ },
+ {
+  "id": "sve-020",
+  "set": "sve",
+  "localId": "020",
+  "category": "Energy",
+  "name": "Lightning Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Electrik"
+  }
+ },
+ {
+  "id": "sve-021",
+  "set": "sve",
+  "localId": "021",
+  "category": "Energy",
+  "name": "Psychic Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Psy"
+  }
+ },
+ {
+  "id": "sve-022",
+  "set": "sve",
+  "localId": "022",
+  "category": "Energy",
+  "name": "Fighting Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Combat"
+  }
+ },
+ {
+  "id": "sve-023",
+  "set": "sve",
+  "localId": "023",
+  "category": "Energy",
+  "name": "Darkness Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Obscurité"
+  }
+ },
+ {
+  "id": "sve-024",
+  "set": "sve",
+  "localId": "024",
+  "category": "Energy",
+  "name": "Metal Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Métal"
+  }
+ }
+]

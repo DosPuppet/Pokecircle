@@ -1,0 +1,218 @@
+[
+ {
+  "id": "mee-001",
+  "set": "mee",
+  "localId": "001",
+  "category": "Energy",
+  "name": "Grass Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Plante"
+  }
+ },
+ {
+  "id": "mee-002",
+  "set": "mee",
+  "localId": "002",
+  "category": "Energy",
+  "name": "Fire Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Feu"
+  }
+ },
+ {
+  "id": "mee-003",
+  "set": "mee",
+  "localId": "003",
+  "category": "Energy",
+  "name": "Water Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Eau"
+  }
+ },
+ {
+  "id": "mee-004",
+  "set": "mee",
+  "localId": "004",
+  "category": "Energy",
+  "name": "Lightning Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Electrik"
+  }
+ },
+ {
+  "id": "mee-005",
+  "set": "mee",
+  "localId": "005",
+  "category": "Energy",
+  "name": "Psychic Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Psy"
+  }
+ },
+ {
+  "id": "mee-006",
+  "set": "mee",
+  "localId": "006",
+  "category": "Energy",
+  "name": "Fighting Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Combat"
+  }
+ },
+ {
+  "id": "mee-007",
+  "set": "mee",
+  "localId": "007",
+  "category": "Energy",
+  "name": "Darkness Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Obscurité"
+  }
+ },
+ {
+  "id": "mee-008",
+  "set": "mee",
+  "localId": "008",
+  "category": "Energy",
+  "name": "Metal Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "fr": {
+   "name": "Énergie Métal"
+  }
+ },
+ {
+  "id": "mee-009",
+  "set": "mee",
+  "localId": "009",
+  "category": "Energy",
+  "name": "Basic Grass Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "illustrator": "YOSHIROTTEN",
+  "fr": {
+   "name": "Énergie Plante de base"
+  }
+ },
+ {
+  "id": "mee-010",
+  "set": "mee",
+  "localId": "010",
+  "category": "Energy",
+  "name": "Basic Fire Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "illustrator": "YOSHIROTTEN",
+  "fr": {
+   "name": "Énergie Feu de base"
+  }
+ },
+ {
+  "id": "mee-011",
+  "set": "mee",
+  "localId": "011",
+  "category": "Energy",
+  "name": "Basic Water Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "illustrator": "YOSHIROTTEN",
+  "fr": {
+   "name": "Énergie Eau de base"
+  }
+ },
+ {
+  "id": "mee-012",
+  "set": "mee",
+  "localId": "012",
+  "category": "Energy",
+  "name": "Basic Lightning Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "illustrator": "YOSHIROTTEN",
+  "fr": {
+   "name": "Énergie Electrik de base"
+  }
+ },
+ {
+  "id": "mee-013",
+  "set": "mee",
+  "localId": "013",
+  "category": "Energy",
+  "name": "Basic Psychic Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "illustrator": "YOSHIROTTEN",
+  "fr": {
+   "name": "Énergie Psy de base"
+  }
+ },
+ {
+  "id": "mee-014",
+  "set": "mee",
+  "localId": "014",
+  "category": "Energy",
+  "name": "Basic Fighting Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "illustrator": "YOSHIROTTEN",
+  "fr": {
+   "name": "Énergie Combat de base"
+  }
+ },
+ {
+  "id": "mee-015",
+  "set": "mee",
+  "localId": "015",
+  "category": "Energy",
+  "name": "Basic Darkness Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "illustrator": "YOSHIROTTEN",
+  "fr": {
+   "name": "Énergie Obscurité de base"
+  }
+ },
+ {
+  "id": "mee-016",
+  "set": "mee",
+  "localId": "016",
+  "category": "Energy",
+  "name": "Basic Metal Energy",
+  "standard": true,
+  "rarity": "Common",
+  "energyType": "Normal",
+  "illustrator": "YOSHIROTTEN",
+  "fr": {
+   "name": "Énergie Métal de base"
+  }
+ }
+]

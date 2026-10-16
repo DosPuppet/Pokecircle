@@ -1,0 +1,8339 @@
+[
+ {
+  "id": "30th-001",
+  "set": "30th",
+  "localId": "001",
+  "category": "Pokemon",
+  "name": "Exeggcute",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 60,
+  "types": [
+   "G"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Hypnosis",
+    "cost": [
+     "C"
+    ],
+    "effect": "Your opponent's Active Pokémon is now Asleep."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/001",
+  "illustrator": "Nelnal",
+  "fr": {
+   "name": "Noeunoeuf",
+   "attacks": [
+    {
+     "name": "Hypnose",
+     "effect": "Le Pokémon Actif de votre adversaire est maintenant Endormi."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/001"
+  }
+ },
+ {
+  "id": "30th-002",
+  "set": "30th",
+  "localId": "002",
+  "category": "Pokemon",
+  "name": "Alolan Exeggutor",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 150,
+  "types": [
+   "G"
+  ],
+  "stage": "Stage1",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Scale Up",
+    "effect": "If this Pokémon has 6 or more Grass Energy attached, it gets +250 HP."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Mega Drain",
+    "cost": [
+     "G",
+     "C",
+     "C",
+     "C"
+    ],
+    "damage": "150",
+    "effect": "Heal 50 damage from this Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "retreat": 4,
+  "image": "https://assets.tcgdex.net/en/me/30th/002",
+  "illustrator": "Oswaldo KATO",
+  "fr": {
+   "name": "Noadkoko d'Alola",
+   "abilities": [
+    {
+     "name": "Élongation",
+     "effect": "Si au moins 6 Énergies Grass sont attachées à ce Pokémon, il a +250 PV."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Méga-Sangsue",
+     "effect": "Soignez 50 dégâts de ce Pokémon."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/002"
+  }
+ },
+ {
+  "id": "30th-003",
+  "set": "30th",
+  "localId": "003",
+  "category": "Pokemon",
+  "name": "Volbeat",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 80,
+  "types": [
+   "G"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Luring Glow",
+    "cost": [
+     "G"
+    ],
+    "effect": "Switch in 1 of your opponent's Benched Pokémon to the Active Spot."
+   },
+   {
+    "name": "Bug Buzz",
+    "cost": [
+     "C",
+     "C",
+     "C"
+    ],
+    "damage": "90"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/003",
+  "illustrator": "Yoriyuki Ikegami",
+  "fr": {
+   "name": "Muciole",
+   "attacks": [
+    {
+     "name": "Lueur Attrayante",
+     "effect": "Envoyez l'un des Pokémon de Banc de votre adversaire sur le Poste Actif."
+    },
+    {
+     "name": "Bourdon"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/003"
+  }
+ },
+ {
+  "id": "30th-004",
+  "set": "30th",
+  "localId": "004",
+  "category": "Pokemon",
+  "name": "Illumise",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 80,
+  "types": [
+   "G"
+  ],
+  "stage": "Basic",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Supereffective Pheromones",
+    "effect": "If you have Volbeat in play, apply Weakness for both Active Pokémon as ×3."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Ram",
+    "cost": [
+     "G",
+     "C"
+    ],
+    "damage": "30"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/004",
+  "illustrator": "Shibuzoh.",
+  "fr": {
+   "name": "Lumivole",
+   "abilities": [
+    {
+     "name": "Phéromones Super Efficaces",
+     "effect": "Si vous avez Muciole en jeu, la Faiblesse des deux Pokémon Actifs est de ×3."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Collision"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/004"
+  }
+ },
+ {
+  "id": "30th-005",
+  "set": "30th",
+  "localId": "005",
+  "category": "Pokemon",
+  "name": "Tropius",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 120,
+  "types": [
+   "G"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Rally Back",
+    "cost": [
+     "G",
+     "C"
+    ],
+    "damage": "30+",
+    "effect": "If any of your Pokémon were Knocked Out by damage from an attack during your opponent's last turn, this attack does 90 more damage."
+   },
+   {
+    "name": "Cutting Wind",
+    "cost": [
+     "G",
+     "C",
+     "C"
+    ],
+    "damage": "90"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/005",
+  "illustrator": "Minahamu",
+  "fr": {
+   "name": "Tropius",
+   "attacks": [
+    {
+     "name": "Répercussions",
+     "effect": "Si au moins l'un de vos Pokémon a été mis K.O. par les dégâts d'une attaque pendant le dernier tour de votre adversaire, cette attaque inflige 90 dégâts supplémentaires."
+    },
+    {
+     "name": "Vent Glacial"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/005"
+  }
+ },
+ {
+  "id": "30th-006",
+  "set": "30th",
+  "localId": "006",
+  "category": "Pokemon",
+  "name": "Cherubi",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 40,
+  "types": [
+   "G"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Hide",
+    "cost": [
+     "C"
+    ],
+    "effect": "Flip a coin. If heads, during your opponent's next turn, prevent all damage from and effects of attacks done to this Pokémon."
+   },
+   {
+    "name": "Flop",
+    "cost": [
+     "G"
+    ],
+    "damage": "10"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/006",
+  "illustrator": "Kurata So",
+  "fr": {
+   "name": "Ceribou",
+   "attacks": [
+    {
+     "name": "Cachette",
+     "effect": "Lancez une pièce. Si c'est face, pendant le prochain tour de votre adversaire, évitez tous les dégâts et effets provenant d'attaques infligés à ce Pokémon."
+    },
+    {
+     "name": "Flop"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/006"
+  }
+ },
+ {
+  "id": "30th-007",
+  "set": "30th",
+  "localId": "007",
+  "category": "Pokemon",
+  "name": "Cherrim",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 80,
+  "types": [
+   "G"
+  ],
+  "stage": "Stage1",
+  "attacks": [
+   {
+    "name": "Energy Gift",
+    "cost": [
+     "C"
+    ],
+    "effect": "Search your deck for up to 2 Basic Energy cards and attach them to your Pokémon in any way you like. Then, shuffle your deck."
+   },
+   {
+    "name": "Leafage",
+    "cost": [
+     "G",
+     "C"
+    ],
+    "damage": "50"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/007",
+  "illustrator": "takashi shiraishi",
+  "fr": {
+   "name": "Ceriflor",
+   "attacks": [
+    {
+     "name": "Don d'Énergie",
+     "effect": "Cherchez dans votre deck jusqu'à 2 cartes Énergie de base, puis attachez-les à vos Pokémon comme il vous plaît. Mélangez ensuite votre deck."
+    },
+    {
+     "name": "Feuillage"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/007"
+  }
+ },
+ {
+  "id": "30th-008",
+  "set": "30th",
+  "localId": "008",
+  "category": "Pokemon",
+  "name": "Vivillon",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 120,
+  "types": [
+   "G"
+  ],
+  "stage": "Stage2",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Guiding Dance",
+    "effect": "Once during your turn, you may use this Ability. Flip a coin. If heads, search your deck for a Pokémon, reveal it, and put it into your hand. Then, shuffle your deck."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Poison Powder",
+    "cost": [
+     "G",
+     "C"
+    ],
+    "damage": "60",
+    "effect": "Your opponent's Active Pokémon is now Poisoned."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/008",
+  "illustrator": "Jerky",
+  "fr": {
+   "name": "Prismillon",
+   "abilities": [
+    {
+     "name": "Danse Directrice",
+     "effect": "Une fois pendant votre tour, vous pouvez utiliser ce talent. Lancez une pièce. Si c'est face, cherchez dans votre deck un Pokémon, montrez-le, puis ajoutez-le à votre main. Mélangez ensuite votre deck."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Poudre Toxik",
+     "effect": "Le Pokémon Actif de votre adversaire est maintenant Empoisonné."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/008"
+  }
+ },
+ {
+  "id": "30th-009",
+  "set": "30th",
+  "localId": "009",
+  "category": "Pokemon",
+  "name": "Vulpix",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 70,
+  "types": [
+   "R"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Wild Kick",
+    "cost": [
+     "R"
+    ],
+    "damage": "30",
+    "effect": "Flip a coin. If tails, this attack does nothing."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "W",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/009",
+  "illustrator": "miki kudo",
+  "fr": {
+   "name": "Goupix",
+   "attacks": [
+    {
+     "name": "Coup Déchaîné",
+     "effect": "Lancez une pièce. Si c'est pile, cette attaque ne fait rien."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/009"
+  }
+ },
+ {
+  "id": "30th-010",
+  "set": "30th",
+  "localId": "010",
+  "category": "Pokemon",
+  "name": "Ninetales",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 110,
+  "types": [
+   "R"
+  ],
+  "stage": "Stage1",
+  "attacks": [
+   {
+    "name": "Flame Tail",
+    "cost": [
+     "R"
+    ],
+    "damage": "60"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "W",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/010",
+  "illustrator": "kodama",
+  "fr": {
+   "name": "Feunard",
+   "attacks": [
+    {
+     "name": "Queue de Flammes"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/010"
+  }
+ },
+ {
+  "id": "30th-011",
+  "set": "30th",
+  "localId": "011",
+  "category": "Pokemon",
+  "name": "Moltres",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 120,
+  "types": [
+   "R"
+  ],
+  "stage": "Basic",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Fiery Flapping",
+    "effect": "Once during your turn, if you have Articuno and Zapdos in play, you may use this Ability. Attach a Basic Fire Energy card from your hand to this Pokémon."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Fire Spin",
+    "cost": [
+     "R",
+     "R",
+     "C"
+    ],
+    "damage": "130",
+    "effect": "Discard 2 Energy from this Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "W",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/011",
+  "illustrator": "HYOGONOSUKE",
+  "fr": {
+   "name": "Sulfura",
+   "abilities": [
+    {
+     "name": "Battements Ardents",
+     "effect": "Une fois pendant votre tour, si vous avez Artikodin et Électhor en jeu, vous pouvez utiliser ce talent. Attachez une carte Énergie Fire de base de votre main à ce Pokémon."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Danse Flammes",
+     "effect": "Défaussez 2 Énergies de ce Pokémon."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/011"
+  }
+ },
+ {
+  "id": "30th-012",
+  "set": "30th",
+  "localId": "012",
+  "category": "Pokemon",
+  "name": "Ho-Oh",
+  "standard": true,
+  "rarity": "Rare",
+  "regulationMark": "J",
+  "hp": 130,
+  "types": [
+   "R"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Sacred Breath",
+    "cost": [
+     "R",
+     "R"
+    ],
+    "effect": "Discard all Energy from this Pokémon. Heal all damage from 1 of your Benched Pokémon."
+   },
+   {
+    "name": "Fire Wing",
+    "cost": [
+     "R",
+     "R",
+     "R"
+    ],
+    "damage": "100"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "W",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/012",
+  "illustrator": "Anesaki Dynamic",
+  "fr": {
+   "name": "Ho-Oh",
+   "attacks": [
+    {
+     "name": "Souffle Sacré",
+     "effect": "Défaussez toutes les Énergies de ce Pokémon. Soignez tous les dégâts de l'un de vos Pokémon de Banc."
+    },
+    {
+     "name": "Aile de Feu"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/012"
+  }
+ },
+ {
+  "id": "30th-013",
+  "set": "30th",
+  "localId": "013",
+  "category": "Pokemon",
+  "name": "Victini",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 80,
+  "types": [
+   "R"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Call for Family",
+    "cost": [
+     "C"
+    ],
+    "effect": "Search your deck for up to 2 Basic Pokémon and put them onto your Bench. Then, shuffle your deck."
+   },
+   {
+    "name": "V-Flame",
+    "cost": [
+     "R",
+     "C"
+    ],
+    "damage": "50"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "W",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/013",
+  "illustrator": "Jiro Sasumo",
+  "fr": {
+   "name": "Victini",
+   "attacks": [
+    {
+     "name": "Appel à la Famille",
+     "effect": "Cherchez dans votre deck jusqu'à 2 Pokémon de base, puis placez-les sur votre Banc. Mélangez ensuite votre deck."
+    },
+    {
+     "name": "V-Flamme"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/013"
+  }
+ },
+ {
+  "id": "30th-014",
+  "set": "30th",
+  "localId": "014",
+  "category": "Pokemon",
+  "name": "Reshiram",
+  "standard": true,
+  "rarity": "Rare",
+  "regulationMark": "J",
+  "hp": 130,
+  "types": [
+   "R"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Slash",
+    "cost": [
+     "R",
+     "C"
+    ],
+    "damage": "50"
+   },
+   {
+    "name": "Laser Flame",
+    "cost": [
+     "R",
+     "C",
+     "C"
+    ],
+    "damage": "80+",
+    "effect": "If this Pokémon has any <span class=\"energy-symbol Lightning\" title=\"Lightning\">Lightning</span> Energy attached, this attack does 80 more damage."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "W",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/014",
+  "illustrator": "Uta",
+  "fr": {
+   "name": "Reshiram",
+   "attacks": [
+    {
+     "name": "Tranche"
+    },
+    {
+     "name": "Flamme Laser",
+     "effect": "Si au moins une Énergie <span class=\"energy-symbol Lightning\" title=\"Électrique\">Lightning</span> est attachée à ce Pokémon, cette attaque inflige 80 dégâts supplémentaires."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/014"
+  }
+ },
+ {
+  "id": "30th-015",
+  "set": "30th",
+  "localId": "015",
+  "category": "Pokemon",
+  "name": "Fuecoco ex",
+  "standard": true,
+  "rarity": "Double rare",
+  "regulationMark": "J",
+  "hp": 210,
+  "types": [
+   "R"
+  ],
+  "stage": "Basic",
+  "suffix": "EX",
+  "attacks": [
+   {
+    "name": "Singe",
+    "cost": [
+     "R"
+    ],
+    "effect": "Your opponent's Active Pokémon is now Burned."
+   },
+   {
+    "name": "Cheerful Flame",
+    "cost": [
+     "R",
+     "R",
+     "C"
+    ],
+    "damage": "70×",
+    "effect": "This attack does 70 damage for each Prize card you have taken."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "W",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/015",
+  "illustrator": "5ban Graphics",
+  "fr": {
+   "name": "Chochodile-ex",
+   "attacks": [
+    {
+     "name": "Roussi",
+     "effect": "Le Pokémon Actif de votre adversaire est maintenant Brûlé."
+    },
+    {
+     "name": "Flamme Joyeuse",
+     "effect": "Cette attaque inflige 70 dégâts pour chaque carte Récompense que vous avez récupérée."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/015"
+  }
+ },
+ {
+  "id": "30th-016",
+  "set": "30th",
+  "localId": "016",
+  "category": "Pokemon",
+  "name": "Slowpoke",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 80,
+  "types": [
+   "W"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Well-Hidden",
+    "cost": [
+     "C"
+    ],
+    "effect": "Flip a coin. If heads, during your opponent's next turn, prevent all damage from and effects of attacks done to this Pokémon."
+   },
+   {
+    "name": "Water Gun",
+    "cost": [
+     "W",
+     "C"
+    ],
+    "damage": "20"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "L",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/016",
+  "illustrator": "Uninori",
+  "fr": {
+   "name": "Ramoloss",
+   "attacks": [
+    {
+     "name": "Bien Caché",
+     "effect": "Lancez une pièce. Si c'est face, pendant le prochain tour de votre adversaire, évitez tous les dégâts et effets provenant d'attaques infligés à ce Pokémon."
+    },
+    {
+     "name": "Pistolet à O"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/016"
+  }
+ },
+ {
+  "id": "30th-017",
+  "set": "30th",
+  "localId": "017",
+  "category": "Pokemon",
+  "name": "Lapras",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 130,
+  "types": [
+   "W"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Ferry Across",
+    "cost": [
+     "C"
+    ],
+    "effect": "Search your deck for a Supporter card, reveal it, and put it into your hand. Then, shuffle your deck."
+   },
+   {
+    "name": "Ice Beam",
+    "cost": [
+     "W",
+     "C",
+     "C"
+    ],
+    "damage": "80",
+    "effect": "Flip a coin. If heads, your opponent's Active Pokémon is now Paralyzed."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "M",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/017",
+  "illustrator": "Masa",
+  "fr": {
+   "name": "Lokhlass",
+   "attacks": [
+    {
+     "name": "Navette Maritime",
+     "effect": "Cherchez dans votre deck une carte Supporter, montrez-la, puis ajoutez-la à votre main. Mélangez ensuite votre deck."
+    },
+    {
+     "name": "Laser Glace",
+     "effect": "Lancez une pièce. Si c'est face, le Pokémon Actif de votre adversaire est maintenant Paralysé."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/017"
+  }
+ },
+ {
+  "id": "30th-018",
+  "set": "30th",
+  "localId": "018",
+  "category": "Pokemon",
+  "name": "Articuno",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 120,
+  "types": [
+   "W"
+  ],
+  "stage": "Basic",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Frosty Flapping",
+    "effect": "Once during your turn, if you have Moltres and Zapdos in play, you may use this Ability. Attach a Basic Water Energy card from your hand to this Pokémon."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Hail",
+    "cost": [
+     "W",
+     "W",
+     "C"
+    ],
+    "effect": "This attack does 30 damage to each of your opponent's Pokémon. <em>(Don't apply Weakness and Resistance for Benched Pokémon.)</em>"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "M",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/018",
+  "illustrator": "HYOGONOSUKE",
+  "fr": {
+   "name": "Artikodin",
+   "abilities": [
+    {
+     "name": "Battements Givrés",
+     "effect": "Une fois pendant votre tour, si vous avez Sulfura et Électhor en jeu, vous pouvez utiliser ce talent. Attachez une carte Énergie Water de base de votre main à ce Pokémon."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Grêle",
+     "effect": "Cette attaque inflige 30 dégâts à chacun des Pokémon de votre adversaire. <em>(N'appliquez ni la Faiblesse ni la Résistance aux Pokémon de Banc.)</em>"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/018"
+  }
+ },
+ {
+  "id": "30th-019",
+  "set": "30th",
+  "localId": "019",
+  "category": "Pokemon",
+  "name": "Kyogre",
+  "standard": true,
+  "rarity": "Rare",
+  "regulationMark": "J",
+  "hp": 140,
+  "types": [
+   "W"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Hydro Pump",
+    "cost": [
+     "C",
+     "C",
+     "C",
+     "C"
+    ],
+    "damage": "60+",
+    "effect": "This attack does 30 more damage for each <span class=\"energy-symbol Water\" title=\"Water\">Water</span> Energy attached to this Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "L",
+    "value": "×2"
+   }
+  ],
+  "retreat": 4,
+  "image": "https://assets.tcgdex.net/en/me/30th/019",
+  "illustrator": "Tonji Matsuno",
+  "fr": {
+   "name": "Kyogre",
+   "attacks": [
+    {
+     "name": "Hydrocanon",
+     "effect": "Cette attaque inflige 30 dégâts supplémentaires pour chaque Énergie <span class=\"energy-symbol Water\" title=\"Eau\">Water</span> attachée à ce Pokémon."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/019"
+  }
+ },
+ {
+  "id": "30th-020",
+  "set": "30th",
+  "localId": "020",
+  "category": "Pokemon",
+  "name": "Palkia",
+  "standard": true,
+  "rarity": "Rare",
+  "regulationMark": "J",
+  "hp": 130,
+  "types": [
+   "W"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Wormhole",
+    "cost": [
+     "W",
+     "W",
+     "C"
+    ],
+    "damage": "100",
+    "effect": "Switch this Pokémon with 1 of your Benched Pokémon. If you do, switch out your opponent's Active Pokémon to the Bench. <em>(Your opponent chooses the new Active Pokémon.)</em>"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "L",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/020",
+  "illustrator": "kawayoo",
+  "fr": {
+   "name": "Palkia",
+   "attacks": [
+    {
+     "name": "Trou de Ver",
+     "effect": "Échangez ce Pokémon contre l'un de vos Pokémon de Banc. Dans ce cas, envoyez le Pokémon Actif de votre adversaire sur le Banc. <em>(Votre adversaire choisit le nouveau Pokémon Actif.)</em>"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/020"
+  }
+ },
+ {
+  "id": "30th-021",
+  "set": "30th",
+  "localId": "021",
+  "category": "Pokemon",
+  "name": "Greninja ex",
+  "standard": true,
+  "rarity": "Double rare",
+  "regulationMark": "J",
+  "hp": 300,
+  "types": [
+   "W"
+  ],
+  "stage": "Basic",
+  "suffix": "EX",
+  "attacks": [
+   {
+    "name": "Stealthy Slash",
+    "cost": [
+     "W"
+    ],
+    "effect": "This attack does 30 damage to 1 of your opponent's Pokémon for each damage counter on that Pokémon. <em>(Don't apply Weakness and Resistance for Benched Pokémon.)</em>"
+   },
+   {
+    "name": "Aqua Edge",
+    "cost": [
+     "W",
+     "W"
+    ],
+    "damage": "160"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "L",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/021",
+  "illustrator": "5ban Graphics",
+  "fr": {
+   "name": "Amphinobi-ex",
+   "attacks": [
+    {
+     "name": "Tranche Furtive",
+     "effect": "Cette attaque inflige 30 dégâts à l'un des Pokémon de votre adversaire pour chaque marqueur de dégâts sur ce Pokémon-là. <em>(N'appliquez ni la Faiblesse ni la Résistance aux Pokémon de Banc.)</em>"
+    },
+    {
+     "name": "Aqua-Dague"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/021"
+  }
+ },
+ {
+  "id": "30th-022",
+  "set": "30th",
+  "localId": "022",
+  "category": "Pokemon",
+  "name": "Wishiwashi",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 30,
+  "types": [
+   "W"
+  ],
+  "stage": "Basic",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Counterattack Grouping",
+    "effect": "If your Wishiwashi or Wishiwashi ex is in the Active Spot and is damaged by an attack from your opponent's Pokémon (even if your Pokémon\t\tis Knocked Out), place 3 damage counters on the Attacking Pokémon."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Surprise Attack",
+    "cost": [
+     "W"
+    ],
+    "damage": "30",
+    "effect": "Flip a coin. If tails, this attack does nothing."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "L",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/022",
+  "illustrator": "Narano",
+  "fr": {
+   "name": "Froussardine",
+   "abilities": [
+    {
+     "name": "Contre-Attaque Groupée",
+     "effect": "Si l'un de vos Froussardine ou Froussardine-ex est sur le Poste Actif et qu'il subit les dégâts d'une attaque de l'un des Pokémon de votre adversaire (même si votre Pokémon est mis K.O.), placez 3 marqueurs de dégâts sur le Pokémon Attaquant."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Attaque Surprise",
+     "effect": "Lancez une pièce. Si c'est pile, cette attaque ne fait rien."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/022"
+  }
+ },
+ {
+  "id": "30th-023",
+  "set": "30th",
+  "localId": "023",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": true,
+  "rarity": "Pikachu Rare",
+  "regulationMark": "J",
+  "hp": 70,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Thunder Shock",
+    "cost": [
+     "L",
+     "C"
+    ],
+    "damage": "20",
+    "effect": "Flip a coin. If heads, your opponent's Active Pokémon is now Paralyzed."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/023",
+  "illustrator": "Ken Sugimori",
+  "fr": {
+   "name": "Pikachu",
+   "attacks": [
+    {
+     "name": "Éclair",
+     "effect": "Lancez une pièce. Si c'est face, le Pokémon Actif de votre adversaire est maintenant Paralysé."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/023"
+  }
+ },
+ {
+  "id": "30th-024",
+  "set": "30th",
+  "localId": "024",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": true,
+  "rarity": "Pikachu Rare",
+  "regulationMark": "J",
+  "hp": 70,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Volt Tackle",
+    "cost": [
+     "L",
+     "C",
+     "C"
+    ],
+    "damage": "80",
+    "effect": "This Pokémon also does 30 damage to itself."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/024",
+  "illustrator": "danciao",
+  "fr": {
+   "name": "Pikachu",
+   "attacks": [
+    {
+     "name": "Électacle",
+     "effect": "Ce Pokémon s'inflige aussi 30 dégâts."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/024"
+  }
+ },
+ {
+  "id": "30th-025",
+  "set": "30th",
+  "localId": "025",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": true,
+  "rarity": "Pikachu Rare",
+  "regulationMark": "J",
+  "hp": 70,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Spark",
+    "cost": [
+     "L",
+     "C"
+    ],
+    "damage": "20",
+    "effect": "This attack also does 20 damage to 1 of your opponent's Benched Pokémon. <em>(Don't apply Weakness and Resistance for Benched Pokémon.)</em>"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/025",
+  "illustrator": "satoma",
+  "fr": {
+   "name": "Pikachu",
+   "attacks": [
+    {
+     "name": "Étincelle",
+     "effect": "Cette attaque inflige aussi 20 dégâts à l'un des Pokémon de Banc de votre adversaire. <em>(N'appliquez ni la Faiblesse ni la Résistance aux Pokémon de Banc.)</em>"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/025"
+  }
+ },
+ {
+  "id": "30th-026",
+  "set": "30th",
+  "localId": "026",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": true,
+  "rarity": "Pikachu Rare",
+  "regulationMark": "J",
+  "hp": 70,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Peer At",
+    "cost": [
+     "C"
+    ],
+    "effect": "Your opponent reveals their hand."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/026",
+  "illustrator": "Takeshi Nakamura",
+  "fr": {
+   "name": "Pikachu",
+   "attacks": [
+    {
+     "name": "Scrutation",
+     "effect": "Votre adversaire montre sa main."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/026"
+  }
+ },
+ {
+  "id": "30th-027",
+  "set": "30th",
+  "localId": "027",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": true,
+  "rarity": "Pikachu Rare",
+  "regulationMark": "J",
+  "hp": 80,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Nap",
+    "cost": [
+     "C"
+    ],
+    "effect": "Heal 30 damage from this Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 3,
+  "image": "https://assets.tcgdex.net/en/me/30th/027",
+  "illustrator": "Asako Ito",
+  "fr": {
+   "name": "Pikachu",
+   "attacks": [
+    {
+     "name": "Tit'Sieste",
+     "effect": "Soignez 30 dégâts de ce Pokémon."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/027"
+  }
+ },
+ {
+  "id": "30th-028",
+  "set": "30th",
+  "localId": "028",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": true,
+  "rarity": "Pikachu Rare",
+  "regulationMark": "J",
+  "hp": 60,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Lonely Gaze",
+    "effect": "As long as this Pokémon is in the Active Spot, attacks used by your opponent's Active Pokémon do 20 less damage (before applying Weakness and Resistance)."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Pika Ball",
+    "cost": [
+     "L",
+     "C"
+    ],
+    "damage": "20"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/028",
+  "illustrator": "sowsow",
+  "fr": {
+   "name": "Pikachu",
+   "abilities": [
+    {
+     "name": "Regard Solitaire",
+     "effect": "Tant que ce Pokémon est sur le Poste Actif, les attaques utilisées par le Pokémon Actif de votre adversaire infligent 20 dégâts de moins (avant application de la Faiblesse et de la Résistance)."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Pika Ball"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/028"
+  }
+ },
+ {
+  "id": "30th-029",
+  "set": "30th",
+  "localId": "029",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": true,
+  "rarity": "Pikachu Rare",
+  "regulationMark": "J",
+  "hp": 60,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Find a Friend",
+    "cost": [
+     "C"
+    ],
+    "effect": "Search your deck for a Pokémon, reveal it, and put it into your hand. Then, shuffle your deck."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/029",
+  "illustrator": "James Turner",
+  "fr": {
+   "name": "Pikachu",
+   "attacks": [
+    {
+     "name": "Trouver un Ami",
+     "effect": "Cherchez dans votre deck un Pokémon, montrez-le, puis ajoutez-le à votre main. Mélangez ensuite votre deck."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/029"
+  }
+ },
+ {
+  "id": "30th-030",
+  "set": "30th",
+  "localId": "030",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": true,
+  "rarity": "Pikachu Rare",
+  "regulationMark": "J",
+  "hp": 60,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Mach Bolt",
+    "cost": [
+     "L"
+    ],
+    "damage": "30"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/030",
+  "illustrator": "DOM",
+  "fr": {
+   "name": "Pikachu",
+   "attacks": [
+    {
+     "name": "Éclair Fulgurant"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/030"
+  }
+ },
+ {
+  "id": "30th-031",
+  "set": "30th",
+  "localId": "031",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": true,
+  "rarity": "Pikachu Rare",
+  "regulationMark": "J",
+  "hp": 50,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Gnaw",
+    "cost": [
+     "C"
+    ],
+    "damage": "10"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 0,
+  "image": "https://assets.tcgdex.net/en/me/30th/031",
+  "illustrator": "Atsushi Furusawa",
+  "fr": {
+   "name": "Pikachu",
+   "attacks": [
+    {
+     "name": "Ronge"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/031"
+  }
+ },
+ {
+  "id": "30th-032",
+  "set": "30th",
+  "localId": "032",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": true,
+  "rarity": "Pikachu Rare",
+  "regulationMark": "J",
+  "hp": 50,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Scurry About",
+    "cost": [
+     "C"
+    ],
+    "effect": "Switch this Pokémon with 1 of your Benched Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/032",
+  "illustrator": "Tomokazu Komiya",
+  "fr": {
+   "name": "Pikachu",
+   "attacks": [
+    {
+     "name": "Débandade",
+     "effect": "Échangez ce Pokémon contre l'un de vos Pokémon de Banc."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/032"
+  }
+ },
+ {
+  "id": "30th-033",
+  "set": "30th",
+  "localId": "033",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": true,
+  "rarity": "Pikachu Rare",
+  "regulationMark": "J",
+  "hp": 60,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Keep Hidden",
+    "effect": "As long as this Pokémon is on your Bench, prevent all damage from and effects of attacks from your opponent's Pokémon done to this Pokémon."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Tiny Charge",
+    "cost": [
+     "L"
+    ],
+    "damage": "10"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/033",
+  "illustrator": "Narumi Sato",
+  "fr": {
+   "name": "Pikachu",
+   "abilities": [
+    {
+     "name": "Resté Caché",
+     "effect": "Tant que ce Pokémon est sur votre Banc, évitez tous les dégâts et effets provenant d'attaques infligés à ce Pokémon par les Pokémon de votre adversaire."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Décharge Mineure"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/033"
+  }
+ },
+ {
+  "id": "30th-034",
+  "set": "30th",
+  "localId": "034",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": true,
+  "rarity": "Pikachu Rare",
+  "regulationMark": "J",
+  "hp": 70,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Pika Chain",
+    "cost": [
+     "L",
+     "L",
+     "L"
+    ],
+    "damage": "40×",
+    "effect": "This attack does 40 damage for each of your Pikachu and Pikachu <em>ex</em> in play."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/034",
+  "illustrator": "USGMEN",
+  "fr": {
+   "name": "Pikachu",
+   "attacks": [
+    {
+     "name": "Chaîne de Pika",
+     "effect": "Cette attaque inflige 40 dégâts pour chacun de vos Pikachu et Pikachu-<em>ex</em> en jeu."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/034"
+  }
+ },
+ {
+  "id": "30th-035",
+  "set": "30th",
+  "localId": "035",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": true,
+  "rarity": "Pikachu Rare",
+  "regulationMark": "J",
+  "hp": 60,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Rollout",
+    "cost": [
+     "C",
+     "C"
+    ],
+    "damage": "30"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/035",
+  "illustrator": "Susumu Maeya",
+  "fr": {
+   "name": "Pikachu",
+   "attacks": [
+    {
+     "name": "Roulade"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/035"
+  }
+ },
+ {
+  "id": "30th-036",
+  "set": "30th",
+  "localId": "036",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": true,
+  "rarity": "Pikachu Rare",
+  "regulationMark": "J",
+  "hp": 70,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Slight Intrusion",
+    "cost": [
+     "L",
+     "C"
+    ],
+    "damage": "40",
+    "effect": "This Pokémon also does 10 damage to itself."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/036",
+  "illustrator": "OKACHEKE",
+  "fr": {
+   "name": "Pikachu",
+   "attacks": [
+    {
+     "name": "Légère Intrusion",
+     "effect": "Ce Pokémon s'inflige aussi 10 dégâts."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/036"
+  }
+ },
+ {
+  "id": "30th-037",
+  "set": "30th",
+  "localId": "037",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": true,
+  "rarity": "Pikachu Rare",
+  "regulationMark": "J",
+  "hp": 70,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Energized Tail",
+    "cost": [
+     "C"
+    ],
+    "effect": "Search your deck for an Energy card, reveal it, and put it into your hand. Then, shuffle your deck."
+   },
+   {
+    "name": "Pika Punch",
+    "cost": [
+     "L",
+     "C"
+    ],
+    "damage": "30"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/037",
+  "illustrator": "Yuu Nishida",
+  "fr": {
+   "name": "Pikachu",
+   "attacks": [
+    {
+     "name": "Queue Énergisée",
+     "effect": "Cherchez dans votre deck une carte Énergie, montrez-la, puis ajoutez-la à votre main. Mélangez ensuite votre deck."
+    },
+    {
+     "name": "Pika-Poing"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/037"
+  }
+ },
+ {
+  "id": "30th-038",
+  "set": "30th",
+  "localId": "038",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": true,
+  "rarity": "Pikachu Rare",
+  "regulationMark": "J",
+  "hp": 60,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Targeted Spark",
+    "cost": [
+     "L"
+    ],
+    "effect": "This attack does 20 damage to 1 of your opponent's Pokémon. <em>(Don't apply Weakness and Resistance for Benched Pokémon.)</em>"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/038",
+  "illustrator": "Tetsu Kayama",
+  "fr": {
+   "name": "Pikachu",
+   "attacks": [
+    {
+     "name": "Étincelle Ciblée",
+     "effect": "Cette attaque inflige 20 dégâts à l'un des Pokémon de votre adversaire. <em>(N'appliquez ni la Faiblesse ni la Résistance aux Pokémon de Banc.)</em>"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/038"
+  }
+ },
+ {
+  "id": "30th-039",
+  "set": "30th",
+  "localId": "039",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": true,
+  "rarity": "Pikachu Rare",
+  "regulationMark": "J",
+  "hp": 70,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Iron Tail",
+    "cost": [
+     "C"
+    ],
+    "damage": "20×",
+    "effect": "Flip a coin until you get tails. This attack does 20 damage for each heads."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/039",
+  "illustrator": "Teeziro",
+  "fr": {
+   "name": "Pikachu",
+   "attacks": [
+    {
+     "name": "Queue de Fer",
+     "effect": "Lancez une pièce jusqu'à obtenir un côté pile. Cette attaque inflige 20 dégâts pour chaque côté face."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/039"
+  }
+ },
+ {
+  "id": "30th-040",
+  "set": "30th",
+  "localId": "040",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": true,
+  "rarity": "Pikachu Rare",
+  "regulationMark": "J",
+  "hp": 80,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Overwriting Bolt",
+    "cost": [
+     "L"
+    ],
+    "damage": "10",
+    "effect": "The Defending Pokémon's Weakness is now <span class=\"energy-symbol Lightning\" title=\"Lightning\">Lightning</span> until the end of your next turn. <em>(Apply Weakness as ×2.)</em>"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/040",
+  "illustrator": "Shinji Kanda",
+  "fr": {
+   "name": "Pikachu",
+   "attacks": [
+    {
+     "name": "Éclair Altéragène",
+     "effect": "La Faiblesse du Pokémon Défenseur est maintenant de type <span class=\"energy-symbol Lightning\" title=\"Électrique\">Lightning</span> jusqu'à la fin de votre prochain tour. <em>(Appliquez une Faiblesse de ×2.)</em>"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/040"
+  }
+ },
+ {
+  "id": "30th-041",
+  "set": "30th",
+  "localId": "041",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": true,
+  "rarity": "Pikachu Rare",
+  "regulationMark": "J",
+  "hp": 60,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Hang Down",
+    "cost": [
+     "C"
+    ],
+    "damage": "10"
+   },
+   {
+    "name": "Zap Kick",
+    "cost": [
+     "L",
+     "C",
+     "C"
+    ],
+    "damage": "40"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/041",
+  "illustrator": "Rianti Hidayat",
+  "fr": {
+   "name": "Pikachu",
+   "attacks": [
+    {
+     "name": "Suspension"
+    },
+    {
+     "name": "Coup de Pied Ravageur"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/041"
+  }
+ },
+ {
+  "id": "30th-042",
+  "set": "30th",
+  "localId": "042",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": true,
+  "rarity": "Pikachu Rare",
+  "regulationMark": "J",
+  "hp": 60,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Charge-Up Dash",
+    "cost": [
+     "C"
+    ],
+    "effect": "Flip a coin until you get tails. Search your deck for an amount of Basic <span class=\"energy-symbol Lightning\" title=\"Lightning\">Lightning</span> Energy up to the number of heads and attach it to this Pokémon. Then, shuffle your deck."
+   },
+   {
+    "name": "Pika Bolt",
+    "cost": [
+     "L",
+     "L",
+     "C"
+    ],
+    "damage": "50"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/042",
+  "illustrator": "Akira Komayama",
+  "fr": {
+   "name": "Pikachu",
+   "attacks": [
+    {
+     "name": "Ruée Chargée",
+     "effect": "Lancez une pièce jusqu'à obtenir un côté pile. Cherchez dans votre deck une quantité d'Énergies <span class=\"energy-symbol Lightning\" title=\"Électrique\">Lightning</span> de base inférieure ou égale au nombre de côtés face obtenus, puis attachez celles-ci à ce Pokémon. Mélangez ensuite votre deck."
+    },
+    {
+     "name": "Pik'Éclair"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/042"
+  }
+ },
+ {
+  "id": "30th-043",
+  "set": "30th",
+  "localId": "043",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": true,
+  "rarity": "Pikachu Rare",
+  "regulationMark": "J",
+  "hp": 70,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Tropical Vibes",
+    "cost": [
+     "C",
+     "C"
+    ],
+    "effect": "This Pokémon is now Asleep. Draw cards until you have 6 cards in your hand."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/043",
+  "illustrator": "OOYAMA",
+  "fr": {
+   "name": "Pikachu",
+   "attacks": [
+    {
+     "name": "Ambiance Tropicale",
+     "effect": "Ce Pokémon est maintenant Endormi. Piochez des cartes jusqu'à en avoir 6 en main."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/043"
+  }
+ },
+ {
+  "id": "30th-044",
+  "set": "30th",
+  "localId": "044",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": true,
+  "rarity": "Pikachu Rare",
+  "regulationMark": "J",
+  "hp": 60,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Agility",
+    "cost": [
+     "C"
+    ],
+    "damage": "10",
+    "effect": "Flip a coin. If heads, during your opponent's next turn, prevent all damage from and effects of attacks done to this Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/044",
+  "illustrator": "akagi",
+  "fr": {
+   "name": "Pikachu",
+   "attacks": [
+    {
+     "name": "Hâte",
+     "effect": "Lancez une pièce. Si c'est face, pendant le prochain tour de votre adversaire, évitez tous les dégâts et effets provenant d'attaques infligés à ce Pokémon."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/044"
+  }
+ },
+ {
+  "id": "30th-045",
+  "set": "30th",
+  "localId": "045",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": true,
+  "rarity": "Pikachu Rare",
+  "regulationMark": "J",
+  "hp": 60,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Nighttime Stroll",
+    "cost": [
+     "C"
+    ],
+    "effect": "Draw a card."
+   },
+   {
+    "name": "Static Shock",
+    "cost": [
+     "L",
+     "C"
+    ],
+    "damage": "20"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/045",
+  "illustrator": "Naoyo Kimura",
+  "fr": {
+   "name": "Pikachu",
+   "attacks": [
+    {
+     "name": "Promenade Nocturne",
+     "effect": "Piochez une carte."
+    },
+    {
+     "name": "Choc Statique"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/045"
+  }
+ },
+ {
+  "id": "30th-046",
+  "set": "30th",
+  "localId": "046",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": true,
+  "rarity": "Pikachu Rare",
+  "regulationMark": "J",
+  "hp": 60,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Get Some Air",
+    "cost": [
+     "C"
+    ],
+    "effect": "This Pokémon recovers from all Special Conditions."
+   },
+   {
+    "name": "Smash Kick",
+    "cost": [
+     "C",
+     "C"
+    ],
+    "damage": "20"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/046",
+  "illustrator": "svlt",
+  "fr": {
+   "name": "Pikachu",
+   "attacks": [
+    {
+     "name": "Besoin d'Air",
+     "effect": "Ce Pokémon guérit de tous les États Spéciaux."
+    },
+    {
+     "name": "Coud'Pattes"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/046"
+  }
+ },
+ {
+  "id": "30th-047",
+  "set": "30th",
+  "localId": "047",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": true,
+  "rarity": "Pikachu Rare",
+  "regulationMark": "J",
+  "hp": 70,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Play Rough",
+    "cost": [
+     "C"
+    ],
+    "damage": "10+",
+    "effect": "Flip a coin. If heads, this attack does 20 more damage."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/047",
+  "illustrator": "Atsuko Nishida",
+  "fr": {
+   "name": "Pikachu",
+   "attacks": [
+    {
+     "name": "Câlinerie",
+     "effect": "Lancez une pièce. Si c'est face, cette attaque inflige 20 dégâts supplémentaires."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/047"
+  }
+ },
+ {
+  "id": "30th-048",
+  "set": "30th",
+  "localId": "048",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": true,
+  "rarity": "Pikachu Rare",
+  "regulationMark": "J",
+  "hp": 70,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Store Up",
+    "cost": [
+     "C"
+    ],
+    "effect": "Put up to 2 Basic Energy cards from your discard pile into your hand."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/048",
+  "illustrator": "KIYOTAKA OSHIYAMA",
+  "fr": {
+   "name": "Pikachu",
+   "attacks": [
+    {
+     "name": "Réserves",
+     "effect": "Ajoutez jusqu'à 2 cartes Énergie de base de votre pile de défausse à votre main."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/048"
+  }
+ },
+ {
+  "id": "30th-049",
+  "set": "30th",
+  "localId": "049",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": true,
+  "rarity": "Pikachu Rare",
+  "regulationMark": "J",
+  "hp": 80,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Fighting Lightning",
+    "cost": [
+     "L",
+     "C",
+     "C"
+    ],
+    "damage": "20+",
+    "effect": "If your opponent's Active Pokémon is a Pokémon <em>ex</em>, this attack does 80 more damage."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 3,
+  "image": "https://assets.tcgdex.net/en/me/30th/049",
+  "illustrator": "Nurikabe",
+  "fr": {
+   "name": "Pikachu",
+   "attacks": [
+    {
+     "name": "Foudre Hostile",
+     "effect": "Si le Pokémon Actif de votre adversaire est un Pokémon-<em>ex</em>, cette attaque inflige 80 dégâts supplémentaires."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/049"
+  }
+ },
+ {
+  "id": "30th-050",
+  "set": "30th",
+  "localId": "050",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": true,
+  "rarity": "Pikachu Rare",
+  "regulationMark": "J",
+  "hp": 80,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Satisfied Spark",
+    "cost": [
+     "L",
+     "L",
+     "C",
+     "C"
+    ],
+    "damage": "100"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 3,
+  "image": "https://assets.tcgdex.net/en/me/30th/050",
+  "illustrator": "Shimaris Yukichi",
+  "fr": {
+   "name": "Pikachu",
+   "attacks": [
+    {
+     "name": "Étincelle Satisfaite"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/050"
+  }
+ },
+ {
+  "id": "30th-051",
+  "set": "30th",
+  "localId": "051",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": true,
+  "rarity": "Pikachu Rare",
+  "regulationMark": "J",
+  "hp": 70,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Lightning Crash",
+    "cost": [
+     "L",
+     "L",
+     "L"
+    ],
+    "effect": "Discard all <span class=\"energy-symbol Lightning\" title=\"Lightning\">Lightning</span> Energy from this Pokémon, and this attack does 90 damage to 1 of your opponent's Pokémon. <em>(Don't apply Weakness and Resistance for Benched Pokémon.)</em>"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/051",
+  "illustrator": "nagimiso",
+  "fr": {
+   "name": "Pikachu",
+   "attacks": [
+    {
+     "name": "Chute d'Éclairs",
+     "effect": "Défaussez toutes les Énergies <span class=\"energy-symbol Lightning\" title=\"Électrique\">Lightning</span> de ce Pokémon. Cette attaque inflige 90 dégâts à l'un des Pokémon de votre adversaire. <em>(N'appliquez ni la Faiblesse ni la Résistance aux Pokémon de Banc.)</em>"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/051"
+  }
+ },
+ {
+  "id": "30th-052",
+  "set": "30th",
+  "localId": "052",
+  "category": "Pokemon",
+  "name": "Pikachu",
+  "standard": true,
+  "rarity": "Pikachu Rare",
+  "regulationMark": "J",
+  "hp": 70,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Angry Bolt",
+    "cost": [
+     "L"
+    ],
+    "damage": "10+",
+    "effect": "This attack does 10 more damage for each damage counter on this Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/052",
+  "illustrator": "Kazuki Minami",
+  "fr": {
+   "name": "Pikachu",
+   "attacks": [
+    {
+     "name": "Éclair Furieux",
+     "effect": "Cette attaque inflige 10 dégâts supplémentaires pour chaque marqueur de dégâts sur ce Pokémon."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/052"
+  }
+ },
+ {
+  "id": "30th-053",
+  "set": "30th",
+  "localId": "053",
+  "category": "Pokemon",
+  "name": "Pikachu ex",
+  "standard": true,
+  "rarity": "Double rare",
+  "regulationMark": "J",
+  "hp": 190,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "suffix": "EX",
+  "attacks": [
+   {
+    "name": "Pika-Pika Parade",
+    "cost": [
+     "C"
+    ],
+    "effect": "Search your deck for any number of Basic Pokémon and put them onto your Bench. Then, shuffle your deck."
+   },
+   {
+    "name": "Thunderbolt",
+    "cost": [
+     "L",
+     "L",
+     "C"
+    ],
+    "damage": "200",
+    "effect": "Discard all Energy from this Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/053",
+  "illustrator": "5ban Graphics",
+  "fr": {
+   "name": "Pikachu-ex",
+   "attacks": [
+    {
+     "name": "Parade Pika-Pika",
+     "effect": "Cherchez dans votre deck le nombre voulu de Pokémon de base, puis placez-les sur votre Banc. Mélangez ensuite votre deck."
+    },
+    {
+     "name": "Tonnerre",
+     "effect": "Défaussez toutes les Énergies de ce Pokémon."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/053"
+  }
+ },
+ {
+  "id": "30th-054",
+  "set": "30th",
+  "localId": "054",
+  "category": "Pokemon",
+  "name": "Pikachu ex",
+  "standard": true,
+  "rarity": "Double rare",
+  "regulationMark": "J",
+  "hp": 190,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "suffix": "EX",
+  "attacks": [
+   {
+    "name": "Zip-Zap Frenzy",
+    "cost": [
+     "L"
+    ],
+    "effect": "You may attach any number of Basic Energy cards from your hand to your Pokémon in any way you like."
+   },
+   {
+    "name": "Thunder",
+    "cost": [
+     "L",
+     "L",
+     "C"
+    ],
+    "damage": "200",
+    "effect": "This Pokémon also does 30 damage to itself."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/054",
+  "illustrator": "takuyoa",
+  "fr": {
+   "name": "Pikachu-ex",
+   "attacks": [
+    {
+     "name": "Frénésie Électrique",
+     "effect": "Vous pouvez attacher le nombre voulu de cartes Énergie de base de votre main à vos Pokémon comme il vous plaît."
+    },
+    {
+     "name": "Fatal-Foudre",
+     "effect": "Ce Pokémon s'inflige aussi 30 dégâts."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/054"
+  }
+ },
+ {
+  "id": "30th-055",
+  "set": "30th",
+  "localId": "055",
+  "category": "Pokemon",
+  "name": "Zapdos",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 120,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Flash-Pop Flapping",
+    "effect": "Once during your turn, if you have Moltres and Articuno in play, you may use this Ability. Attach a Basic Lightning Energy card from your hand to this Pokémon."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Thundering Lightning",
+    "cost": [
+     "L",
+     "L",
+     "L",
+     "C"
+    ],
+    "damage": "210",
+    "effect": "This Pokémon also does 60 damage to itself."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/055",
+  "illustrator": "HYOGONOSUKE",
+  "fr": {
+   "name": "Électhor",
+   "abilities": [
+    {
+     "name": "Battements Fulgurants",
+     "effect": "Une fois pendant votre tour, si vous avez Sulfura et Artikodin en jeu, vous pouvez utiliser ce talent. Attachez une carte Énergie Lightning de base de votre main à ce Pokémon."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Foudre Fracassante",
+     "effect": "Ce Pokémon s'inflige aussi 60 dégâts."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/055"
+  }
+ },
+ {
+  "id": "30th-056",
+  "set": "30th",
+  "localId": "056",
+  "category": "Pokemon",
+  "name": "Zekrom",
+  "standard": true,
+  "rarity": "Rare",
+  "regulationMark": "J",
+  "hp": 130,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Slash",
+    "cost": [
+     "L",
+     "C"
+    ],
+    "damage": "50"
+   },
+   {
+    "name": "Nitro Thunder",
+    "cost": [
+     "L",
+     "C",
+     "C"
+    ],
+    "damage": "80+",
+    "effect": "If this Pokémon has any <span class=\"energy-symbol Fire\" title=\"Fire\">Fire</span> Energy attached, this attack does 80 more damage."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/056",
+  "illustrator": "akagi",
+  "fr": {
+   "name": "Zekrom",
+   "attacks": [
+    {
+     "name": "Tranche"
+    },
+    {
+     "name": "Éclair Nitro",
+     "effect": "Si au moins une Énergie <span class=\"energy-symbol Fire\" title=\"Feu\">Fire</span> est attachée à ce Pokémon, cette attaque inflige 80 dégâts supplémentaires."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/056"
+  }
+ },
+ {
+  "id": "30th-057",
+  "set": "30th",
+  "localId": "057",
+  "category": "Pokemon",
+  "name": "Zeraora",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 110,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Rapid Draw",
+    "cost": [
+     "C"
+    ],
+    "damage": "20",
+    "effect": "Draw a card."
+   },
+   {
+    "name": "Electrobullet",
+    "cost": [
+     "L",
+     "C"
+    ],
+    "damage": "50",
+    "effect": "This attack also does 20 damage to 1 of your opponent's Benched Pokémon. <em>(Don't apply Weakness and Resistance for Benched Pokémon.)</em>"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/057",
+  "illustrator": "Bun Toujo",
+  "fr": {
+   "name": "Zeraora",
+   "attacks": [
+    {
+     "name": "Pioche Rapide",
+     "effect": "Piochez une carte."
+    },
+    {
+     "name": "Électrojectile",
+     "effect": "Cette attaque inflige aussi 20 dégâts à l'un des Pokémon de Banc de votre adversaire. <em>(N'appliquez ni la Faiblesse ni la Résistance aux Pokémon de Banc.)</em>"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/057"
+  }
+ },
+ {
+  "id": "30th-058",
+  "set": "30th",
+  "localId": "058",
+  "category": "Pokemon",
+  "name": "Toxel",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 70,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Ram",
+    "cost": [
+     "C"
+    ],
+    "damage": "10"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/058",
+  "illustrator": "Shimaris Yukichi",
+  "fr": {
+   "name": "Toxizap",
+   "attacks": [
+    {
+     "name": "Collision"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/058"
+  }
+ },
+ {
+  "id": "30th-059",
+  "set": "30th",
+  "localId": "059",
+  "category": "Pokemon",
+  "name": "Toxtricity",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 130,
+  "types": [
+   "L"
+  ],
+  "stage": "Stage1",
+  "attacks": [
+   {
+    "name": "Mach Bolt",
+    "cost": [
+     "L",
+     "C"
+    ],
+    "damage": "80"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/059",
+  "illustrator": "Haru Akasaka",
+  "fr": {
+   "name": "Salarsen",
+   "attacks": [
+    {
+     "name": "Éclair Fulgurant"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/059"
+  }
+ },
+ {
+  "id": "30th-060",
+  "set": "30th",
+  "localId": "060",
+  "category": "Pokemon",
+  "name": "Toxtricity",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 140,
+  "types": [
+   "L"
+  ],
+  "stage": "Stage1",
+  "attacks": [
+   {
+    "name": "Light Punch",
+    "cost": [
+     "L"
+    ],
+    "damage": "40"
+   },
+   {
+    "name": "Thunderous Bolt",
+    "cost": [
+     "L",
+     "C",
+     "C"
+    ],
+    "damage": "150",
+    "effect": "During your next turn, this Pokémon can't use attacks."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/060",
+  "illustrator": "Yuriko Akase",
+  "fr": {
+   "name": "Salarsen",
+   "attacks": [
+    {
+     "name": "Poing Léger"
+    },
+    {
+     "name": "Éclair du Tonnerre",
+     "effect": "Pendant votre prochain tour, ce Pokémon ne peut pas utiliser d'attaques."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/060"
+  }
+ },
+ {
+  "id": "30th-061",
+  "set": "30th",
+  "localId": "061",
+  "category": "Pokemon",
+  "name": "Morpeko",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 70,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Select a Snack",
+    "cost": [
+     "C"
+    ],
+    "effect": "Discard the top 3 cards of your deck and put 1 of them into your hand."
+   },
+   {
+    "name": "Slap",
+    "cost": [
+     "L"
+    ],
+    "damage": "30"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/061",
+  "illustrator": "Naoki Saito",
+  "fr": {
+   "name": "Morpeko",
+   "attacks": [
+    {
+     "name": "Sélection de Friandise",
+     "effect": "Défaussez les 3 cartes du dessus de votre deck, puis ajoutez l'une d'entre elles à votre main."
+    },
+    {
+     "name": "Gifle"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/061"
+  }
+ },
+ {
+  "id": "30th-062",
+  "set": "30th",
+  "localId": "062",
+  "category": "Pokemon",
+  "name": "Miraidon",
+  "standard": true,
+  "rarity": "Rare",
+  "regulationMark": "J",
+  "hp": 120,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Mach Bolt",
+    "cost": [
+     "L"
+    ],
+    "damage": "20"
+   },
+   {
+    "name": "Electro Drift",
+    "cost": [
+     "L",
+     "L",
+     "C"
+    ],
+    "damage": "140",
+    "effect": "Discard 2 <span class=\"energy-symbol Lightning\" title=\"Lightning\">Lightning</span> Energy from this Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/062",
+  "illustrator": "Kazumasa Yasukuni",
+  "fr": {
+   "name": "Miraidon",
+   "attacks": [
+    {
+     "name": "Éclair Fulgurant"
+    },
+    {
+     "name": "Turbo Volt",
+     "effect": "Défaussez 2 Énergies <span class=\"energy-symbol Lightning\" title=\"Électrique\">Lightning</span> de ce Pokémon."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/062"
+  }
+ },
+ {
+  "id": "30th-063",
+  "set": "30th",
+  "localId": "063",
+  "category": "Pokemon",
+  "name": "Mewtwo",
+  "standard": true,
+  "rarity": "Rare",
+  "regulationMark": "J",
+  "hp": 130,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Empower",
+    "cost": [
+     "P"
+    ],
+    "effect": "Attach up to 2 Basic Energy cards from your discard pile to 1 of your Pokémon."
+   },
+   {
+    "name": "Psydrive",
+    "cost": [
+     "P",
+     "P",
+     "C"
+    ],
+    "damage": "120",
+    "effect": "Discard an Energy from this Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/063",
+  "illustrator": "nagimiso",
+  "fr": {
+   "name": "Mewtwo",
+   "attacks": [
+    {
+     "name": "Renforcement",
+     "effect": "Attachez jusqu'à 2 cartes Énergie de base de votre pile de défausse à l'un de vos Pokémon."
+    },
+    {
+     "name": "Psykoforce",
+     "effect": "Défaussez une Énergie de ce Pokémon."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/063"
+  }
+ },
+ {
+  "id": "30th-064",
+  "set": "30th",
+  "localId": "064",
+  "category": "Pokemon",
+  "name": "Mewtwo ex",
+  "standard": true,
+  "rarity": "Double rare",
+  "regulationMark": "J",
+  "hp": 230,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "suffix": "EX",
+  "attacks": [
+   {
+    "name": "Photon Bullets",
+    "cost": [
+     "P",
+     "P"
+    ],
+    "effect": "This attack does 50 damage to each of your opponent's Pokémon <em>ex</em>. <em>(Don't apply Weakness and Resistance for Benched Pokémon.)</em>"
+   },
+   {
+    "name": "Psychic Powers",
+    "cost": [
+     "P",
+     "P",
+     "P"
+    ],
+    "damage": "230",
+    "effect": "During your next turn, this Pokémon can't use attacks."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/064",
+  "illustrator": "5ban Graphics",
+  "fr": {
+   "name": "Mewtwo-ex",
+   "attacks": [
+    {
+     "name": "Projectiles Photons",
+     "effect": "Cette attaque inflige 50 dégâts à chacun des Pokémon-<em>ex</em> de votre adversaire. <em>(N'appliquez ni la Faiblesse ni la Résistance aux Pokémon de Banc.)</em>"
+    },
+    {
+     "name": "Pouvoirs Psychiques",
+     "effect": "Pendant votre prochain tour, ce Pokémon ne peut pas utiliser d'attaques."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/064"
+  }
+ },
+ {
+  "id": "30th-065",
+  "set": "30th",
+  "localId": "065",
+  "category": "Pokemon",
+  "name": "Mew",
+  "standard": true,
+  "rarity": "Rare",
+  "regulationMark": "J",
+  "hp": 60,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Psychic",
+    "cost": [
+     "P",
+     "P"
+    ],
+    "damage": "10+",
+    "effect": "This attack does 40 more damage for each Energy attached to your opponent's Active Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/065",
+  "illustrator": "danciao",
+  "fr": {
+   "name": "Mew",
+   "attacks": [
+    {
+     "name": "Psyko",
+     "effect": "Cette attaque inflige 40 dégâts supplémentaires pour chaque Énergie attachée au Pokémon Actif de votre adversaire."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/065"
+  }
+ },
+ {
+  "id": "30th-066",
+  "set": "30th",
+  "localId": "066",
+  "category": "Pokemon",
+  "name": "Mew ex",
+  "standard": true,
+  "rarity": "Double rare",
+  "regulationMark": "J",
+  "hp": 160,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "suffix": "EX",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Memory Helix",
+    "effect": "This Pokémon can use the attacks of any of your Benched Pokémon. (You still need the necessary Energy to use each attack.)"
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Teleportation Burst",
+    "cost": [
+     "P"
+    ],
+    "damage": "30",
+    "effect": "You may switch this Pokémon with 1 of your Benched Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 0,
+  "image": "https://assets.tcgdex.net/en/me/30th/066",
+  "illustrator": "aky CG Works",
+  "fr": {
+   "name": "Mew-ex",
+   "abilities": [
+    {
+     "name": "Spirale Mémoire",
+     "effect": "Ce Pokémon peut utiliser les attaques de n'importe lequel de vos Pokémon de Banc. (Vous avez toujours besoin des Énergies nécessaires pour utiliser chaque attaque.)"
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Téléportation Explosive",
+     "effect": "Vous pouvez échanger ce Pokémon contre l'un de vos Pokémon de Banc."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/066"
+  }
+ },
+ {
+  "id": "30th-067",
+  "set": "30th",
+  "localId": "067",
+  "category": "Pokemon",
+  "name": "Marill",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 70,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Tackle",
+    "cost": [
+     "P",
+     "C"
+    ],
+    "damage": "30"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "M",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/067",
+  "illustrator": "Saya Tsuruta",
+  "fr": {
+   "name": "Marill",
+   "attacks": [
+    {
+     "name": "Charge"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/067"
+  }
+ },
+ {
+  "id": "30th-068",
+  "set": "30th",
+  "localId": "068",
+  "category": "Pokemon",
+  "name": "Azumarill",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 130,
+  "types": [
+   "P"
+  ],
+  "stage": "Stage1",
+  "attacks": [
+   {
+    "name": "Body Slam",
+    "cost": [
+     "P",
+     "P",
+     "C"
+    ],
+    "damage": "90",
+    "effect": "Flip a coin. If heads, your opponent's Active Pokémon is now Paralyzed."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "M",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/068",
+  "illustrator": "Kagemaru Himeno",
+  "fr": {
+   "name": "Azumarill",
+   "attacks": [
+    {
+     "name": "Plaquage",
+     "effect": "Lancez une pièce. Si c'est face, le Pokémon Actif de votre adversaire est maintenant Paralysé."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/068"
+  }
+ },
+ {
+  "id": "30th-069",
+  "set": "30th",
+  "localId": "069",
+  "category": "Pokemon",
+  "name": "Espeon",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 110,
+  "types": [
+   "P"
+  ],
+  "stage": "Stage1",
+  "attacks": [
+   {
+    "name": "Miraculous Shine",
+    "cost": [
+     "P",
+     "C"
+    ],
+    "effect": "Devolve each of your opponent's evolved Pokémon by putting the highest Stage Evolution card on it into your opponent's hand."
+   },
+   {
+    "name": "Super Psy Bolt",
+    "cost": [
+     "P",
+     "C",
+     "C"
+    ],
+    "damage": "90"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/069",
+  "illustrator": "aspara",
+  "fr": {
+   "name": "Mentali",
+   "attacks": [
+    {
+     "name": "Éclat Miracle",
+     "effect": "Faites dés-évoluer chacun des Pokémon évolués de votre adversaire en ajoutant à la main de votre adversaire la carte Évolution la plus élevée placée sur ce Pokémon."
+    },
+    {
+     "name": "Super Psy"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/069"
+  }
+ },
+ {
+  "id": "30th-070",
+  "set": "30th",
+  "localId": "070",
+  "category": "Pokemon",
+  "name": "Espeon ex",
+  "standard": true,
+  "rarity": "Double rare",
+  "regulationMark": "J",
+  "hp": 260,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "suffix": "EX",
+  "attacks": [
+   {
+    "name": "Solar Beatdown",
+    "cost": [
+     "P",
+     "C"
+    ],
+    "damage": "30×",
+    "effect": "This attack does 30 damage for each of your Pokémon in play."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/070",
+  "illustrator": "5ban Graphics",
+  "fr": {
+   "name": "Mentali-ex",
+   "attacks": [
+    {
+     "name": "Dérouillée Solaire",
+     "effect": "Cette attaque inflige 30 dégâts pour chacun de vos Pokémon en jeu."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/070"
+  }
+ },
+ {
+  "id": "30th-071",
+  "set": "30th",
+  "localId": "071",
+  "category": "Pokemon",
+  "name": "Sylveon ex",
+  "standard": true,
+  "rarity": "Double rare",
+  "regulationMark": "J",
+  "hp": 270,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "suffix": "EX",
+  "attacks": [
+   {
+    "name": "Colorful Harmony",
+    "cost": [
+     "P",
+     "C",
+     "C"
+    ],
+    "damage": "50×",
+    "effect": "This attack does 50 damage for each type of Basic Energy attached to all of your Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "M",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/071",
+  "illustrator": "5ban Graphics",
+  "fr": {
+   "name": "Nymphali-ex",
+   "attacks": [
+    {
+     "name": "Harmonie Colorée",
+     "effect": "Cette attaque inflige 50 dégâts pour chaque type d'Énergie de base attachée à tous vos Pokémon."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/071"
+  }
+ },
+ {
+  "id": "30th-072",
+  "set": "30th",
+  "localId": "072",
+  "category": "Pokemon",
+  "name": "Unown",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 80,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Mysterious Signal",
+    "cost": [
+     "P",
+     "P"
+    ],
+    "damage": "40",
+    "effect": "If your opponent's Pokémon is Knocked Out by damage from this attack, take 1 more Prize card."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/072",
+  "illustrator": "mingo",
+  "fr": {
+   "name": "Zarbi",
+   "attacks": [
+    {
+     "name": "Signal Mystérieux",
+     "effect": "Si le Pokémon de votre adversaire est mis K.O. par les dégâts de cette attaque, récupérez une carte Récompense supplémentaire."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/072"
+  }
+ },
+ {
+  "id": "30th-073",
+  "set": "30th",
+  "localId": "073",
+  "category": "Pokemon",
+  "name": "Drifloon",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 70,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Float Up",
+    "cost": [
+     "P"
+    ],
+    "damage": "20",
+    "effect": "You may shuffle this Pokémon and all attached cards into your deck."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/073",
+  "illustrator": "Shinya Komatsu",
+  "fr": {
+   "name": "Baudrive",
+   "attacks": [
+    {
+     "name": "Flottement",
+     "effect": "Vous pouvez mélanger avec votre deck ce Pokémon et toutes les cartes qui lui sont attachées."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/073"
+  }
+ },
+ {
+  "id": "30th-074",
+  "set": "30th",
+  "localId": "074",
+  "category": "Pokemon",
+  "name": "Cresselia",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 120,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Aurora Gain",
+    "cost": [
+     "P",
+     "C"
+    ],
+    "damage": "30",
+    "effect": "Heal 30 damage from this Pokémon."
+   },
+   {
+    "name": "Lunar Blast",
+    "cost": [
+     "P",
+     "C",
+     "C"
+    ],
+    "damage": "100"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/074",
+  "illustrator": "KEIICHIRO ITO",
+  "fr": {
+   "name": "Cresselia",
+   "attacks": [
+    {
+     "name": "Puissance Boréale",
+     "effect": "Soignez 30 dégâts de ce Pokémon."
+    },
+    {
+     "name": "Explosion Lunaire"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/074"
+  }
+ },
+ {
+  "id": "30th-075",
+  "set": "30th",
+  "localId": "075",
+  "category": "Pokemon",
+  "name": "Chandelure",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 140,
+  "types": [
+   "P"
+  ],
+  "stage": "Stage2",
+  "attacks": [
+   {
+    "name": "Eerie Glow",
+    "cost": [
+     "P",
+     "P"
+    ],
+    "damage": "130",
+    "effect": "Your opponent's Active Pokémon is now Burned and Confused."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/075",
+  "illustrator": "Yoshioka",
+  "fr": {
+   "name": "Lugulabre",
+   "attacks": [
+    {
+     "name": "Lueur Sinistre",
+     "effect": "Le Pokémon Actif de votre adversaire est maintenant Brûlé et Confus."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/075"
+  }
+ },
+ {
+  "id": "30th-076",
+  "set": "30th",
+  "localId": "076",
+  "category": "Pokemon",
+  "name": "Xerneas",
+  "standard": true,
+  "rarity": "Rare",
+  "regulationMark": "J",
+  "hp": 120,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Geonavigation",
+    "cost": [
+     "C"
+    ],
+    "effect": "Search your deck for up to 2 Stadium cards, reveal them, and put them into your hand. Then, shuffle your deck."
+   },
+   {
+    "name": "Aurora Horns",
+    "cost": [
+     "P",
+     "P",
+     "C"
+    ],
+    "damage": "100"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "M",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/076",
+  "illustrator": "kodama",
+  "fr": {
+   "name": "Xerneas",
+   "attacks": [
+    {
+     "name": "Géonavigation",
+     "effect": "Cherchez dans votre deck jusqu'à 2 cartes Stade, montrez-les, puis ajoutez-les à votre main. Mélangez ensuite votre deck."
+    },
+    {
+     "name": "Cornes Boréales"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/076"
+  }
+ },
+ {
+  "id": "30th-077",
+  "set": "30th",
+  "localId": "077",
+  "category": "Pokemon",
+  "name": "Comfey",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 70,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Comforting Aroma",
+    "cost": [
+     "C"
+    ],
+    "effect": "Heal 80 damage from 1 of your Benched Pokémon."
+   },
+   {
+    "name": "Magical Shot",
+    "cost": [
+     "P"
+    ],
+    "damage": "30"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "M",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/077",
+  "illustrator": "sui",
+  "fr": {
+   "name": "Guérilande",
+   "attacks": [
+    {
+     "name": "Arôme Réconfortant",
+     "effect": "Soignez 80 dégâts de l'un de vos Pokémon de Banc."
+    },
+    {
+     "name": "Coup Magique"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/077"
+  }
+ },
+ {
+  "id": "30th-078",
+  "set": "30th",
+  "localId": "078",
+  "category": "Pokemon",
+  "name": "Cosmog",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 60,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Splash",
+    "cost": [
+     "C"
+    ],
+    "damage": "10"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/078",
+  "illustrator": "Mina Nakai",
+  "fr": {
+   "name": "Cosmog",
+   "attacks": [
+    {
+     "name": "Trempette"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/078"
+  }
+ },
+ {
+  "id": "30th-079",
+  "set": "30th",
+  "localId": "079",
+  "category": "Pokemon",
+  "name": "Cosmoem",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 100,
+  "types": [
+   "P"
+  ],
+  "stage": "Stage1",
+  "attacks": [
+   {
+    "name": "Stiffen",
+    "cost": [
+     "C",
+     "C"
+    ],
+    "effect": "During your opponent's next turn, this Pokémon takes 60 less damage from attacks <em>(after applying Weakness and Resistance)</em>."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 3,
+  "image": "https://assets.tcgdex.net/en/me/30th/079",
+  "illustrator": "Masako Tomii",
+  "fr": {
+   "name": "Cosmovum",
+   "attacks": [
+    {
+     "name": "Raidissement",
+     "effect": "Pendant le prochain tour de votre adversaire, ce Pokémon subit 60 dégâts de moins provenant des attaques <em>(après application de la Faiblesse et de la Résistance)</em>."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/079"
+  }
+ },
+ {
+  "id": "30th-080",
+  "set": "30th",
+  "localId": "080",
+  "category": "Pokemon",
+  "name": "Lunala",
+  "standard": true,
+  "rarity": "Rare",
+  "regulationMark": "J",
+  "hp": 160,
+  "types": [
+   "P"
+  ],
+  "stage": "Stage2",
+  "attacks": [
+   {
+    "name": "Midnight Ray",
+    "cost": [
+     "P"
+    ],
+    "damage": "20+",
+    "effect": "This attack does 20 more damage for each Energy card in your discard pile."
+   },
+   {
+    "name": "Lunar Blast",
+    "cost": [
+     "P",
+     "C",
+     "C"
+    ],
+    "damage": "120"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/080",
+  "illustrator": "Bun Toujo",
+  "fr": {
+   "name": "Lunala",
+   "attacks": [
+    {
+     "name": "Rayon de Minuit",
+     "effect": "Cette attaque inflige 20 dégâts supplémentaires pour chaque carte Énergie dans votre pile de défausse."
+    },
+    {
+     "name": "Explosion Lunaire"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/080"
+  }
+ },
+ {
+  "id": "30th-081",
+  "set": "30th",
+  "localId": "081",
+  "category": "Pokemon",
+  "name": "Gimmighoul",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 60,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Strolls So Much",
+    "cost": [
+     "C"
+    ],
+    "effect": "Flip a coin. If heads, search your deck for a card and put it into your hand. Then, shuffle your deck."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/081",
+  "illustrator": "Fujimoto Gold",
+  "fr": {
+   "name": "Mordudor",
+   "attacks": [
+    {
+     "name": "Promenades à Gogo",
+     "effect": "Lancez une pièce. Si c'est face, cherchez dans votre deck une carte, puis ajoutez-la à votre main. Mélangez ensuite votre deck."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/081"
+  }
+ },
+ {
+  "id": "30th-082",
+  "set": "30th",
+  "localId": "082",
+  "category": "Pokemon",
+  "name": "Groudon",
+  "standard": true,
+  "rarity": "Rare",
+  "regulationMark": "J",
+  "hp": 140,
+  "types": [
+   "F"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Break Ground",
+    "cost": [
+     "F",
+     "F",
+     "F",
+     "F",
+     "F"
+    ],
+    "damage": "250",
+    "effect": "This attack also does 20 damage to each of your Benched Pokémon. <em>(Don't apply Weakness and Resistance for Benched Pokémon.)</em>"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "G",
+    "value": "×2"
+   }
+  ],
+  "retreat": 4,
+  "image": "https://assets.tcgdex.net/en/me/30th/082",
+  "illustrator": "Takumi Wada",
+  "fr": {
+   "name": "Groudon",
+   "attacks": [
+    {
+     "name": "Destructerre",
+     "effect": "Cette attaque inflige aussi 20 dégâts à chacun de vos Pokémon de Banc. <em>(N'appliquez ni la Faiblesse ni la Résistance aux Pokémon de Banc.)</em>"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/082"
+  }
+ },
+ {
+  "id": "30th-083",
+  "set": "30th",
+  "localId": "083",
+  "category": "Pokemon",
+  "name": "Lucario",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 120,
+  "types": [
+   "F"
+  ],
+  "stage": "Stage1",
+  "attacks": [
+   {
+    "name": "Aura Sphere",
+    "cost": [
+     "F",
+     "F",
+     "C"
+    ],
+    "damage": "100",
+    "effect": "This attack also does 60 damage to 1 of your opponent's Benched Pokémon. <em>(Don't apply Weakness and Resistance for Benched Pokémon.)</em>"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "P",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/083",
+  "illustrator": "Hideki Ishikawa",
+  "fr": {
+   "name": "Lucario",
+   "attacks": [
+    {
+     "name": "Aurasphère",
+     "effect": "Cette attaque inflige aussi 60 dégâts à l'un des Pokémon de Banc de votre adversaire. <em>(N'appliquez ni la Faiblesse ni la Résistance aux Pokémon de Banc.)</em>"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/083"
+  }
+ },
+ {
+  "id": "30th-084",
+  "set": "30th",
+  "localId": "084",
+  "category": "Pokemon",
+  "name": "Seismitoad",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 160,
+  "types": [
+   "F"
+  ],
+  "stage": "Stage2",
+  "attacks": [
+   {
+    "name": "Quaking Fist",
+    "cost": [
+     "F"
+    ],
+    "damage": "60",
+    "effect": "During your opponent's next turn, whenever they try to use a Trainer card from their hand, they flip a coin. If tails, your opponent discards that Trainer card instead of using it."
+   },
+   {
+    "name": "Mega Punch",
+    "cost": [
+     "F",
+     "C",
+     "C",
+     "C"
+    ],
+    "damage": "180"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "G",
+    "value": "×2"
+   }
+  ],
+  "retreat": 3,
+  "image": "https://assets.tcgdex.net/en/me/30th/084",
+  "illustrator": "Kurata So",
+  "fr": {
+   "name": "Crapustule",
+   "attacks": [
+    {
+     "name": "Poing Secousse",
+     "effect": "Pendant son prochain tour, chaque fois que votre adversaire essaie d'utiliser une carte Dresseur de sa main, cette personne lance une pièce. Si c'est pile, votre adversaire défausse cette carte Dresseur au lieu de l'utiliser."
+    },
+    {
+     "name": "Ultimapoing"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/084"
+  }
+ },
+ {
+  "id": "30th-085",
+  "set": "30th",
+  "localId": "085",
+  "category": "Pokemon",
+  "name": "Lycanroc",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 130,
+  "types": [
+   "F"
+  ],
+  "stage": "Stage1",
+  "attacks": [
+   {
+    "name": "Counter",
+    "cost": [
+     "F"
+    ],
+    "damage": "10+",
+    "effect": "If this Pokémon was damaged by an attack during your opponent's last turn, this attack does that much more damage."
+   },
+   {
+    "name": "Boulder Crush",
+    "cost": [
+     "F",
+     "F"
+    ],
+    "damage": "80"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "G",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/085",
+  "illustrator": "matazo",
+  "fr": {
+   "name": "Lougaroc",
+   "attacks": [
+    {
+     "name": "Riposte",
+     "effect": "Si ce Pokémon a subi les dégâts d'une attaque pendant le dernier tour de votre adversaire, cette attaque inflige en plus ce montant-là de dégâts."
+    },
+    {
+     "name": "Rocher Écrasant"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/085"
+  }
+ },
+ {
+  "id": "30th-086",
+  "set": "30th",
+  "localId": "086",
+  "category": "Pokemon",
+  "name": "Koraidon",
+  "standard": true,
+  "rarity": "Rare",
+  "regulationMark": "J",
+  "hp": 130,
+  "types": [
+   "F"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Low Kick",
+    "cost": [
+     "F",
+     "F"
+    ],
+    "damage": "50"
+   },
+   {
+    "name": "Collision Course",
+    "cost": [
+     "F",
+     "F",
+     "C"
+    ],
+    "damage": "140",
+    "effect": "Discard 2 <span class=\"energy-symbol Fighting\" title=\"Fighting\">Fighting</span> Energy from this Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "P",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/086",
+  "illustrator": "Mitsuhiro Arita",
+  "fr": {
+   "name": "Koraidon",
+   "attacks": [
+    {
+     "name": "Balayage"
+    },
+    {
+     "name": "Nitro Crash",
+     "effect": "Défaussez 2 Énergies <span class=\"energy-symbol Fighting\" title=\"Combat\">Fighting</span> de ce Pokémon."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/086"
+  }
+ },
+ {
+  "id": "30th-087",
+  "set": "30th",
+  "localId": "087",
+  "category": "Pokemon",
+  "name": "Nidoran♀",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 60,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Growl",
+    "cost": [
+     "C"
+    ],
+    "effect": "During your opponent's next turn, attacks used by the Defending Pokémon do 30 less damage <em>(before applying Weakness and Resistance)</em>."
+   },
+   {
+    "name": "Headbutt",
+    "cost": [
+     "D"
+    ],
+    "damage": "10"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/087",
+  "illustrator": "Taira Akitsu",
+  "fr": {
+   "name": "Nidoran♀",
+   "attacks": [
+    {
+     "name": "Rugissement",
+     "effect": "Pendant le prochain tour de votre adversaire, les attaques utilisées par le Pokémon Défenseur infligent 30 dégâts de moins <em>(avant application de la Faiblesse et de la Résistance)</em>."
+    },
+    {
+     "name": "Coup d'Boule"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/087"
+  }
+ },
+ {
+  "id": "30th-088",
+  "set": "30th",
+  "localId": "088",
+  "category": "Pokemon",
+  "name": "Nidorina",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 90,
+  "types": [
+   "D"
+  ],
+  "stage": "Stage1",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Share Happiness",
+    "effect": "Once during your turn, you may use this Ability. Heal 30 damage from 1 of your Pokémon."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Bite",
+    "cost": [
+     "C",
+     "C"
+    ],
+    "damage": "30"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/088",
+  "illustrator": "Miki Tanaka",
+  "fr": {
+   "name": "Nidorina",
+   "abilities": [
+    {
+     "name": "Partage de Bonheur",
+     "effect": "Une fois pendant votre tour, vous pouvez utiliser ce talent. Soignez 30 dégâts de l'un de vos Pokémon."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Morsure"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/088"
+  }
+ },
+ {
+  "id": "30th-089",
+  "set": "30th",
+  "localId": "089",
+  "category": "Pokemon",
+  "name": "Alolan Meowth",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 60,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Pay Day",
+    "cost": [],
+    "damage": "10",
+    "effect": "Draw a card."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "G",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/089",
+  "illustrator": "Natsumi Yoshida",
+  "fr": {
+   "name": "Miaouss d'Alola",
+   "attacks": [
+    {
+     "name": "Jackpot",
+     "effect": "Piochez une carte."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/089"
+  }
+ },
+ {
+  "id": "30th-090",
+  "set": "30th",
+  "localId": "090",
+  "category": "Pokemon",
+  "name": "Gengar ex",
+  "standard": true,
+  "rarity": "Double rare",
+  "regulationMark": "J",
+  "hp": 280,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "suffix": "EX",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Fainting Spell",
+    "effect": "If this Pokémon is Knocked Out by damage from an attack from your opponent's Pokémon, flip a coin. If heads, the Attacking Pokémon is Knocked Out."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Chaotic Pain",
+    "cost": [
+     "D",
+     "D"
+    ],
+    "effect": "Place 13 damage counters on 1 of your opponent's Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/090",
+  "illustrator": "5ban Graphics",
+  "fr": {
+   "name": "Ectoplasma-ex",
+   "abilities": [
+    {
+     "name": "Sort d'Évanouissement",
+     "effect": "Si ce Pokémon est mis K.O. par les dégâts d'une attaque de l'un des Pokémon de votre adversaire, lancez une pièce. Si c'est face, le Pokémon Attaquant est mis K.O."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Douleur Chaotique",
+     "effect": "Placez 13 marqueurs de dégâts sur l'un des Pokémon de votre adversaire."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/090"
+  }
+ },
+ {
+  "id": "30th-091",
+  "set": "30th",
+  "localId": "091",
+  "category": "Pokemon",
+  "name": "Umbreon",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 110,
+  "types": [
+   "D"
+  ],
+  "stage": "Stage1",
+  "attacks": [
+   {
+    "name": "Retaliate",
+    "cost": [
+     "D"
+    ],
+    "damage": "30+",
+    "effect": "If any of your Pokémon were Knocked Out by damage from an attack during your opponent's last turn, this attack does 100 more damage."
+   },
+   {
+    "name": "Darkness Fang",
+    "cost": [
+     "D",
+     "C",
+     "C"
+    ],
+    "damage": "100"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "G",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/091",
+  "illustrator": "Iori Suzuki",
+  "fr": {
+   "name": "Noctali",
+   "attacks": [
+    {
+     "name": "Vengeance",
+     "effect": "Si au moins l'un de vos Pokémon a été mis K.O. par les dégâts d'une attaque pendant le dernier tour de votre adversaire, cette attaque inflige 100 dégâts supplémentaires."
+    },
+    {
+     "name": "Croc Obscur"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/091"
+  }
+ },
+ {
+  "id": "30th-092",
+  "set": "30th",
+  "localId": "092",
+  "category": "Pokemon",
+  "name": "Umbreon ex",
+  "standard": true,
+  "rarity": "Double rare",
+  "regulationMark": "J",
+  "hp": 270,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "suffix": "EX",
+  "attacks": [
+   {
+    "name": "Lunatic Claw",
+    "cost": [
+     "D",
+     "C"
+    ],
+    "damage": "100+",
+    "effect": "If your opponent's Active Pokémon already has any damage counters on it, this attack does 140 more damage."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "G",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/092",
+  "illustrator": "Keisuke Azuma",
+  "fr": {
+   "name": "Noctali-ex",
+   "attacks": [
+    {
+     "name": "Griffe Lunatique",
+     "effect": "Si le Pokémon Actif de votre adversaire a déjà au moins un marqueur de dégâts, cette attaque inflige 140 dégâts supplémentaires."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/092"
+  }
+ },
+ {
+  "id": "30th-093",
+  "set": "30th",
+  "localId": "093",
+  "category": "Pokemon",
+  "name": "Murkrow",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 80,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Clumsily Clutch",
+    "cost": [
+     "D"
+    ],
+    "damage": "20",
+    "effect": "Flip a coin. If heads, during your opponent's next turn, the Defending Pokémon can't retreat."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "L",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/093",
+  "illustrator": "Kouki Saitou",
+  "fr": {
+   "name": "Cornèbre",
+   "attacks": [
+    {
+     "name": "Prise Pataude",
+     "effect": "Lancez une pièce. Si c'est face, pendant le prochain tour de votre adversaire, le Pokémon Défenseur ne peut pas battre en retraite."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/093"
+  }
+ },
+ {
+  "id": "30th-094",
+  "set": "30th",
+  "localId": "094",
+  "category": "Pokemon",
+  "name": "Scraggy",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 80,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Nitpick",
+    "cost": [
+     "D"
+    ],
+    "effect": "Your opponent shuffles their hand into their deck and draws 4 cards."
+   },
+   {
+    "name": "Corkscrew Punch",
+    "cost": [
+     "D",
+     "C"
+    ],
+    "damage": "30"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "G",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/094",
+  "illustrator": "Souichirou Gunjima",
+  "fr": {
+   "name": "Baggiguane",
+   "attacks": [
+    {
+     "name": "Pinaillage",
+     "effect": "Votre adversaire mélange sa main avec son deck et pioche 4 cartes."
+    },
+    {
+     "name": "Poing Tire-Bouchon"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/094"
+  }
+ },
+ {
+  "id": "30th-095",
+  "set": "30th",
+  "localId": "095",
+  "category": "Pokemon",
+  "name": "Zorua",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 70,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Darkness Fang",
+    "cost": [
+     "D",
+     "D"
+    ],
+    "damage": "40"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "G",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/095",
+  "illustrator": "Atsuya Uki",
+  "fr": {
+   "name": "Zorua",
+   "attacks": [
+    {
+     "name": "Croc Obscur"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/095"
+  }
+ },
+ {
+  "id": "30th-096",
+  "set": "30th",
+  "localId": "096",
+  "category": "Pokemon",
+  "name": "Zoroark",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 120,
+  "types": [
+   "D"
+  ],
+  "stage": "Stage1",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Nighttime Byway",
+    "effect": "As long as this Pokémon is on your Bench, your Active Pokémon's Retreat Cost is ColorlessColorless less."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Slashing Claw",
+    "cost": [
+     "D",
+     "D",
+     "C"
+    ],
+    "damage": "90"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "G",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/096",
+  "illustrator": "Shiburingaru",
+  "fr": {
+   "name": "Zoroark",
+   "abilities": [
+    {
+     "name": "Chemin de Traverse Nocturne",
+     "effect": "Tant que ce Pokémon est sur votre Banc, le Coût de Retraite de votre Pokémon Actif est diminué de ColorlessColorless."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Griffe Taillante"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/096"
+  }
+ },
+ {
+  "id": "30th-097",
+  "set": "30th",
+  "localId": "097",
+  "category": "Pokemon",
+  "name": "Deino",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 70,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Gnaw",
+    "cost": [
+     "D"
+    ],
+    "damage": "10"
+   },
+   {
+    "name": "Headbutt",
+    "cost": [
+     "D",
+     "C"
+    ],
+    "damage": "20"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "G",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/097",
+  "illustrator": "Gapao",
+  "fr": {
+   "name": "Solochi",
+   "attacks": [
+    {
+     "name": "Ronge"
+    },
+    {
+     "name": "Coup d'Boule"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/097"
+  }
+ },
+ {
+  "id": "30th-098",
+  "set": "30th",
+  "localId": "098",
+  "category": "Pokemon",
+  "name": "Zweilous",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 100,
+  "types": [
+   "D"
+  ],
+  "stage": "Stage1",
+  "attacks": [
+   {
+    "name": "Bite",
+    "cost": [
+     "D"
+    ],
+    "damage": "20"
+   },
+   {
+    "name": "Hammer In",
+    "cost": [
+     "D",
+     "C"
+    ],
+    "damage": "50"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "G",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/098",
+  "illustrator": "IKEDA Saki",
+  "fr": {
+   "name": "Diamat",
+   "attacks": [
+    {
+     "name": "Morsure"
+    },
+    {
+     "name": "Enfoncement"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/098"
+  }
+ },
+ {
+  "id": "30th-099",
+  "set": "30th",
+  "localId": "099",
+  "category": "Pokemon",
+  "name": "Hydreigon",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 170,
+  "types": [
+   "D"
+  ],
+  "stage": "Stage2",
+  "attacks": [
+   {
+    "name": "Three-Headed Bite",
+    "cost": [
+     "D"
+    ],
+    "effect": "Flip 3 coins. For each heads, discard an Energy from your opponent's Active Pokémon."
+   },
+   {
+    "name": "Pitch-Black Fangs",
+    "cost": [
+     "D",
+     "C"
+    ],
+    "damage": "140"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "G",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/099",
+  "illustrator": "Ryuta Fuse",
+  "fr": {
+   "name": "Trioxhydre",
+   "attacks": [
+    {
+     "name": "Morsure à Trois Têtes",
+     "effect": "Lancez 3 pièces. Pour chaque côté face, défaussez une Énergie du Pokémon Actif de votre adversaire."
+    },
+    {
+     "name": "Crocs Nuit Noire"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/099"
+  }
+ },
+ {
+  "id": "30th-100",
+  "set": "30th",
+  "localId": "100",
+  "category": "Pokemon",
+  "name": "Yveltal",
+  "standard": true,
+  "rarity": "Rare",
+  "regulationMark": "J",
+  "hp": 120,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Life-Locked",
+    "effect": "Your opponent's Active Pokémon can't be healed."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Dark Cutter",
+    "cost": [
+     "D",
+     "C",
+     "C"
+    ],
+    "damage": "90"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "L",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/100",
+  "illustrator": "hncl",
+  "fr": {
+   "name": "Yveltal",
+   "abilities": [
+    {
+     "name": "Vitalité Entravée",
+     "effect": "Le Pokémon Actif de votre adversaire ne peut pas être soigné."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Tranch'Obscur"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/100"
+  }
+ },
+ {
+  "id": "30th-101",
+  "set": "30th",
+  "localId": "101",
+  "category": "Pokemon",
+  "name": "Galarian Meowth",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 70,
+  "types": [
+   "M"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Pay Day",
+    "cost": [
+     "C"
+    ],
+    "damage": "10",
+    "effect": "Draw a card."
+   },
+   {
+    "name": "Treasure Rush",
+    "cost": [
+     "M"
+    ],
+    "damage": "10×",
+    "effect": "This attack does 10 damage for each card in your hand."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "G",
+    "value": "-30"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/101",
+  "illustrator": "Mékayu",
+  "fr": {
+   "name": "Miaouss de Galar",
+   "attacks": [
+    {
+     "name": "Jackpot",
+     "effect": "Piochez une carte."
+    },
+    {
+     "name": "Ruée au Trésor",
+     "effect": "Cette attaque inflige 10 dégâts pour chaque carte dans votre main."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/101"
+  }
+ },
+ {
+  "id": "30th-102",
+  "set": "30th",
+  "localId": "102",
+  "category": "Pokemon",
+  "name": "Jirachi ex",
+  "standard": true,
+  "rarity": "Double rare",
+  "regulationMark": "J",
+  "hp": 160,
+  "types": [
+   "M"
+  ],
+  "stage": "Basic",
+  "suffix": "EX",
+  "attacks": [
+   {
+    "name": "Wish Granter",
+    "cost": [
+     "C"
+    ],
+    "effect": "Draw cards until you have 7 cards in your hand."
+   },
+   {
+    "name": "Swift",
+    "cost": [
+     "C",
+     "C",
+     "C"
+    ],
+    "damage": "150",
+    "effect": "This attack's damage isn't affected by Weakness or Resistance, or by any effects on your opponent's Active Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "G",
+    "value": "-30"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/102",
+  "illustrator": "5ban Graphics",
+  "fr": {
+   "name": "Jirachi-ex",
+   "attacks": [
+    {
+     "name": "Exauceur de Vœux",
+     "effect": "Piochez des cartes jusqu'à en avoir 7 en main."
+    },
+    {
+     "name": "Météores",
+     "effect": "Les dégâts de cette attaque ne sont pas affectés par la Faiblesse, la Résistance ou tout effet en action sur le Pokémon Actif de votre adversaire."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/102"
+  }
+ },
+ {
+  "id": "30th-103",
+  "set": "30th",
+  "localId": "103",
+  "category": "Pokemon",
+  "name": "Dialga",
+  "standard": true,
+  "rarity": "Rare",
+  "regulationMark": "J",
+  "hp": 130,
+  "types": [
+   "M"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Reversed Clock",
+    "cost": [
+     "C"
+    ],
+    "effect": "Shuffle up to 3 in any combination of Pokémon and Basic Energy cards from your discard pile into your deck."
+   },
+   {
+    "name": "Heavy Impact",
+    "cost": [
+     "M",
+     "M",
+     "C"
+    ],
+    "damage": "110"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "G",
+    "value": "-30"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/103",
+  "illustrator": "toriyufu",
+  "fr": {
+   "name": "Dialga",
+   "attacks": [
+    {
+     "name": "Horloge Inversée",
+     "effect": "Mélangez avec votre deck une combinaison d'un maximum de 3 Pokémon et/ou cartes Énergie de base de votre pile de défausse."
+    },
+    {
+     "name": "Gros Impact"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/103"
+  }
+ },
+ {
+  "id": "30th-104",
+  "set": "30th",
+  "localId": "104",
+  "category": "Pokemon",
+  "name": "Ferrothorn",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 130,
+  "types": [
+   "M"
+  ],
+  "stage": "Stage1",
+  "attacks": [
+   {
+    "name": "Spike Sting",
+    "cost": [
+     "C",
+     "C"
+    ],
+    "damage": "50"
+   },
+   {
+    "name": "Kaboom Needles",
+    "cost": [
+     "M",
+     "M"
+    ],
+    "effect": "This attack does 50 damage to each of your opponent's Pokémon. <em>(Don't apply Weakness and Resistance for Benched Pokémon.) </em>This Pokémon also does 130 damage to itself."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "G",
+    "value": "-30"
+   }
+  ],
+  "retreat": 3,
+  "image": "https://assets.tcgdex.net/en/me/30th/104",
+  "illustrator": "Po-Suzuki",
+  "fr": {
+   "name": "Noacier",
+   "attacks": [
+    {
+     "name": "Pic Piquant"
+    },
+    {
+     "name": "Épines Boum",
+     "effect": "Cette attaque inflige 50 dégâts à chacun des Pokémon de votre adversaire. <em>(N'appliquez ni la Faiblesse ni la Résistance aux Pokémon de Banc.)</em> Ce Pokémon s'inflige aussi 130 dégâts."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/104"
+  }
+ },
+ {
+  "id": "30th-105",
+  "set": "30th",
+  "localId": "105",
+  "category": "Pokemon",
+  "name": "Solgaleo",
+  "standard": true,
+  "rarity": "Rare",
+  "regulationMark": "J",
+  "hp": 170,
+  "types": [
+   "M"
+  ],
+  "stage": "Stage2",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Sunrise",
+    "effect": "Once during your turn, if this Pokémon is on your Bench, you may use this Ability. Search your deck for up to 2 Basic Metal Energy cards and attach them to this Pokémon. Then, shuffle your deck."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Sunsteel Strike",
+    "cost": [
+     "M",
+     "M",
+     "C",
+     "C"
+    ],
+    "damage": "220",
+    "effect": "Discard all Energy from this Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "G",
+    "value": "-30"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/105",
+  "illustrator": "Nurikabe",
+  "fr": {
+   "name": "Solgaleo",
+   "abilities": [
+    {
+     "name": "Lever du Jour",
+     "effect": "Une fois pendant votre tour, si ce Pokémon est sur votre Banc, vous pouvez utiliser ce talent. Cherchez dans votre deck jusqu'à 2 cartes Énergie Metal de base, puis attachez-les à ce Pokémon. Mélangez ensuite votre deck."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Choc Météore",
+     "effect": "Défaussez toutes les Énergies de ce Pokémon."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/105"
+  }
+ },
+ {
+  "id": "30th-106",
+  "set": "30th",
+  "localId": "106",
+  "category": "Pokemon",
+  "name": "Zacian",
+  "standard": true,
+  "rarity": "Rare",
+  "regulationMark": "J",
+  "hp": 130,
+  "types": [
+   "M"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Hardened Blade",
+    "cost": [
+     "M"
+    ],
+    "damage": "20+",
+    "effect": "If this Pokémon has a Pokémon Tool attached, this attack does 40 more damage."
+   },
+   {
+    "name": "Slashing Strike",
+    "cost": [
+     "M",
+     "M",
+     "C"
+    ],
+    "damage": "120",
+    "effect": "During your next turn, this Pokémon can't use Slashing Strike."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "G",
+    "value": "-30"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/106",
+  "illustrator": "AKIRA EGAWA",
+  "fr": {
+   "name": "Zacian",
+   "attacks": [
+    {
+     "name": "Lame Durcie",
+     "effect": "Si un Outil Pokémon est attaché à ce Pokémon, cette attaque inflige 40 dégâts supplémentaires."
+    },
+    {
+     "name": "Coup Déchirant",
+     "effect": "Pendant votre prochain tour, ce Pokémon ne peut pas utiliser Coup Déchirant."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/106"
+  }
+ },
+ {
+  "id": "30th-107",
+  "set": "30th",
+  "localId": "107",
+  "category": "Pokemon",
+  "name": "Zamazenta",
+  "standard": true,
+  "rarity": "Rare",
+  "regulationMark": "J",
+  "hp": 130,
+  "types": [
+   "M"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Fend Off",
+    "cost": [
+     "M"
+    ],
+    "damage": "20",
+    "effect": "Before doing damage, discard all Pokémon Tools from your opponent's Active Pokémon."
+   },
+   {
+    "name": "Shield Press",
+    "cost": [
+     "M",
+     "M",
+     "C"
+    ],
+    "damage": "100",
+    "effect": "During your opponent's next turn, this Pokémon takes 50 less damage from attacks <em>(after applying Weakness and Resistance)</em>."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "G",
+    "value": "-30"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/107",
+  "illustrator": "Tsuyoshi Nagano",
+  "fr": {
+   "name": "Zamazenta",
+   "attacks": [
+    {
+     "name": "Dérobade",
+     "effect": "Avant d'infliger des dégâts, défaussez tous les Outils Pokémon du Pokémon Actif de votre adversaire."
+    },
+    {
+     "name": "Pression Bouclier",
+     "effect": "Pendant le prochain tour de votre adversaire, ce Pokémon subit 50 dégâts de moins provenant des attaques <em>(après application de la Faiblesse et de la Résistance)</em>."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/107"
+  }
+ },
+ {
+  "id": "30th-108",
+  "set": "30th",
+  "localId": "108",
+  "category": "Pokemon",
+  "name": "Gholdengo",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 130,
+  "types": [
+   "M"
+  ],
+  "stage": "Stage1",
+  "attacks": [
+   {
+    "name": "Celebration",
+    "cost": [
+     "M"
+    ],
+    "effect": "If you have exactly 30 cards in your hand, take 2 Prize cards. If you do, shuffle your hand into your deck."
+   },
+   {
+    "name": "Triple Smash",
+    "cost": [
+     "M"
+    ],
+    "damage": "50×",
+    "effect": "Flip 3 coins. This attack does 50 damage for each heads."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "G",
+    "value": "-30"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/108",
+  "illustrator": "Sanosuke Sakuma",
+  "fr": {
+   "name": "Gromago",
+   "attacks": [
+    {
+     "name": "Fête Célébratoire",
+     "effect": "Si vous avez exactement 30 cartes dans votre main, récupérez 2 cartes Récompense. Dans ce cas, mélangez votre main avec votre deck."
+    },
+    {
+     "name": "Triple Éclate",
+     "effect": "Lancez 3 pièces. Cette attaque inflige 50 dégâts pour chaque côté face."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/108"
+  }
+ },
+ {
+  "id": "30th-109",
+  "set": "30th",
+  "localId": "109",
+  "category": "Pokemon",
+  "name": "Salamence ex",
+  "standard": true,
+  "rarity": "Double rare",
+  "regulationMark": "J",
+  "hp": 330,
+  "types": [
+   "N"
+  ],
+  "stage": "Basic",
+  "suffix": "EX",
+  "attacks": [
+   {
+    "name": "Booming Call",
+    "cost": [
+     "C"
+    ],
+    "effect": "Put up to 3 <span class=\"energy-symbol Dragon\" title=\"Dragon\">Dragon</span> Pokémon from your discard pile onto your Bench."
+   },
+   {
+    "name": "Dragon Pulse",
+    "cost": [
+     "R",
+     "W"
+    ],
+    "damage": "240",
+    "effect": "Discard the top 2 cards of your deck."
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/109",
+  "illustrator": "5ban Graphics",
+  "fr": {
+   "name": "Drattak-ex",
+   "attacks": [
+    {
+     "name": "Appel Tonitruant",
+     "effect": "Placez jusqu'à 3 Pokémon <span class=\"energy-symbol Dragon\" title=\"Dragon\">Dragon</span> de votre pile de défausse sur votre Banc."
+    },
+    {
+     "name": "Draco-Choc",
+     "effect": "Défaussez les 2 cartes du dessus de votre deck."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/109"
+  }
+ },
+ {
+  "id": "30th-110",
+  "set": "30th",
+  "localId": "110",
+  "category": "Pokemon",
+  "name": "Jangmo-o",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 70,
+  "types": [
+   "N"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Screech",
+    "cost": [
+     "C"
+    ],
+    "effect": "During your next turn, the Defending Pokémon takes 30 more damage from attacks <em>(after applying Weakness and Resistance)</em>."
+   },
+   {
+    "name": "Dragon Claw",
+    "cost": [
+     "L",
+     "F"
+    ],
+    "damage": "40"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/110",
+  "illustrator": "miki kudo",
+  "fr": {
+   "name": "Bébécaille",
+   "attacks": [
+    {
+     "name": "Grincement",
+     "effect": "Pendant votre prochain tour, le Pokémon Défenseur subit 30 dégâts supplémentaires provenant des attaques <em>(après application de la Faiblesse et de la Résistance)</em>."
+    },
+    {
+     "name": "Draco-Griffe"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/110"
+  }
+ },
+ {
+  "id": "30th-111",
+  "set": "30th",
+  "localId": "111",
+  "category": "Pokemon",
+  "name": "Hakamo-o",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 90,
+  "types": [
+   "N"
+  ],
+  "stage": "Stage1",
+  "attacks": [
+   {
+    "name": "Sharp Fang",
+    "cost": [
+     "C"
+    ],
+    "damage": "20"
+   },
+   {
+    "name": "Dragon Claw",
+    "cost": [
+     "L",
+     "F"
+    ],
+    "damage": "70"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/111",
+  "illustrator": "Jiro Sasumo",
+  "fr": {
+   "name": "Écaïd",
+   "attacks": [
+    {
+     "name": "Croc Aiguisé"
+    },
+    {
+     "name": "Draco-Griffe"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/111"
+  }
+ },
+ {
+  "id": "30th-112",
+  "set": "30th",
+  "localId": "112",
+  "category": "Pokemon",
+  "name": "Kommo-o",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 180,
+  "types": [
+   "N"
+  ],
+  "stage": "Stage2",
+  "attacks": [
+   {
+    "name": "Blazing Uppercut",
+    "cost": [
+     "L",
+     "F",
+     "C"
+    ],
+    "damage": "250"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/112",
+  "illustrator": "MARINA Chikazawa",
+  "fr": {
+   "name": "Ékaïser",
+   "attacks": [
+    {
+     "name": "Uppercut Flamboyant"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/112"
+  }
+ },
+ {
+  "id": "30th-113",
+  "set": "30th",
+  "localId": "113",
+  "category": "Pokemon",
+  "name": "Meowth",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 60,
+  "types": [
+   "C"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Pay Day",
+    "cost": [
+     "C",
+     "C"
+    ],
+    "damage": "30",
+    "effect": "Draw a card."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/113",
+  "illustrator": "MINAMINAMI Take",
+  "fr": {
+   "name": "Miaouss",
+   "attacks": [
+    {
+     "name": "Jackpot",
+     "effect": "Piochez une carte."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/113"
+  }
+ },
+ {
+  "id": "30th-114",
+  "set": "30th",
+  "localId": "114",
+  "category": "Pokemon",
+  "name": "Kangaskhan",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 130,
+  "types": [
+   "C"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Rage",
+    "cost": [
+     "C",
+     "C"
+    ],
+    "damage": "20+",
+    "effect": "This attack does 10 more damage for each damage counter on this Pokémon."
+   },
+   {
+    "name": "Mega Punch",
+    "cost": [
+     "C",
+     "C",
+     "C"
+    ],
+    "damage": "100"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/114",
+  "illustrator": "Pani Kobayashi",
+  "fr": {
+   "name": "Kangourex",
+   "attacks": [
+    {
+     "name": "Frénésie",
+     "effect": "Cette attaque inflige 10 dégâts supplémentaires pour chaque marqueur de dégâts sur ce Pokémon."
+    },
+    {
+     "name": "Ultimapoing"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/114"
+  }
+ },
+ {
+  "id": "30th-115",
+  "set": "30th",
+  "localId": "115",
+  "category": "Pokemon",
+  "name": "Ditto",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 70,
+  "types": [
+   "C"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Surprisingly Transform",
+    "cost": [
+     "C",
+     "C"
+    ],
+    "effect": "Flip a coin. If heads, search your deck for a Pokémon and switch it with this Pokémon. Any attached cards, damage counters, Special Conditions, turns in play, and any other effects remain on the new Pokémon. If you switched a Pokémon in this way, put this card into your deck. Then, shuffle your deck."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/115",
+  "illustrator": "Toshinao Aoki",
+  "fr": {
+   "name": "Métamorph",
+   "attacks": [
+    {
+     "name": "Morphing Surprise",
+     "effect": "Lancez une pièce. Si c'est face, cherchez dans votre deck un Pokémon et échangez-le contre ce Pokémon. Les cartes attachées, les marqueurs de dégâts, les États Spéciaux, le nombre de tours en jeu et tous les effets restent sur le nouveau Pokémon. Si vous avez échangé un Pokémon de cette façon, placez cette carte dans votre deck. Mélangez ensuite votre deck."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/115"
+  }
+ },
+ {
+  "id": "30th-116",
+  "set": "30th",
+  "localId": "116",
+  "category": "Pokemon",
+  "name": "Eevee",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 70,
+  "types": [
+   "C"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Fetch and Hide",
+    "cost": [
+     "C"
+    ],
+    "effect": "Your opponent reveals their hand, and you put an Item card you find there on the bottom of your opponent's deck."
+   },
+   {
+    "name": "Tackle",
+    "cost": [
+     "C"
+    ],
+    "damage": "10"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/116",
+  "illustrator": "Wintr Wandr",
+  "fr": {
+   "name": "Évoli",
+   "attacks": [
+    {
+     "name": "Cherche et Cache",
+     "effect": "Votre adversaire montre sa main, puis vous placez une carte Objet que vous y trouvez en dessous du deck de votre adversaire."
+    },
+    {
+     "name": "Charge"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/116"
+  }
+ },
+ {
+  "id": "30th-117",
+  "set": "30th",
+  "localId": "117",
+  "category": "Pokemon",
+  "name": "Eevee",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 70,
+  "types": [
+   "C"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Quick Attack",
+    "cost": [
+     "C",
+     "C"
+    ],
+    "damage": "20+",
+    "effect": "Flip a coin. If heads, this attack does 20 more damage."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/117",
+  "illustrator": "En Morikura",
+  "fr": {
+   "name": "Évoli",
+   "attacks": [
+    {
+     "name": "Vive-Attaque",
+     "effect": "Lancez une pièce. Si c'est face, cette attaque inflige 20 dégâts supplémentaires."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/117"
+  }
+ },
+ {
+  "id": "30th-118",
+  "set": "30th",
+  "localId": "118",
+  "category": "Pokemon",
+  "name": "Eevee",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 70,
+  "types": [
+   "C"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Quick Attack",
+    "cost": [
+     "C",
+     "C"
+    ],
+    "damage": "20+",
+    "effect": "Flip a coin. If heads, this attack does 20 more damage."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/118",
+  "illustrator": "Hitoshi Ariga",
+  "fr": {
+   "name": "Évoli",
+   "attacks": [
+    {
+     "name": "Vive-Attaque",
+     "effect": "Lancez une pièce. Si c'est face, cette attaque inflige 20 dégâts supplémentaires."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/118"
+  }
+ },
+ {
+  "id": "30th-119",
+  "set": "30th",
+  "localId": "119",
+  "category": "Pokemon",
+  "name": "Snorlax",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 160,
+  "types": [
+   "C"
+  ],
+  "stage": "Basic",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Good Sleep",
+    "effect": "If this Pokémon remains Asleep during Pokémon Checkup, heal all damage from this Pokémon."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Collapse",
+    "cost": [
+     "C",
+     "C",
+     "C"
+    ],
+    "damage": "130",
+    "effect": "This Pokémon is now Asleep."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 4,
+  "image": "https://assets.tcgdex.net/en/me/30th/119",
+  "illustrator": "Aya Kusube",
+  "fr": {
+   "name": "Ronflex",
+   "abilities": [
+    {
+     "name": "Doux Dodo",
+     "effect": "Si ce Pokémon reste Endormi pendant le Contrôle Pokémon, soignez tous les dégâts de ce Pokémon."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Effondrement",
+     "effect": "Ce Pokémon est maintenant Endormi."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/119"
+  }
+ },
+ {
+  "id": "30th-120",
+  "set": "30th",
+  "localId": "120",
+  "category": "Pokemon",
+  "name": "Igglybuff",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 30,
+  "types": [
+   "C"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Bouncy Circle",
+    "cost": [],
+    "damage": "30×",
+    "effect": "This attack does 30 damage for each of your Benched Pokémon that has a maximum HP of 30."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 0,
+  "image": "https://assets.tcgdex.net/en/me/30th/120",
+  "illustrator": "Kanami Ogata",
+  "fr": {
+   "name": "Toudoudou",
+   "attacks": [
+    {
+     "name": "Cercle Rebondissant",
+     "effect": "Cette attaque inflige 30 dégâts pour chacun de vos Pokémon de Banc dont les PV maximums sont de 30."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/120"
+  }
+ },
+ {
+  "id": "30th-121",
+  "set": "30th",
+  "localId": "121",
+  "category": "Pokemon",
+  "name": "Lugia",
+  "standard": true,
+  "rarity": "Rare",
+  "regulationMark": "J",
+  "hp": 120,
+  "types": [
+   "C"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Elemental Blast",
+    "cost": [
+     "R",
+     "W",
+     "L"
+    ],
+    "damage": "250",
+    "effect": "Discard a <span class=\"energy-symbol Fire\" title=\"Fire\">Fire</span> Energy, a <span class=\"energy-symbol Water\" title=\"Water\">Water</span> Energy, and a <span class=\"energy-symbol Lightning\" title=\"Lightning\">Lightning</span> Energy from this Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "L",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/121",
+  "illustrator": "Kazuki Minami",
+  "fr": {
+   "name": "Lugia",
+   "attacks": [
+    {
+     "name": "Explosion Élémentaire",
+     "effect": "Défaussez une Énergie <span class=\"energy-symbol Fire\" title=\"Feu\">Fire</span>, une Énergie <span class=\"energy-symbol Water\" title=\"Eau\">Water</span> et une Énergie <span class=\"energy-symbol Lightning\" title=\"Électrique\">Lightning</span> de ce Pokémon."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/121"
+  }
+ },
+ {
+  "id": "30th-122",
+  "set": "30th",
+  "localId": "122",
+  "category": "Pokemon",
+  "name": "Hisuian Zorua",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 60,
+  "types": [
+   "C"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Scratch",
+    "cost": [
+     "C"
+    ],
+    "damage": "20"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/122",
+  "illustrator": "Megumi Mizutani",
+  "fr": {
+   "name": "Zorua de Hisui",
+   "attacks": [
+    {
+     "name": "Griffe"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/122"
+  }
+ },
+ {
+  "id": "30th-123",
+  "set": "30th",
+  "localId": "123",
+  "category": "Pokemon",
+  "name": "Hisuian Zoroark",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 120,
+  "types": [
+   "C"
+  ],
+  "stage": "Stage1",
+  "attacks": [
+   {
+    "name": "Scratch",
+    "cost": [
+     "C"
+    ],
+    "damage": "30"
+   },
+   {
+    "name": "Swirling Resentment",
+    "cost": [
+     "C",
+     "C",
+     "C"
+    ],
+    "effect": "Place damage counters on your opponent's Active Pokémon until its remaining HP is 50."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/123",
+  "illustrator": "Kamome Shirahama",
+  "fr": {
+   "name": "Zoroark de Hisui",
+   "attacks": [
+    {
+     "name": "Griffe"
+    },
+    {
+     "name": "Ressentiment Tourbillonnant",
+     "effect": "Placez des marqueurs de dégâts sur le Pokémon Actif de votre adversaire jusqu'à ce qu'il lui reste 50 PV."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/123"
+  }
+ },
+ {
+  "id": "30th-124",
+  "set": "30th",
+  "localId": "124",
+  "category": "Pokemon",
+  "name": "Minior",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 90,
+  "types": [
+   "C"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Shoot Meteors",
+    "cost": [
+     "C",
+     "C",
+     "C"
+    ],
+    "effect": "Discard all Energy from this Pokémon, and this attack does 120 damage to 1 of your opponent's Pokémon. <em>(Don't apply Weakness and Resistance for Benched Pokémon.)</em>"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "L",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/124",
+  "illustrator": "ryoma uratsuka",
+  "fr": {
+   "name": "Météno",
+   "attacks": [
+    {
+     "name": "Tir de Météores",
+     "effect": "Défaussez toutes les Énergies de ce Pokémon. Cette attaque inflige 120 dégâts à l'un des Pokémon de votre adversaire. <em>(N'appliquez ni la Faiblesse ni la Résistance aux Pokémon de Banc.)</em>"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/124"
+  }
+ },
+ {
+  "id": "30th-125",
+  "set": "30th",
+  "localId": "125",
+  "category": "Pokemon",
+  "name": "Maushold",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "hp": 80,
+  "types": [
+   "C"
+  ],
+  "stage": "Stage1",
+  "attacks": [
+   {
+    "name": "Gnaw Together",
+    "cost": [
+     "C"
+    ],
+    "effect": "Flip a coin for each Maushold you have in play. For each heads, discard the top 2 cards of your opponent's deck."
+   },
+   {
+    "name": "Pound",
+    "cost": [
+     "C"
+    ],
+    "damage": "40"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/125",
+  "illustrator": "Kariya",
+  "fr": {
+   "name": "Famignol",
+   "attacks": [
+    {
+     "name": "Rongement de Groupe",
+     "effect": "Lancez une pièce pour chaque Famignol que vous avez en jeu. Pour chaque côté face, défaussez les 2 cartes du dessus du deck de votre adversaire."
+    },
+    {
+     "name": "Écras'Face"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/125"
+  }
+ },
+ {
+  "id": "30th-126",
+  "set": "30th",
+  "localId": "126",
+  "category": "Trainer",
+  "name": "Poké Pad",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "J",
+  "trainerType": "Item",
+  "image": "https://assets.tcgdex.net/en/me/30th/126",
+  "illustrator": "Yuka Morii",
+  "fr": {
+   "name": "Poké Registre",
+   "image": "https://assets.tcgdex.net/fr/me/30th/126"
+  }
+ },
+ {
+  "id": "30th-127",
+  "set": "30th",
+  "localId": "127",
+  "category": "Trainer",
+  "name": "Switch",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "I",
+  "trainerType": "Item",
+  "image": "https://assets.tcgdex.net/en/me/30th/127",
+  "illustrator": "Yuka Morii",
+  "fr": {
+   "name": "Échange",
+   "image": "https://assets.tcgdex.net/fr/me/30th/127"
+  }
+ },
+ {
+  "id": "30th-128",
+  "set": "30th",
+  "localId": "128",
+  "category": "Trainer",
+  "name": "Ultra Ball",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "I",
+  "trainerType": "Item",
+  "image": "https://assets.tcgdex.net/en/me/30th/128",
+  "illustrator": "Yuka Morii",
+  "fr": {
+   "name": "Hyper Ball",
+   "image": "https://assets.tcgdex.net/fr/me/30th/128"
+  }
+ },
+ {
+  "id": "30th-129",
+  "set": "30th",
+  "localId": "129",
+  "category": "Pokemon",
+  "name": "Alolan Exeggutor",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "J",
+  "hp": 150,
+  "types": [
+   "G"
+  ],
+  "stage": "Stage1",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Scale Up",
+    "effect": "If this Pokémon has 6 or more Grass Energy attached, it gets +250 HP."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Mega Drain",
+    "cost": [
+     "G",
+     "C",
+     "C",
+     "C"
+    ],
+    "damage": "150",
+    "effect": "Heal 50 damage from this Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "retreat": 4,
+  "image": "https://assets.tcgdex.net/en/me/30th/129",
+  "illustrator": "AYUMI ODASHIMA",
+  "fr": {
+   "name": "Noadkoko d'Alola",
+   "abilities": [
+    {
+     "name": "Élongation",
+     "effect": "Si au moins 6 Énergies Grass sont attachées à ce Pokémon, il a +250 PV."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Méga-Sangsue",
+     "effect": "Soignez 50 dégâts de ce Pokémon."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/129"
+  }
+ },
+ {
+  "id": "30th-130",
+  "set": "30th",
+  "localId": "130",
+  "category": "Pokemon",
+  "name": "Moltres",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "J",
+  "hp": 120,
+  "types": [
+   "R"
+  ],
+  "stage": "Basic",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Fiery Flapping",
+    "effect": "Once during your turn, if you have Articuno and Zapdos in play, you may use this Ability. Attach a Basic Fire Energy card from your hand to this Pokémon."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Fire Spin",
+    "cost": [
+     "R",
+     "R",
+     "C"
+    ],
+    "damage": "130",
+    "effect": "Discard 2 Energy from this Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "W",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/130",
+  "illustrator": "mashu",
+  "fr": {
+   "name": "Sulfura",
+   "abilities": [
+    {
+     "name": "Battements Ardents",
+     "effect": "Une fois pendant votre tour, si vous avez Artikodin et Électhor en jeu, vous pouvez utiliser ce talent. Attachez une carte Énergie Fire de base de votre main à ce Pokémon."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Danse Flammes",
+     "effect": "Défaussez 2 Énergies de ce Pokémon."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/130"
+  }
+ },
+ {
+  "id": "30th-131",
+  "set": "30th",
+  "localId": "131",
+  "category": "Pokemon",
+  "name": "Lapras",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "J",
+  "hp": 130,
+  "types": [
+   "W"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Ferry Across",
+    "cost": [
+     "C"
+    ],
+    "effect": "Search your deck for a Supporter card, reveal it, and put it into your hand. Then, shuffle your deck."
+   },
+   {
+    "name": "Ice Beam",
+    "cost": [
+     "W",
+     "C",
+     "C"
+    ],
+    "damage": "80",
+    "effect": "Flip a coin. If heads, your opponent's Active Pokémon is now Paralyzed."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "M",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/131",
+  "illustrator": "Amelicart",
+  "fr": {
+   "name": "Lokhlass",
+   "attacks": [
+    {
+     "name": "Navette Maritime",
+     "effect": "Cherchez dans votre deck une carte Supporter, montrez-la, puis ajoutez-la à votre main. Mélangez ensuite votre deck."
+    },
+    {
+     "name": "Laser Glace",
+     "effect": "Lancez une pièce. Si c'est face, le Pokémon Actif de votre adversaire est maintenant Paralysé."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/131"
+  }
+ },
+ {
+  "id": "30th-132",
+  "set": "30th",
+  "localId": "132",
+  "category": "Pokemon",
+  "name": "Articuno",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "J",
+  "hp": 120,
+  "types": [
+   "W"
+  ],
+  "stage": "Basic",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Frosty Flapping",
+    "effect": "Once during your turn, if you have Moltres and Zapdos in play, you may use this Ability. Attach a Basic Water Energy card from your hand to this Pokémon."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Hail",
+    "cost": [
+     "W",
+     "W",
+     "C"
+    ],
+    "effect": "This attack does 30 damage to each of your opponent's Pokémon. <em>(Don't apply Weakness and Resistance for Benched Pokémon.)</em>"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "M",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/132",
+  "illustrator": "mashu",
+  "fr": {
+   "name": "Artikodin",
+   "abilities": [
+    {
+     "name": "Battements Givrés",
+     "effect": "Une fois pendant votre tour, si vous avez Sulfura et Électhor en jeu, vous pouvez utiliser ce talent. Attachez une carte Énergie Water de base de votre main à ce Pokémon."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Grêle",
+     "effect": "Cette attaque inflige 30 dégâts à chacun des Pokémon de votre adversaire. <em>(N'appliquez ni la Faiblesse ni la Résistance aux Pokémon de Banc.)</em>"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/132"
+  }
+ },
+ {
+  "id": "30th-133",
+  "set": "30th",
+  "localId": "133",
+  "category": "Pokemon",
+  "name": "Zapdos",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "J",
+  "hp": 120,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Flash-Pop Flapping",
+    "effect": "Once during your turn, if you have Moltres and Articuno in play, you may use this Ability. Attach a Basic Lightning Energy card from your hand to this Pokémon."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Thundering Lightning",
+    "cost": [
+     "L",
+     "L",
+     "L",
+     "C"
+    ],
+    "damage": "210",
+    "effect": "This Pokémon also does 60 damage to itself."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/133",
+  "illustrator": "mashu",
+  "fr": {
+   "name": "Électhor",
+   "abilities": [
+    {
+     "name": "Battements Fulgurants",
+     "effect": "Une fois pendant votre tour, si vous avez Sulfura et Artikodin en jeu, vous pouvez utiliser ce talent. Attachez une carte Énergie Lightning de base de votre main à ce Pokémon."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Foudre Fracassante",
+     "effect": "Ce Pokémon s'inflige aussi 60 dégâts."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/133"
+  }
+ },
+ {
+  "id": "30th-134",
+  "set": "30th",
+  "localId": "134",
+  "category": "Pokemon",
+  "name": "Toxtricity",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "J",
+  "hp": 140,
+  "types": [
+   "L"
+  ],
+  "stage": "Stage1",
+  "attacks": [
+   {
+    "name": "Light Punch",
+    "cost": [
+     "L"
+    ],
+    "damage": "40"
+   },
+   {
+    "name": "Thunderous Bolt",
+    "cost": [
+     "L",
+     "C",
+     "C"
+    ],
+    "damage": "150",
+    "effect": "During your next turn, this Pokémon can't use attacks."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/134",
+  "illustrator": "Kazumasa Yasukuni",
+  "fr": {
+   "name": "Salarsen",
+   "attacks": [
+    {
+     "name": "Poing Léger"
+    },
+    {
+     "name": "Éclair du Tonnerre",
+     "effect": "Pendant votre prochain tour, ce Pokémon ne peut pas utiliser d'attaques."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/134"
+  }
+ },
+ {
+  "id": "30th-135",
+  "set": "30th",
+  "localId": "135",
+  "category": "Pokemon",
+  "name": "Morpeko",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "J",
+  "hp": 70,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Select a Snack",
+    "cost": [
+     "C"
+    ],
+    "effect": "Discard the top 3 cards of your deck and put 1 of them into your hand."
+   },
+   {
+    "name": "Slap",
+    "cost": [
+     "L"
+    ],
+    "damage": "30"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/135",
+  "illustrator": "Yoshimi Miyoshi",
+  "fr": {
+   "name": "Morpeko",
+   "attacks": [
+    {
+     "name": "Sélection de Friandise",
+     "effect": "Défaussez les 3 cartes du dessus de votre deck, puis ajoutez l'une d'entre elles à votre main."
+    },
+    {
+     "name": "Gifle"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/135"
+  }
+ },
+ {
+  "id": "30th-136",
+  "set": "30th",
+  "localId": "136",
+  "category": "Pokemon",
+  "name": "Drifloon",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "J",
+  "hp": 70,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Float Up",
+    "cost": [
+     "P"
+    ],
+    "damage": "20",
+    "effect": "You may shuffle this Pokémon and all attached cards into your deck."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/136",
+  "illustrator": "Whisker",
+  "fr": {
+   "name": "Baudrive",
+   "attacks": [
+    {
+     "name": "Flottement",
+     "effect": "Vous pouvez mélanger avec votre deck ce Pokémon et toutes les cartes qui lui sont attachées."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/136"
+  }
+ },
+ {
+  "id": "30th-137",
+  "set": "30th",
+  "localId": "137",
+  "category": "Pokemon",
+  "name": "Chandelure",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "J",
+  "hp": 140,
+  "types": [
+   "P"
+  ],
+  "stage": "Stage2",
+  "attacks": [
+   {
+    "name": "Eerie Glow",
+    "cost": [
+     "P",
+     "P"
+    ],
+    "damage": "130",
+    "effect": "Your opponent's Active Pokémon is now Burned and Confused."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/137",
+  "illustrator": "YASHIRO Nanaco",
+  "fr": {
+   "name": "Lugulabre",
+   "attacks": [
+    {
+     "name": "Lueur Sinistre",
+     "effect": "Le Pokémon Actif de votre adversaire est maintenant Brûlé et Confus."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/137"
+  }
+ },
+ {
+  "id": "30th-138",
+  "set": "30th",
+  "localId": "138",
+  "category": "Pokemon",
+  "name": "Lycanroc",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "J",
+  "hp": 130,
+  "types": [
+   "F"
+  ],
+  "stage": "Stage1",
+  "attacks": [
+   {
+    "name": "Counter",
+    "cost": [
+     "F"
+    ],
+    "damage": "10+",
+    "effect": "If this Pokémon was damaged by an attack during your opponent's last turn, this attack does that much more damage."
+   },
+   {
+    "name": "Boulder Crush",
+    "cost": [
+     "F",
+     "F"
+    ],
+    "damage": "80"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "G",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/138",
+  "illustrator": "Raita Kazama",
+  "fr": {
+   "name": "Lougaroc",
+   "attacks": [
+    {
+     "name": "Riposte",
+     "effect": "Si ce Pokémon a subi les dégâts d'une attaque pendant le dernier tour de votre adversaire, cette attaque inflige en plus ce montant-là de dégâts."
+    },
+    {
+     "name": "Rocher Écrasant"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/138"
+  }
+ },
+ {
+  "id": "30th-139",
+  "set": "30th",
+  "localId": "139",
+  "category": "Pokemon",
+  "name": "Alolan Meowth",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "J",
+  "hp": 60,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Pay Day",
+    "cost": [],
+    "damage": "10",
+    "effect": "Draw a card."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "G",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/139",
+  "illustrator": "OKUBO",
+  "fr": {
+   "name": "Miaouss d'Alola",
+   "attacks": [
+    {
+     "name": "Jackpot",
+     "effect": "Piochez une carte."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/139"
+  }
+ },
+ {
+  "id": "30th-140",
+  "set": "30th",
+  "localId": "140",
+  "category": "Pokemon",
+  "name": "Scraggy",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "J",
+  "hp": 80,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Nitpick",
+    "cost": [
+     "D"
+    ],
+    "effect": "Your opponent shuffles their hand into their deck and draws 4 cards."
+   },
+   {
+    "name": "Corkscrew Punch",
+    "cost": [
+     "D",
+     "C"
+    ],
+    "damage": "30"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "G",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/140",
+  "illustrator": "GOSSAN",
+  "fr": {
+   "name": "Baggiguane",
+   "attacks": [
+    {
+     "name": "Pinaillage",
+     "effect": "Votre adversaire mélange sa main avec son deck et pioche 4 cartes."
+    },
+    {
+     "name": "Poing Tire-Bouchon"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/140"
+  }
+ },
+ {
+  "id": "30th-141",
+  "set": "30th",
+  "localId": "141",
+  "category": "Pokemon",
+  "name": "Galarian Meowth",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "J",
+  "hp": 70,
+  "types": [
+   "M"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Pay Day",
+    "cost": [
+     "C"
+    ],
+    "damage": "10",
+    "effect": "Draw a card."
+   },
+   {
+    "name": "Treasure Rush",
+    "cost": [
+     "M"
+    ],
+    "damage": "10×",
+    "effect": "This attack does 10 damage for each card in your hand."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "G",
+    "value": "-30"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/141",
+  "illustrator": "OKUBO",
+  "fr": {
+   "name": "Miaouss de Galar",
+   "attacks": [
+    {
+     "name": "Jackpot",
+     "effect": "Piochez une carte."
+    },
+    {
+     "name": "Ruée au Trésor",
+     "effect": "Cette attaque inflige 10 dégâts pour chaque carte dans votre main."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/141"
+  }
+ },
+ {
+  "id": "30th-142",
+  "set": "30th",
+  "localId": "142",
+  "category": "Pokemon",
+  "name": "Gholdengo",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "J",
+  "hp": 130,
+  "types": [
+   "M"
+  ],
+  "stage": "Stage1",
+  "attacks": [
+   {
+    "name": "Celebration",
+    "cost": [
+     "M"
+    ],
+    "effect": "If you have exactly 30 cards in your hand, take 2 Prize cards. If you do, shuffle your hand into your deck."
+   },
+   {
+    "name": "Triple Smash",
+    "cost": [
+     "M"
+    ],
+    "damage": "50×",
+    "effect": "Flip 3 coins. This attack does 50 damage for each heads."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "G",
+    "value": "-30"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/142",
+  "illustrator": "toriyufu",
+  "fr": {
+   "name": "Gromago",
+   "attacks": [
+    {
+     "name": "Fête Célébratoire",
+     "effect": "Si vous avez exactement 30 cartes dans votre main, récupérez 2 cartes Récompense. Dans ce cas, mélangez votre main avec votre deck."
+    },
+    {
+     "name": "Triple Éclate",
+     "effect": "Lancez 3 pièces. Cette attaque inflige 50 dégâts pour chaque côté face."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/142"
+  }
+ },
+ {
+  "id": "30th-143",
+  "set": "30th",
+  "localId": "143",
+  "category": "Pokemon",
+  "name": "Kommo-o",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "J",
+  "hp": 180,
+  "types": [
+   "N"
+  ],
+  "stage": "Stage2",
+  "attacks": [
+   {
+    "name": "Blazing Uppercut",
+    "cost": [
+     "L",
+     "F",
+     "C"
+    ],
+    "damage": "250"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/143",
+  "illustrator": "Gemi",
+  "fr": {
+   "name": "Ékaïser",
+   "attacks": [
+    {
+     "name": "Uppercut Flamboyant"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/143"
+  }
+ },
+ {
+  "id": "30th-144",
+  "set": "30th",
+  "localId": "144",
+  "category": "Pokemon",
+  "name": "Meowth",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "J",
+  "hp": 60,
+  "types": [
+   "C"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Pay Day",
+    "cost": [
+     "C",
+     "C"
+    ],
+    "damage": "30",
+    "effect": "Draw a card."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/144",
+  "illustrator": "OKUBO",
+  "fr": {
+   "name": "Miaouss",
+   "attacks": [
+    {
+     "name": "Jackpot",
+     "effect": "Piochez une carte."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/144"
+  }
+ },
+ {
+  "id": "30th-145",
+  "set": "30th",
+  "localId": "145",
+  "category": "Pokemon",
+  "name": "Hisuian Zorua",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "J",
+  "hp": 60,
+  "types": [
+   "C"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Scratch",
+    "cost": [
+     "C"
+    ],
+    "damage": "20"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/145",
+  "illustrator": "0313",
+  "fr": {
+   "name": "Zorua de Hisui",
+   "attacks": [
+    {
+     "name": "Griffe"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/145"
+  }
+ },
+ {
+  "id": "30th-146",
+  "set": "30th",
+  "localId": "146",
+  "category": "Pokemon",
+  "name": "Maushold",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "J",
+  "hp": 80,
+  "types": [
+   "C"
+  ],
+  "stage": "Stage1",
+  "attacks": [
+   {
+    "name": "Gnaw Together",
+    "cost": [
+     "C"
+    ],
+    "effect": "Flip a coin for each Maushold you have in play. For each heads, discard the top 2 cards of your opponent's deck."
+   },
+   {
+    "name": "Pound",
+    "cost": [
+     "C"
+    ],
+    "damage": "40"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/146",
+  "illustrator": "osare",
+  "fr": {
+   "name": "Famignol",
+   "attacks": [
+    {
+     "name": "Rongement de Groupe",
+     "effect": "Lancez une pièce pour chaque Famignol que vous avez en jeu. Pour chaque côté face, défaussez les 2 cartes du dessus du deck de votre adversaire."
+    },
+    {
+     "name": "Écras'Face"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/146"
+  }
+ },
+ {
+  "id": "30th-147",
+  "set": "30th",
+  "localId": "147",
+  "category": "Pokemon",
+  "name": "Fuecoco ex",
+  "standard": true,
+  "rarity": "Special illustration rare",
+  "regulationMark": "J",
+  "hp": 210,
+  "types": [
+   "R"
+  ],
+  "stage": "Basic",
+  "suffix": "EX",
+  "attacks": [
+   {
+    "name": "Singe",
+    "cost": [
+     "R"
+    ],
+    "effect": "Your opponent's Active Pokémon is now Burned."
+   },
+   {
+    "name": "Cheerful Flame",
+    "cost": [
+     "R",
+     "R",
+     "C"
+    ],
+    "damage": "70×",
+    "effect": "This attack does 70 damage for each Prize card you have taken."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "W",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/147",
+  "illustrator": "Atsushi Furusawa",
+  "fr": {
+   "name": "Chochodile-ex",
+   "attacks": [
+    {
+     "name": "Roussi",
+     "effect": "Le Pokémon Actif de votre adversaire est maintenant Brûlé."
+    },
+    {
+     "name": "Flamme Joyeuse",
+     "effect": "Cette attaque inflige 70 dégâts pour chaque carte Récompense que vous avez récupérée."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/147"
+  }
+ },
+ {
+  "id": "30th-148",
+  "set": "30th",
+  "localId": "148",
+  "category": "Pokemon",
+  "name": "Greninja ex",
+  "standard": true,
+  "rarity": "Special illustration rare",
+  "regulationMark": "J",
+  "hp": 300,
+  "types": [
+   "W"
+  ],
+  "stage": "Basic",
+  "suffix": "EX",
+  "attacks": [
+   {
+    "name": "Stealthy Slash",
+    "cost": [
+     "W"
+    ],
+    "effect": "This attack does 30 damage to 1 of your opponent's Pokémon for each damage counter on that Pokémon. <em>(Don't apply Weakness and Resistance for Benched Pokémon.)</em>"
+   },
+   {
+    "name": "Aqua Edge",
+    "cost": [
+     "W",
+     "W"
+    ],
+    "damage": "160"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "L",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/148",
+  "illustrator": "GIDORA",
+  "fr": {
+   "name": "Amphinobi-ex",
+   "attacks": [
+    {
+     "name": "Tranche Furtive",
+     "effect": "Cette attaque inflige 30 dégâts à l'un des Pokémon de votre adversaire pour chaque marqueur de dégâts sur ce Pokémon-là. <em>(N'appliquez ni la Faiblesse ni la Résistance aux Pokémon de Banc.)</em>"
+    },
+    {
+     "name": "Aqua-Dague"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/148"
+  }
+ },
+ {
+  "id": "30th-149",
+  "set": "30th",
+  "localId": "149",
+  "category": "Pokemon",
+  "name": "Pikachu ex",
+  "standard": true,
+  "rarity": "Special illustration rare",
+  "regulationMark": "J",
+  "hp": 190,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "suffix": "EX",
+  "attacks": [
+   {
+    "name": "Pika-Pika Parade",
+    "cost": [
+     "C"
+    ],
+    "effect": "Search your deck for any number of Basic Pokémon and put them onto your Bench. Then, shuffle your deck."
+   },
+   {
+    "name": "Thunderbolt",
+    "cost": [
+     "L",
+     "L",
+     "C"
+    ],
+    "damage": "200",
+    "effect": "Discard all Energy from this Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/149",
+  "illustrator": "kantaro",
+  "fr": {
+   "name": "Pikachu-ex",
+   "attacks": [
+    {
+     "name": "Parade Pika-Pika",
+     "effect": "Cherchez dans votre deck le nombre voulu de Pokémon de base, puis placez-les sur votre Banc. Mélangez ensuite votre deck."
+    },
+    {
+     "name": "Tonnerre",
+     "effect": "Défaussez toutes les Énergies de ce Pokémon."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/149"
+  }
+ },
+ {
+  "id": "30th-150",
+  "set": "30th",
+  "localId": "150",
+  "category": "Pokemon",
+  "name": "Pikachu ex",
+  "standard": true,
+  "rarity": "Special illustration rare",
+  "regulationMark": "J",
+  "hp": 190,
+  "types": [
+   "L"
+  ],
+  "stage": "Basic",
+  "suffix": "EX",
+  "attacks": [
+   {
+    "name": "Zip-Zap Frenzy",
+    "cost": [
+     "L"
+    ],
+    "effect": "You may attach any number of Basic Energy cards from your hand to your Pokémon in any way you like."
+   },
+   {
+    "name": "Thunder",
+    "cost": [
+     "L",
+     "L",
+     "C"
+    ],
+    "damage": "200",
+    "effect": "This Pokémon also does 30 damage to itself."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/150",
+  "illustrator": "kantaro",
+  "fr": {
+   "name": "Pikachu-ex",
+   "attacks": [
+    {
+     "name": "Frénésie Électrique",
+     "effect": "Vous pouvez attacher le nombre voulu de cartes Énergie de base de votre main à vos Pokémon comme il vous plaît."
+    },
+    {
+     "name": "Fatal-Foudre",
+     "effect": "Ce Pokémon s'inflige aussi 30 dégâts."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/150"
+  }
+ },
+ {
+  "id": "30th-151",
+  "set": "30th",
+  "localId": "151",
+  "category": "Pokemon",
+  "name": "Mewtwo ex",
+  "standard": true,
+  "rarity": "Special illustration rare",
+  "regulationMark": "J",
+  "hp": 230,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "suffix": "EX",
+  "attacks": [
+   {
+    "name": "Photon Bullets",
+    "cost": [
+     "P",
+     "P"
+    ],
+    "effect": "This attack does 50 damage to each of your opponent's Pokémon <em>ex</em>. <em>(Don't apply Weakness and Resistance for Benched Pokémon.)</em>"
+   },
+   {
+    "name": "Psychic Powers",
+    "cost": [
+     "P",
+     "P",
+     "P"
+    ],
+    "damage": "230",
+    "effect": "During your next turn, this Pokémon can't use attacks."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/151",
+  "illustrator": "Yano Keiji",
+  "fr": {
+   "name": "Mewtwo-ex",
+   "attacks": [
+    {
+     "name": "Projectiles Photons",
+     "effect": "Cette attaque inflige 50 dégâts à chacun des Pokémon-<em>ex</em> de votre adversaire. <em>(N'appliquez ni la Faiblesse ni la Résistance aux Pokémon de Banc.)</em>"
+    },
+    {
+     "name": "Pouvoirs Psychiques",
+     "effect": "Pendant votre prochain tour, ce Pokémon ne peut pas utiliser d'attaques."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/151"
+  }
+ },
+ {
+  "id": "30th-152",
+  "set": "30th",
+  "localId": "152",
+  "category": "Pokemon",
+  "name": "Mew ex",
+  "standard": true,
+  "rarity": "Special illustration rare",
+  "regulationMark": "J",
+  "hp": 160,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "suffix": "EX",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Memory Helix",
+    "effect": "This Pokémon can use the attacks of any of your Benched Pokémon. (You still need the necessary Energy to use each attack.)"
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Teleportation Burst",
+    "cost": [
+     "P"
+    ],
+    "damage": "30",
+    "effect": "You may switch this Pokémon with 1 of your Benched Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 0,
+  "image": "https://assets.tcgdex.net/en/me/30th/152",
+  "illustrator": "Kuroimori",
+  "fr": {
+   "name": "Mew-ex",
+   "abilities": [
+    {
+     "name": "Spirale Mémoire",
+     "effect": "Ce Pokémon peut utiliser les attaques de n'importe lequel de vos Pokémon de Banc. (Vous avez toujours besoin des Énergies nécessaires pour utiliser chaque attaque.)"
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Téléportation Explosive",
+     "effect": "Vous pouvez échanger ce Pokémon contre l'un de vos Pokémon de Banc."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/152"
+  }
+ },
+ {
+  "id": "30th-153",
+  "set": "30th",
+  "localId": "153",
+  "category": "Pokemon",
+  "name": "Sylveon ex",
+  "standard": true,
+  "rarity": "Special illustration rare",
+  "regulationMark": "J",
+  "hp": 270,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "suffix": "EX",
+  "attacks": [
+   {
+    "name": "Colorful Harmony",
+    "cost": [
+     "P",
+     "C",
+     "C"
+    ],
+    "damage": "50×",
+    "effect": "This attack does 50 damage for each type of Basic Energy attached to all of your Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "M",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/153",
+  "illustrator": "You Iribi",
+  "fr": {
+   "name": "Nymphali-ex",
+   "attacks": [
+    {
+     "name": "Harmonie Colorée",
+     "effect": "Cette attaque inflige 50 dégâts pour chaque type d'Énergie de base attachée à tous vos Pokémon."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/153"
+  }
+ },
+ {
+  "id": "30th-154",
+  "set": "30th",
+  "localId": "154",
+  "category": "Pokemon",
+  "name": "Gengar ex",
+  "standard": true,
+  "rarity": "Special illustration rare",
+  "regulationMark": "J",
+  "hp": 280,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "suffix": "EX",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Fainting Spell",
+    "effect": "If this Pokémon is Knocked Out by damage from an attack from your opponent's Pokémon, flip a coin. If heads, the Attacking Pokémon is Knocked Out."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Chaotic Pain",
+    "cost": [
+     "D",
+     "D"
+    ],
+    "effect": "Place 13 damage counters on 1 of your opponent's Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/154",
+  "illustrator": "CHORISO",
+  "fr": {
+   "name": "Ectoplasma-ex",
+   "abilities": [
+    {
+     "name": "Sort d'Évanouissement",
+     "effect": "Si ce Pokémon est mis K.O. par les dégâts d'une attaque de l'un des Pokémon de votre adversaire, lancez une pièce. Si c'est face, le Pokémon Attaquant est mis K.O."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Douleur Chaotique",
+     "effect": "Placez 13 marqueurs de dégâts sur l'un des Pokémon de votre adversaire."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/154"
+  }
+ },
+ {
+  "id": "30th-155",
+  "set": "30th",
+  "localId": "155",
+  "category": "Pokemon",
+  "name": "Jirachi ex",
+  "standard": true,
+  "rarity": "Special illustration rare",
+  "regulationMark": "J",
+  "hp": 160,
+  "types": [
+   "M"
+  ],
+  "stage": "Basic",
+  "suffix": "EX",
+  "attacks": [
+   {
+    "name": "Wish Granter",
+    "cost": [
+     "C"
+    ],
+    "effect": "Draw cards until you have 7 cards in your hand."
+   },
+   {
+    "name": "Swift",
+    "cost": [
+     "C",
+     "C",
+     "C"
+    ],
+    "damage": "150",
+    "effect": "This attack's damage isn't affected by Weakness or Resistance, or by any effects on your opponent's Active Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "G",
+    "value": "-30"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/155",
+  "illustrator": "AKIRA EGAWA",
+  "fr": {
+   "name": "Jirachi-ex",
+   "attacks": [
+    {
+     "name": "Exauceur de Vœux",
+     "effect": "Piochez des cartes jusqu'à en avoir 7 en main."
+    },
+    {
+     "name": "Météores",
+     "effect": "Les dégâts de cette attaque ne sont pas affectés par la Faiblesse, la Résistance ou tout effet en action sur le Pokémon Actif de votre adversaire."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/155"
+  }
+ },
+ {
+  "id": "30th-156",
+  "set": "30th",
+  "localId": "156",
+  "category": "Pokemon",
+  "name": "Salamence ex",
+  "standard": true,
+  "rarity": "Special illustration rare",
+  "regulationMark": "J",
+  "hp": 330,
+  "types": [
+   "N"
+  ],
+  "stage": "Basic",
+  "suffix": "EX",
+  "attacks": [
+   {
+    "name": "Booming Call",
+    "cost": [
+     "C"
+    ],
+    "effect": "Put up to 3 <span class=\"energy-symbol Dragon\" title=\"Dragon\">Dragon</span> Pokémon from your discard pile onto your Bench."
+   },
+   {
+    "name": "Dragon Pulse",
+    "cost": [
+     "R",
+     "W"
+    ],
+    "damage": "240",
+    "effect": "Discard the top 2 cards of your deck."
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/156",
+  "illustrator": "Ryota Murayama",
+  "fr": {
+   "name": "Drattak-ex",
+   "attacks": [
+    {
+     "name": "Appel Tonitruant",
+     "effect": "Placez jusqu'à 3 Pokémon <span class=\"energy-symbol Dragon\" title=\"Dragon\">Dragon</span> de votre pile de défausse sur votre Banc."
+    },
+    {
+     "name": "Draco-Choc",
+     "effect": "Défaussez les 2 cartes du dessus de votre deck."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/156"
+  }
+ },
+ {
+  "id": "30th-157",
+  "set": "30th",
+  "localId": "157",
+  "category": "Pokemon",
+  "name": "Mewtwo ex",
+  "standard": true,
+  "rarity": "Futuristic Rare",
+  "regulationMark": "J",
+  "hp": 230,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "suffix": "EX",
+  "attacks": [
+   {
+    "name": "Photon Bullets",
+    "cost": [
+     "P",
+     "P"
+    ],
+    "effect": "This attack does 50 damage to each of your opponent's Pokémon <em>ex</em>. <em>(Don't apply Weakness and Resistance for Benched Pokémon.)</em>"
+   },
+   {
+    "name": "Psychic Powers",
+    "cost": [
+     "P",
+     "P",
+     "P"
+    ],
+    "damage": "230",
+    "effect": "During your next turn, this Pokémon can't use attacks."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/me/30th/157",
+  "illustrator": "YOSHIROTTEN",
+  "fr": {
+   "name": "Mewtwo-ex",
+   "attacks": [
+    {
+     "name": "Projectiles Photons",
+     "effect": "Cette attaque inflige 50 dégâts à chacun des Pokémon-<em>ex</em> de votre adversaire. <em>(N'appliquez ni la Faiblesse ni la Résistance aux Pokémon de Banc.)</em>"
+    },
+    {
+     "name": "Pouvoirs Psychiques",
+     "effect": "Pendant votre prochain tour, ce Pokémon ne peut pas utiliser d'attaques."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/157"
+  }
+ },
+ {
+  "id": "30th-158",
+  "set": "30th",
+  "localId": "158",
+  "category": "Pokemon",
+  "name": "Mew ex",
+  "standard": true,
+  "rarity": "Futuristic Rare",
+  "regulationMark": "J",
+  "hp": 160,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "suffix": "EX",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Memory Helix",
+    "effect": "This Pokémon can use the attacks of any of your Benched Pokémon. (You still need the necessary Energy to use each attack.)"
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Teleportation Burst",
+    "cost": [
+     "P"
+    ],
+    "damage": "30",
+    "effect": "You may switch this Pokémon with 1 of your Benched Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 0,
+  "image": "https://assets.tcgdex.net/en/me/30th/158",
+  "illustrator": "YOSHIROTTEN",
+  "fr": {
+   "name": "Mew-ex",
+   "abilities": [
+    {
+     "name": "Spirale Mémoire",
+     "effect": "Ce Pokémon peut utiliser les attaques de n'importe lequel de vos Pokémon de Banc. (Vous avez toujours besoin des Énergies nécessaires pour utiliser chaque attaque.)"
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Téléportation Explosive",
+     "effect": "Vous pouvez échanger ce Pokémon contre l'un de vos Pokémon de Banc."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/158"
+  }
+ },
+ {
+  "id": "30th-B",
+  "set": "30th",
+  "localId": "B",
+  "category": "Pokemon",
+  "name": "Mew",
+  "standard": true,
+  "rarity": "RGB Rare",
+  "regulationMark": "J",
+  "hp": 60,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Psychic",
+    "cost": [
+     "P",
+     "P"
+    ],
+    "damage": "10+",
+    "effect": "This attack does 40 more damage for each Energy attached to your opponent's Active Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/B",
+  "illustrator": "YOSHIROTTEN",
+  "fr": {
+   "name": "Mew",
+   "attacks": [
+    {
+     "name": "Psyko",
+     "effect": "Cette attaque inflige 40 dégâts supplémentaires pour chaque Énergie attachée au Pokémon Actif de votre adversaire."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/B"
+  }
+ },
+ {
+  "id": "30th-G",
+  "set": "30th",
+  "localId": "G",
+  "category": "Pokemon",
+  "name": "Mew",
+  "standard": true,
+  "rarity": "RGB Rare",
+  "regulationMark": "J",
+  "hp": 60,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Psychic",
+    "cost": [
+     "P",
+     "P"
+    ],
+    "damage": "10+",
+    "effect": "This attack does 40 more damage for each Energy attached to your opponent's Active Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/G",
+  "illustrator": "YOSHIROTTEN",
+  "fr": {
+   "name": "Mew",
+   "attacks": [
+    {
+     "name": "Psyko",
+     "effect": "Cette attaque inflige 40 dégâts supplémentaires pour chaque Énergie attachée au Pokémon Actif de votre adversaire."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/G"
+  }
+ },
+ {
+  "id": "30th-R",
+  "set": "30th",
+  "localId": "R",
+  "category": "Pokemon",
+  "name": "Mew",
+  "standard": true,
+  "rarity": "RGB Rare",
+  "regulationMark": "J",
+  "hp": 60,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Psychic",
+    "cost": [
+     "P",
+     "P"
+    ],
+    "damage": "10+",
+    "effect": "This attack does 40 more damage for each Energy attached to your opponent's Active Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/me/30th/R",
+  "illustrator": "YOSHIROTTEN",
+  "fr": {
+   "name": "Mew",
+   "attacks": [
+    {
+     "name": "Psyko",
+     "effect": "Cette attaque inflige 40 dégâts supplémentaires pour chaque Énergie attachée au Pokémon Actif de votre adversaire."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/me/30th/R"
+  }
+ }
+]

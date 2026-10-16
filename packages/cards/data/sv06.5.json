@@ -1,0 +1,4871 @@
+[
+ {
+  "id": "sv06.5-001",
+  "set": "sv06.5",
+  "localId": "001",
+  "category": "Pokemon",
+  "name": "Joltik",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "H",
+  "hp": 40,
+  "types": [
+   "G"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Splashing Dodge",
+    "cost": [
+     "G"
+    ],
+    "damage": "10",
+    "effect": "Flip a coin. If heads, during your opponent's next turn, prevent all damage from and effects of attacks done to this Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/001",
+  "illustrator": "Naoyo Kimura",
+  "fr": {
+   "name": "Statitik",
+   "attacks": [
+    {
+     "name": "Esquive Éclaboussante",
+     "effect": "Lancez une pièce. Si c'est face, pendant le prochain tour de votre adversaire, évitez tous les dégâts et les effets d'attaques infligés à ce Pokémon."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/001"
+  }
+ },
+ {
+  "id": "sv06.5-002",
+  "set": "sv06.5",
+  "localId": "002",
+  "category": "Pokemon",
+  "name": "Galvantula",
+  "standard": true,
+  "rarity": "Uncommon",
+  "regulationMark": "H",
+  "hp": 100,
+  "types": [
+   "G"
+  ],
+  "stage": "Stage1",
+  "evolveFrom": "Joltik",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Compound Eyes",
+    "effect": "Attacks used by this Pokémon do 50 more damage to your opponent's Active Pokémon that has an Ability (before applying Weakness and Resistance)."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Shocking Web",
+    "cost": [
+     "G",
+     "C"
+    ],
+    "damage": "50+",
+    "effect": "If this Pokémon has any {L} Energy attached, this attack does 80 more damage."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/002",
+  "illustrator": "mashu",
+  "fr": {
+   "name": "Mygavolt",
+   "abilities": [
+    {
+     "name": "Œil Composé",
+     "effect": "Les attaques utilisées par ce Pokémon infligent 50 dégâts supplémentaires au Pokémon Actif de votre adversaire ayant un talent (avant application de la Faiblesse et de la Résistance)."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Toile Choquante",
+     "effect": "Si au moins une Énergie {L} est attachée à ce Pokémon, cette attaque inflige 80 dégâts supplémentaires."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/002"
+  }
+ },
+ {
+  "id": "sv06.5-003",
+  "set": "sv06.5",
+  "localId": "003",
+  "category": "Pokemon",
+  "name": "Rowlet",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "H",
+  "hp": 70,
+  "types": [
+   "G"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Add On",
+    "cost": [
+     "C"
+    ],
+    "effect": "Draw a card."
+   },
+   {
+    "name": "Leafage",
+    "cost": [
+     "G"
+    ],
+    "damage": "10"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/003",
+  "illustrator": "Yoshimi Miyoshi",
+  "fr": {
+   "name": "Brindibou",
+   "attacks": [
+    {
+     "name": "Ajout",
+     "effect": "Piochez une carte."
+    },
+    {
+     "name": "Feuillage"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/003"
+  }
+ },
+ {
+  "id": "sv06.5-004",
+  "set": "sv06.5",
+  "localId": "004",
+  "category": "Pokemon",
+  "name": "Dartrix",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "H",
+  "hp": 90,
+  "types": [
+   "G"
+  ],
+  "stage": "Stage1",
+  "evolveFrom": "Rowlet",
+  "attacks": [
+   {
+    "name": "United Wings",
+    "cost": [
+     "C"
+    ],
+    "damage": "20×",
+    "effect": "This attack does 20 damage for each Pokémon in your discard pile that has the United Wings attack."
+   },
+   {
+    "name": "Cutting Wind",
+    "cost": [
+     "G"
+    ],
+    "damage": "30"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/004",
+  "illustrator": "Tetsu Kayama",
+  "fr": {
+   "name": "Efflèche",
+   "attacks": [
+    {
+     "name": "Ailes Unies",
+     "effect": "Cette attaque inflige 20 dégâts pour chaque Pokémon dans votre pile de défausse ayant l'attaque Ailes Unies."
+    },
+    {
+     "name": "Vent Glacial"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/004"
+  }
+ },
+ {
+  "id": "sv06.5-005",
+  "set": "sv06.5",
+  "localId": "005",
+  "category": "Pokemon",
+  "name": "Decidueye",
+  "standard": true,
+  "rarity": "Uncommon",
+  "regulationMark": "H",
+  "hp": 150,
+  "types": [
+   "G"
+  ],
+  "stage": "Stage2",
+  "evolveFrom": "Dartrix",
+  "attacks": [
+   {
+    "name": "Stock Up on Feathers",
+    "cost": [
+     "C"
+    ],
+    "effect": "Draw cards until you have 7 cards in your hand."
+   },
+   {
+    "name": "Power Shot",
+    "cost": [
+     "G"
+    ],
+    "damage": "170",
+    "effect": "Discard a Basic {G} Energy card from your hand. If you can't, this attack does nothing."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/005",
+  "illustrator": "DOM",
+  "fr": {
+   "name": "Archéduc",
+   "attacks": [
+    {
+     "name": "Réserve de Plumes",
+     "effect": "Piochez des cartes jusqu'à en avoir 7 en main."
+    },
+    {
+     "name": "Tir Puissant",
+     "effect": "Défaussez une carte Énergie {G} de base de votre main. Si vous ne le pouvez pas, cette attaque ne fait rien."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/005"
+  }
+ },
+ {
+  "id": "sv06.5-006",
+  "set": "sv06.5",
+  "localId": "006",
+  "category": "Pokemon",
+  "name": "Tapu Bulu",
+  "standard": true,
+  "rarity": "Rare",
+  "regulationMark": "H",
+  "hp": 140,
+  "types": [
+   "G"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Wood Hammer",
+    "cost": [
+     "G",
+     "G",
+     "C",
+     "C"
+    ],
+    "damage": "220",
+    "effect": "This Pokémon also does 30 damage to itself."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "retreat": 3,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/006",
+  "illustrator": "GOSSAN",
+  "fr": {
+   "name": "Tokotoro",
+   "attacks": [
+    {
+     "name": "Martobois",
+     "effect": "Ce Pokémon s'inflige aussi 30 dégâts."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/006"
+  }
+ },
+ {
+  "id": "sv06.5-007",
+  "set": "sv06.5",
+  "localId": "007",
+  "category": "Pokemon",
+  "name": "Houndour",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "H",
+  "hp": 70,
+  "types": [
+   "R"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Gnaw",
+    "cost": [
+     "C",
+     "C"
+    ],
+    "damage": "20"
+   },
+   {
+    "name": "Rear Kick",
+    "cost": [
+     "R",
+     "C",
+     "C"
+    ],
+    "damage": "50"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "W",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/007",
+  "illustrator": "REND",
+  "fr": {
+   "name": "Malosse",
+   "attacks": [
+    {
+     "name": "Ronge"
+    },
+    {
+     "name": "Ruade"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/007"
+  }
+ },
+ {
+  "id": "sv06.5-008",
+  "set": "sv06.5",
+  "localId": "008",
+  "category": "Pokemon",
+  "name": "Houndoom",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "H",
+  "hp": 120,
+  "types": [
+   "R"
+  ],
+  "stage": "Stage1",
+  "evolveFrom": "Houndour",
+  "attacks": [
+   {
+    "name": "Bite",
+    "cost": [
+     "C",
+     "C"
+    ],
+    "damage": "50"
+   },
+   {
+    "name": "Snarl",
+    "cost": [
+     "R",
+     "C",
+     "C"
+    ],
+    "damage": "100",
+    "effect": "During your opponent's next turn, attacks used by the Defending Pokémon do 100 less damage (before applying Weakness and Resistance)."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "W",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/008",
+  "illustrator": "burari",
+  "fr": {
+   "name": "Démolosse",
+   "attacks": [
+    {
+     "name": "Morsure"
+    },
+    {
+     "name": "Aboiement",
+     "effect": "Pendant le prochain tour de votre adversaire, les attaques utilisées par le Pokémon Défenseur infligent 100 dégâts de moins (avant application de la Faiblesse et de la Résistance)."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/008"
+  }
+ },
+ {
+  "id": "sv06.5-009",
+  "set": "sv06.5",
+  "localId": "009",
+  "category": "Pokemon",
+  "name": "Iron Moth",
+  "standard": true,
+  "rarity": "Uncommon",
+  "regulationMark": "H",
+  "hp": 120,
+  "types": [
+   "R"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Suction",
+    "cost": [
+     "C",
+     "C"
+    ],
+    "damage": "30",
+    "effect": "Heal from this Pokémon the same amount of damage you did to your opponent's Active Pokémon."
+   },
+   {
+    "name": "Anachronism Repulsor",
+    "cost": [
+     "R",
+     "R",
+     "C"
+    ],
+    "damage": "120",
+    "effect": "During your opponent's next turn, prevent all damage done to this Pokémon by attacks from Ancient Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "W",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/009",
+  "illustrator": "Shinji Kanda",
+  "fr": {
+   "name": "Mite-de-Fer",
+   "attacks": [
+    {
+     "name": "Succion",
+     "effect": "Soignez ce Pokémon du nombre de dégâts que vous avez infligés au Pokémon Actif de votre adversaire."
+    },
+    {
+     "name": "Répulsif d'Anachronisme",
+     "effect": "Pendant le prochain tour de votre adversaire, évitez tous les dégâts infligés à ce Pokémon par les attaques des Pokémon Temps passé."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/009"
+  }
+ },
+ {
+  "id": "sv06.5-010",
+  "set": "sv06.5",
+  "localId": "010",
+  "category": "Pokemon",
+  "name": "Horsea",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "H",
+  "hp": 60,
+  "types": [
+   "W"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Hold Still",
+    "cost": [
+     "W"
+    ],
+    "effect": "Heal 30 damage from this Pokémon."
+   },
+   {
+    "name": "Razor Fin",
+    "cost": [
+     "C",
+     "C"
+    ],
+    "damage": "20"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "L",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/010",
+  "illustrator": "Shimaris Yukichi",
+  "fr": {
+   "name": "Hypotrempe",
+   "attacks": [
+    {
+     "name": "Ne Bougez Pas",
+     "effect": "Soignez 30 dégâts de ce Pokémon."
+    },
+    {
+     "name": "Aileron-Rasoir"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/010"
+  }
+ },
+ {
+  "id": "sv06.5-011",
+  "set": "sv06.5",
+  "localId": "011",
+  "category": "Pokemon",
+  "name": "Seadra",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "H",
+  "hp": 90,
+  "types": [
+   "W"
+  ],
+  "stage": "Stage1",
+  "evolveFrom": "Horsea",
+  "attacks": [
+   {
+    "name": "Call for Backup",
+    "cost": [
+     "W"
+    ],
+    "effect": "Search your deck for up to 3 Pokémon, reveal them, and put them into your hand. Then, shuffle your deck."
+   },
+   {
+    "name": "Sharp Fin",
+    "cost": [
+     "C",
+     "C"
+    ],
+    "damage": "40"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "L",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/011",
+  "illustrator": "Yuya Oka",
+  "fr": {
+   "name": "Hypocéan",
+   "attacks": [
+    {
+     "name": "Renforts",
+     "effect": "Cherchez dans votre deck jusqu'à 3 Pokémon, montrez-les, puis ajoutez-les à votre main. Mélangez ensuite votre deck."
+    },
+    {
+     "name": "Aileron Aiguisé"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/011"
+  }
+ },
+ {
+  "id": "sv06.5-012",
+  "set": "sv06.5",
+  "localId": "012",
+  "category": "Pokemon",
+  "name": "Kingdra ex",
+  "standard": true,
+  "rarity": "Double rare",
+  "regulationMark": "H",
+  "hp": 310,
+  "types": [
+   "W"
+  ],
+  "stage": "Stage2",
+  "suffix": "ex",
+  "evolveFrom": "Seadra",
+  "attacks": [
+   {
+    "name": "King's Order",
+    "cost": [
+     "W"
+    ],
+    "effect": "Put up to 3 {W} Pokémon from your discard pile onto your Bench."
+   },
+   {
+    "name": "Hydro Pump",
+    "cost": [
+     "C",
+     "C"
+    ],
+    "damage": "50+",
+    "effect": "This attack does 50 more damage for each {W} Energy attached to this Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "L",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/012",
+  "illustrator": "toriyufu",
+  "fr": {
+   "name": "Hyporoi-ex",
+   "attacks": [
+    {
+     "name": "Ordre du Roi",
+     "effect": "Placez jusqu'à 3 Pokémon {W} de votre pile de défausse sur votre Banc."
+    },
+    {
+     "name": "Hydrocanon",
+     "effect": "Cette attaque inflige 50 dégâts supplémentaires pour chaque Énergie {W} attachée à ce Pokémon."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/012"
+  }
+ },
+ {
+  "id": "sv06.5-013",
+  "set": "sv06.5",
+  "localId": "013",
+  "category": "Pokemon",
+  "name": "Sneasel",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "H",
+  "hp": 70,
+  "types": [
+   "W"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Cut",
+    "cost": [
+     "W"
+    ],
+    "damage": "10"
+   },
+   {
+    "name": "Beset",
+    "cost": [
+     "W",
+     "W"
+    ],
+    "damage": "30",
+    "effect": "During your opponent's next turn, the Defending Pokémon can't retreat."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "M",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/013",
+  "illustrator": "Krgc",
+  "fr": {
+   "name": "Farfuret",
+   "attacks": [
+    {
+     "name": "Coupe"
+    },
+    {
+     "name": "Piégeage",
+     "effect": "Pendant le prochain tour de votre adversaire, le Pokémon Défenseur ne peut pas battre en retraite."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/013"
+  }
+ },
+ {
+  "id": "sv06.5-014",
+  "set": "sv06.5",
+  "localId": "014",
+  "category": "Pokemon",
+  "name": "Weavile",
+  "standard": true,
+  "rarity": "Uncommon",
+  "regulationMark": "H",
+  "hp": 100,
+  "types": [
+   "W"
+  ],
+  "stage": "Stage1",
+  "evolveFrom": "Sneasel",
+  "attacks": [
+   {
+    "name": "Slash",
+    "cost": [
+     "W"
+    ],
+    "damage": "40"
+   },
+   {
+    "name": "Hail Claw",
+    "cost": [
+     "W",
+     "W"
+    ],
+    "damage": "70",
+    "effect": "Discard all Energy from this Pokémon. Your opponent's Active Pokémon is now Paralyzed."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "M",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/014",
+  "illustrator": "aspara",
+  "fr": {
+   "name": "Dimoret",
+   "attacks": [
+    {
+     "name": "Tranche"
+    },
+    {
+     "name": "Griffe Grêle",
+     "effect": "Défaussez toutes les Énergies de ce Pokémon. Le Pokémon Actif de votre adversaire est maintenant Paralysé."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/014"
+  }
+ },
+ {
+  "id": "sv06.5-015",
+  "set": "sv06.5",
+  "localId": "015",
+  "category": "Pokemon",
+  "name": "Revavroom ex",
+  "standard": true,
+  "rarity": "Double rare",
+  "regulationMark": "H",
+  "hp": 280,
+  "types": [
+   "L"
+  ],
+  "stage": "Stage1",
+  "suffix": "ex",
+  "evolveFrom": "Varoom",
+  "attacks": [
+   {
+    "name": "Accelerator Flash",
+    "cost": [
+     "M"
+    ],
+    "damage": "20+",
+    "effect": "If this Pokémon moved from your Bench to the Active Spot this turn, this attack does 120 more damage."
+   },
+   {
+    "name": "Shattering Speed",
+    "cost": [
+     "M",
+     "M",
+     "M"
+    ],
+    "damage": "250",
+    "effect": "Discard this Pokémon and all attached cards."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/015",
+  "illustrator": "PLANETA Mochizuki",
+  "fr": {
+   "name": "Vrombotor-ex",
+   "attacks": [
+    {
+     "name": "Flash Accélérateur",
+     "effect": "Si ce Pokémon a été déplacé de votre Banc vers le Poste Actif pendant ce tour, cette attaque inflige 120 dégâts supplémentaires."
+    },
+    {
+     "name": "Vitesse Fracassante",
+     "effect": "Défaussez ce Pokémon et toutes les cartes qui lui sont attachées."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/015"
+  }
+ },
+ {
+  "id": "sv06.5-016",
+  "set": "sv06.5",
+  "localId": "016",
+  "category": "Pokemon",
+  "name": "Drowzee",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "H",
+  "hp": 70,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Eerie Gaze",
+    "cost": [
+     "P"
+    ],
+    "damage": "10",
+    "effect": "Your opponent reveals their hand."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/016",
+  "illustrator": "OKUBO",
+  "fr": {
+   "name": "Soporifik",
+   "attacks": [
+    {
+     "name": "Regard Étrange",
+     "effect": "Votre adversaire montre sa main."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/016"
+  }
+ },
+ {
+  "id": "sv06.5-017",
+  "set": "sv06.5",
+  "localId": "017",
+  "category": "Pokemon",
+  "name": "Hypno",
+  "standard": true,
+  "rarity": "Uncommon",
+  "regulationMark": "H",
+  "hp": 110,
+  "types": [
+   "P"
+  ],
+  "stage": "Stage1",
+  "evolveFrom": "Drowzee",
+  "attacks": [
+   {
+    "name": "Daydream",
+    "cost": [
+     "P",
+     "C"
+    ],
+    "damage": "80",
+    "effect": "During your opponent's next turn, if they attach an Energy card from their hand to the Defending Pokémon, their turn ends."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/017",
+  "illustrator": "Masako Tomii",
+  "fr": {
+   "name": "Hypnomade",
+   "attacks": [
+    {
+     "name": "Rêve Éveillé",
+     "effect": "Pendant le prochain tour de votre adversaire, s'il attache une carte Énergie de sa main au Pokémon Défenseur, son tour se termine."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/017"
+  }
+ },
+ {
+  "id": "sv06.5-018",
+  "set": "sv06.5",
+  "localId": "018",
+  "category": "Pokemon",
+  "name": "Duskull",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "H",
+  "hp": 60,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Come and Get You",
+    "cost": [
+     "P"
+    ],
+    "effect": "Put up to 3 Duskull from your discard pile onto your Bench."
+   },
+   {
+    "name": "Mumble",
+    "cost": [
+     "P",
+     "P"
+    ],
+    "damage": "30"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/018",
+  "illustrator": "IKEDA Saki",
+  "fr": {
+   "name": "Skelénox",
+   "attacks": [
+    {
+     "name": "Viens me Chercher",
+     "effect": "Placez jusqu'à 3 Skelénox de votre pile de défausse sur votre Banc."
+    },
+    {
+     "name": "Murmure"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/018"
+  }
+ },
+ {
+  "id": "sv06.5-019",
+  "set": "sv06.5",
+  "localId": "019",
+  "category": "Pokemon",
+  "name": "Dusclops",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "H",
+  "hp": 90,
+  "types": [
+   "P"
+  ],
+  "stage": "Stage1",
+  "evolveFrom": "Duskull",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Cursed Blast",
+    "effect": "Once during your turn, you may put 5 damage counters on 1 of your opponent's Pokémon. If you use this Ability, this Pokémon is Knocked Out."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Will-O-Wisp",
+    "cost": [
+     "P",
+     "P"
+    ],
+    "damage": "50"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/019",
+  "illustrator": "Aya Kusube",
+  "fr": {
+   "name": "Téraclope",
+   "abilities": [
+    {
+     "name": "Explosion Maudite",
+     "effect": "Une fois pendant votre tour, vous pouvez placer 5 marqueurs de dégâts sur l'un des Pokémon de votre adversaire. Si vous utilisez ce talent, ce Pokémon est mis K.O."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Feu Follet"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/019"
+  }
+ },
+ {
+  "id": "sv06.5-020",
+  "set": "sv06.5",
+  "localId": "020",
+  "category": "Pokemon",
+  "name": "Dusknoir",
+  "standard": true,
+  "rarity": "Rare",
+  "regulationMark": "H",
+  "hp": 160,
+  "types": [
+   "P"
+  ],
+  "stage": "Stage2",
+  "evolveFrom": "Dusclops",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Cursed Blast",
+    "effect": "Once during your turn, you may put 13 damage counters on 1 of your opponent's Pokémon. If you use this Ability, this Pokémon is Knocked Out."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Shadow Bind",
+    "cost": [
+     "P",
+     "P",
+     "C"
+    ],
+    "damage": "150",
+    "effect": "During your opponent's next turn, the Defending Pokémon can't retreat."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 3,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/020",
+  "illustrator": "danciao",
+  "fr": {
+   "name": "Noctunoir",
+   "abilities": [
+    {
+     "name": "Explosion Maudite",
+     "effect": "Une fois pendant votre tour, vous pouvez placer 13 marqueurs de dégâts sur l'un des Pokémon de votre adversaire. Si vous utilisez ce talent, ce Pokémon est mis K.O."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Étreinte d'Ombre",
+     "effect": "Pendant le prochain tour de votre adversaire, le Pokémon Défenseur ne peut pas battre en retraite."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/020"
+  }
+ },
+ {
+  "id": "sv06.5-021",
+  "set": "sv06.5",
+  "localId": "021",
+  "category": "Pokemon",
+  "name": "Cresselia",
+  "standard": true,
+  "rarity": "Rare",
+  "regulationMark": "H",
+  "hp": 120,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Healing Pirouette",
+    "cost": [
+     "P"
+    ],
+    "effect": "Heal 20 damage from each of your Pokémon."
+   },
+   {
+    "name": "Crescent Purge",
+    "cost": [
+     "P",
+     "P",
+     "P"
+    ],
+    "damage": "80+",
+    "effect": "You may turn 1 of your face-down Prize cards face up. If you do, this attack does 80 more damage. (That Prize card remains face up for the rest of the game.)"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/021",
+  "illustrator": "matazo",
+  "fr": {
+   "name": "Cresselia",
+   "attacks": [
+    {
+     "name": "Pirouette Apaisante",
+     "effect": "Soignez 20 dégâts de chacun de vos Pokémon."
+    },
+    {
+     "name": "Nettoyage Falciforme",
+     "effect": "Vous pouvez retourner l'une de vos cartes Récompense (actuellement face cachée). Dans ce cas, cette attaque inflige 80 dégâts supplémentaires. (Cette carte Récompense reste face découverte pour le reste de la partie.)"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/021"
+  }
+ },
+ {
+  "id": "sv06.5-022",
+  "set": "sv06.5",
+  "localId": "022",
+  "category": "Pokemon",
+  "name": "Sylveon",
+  "standard": true,
+  "rarity": "Uncommon",
+  "regulationMark": "H",
+  "hp": 120,
+  "types": [
+   "P"
+  ],
+  "stage": "Stage1",
+  "evolveFrom": "Eevee",
+  "attacks": [
+   {
+    "name": "Mystical Return",
+    "cost": [
+     "P"
+    ],
+    "effect": "Flip a coin. If heads, choose 1 of your opponent's Benched Pokémon. Shuffle that Pokémon and all attached cards into their deck."
+   },
+   {
+    "name": "Disarming Voice",
+    "cost": [
+     "P",
+     "C",
+     "C"
+    ],
+    "damage": "90",
+    "effect": "Your opponent's Active Pokémon is now Confused."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "M",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/022",
+  "illustrator": "Kuroimori",
+  "fr": {
+   "name": "Nymphali",
+   "attacks": [
+    {
+     "name": "Retour Mystique",
+     "effect": "Lancez une pièce. Si c'est face, choisissez l'un des Pokémon de Banc de votre adversaire. Mélangez avec son deck ce Pokémon-là et toutes les cartes qui lui sont attachées."
+    },
+    {
+     "name": "Voix Enjôleuse",
+     "effect": "Le Pokémon Actif de votre adversaire est maintenant Confus."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/022"
+  }
+ },
+ {
+  "id": "sv06.5-023",
+  "set": "sv06.5",
+  "localId": "023",
+  "category": "Pokemon",
+  "name": "Croagunk",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "H",
+  "hp": 70,
+  "types": [
+   "F"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Light Punch",
+    "cost": [
+     "F"
+    ],
+    "damage": "10"
+   },
+   {
+    "name": "Frog Hop",
+    "cost": [
+     "F",
+     "C"
+    ],
+    "damage": "20+",
+    "effect": "Flip a coin. If heads, this attack does 20 more damage."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "P",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/023",
+  "illustrator": "Aliya Chen",
+  "fr": {
+   "name": "Cradopaud",
+   "attacks": [
+    {
+     "name": "Poing Léger"
+    },
+    {
+     "name": "Bond de Grenouille",
+     "effect": "Lancez une pièce. Si c'est face, cette attaque inflige 20 dégâts supplémentaires."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/023"
+  }
+ },
+ {
+  "id": "sv06.5-024",
+  "set": "sv06.5",
+  "localId": "024",
+  "category": "Pokemon",
+  "name": "Toxicroak",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "H",
+  "hp": 130,
+  "types": [
+   "F"
+  ],
+  "stage": "Stage1",
+  "evolveFrom": "Croagunk",
+  "attacks": [
+   {
+    "name": "Corkscrew Punch",
+    "cost": [
+     "C",
+     "C"
+    ],
+    "damage": "50"
+   },
+   {
+    "name": "Clean Hit",
+    "cost": [
+     "F",
+     "C",
+     "C"
+    ],
+    "damage": "90+",
+    "effect": "If your opponent's Active Pokémon is an Evolution Pokémon, this attack does 90 more damage."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "P",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/024",
+  "illustrator": "Anesaki Dynamic",
+  "fr": {
+   "name": "Coatox",
+   "attacks": [
+    {
+     "name": "Poing Tire-Bouchon"
+    },
+    {
+     "name": "Coup Net",
+     "effect": "Si le Pokémon Actif de votre adversaire est un Pokémon Évolutif, cette attaque inflige 90 dégâts supplémentaires."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/024"
+  }
+ },
+ {
+  "id": "sv06.5-025",
+  "set": "sv06.5",
+  "localId": "025",
+  "category": "Pokemon",
+  "name": "Bloodmoon Ursaluna",
+  "standard": true,
+  "rarity": "Rare",
+  "regulationMark": "H",
+  "hp": 150,
+  "types": [
+   "F"
+  ],
+  "stage": "Basic",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Battle-Hardened",
+    "effect": "When you play this Pokémon from your hand onto your Bench during your turn, you may attach up to 2 Basic {F} Energy cards from your hand to this Pokémon."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Mad Bite",
+    "cost": [
+     "F",
+     "F",
+     "C"
+    ],
+    "damage": "100+",
+    "effect": "This attack does 30 more damage for each damage counter on your opponent's Active Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "G",
+    "value": "×2"
+   }
+  ],
+  "retreat": 4,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/025",
+  "illustrator": "Souichirou Gunjima",
+  "fr": {
+   "name": "Ursaking Lune Vermeille",
+   "abilities": [
+    {
+     "name": "Aguerri au Combat",
+     "effect": "Lorsque vous jouez ce Pokémon de votre main sur votre Banc pendant votre tour, vous pouvez attacher jusqu'à 2 cartes Énergie {F} de base de votre main à ce Pokémon."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Morsure Enragée",
+     "effect": "Cette attaque inflige 30 dégâts supplémentaires pour chaque marqueur de dégâts sur le Pokémon Actif de votre adversaire."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/025"
+  }
+ },
+ {
+  "id": "sv06.5-026",
+  "set": "sv06.5",
+  "localId": "026",
+  "category": "Pokemon",
+  "name": "Slither Wing",
+  "standard": true,
+  "rarity": "Uncommon",
+  "regulationMark": "H",
+  "hp": 140,
+  "types": [
+   "F"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Iron Smasher",
+    "cost": [
+     "F",
+     "C"
+    ],
+    "damage": "20+",
+    "effect": "If your opponent has any Future Pokémon in play, this attack does 120 more damage."
+   },
+   {
+    "name": "Smashing Wing",
+    "cost": [
+     "F",
+     "F",
+     "C"
+    ],
+    "damage": "130",
+    "effect": "Discard 2 Energy from this Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "P",
+    "value": "×2"
+   }
+  ],
+  "retreat": 3,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/026",
+  "illustrator": "Shinji Kanda",
+  "fr": {
+   "name": "Rampe-Ailes",
+   "attacks": [
+    {
+     "name": "Écrasement de Fer",
+     "effect": "Si votre adversaire a au moins un Pokémon Temps futur en jeu, cette attaque inflige 120 dégâts supplémentaires."
+    },
+    {
+     "name": "Aile Fracassante",
+     "effect": "Défaussez 2 Énergies de ce Pokémon."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/026"
+  }
+ },
+ {
+  "id": "sv06.5-027",
+  "set": "sv06.5",
+  "localId": "027",
+  "category": "Pokemon",
+  "name": "Zubat",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "H",
+  "hp": 50,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Lead",
+    "cost": [
+     "D"
+    ],
+    "effect": "Search your deck for a Supporter card, reveal it, and put it into your hand. Then, shuffle your deck."
+   },
+   {
+    "name": "Darkness Fang",
+    "cost": [
+     "D"
+    ],
+    "damage": "10"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "L",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/027",
+  "illustrator": "osare",
+  "fr": {
+   "name": "Nosferapti",
+   "attacks": [
+    {
+     "name": "Mentor",
+     "effect": "Cherchez dans votre deck une carte Supporter, montrez-la, puis ajoutez-la à votre main. Mélangez ensuite votre deck."
+    },
+    {
+     "name": "Croc Obscur"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/027"
+  }
+ },
+ {
+  "id": "sv06.5-028",
+  "set": "sv06.5",
+  "localId": "028",
+  "category": "Pokemon",
+  "name": "Golbat",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "H",
+  "hp": 80,
+  "types": [
+   "D"
+  ],
+  "stage": "Stage1",
+  "evolveFrom": "Zubat",
+  "attacks": [
+   {
+    "name": "Speed Dive",
+    "cost": [
+     "D"
+    ],
+    "damage": "30"
+   },
+   {
+    "name": "Pitch-Black Blade",
+    "cost": [
+     "D",
+     "C"
+    ],
+    "damage": "80",
+    "effect": "During your next turn, this Pokémon can't attack."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "L",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/028",
+  "illustrator": "Teeziro",
+  "fr": {
+   "name": "Nosferalto",
+   "attacks": [
+    {
+     "name": "Plongée Rapide"
+    },
+    {
+     "name": "Lame Fuligineuse",
+     "effect": "Pendant votre prochain tour, ce Pokémon ne peut pas attaquer."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/028"
+  }
+ },
+ {
+  "id": "sv06.5-029",
+  "set": "sv06.5",
+  "localId": "029",
+  "category": "Pokemon",
+  "name": "Crobat",
+  "standard": true,
+  "rarity": "Uncommon",
+  "regulationMark": "H",
+  "hp": 130,
+  "types": [
+   "D"
+  ],
+  "stage": "Stage2",
+  "evolveFrom": "Golbat",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Shadowy Envoy",
+    "effect": "Once during your turn, if you played Janine's Secret Art from your hand this turn, you may draw cards until you have 8 cards in your hand."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Poison Fang",
+    "cost": [
+     "D",
+     "C"
+    ],
+    "damage": "120",
+    "effect": "Your opponent's Active Pokémon is now Poisoned. During Pokémon Checkup, put 2 damage counters on that Pokémon instead of 1."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "L",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 0,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/029",
+  "illustrator": "Nisota Niso",
+  "fr": {
+   "name": "Nostenfer",
+   "abilities": [
+    {
+     "name": "Émissaire de l'Ombre",
+     "effect": "Une fois pendant votre tour, si vous avez joué Art Secret de Jeannine de votre main pendant ce tour, vous pouvez piocher des cartes jusqu'à en avoir 8 en main."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Crochet Venin",
+     "effect": "Le Pokémon Actif de votre adversaire est maintenant Empoisonné. Pendant le Contrôle Pokémon, placez 2 marqueurs de dégâts sur ce Pokémon-là au lieu d'un."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/029"
+  }
+ },
+ {
+  "id": "sv06.5-030",
+  "set": "sv06.5",
+  "localId": "030",
+  "category": "Pokemon",
+  "name": "Absol",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "H",
+  "hp": 110,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Darkfall",
+    "cost": [
+     "C"
+    ],
+    "damage": "20+",
+    "effect": "If you have at least 3 {D} Energy in play, this attack does 50 more damage."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "G",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/030",
+  "illustrator": "rika",
+  "fr": {
+   "name": "Absol",
+   "attacks": [
+    {
+     "name": "Plongée Dans l'Obscurité",
+     "effect": "Si vous avez au moins 3 Énergies {D} en jeu, cette attaque inflige 50 dégâts supplémentaires."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/030"
+  }
+ },
+ {
+  "id": "sv06.5-031",
+  "set": "sv06.5",
+  "localId": "031",
+  "category": "Pokemon",
+  "name": "Zorua",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "H",
+  "hp": 70,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Stampede",
+    "cost": [
+     "C"
+    ],
+    "damage": "10"
+   },
+   {
+    "name": "Double Scratch",
+    "cost": [
+     "D",
+     "C"
+    ],
+    "damage": "20×",
+    "effect": "Flip 2 coins. This attack does 20 damage for each heads."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "G",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/031",
+  "illustrator": "Yuu Nishida",
+  "fr": {
+   "name": "Zorua",
+   "attacks": [
+    {
+     "name": "Ruée"
+    },
+    {
+     "name": "Double Écorchure",
+     "effect": "Lancez 2 pièces. Cette attaque inflige 20 dégâts pour chaque côté face."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/031"
+  }
+ },
+ {
+  "id": "sv06.5-032",
+  "set": "sv06.5",
+  "localId": "032",
+  "category": "Pokemon",
+  "name": "Zoroark",
+  "standard": true,
+  "rarity": "Rare",
+  "regulationMark": "H",
+  "hp": 120,
+  "types": [
+   "D"
+  ],
+  "stage": "Stage1",
+  "evolveFrom": "Zorua",
+  "attacks": [
+   {
+    "name": "Illusory Hijacking",
+    "cost": [
+     "C",
+     "C"
+    ],
+    "damage": "60×",
+    "effect": "This attack does 60 damage for each of your opponent's Pokémon ex and Pokémon V in play."
+   },
+   {
+    "name": "Claw Slash",
+    "cost": [
+     "D",
+     "C",
+     "C"
+    ],
+    "damage": "110"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "G",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/032",
+  "illustrator": "nagimiso",
+  "fr": {
+   "name": "Zoroark",
+   "attacks": [
+    {
+     "name": "Détournement Illusoire",
+     "effect": "Cette attaque inflige 60 dégâts pour chacun des Pokémon-ex et Pokémon-V en jeu de votre adversaire."
+    },
+    {
+     "name": "Tranch'Griffe"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/032"
+  }
+ },
+ {
+  "id": "sv06.5-033",
+  "set": "sv06.5",
+  "localId": "033",
+  "category": "Pokemon",
+  "name": "Inkay",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "H",
+  "hp": 60,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Mischievous Tentacles",
+    "cost": [
+     "C"
+    ],
+    "effect": "Look at the top card of your opponent's deck. You may have your opponent shuffle their deck."
+   },
+   {
+    "name": "Peck",
+    "cost": [
+     "D"
+    ],
+    "damage": "10"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "G",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/033",
+  "illustrator": "Mori Yuu",
+  "fr": {
+   "name": "Sepiatop",
+   "attacks": [
+    {
+     "name": "Tentacules Malicieux",
+     "effect": "Regardez la carte du dessus du deck de votre adversaire. Vous pouvez demander à votre adversaire de mélanger son deck."
+    },
+    {
+     "name": "Picpic"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/033"
+  }
+ },
+ {
+  "id": "sv06.5-034",
+  "set": "sv06.5",
+  "localId": "034",
+  "category": "Pokemon",
+  "name": "Malamar",
+  "standard": true,
+  "rarity": "Uncommon",
+  "regulationMark": "H",
+  "hp": 120,
+  "types": [
+   "D"
+  ],
+  "stage": "Stage1",
+  "evolveFrom": "Inkay",
+  "attacks": [
+   {
+    "name": "Colluding Tentacles",
+    "cost": [
+     "D"
+    ],
+    "effect": "Switch in 1 of your opponent's Benched Pokémon to the Active Spot. If you do, this attack does 120 damage to the new Active Pokémon. If you didn't play Xerosic's Machinations from your hand during this turn, this attack does nothing."
+   },
+   {
+    "name": "Spinning Attack",
+    "cost": [
+     "D",
+     "C",
+     "C"
+    ],
+    "damage": "90"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "G",
+    "value": "×2"
+   }
+  ],
+  "retreat": 3,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/034",
+  "illustrator": "akagi",
+  "fr": {
+   "name": "Sepiatroce",
+   "attacks": [
+    {
+     "name": "Tentacules Comploteurs",
+     "effect": "Envoyez l'un des Pokémon de Banc de votre adversaire sur le Poste Actif. Dans ce cas, cette attaque inflige 120 dégâts au nouveau Pokémon Actif. Si vous n'avez pas joué Machinations de Xanthin de votre main pendant ce tour, cette attaque ne fait rien."
+    },
+    {
+     "name": "Attaque Tournante"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/034"
+  }
+ },
+ {
+  "id": "sv06.5-035",
+  "set": "sv06.5",
+  "localId": "035",
+  "category": "Pokemon",
+  "name": "Yveltal",
+  "standard": true,
+  "rarity": "Uncommon",
+  "regulationMark": "H",
+  "hp": 120,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Corrosive Winds",
+    "cost": [
+     "D"
+    ],
+    "effect": "Put 2 damage counters on each of your opponent's Pokémon that has any damage counters on it."
+   },
+   {
+    "name": "Destructive Beam",
+    "cost": [
+     "D",
+     "D",
+     "C"
+    ],
+    "damage": "100",
+    "effect": "Flip a coin. If heads, discard an Energy from your opponent's Active Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "L",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/035",
+  "illustrator": "SIE NANAHARA",
+  "fr": {
+   "name": "Yveltal",
+   "attacks": [
+    {
+     "name": "Vents Corrosifs",
+     "effect": "Placez 2 marqueurs de dégâts sur chacun des Pokémon de votre adversaire ayant au moins un marqueur de dégâts."
+    },
+    {
+     "name": "Rayon Désintégrateur",
+     "effect": "Lancez une pièce. Si c'est face, défaussez une Énergie du Pokémon Actif de votre adversaire."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/035"
+  }
+ },
+ {
+  "id": "sv06.5-036",
+  "set": "sv06.5",
+  "localId": "036",
+  "category": "Pokemon",
+  "name": "Okidogi ex",
+  "standard": true,
+  "rarity": "Double rare",
+  "regulationMark": "H",
+  "hp": 250,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "suffix": "ex",
+  "attacks": [
+   {
+    "name": "Poisonous Musculature",
+    "cost": [
+     "C"
+    ],
+    "effect": "Search your deck for up to 2 Basic {D} Energy cards and attach them to this Pokémon. Then, shuffle your deck. If you attached Energy to a Pokémon in this way, this Pokémon is now Poisoned."
+   },
+   {
+    "name": "Chain-Crazed",
+    "cost": [
+     "D",
+     "D",
+     "C"
+    ],
+    "damage": "130+",
+    "effect": "If this Pokémon is Poisoned, this attack does 130 more damage."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 3,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/036",
+  "illustrator": "takuyoa",
+  "fr": {
+   "name": "Félicanis-ex",
+   "attacks": [
+    {
+     "name": "Musculature Empoisonnée",
+     "effect": "Cherchez dans votre deck jusqu'à 2 cartes Énergie {D} de base, puis attachez-les à ce Pokémon. Mélangez ensuite votre deck. Si vous avez attaché de l'Énergie à un Pokémon de cette façon, ce Pokémon est maintenant Empoisonné."
+    },
+    {
+     "name": "Chaînes en Folie",
+     "effect": "Si ce Pokémon est Empoisonné, cette attaque inflige 130 dégâts supplémentaires."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/036"
+  }
+ },
+ {
+  "id": "sv06.5-037",
+  "set": "sv06.5",
+  "localId": "037",
+  "category": "Pokemon",
+  "name": "Munkidori ex",
+  "standard": true,
+  "rarity": "Double rare",
+  "regulationMark": "H",
+  "hp": 210,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "suffix": "ex",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Oh No You Don't",
+    "effect": "If this Pokémon is Knocked Out by damage from an attack from your opponent's Pokémon, and if you have any Pecharunt ex in play, your opponent takes 1 fewer Prize card."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Dirty Headbutt",
+    "cost": [
+     "D",
+     "D",
+     "C"
+    ],
+    "damage": "190",
+    "effect": "During your next turn, this Pokémon can't use Dirty Headbutt."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/037",
+  "illustrator": "takuyoa",
+  "fr": {
+   "name": "Fortusimia-ex",
+   "abilities": [
+    {
+     "name": "Fausse Joie",
+     "effect": "Si ce Pokémon est mis K.O. par les dégâts d'une attaque de l'un des Pokémon de votre adversaire, et si vous avez au moins un Pêchaminus-ex en jeu, votre adversaire récupère une carte Récompense de moins."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Coup d'Boule Abject",
+     "effect": "Pendant votre prochain tour, ce Pokémon ne peut pas utiliser Coup d'Boule Abject."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/037"
+  }
+ },
+ {
+  "id": "sv06.5-038",
+  "set": "sv06.5",
+  "localId": "038",
+  "category": "Pokemon",
+  "name": "Fezandipiti ex",
+  "standard": true,
+  "rarity": "Double rare",
+  "regulationMark": "H",
+  "hp": 210,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "suffix": "ex",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Flip the Script",
+    "effect": "Once during your turn, if any of your Pokémon were Knocked Out during your opponent's last turn, you may draw 3 cards. You can't use more than 1 Flip the Script Ability each turn."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Cruel Arrow",
+    "cost": [
+     "C",
+     "C",
+     "C"
+    ],
+    "effect": "This attack does 100 damage to 1 of your opponent's Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/038",
+  "illustrator": "takuyoa",
+  "fr": {
+   "name": "Favianos-ex",
+   "abilities": [
+    {
+     "name": "Renverser la Tendance",
+     "effect": "Une fois pendant votre tour, si l'un de vos Pokémon a été mis K.O. pendant le dernier tour de votre adversaire, vous pouvez piocher 3 cartes. Vous ne pouvez utiliser qu'un talent Renverser la Tendance par tour."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Flèche Cruelle",
+     "effect": "Cette attaque inflige 100 dégâts à l'un des Pokémon de votre adversaire. (N'appliquez ni la Faiblesse ni la Résistance aux Pokémon de Banc.)"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/038"
+  }
+ },
+ {
+  "id": "sv06.5-039",
+  "set": "sv06.5",
+  "localId": "039",
+  "category": "Pokemon",
+  "name": "Pecharunt ex",
+  "standard": true,
+  "rarity": "Double rare",
+  "regulationMark": "H",
+  "hp": 190,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "suffix": "ex",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Subjugating Chains",
+    "effect": "Once during your turn, you may switch 1 of your Benched {D} Pokémon, except any Pecharunt ex, with your Active Pokémon. If you do, the new Active Pokémon is now Poisoned. You can't use more than 1 Subjugating Chains Ability each turn."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Irritated Outburst",
+    "cost": [
+     "D",
+     "D"
+    ],
+    "damage": "60×",
+    "effect": "This attack does 60 damage for each Prize card your opponent has taken."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/039",
+  "illustrator": "aky CG Works",
+  "fr": {
+   "name": "Pêchaminus-ex",
+   "abilities": [
+    {
+     "name": "Chaînes Emprise",
+     "effect": "Une fois pendant votre tour, vous pouvez échanger l'un de vos Pokémon {D} de Banc, à l'exception de Pêchaminus-ex, contre votre Pokémon Actif. Dans ce cas, le nouveau Pokémon Actif est maintenant Empoisonné. Vous ne pouvez utiliser qu'un talent Chaînes Emprise par tour."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Emportement Agacé",
+     "effect": "Cette attaque inflige 60 dégâts pour chaque carte Récompense que votre adversaire a récupérée."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/039"
+  }
+ },
+ {
+  "id": "sv06.5-040",
+  "set": "sv06.5",
+  "localId": "040",
+  "category": "Pokemon",
+  "name": "Genesect",
+  "standard": true,
+  "rarity": "Uncommon",
+  "regulationMark": "H",
+  "hp": 110,
+  "types": [
+   "M"
+  ],
+  "stage": "Basic",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "ACE Nullifier",
+    "effect": "If this Pokémon has a Pokémon Tool attached, your opponent can't play any ACE SPEC cards from their hand."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Magnetic Blast",
+    "cost": [
+     "M",
+     "C",
+     "C"
+    ],
+    "damage": "100"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "G",
+    "value": "-30"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/040",
+  "illustrator": "Kazumasa Yasukuni",
+  "fr": {
+   "name": "Genesect",
+   "abilities": [
+    {
+     "name": "Annihilateur HIGH",
+     "effect": "Si un Outil Pokémon est attaché à ce Pokémon, votre adversaire ne peut pas jouer de cartes HIGH-TECH de sa main."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Explosion Magnétique"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/040"
+  }
+ },
+ {
+  "id": "sv06.5-041",
+  "set": "sv06.5",
+  "localId": "041",
+  "category": "Pokemon",
+  "name": "Cufant",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "H",
+  "hp": 100,
+  "types": [
+   "M"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Tackle",
+    "cost": [
+     "M",
+     "C"
+    ],
+    "damage": "30"
+   },
+   {
+    "name": "Confront",
+    "cost": [
+     "M",
+     "M",
+     "C"
+    ],
+    "damage": "70"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "G",
+    "value": "-30"
+   }
+  ],
+  "retreat": 3,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/041",
+  "illustrator": "Shinya Mizuno",
+  "fr": {
+   "name": "Charibari",
+   "attacks": [
+    {
+     "name": "Charge"
+    },
+    {
+     "name": "Confrontation"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/041"
+  }
+ },
+ {
+  "id": "sv06.5-042",
+  "set": "sv06.5",
+  "localId": "042",
+  "category": "Pokemon",
+  "name": "Copperajah",
+  "standard": true,
+  "rarity": "Rare",
+  "regulationMark": "H",
+  "hp": 200,
+  "types": [
+   "M"
+  ],
+  "stage": "Stage1",
+  "evolveFrom": "Cufant",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Massive Body",
+    "effect": "As long as this Pokémon is in the Active Spot, your opponent can't play any Stadium cards from their hand."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Nasal Lariat",
+    "cost": [
+     "M",
+     "M",
+     "M",
+     "C"
+    ],
+    "damage": "130+",
+    "effect": "You may do 100 more damage. If you do, during your next turn, this Pokémon can't attack."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "G",
+    "value": "-30"
+   }
+  ],
+  "retreat": 4,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/042",
+  "illustrator": "kawayoo",
+  "fr": {
+   "name": "Pachyradjah",
+   "abilities": [
+    {
+     "name": "Corps Massif",
+     "effect": "Tant que ce Pokémon est sur le Poste Actif, votre adversaire ne peut pas jouer de cartes Stade de sa main."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Lasso Nasal",
+     "effect": "Vous pouvez infliger 100 dégâts supplémentaires. Dans ce cas, pendant votre prochain tour, ce Pokémon ne peut pas attaquer."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/042"
+  }
+ },
+ {
+  "id": "sv06.5-043",
+  "set": "sv06.5",
+  "localId": "043",
+  "category": "Pokemon",
+  "name": "Varoom",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "H",
+  "hp": 70,
+  "types": [
+   "M"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Rigidify",
+    "cost": [
+     "M"
+    ],
+    "effect": "During your opponent's next turn, this Pokémon takes 30 less damage from attacks (after applying Weakness and Resistance)."
+   },
+   {
+    "name": "Headbutt Bounce",
+    "cost": [
+     "M",
+     "M"
+    ],
+    "damage": "20"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "G",
+    "value": "-30"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/043",
+  "illustrator": "HAGIYA Kaoru",
+  "fr": {
+   "name": "Vrombi",
+   "attacks": [
+    {
+     "name": "Solidification",
+     "effect": "Pendant le prochain tour de votre adversaire, ce Pokémon subit 30 dégâts de moins provenant des attaques (après application de la Faiblesse et de la Résistance)."
+    },
+    {
+     "name": "Culbute Surprise"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/043"
+  }
+ },
+ {
+  "id": "sv06.5-044",
+  "set": "sv06.5",
+  "localId": "044",
+  "category": "Pokemon",
+  "name": "Axew",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "H",
+  "hp": 70,
+  "types": [
+   "N"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Scratch",
+    "cost": [
+     "F"
+    ],
+    "damage": "10"
+   },
+   {
+    "name": "Sharp Fang",
+    "cost": [
+     "F",
+     "M"
+    ],
+    "damage": "30"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/044",
+  "illustrator": "Orca",
+  "fr": {
+   "name": "Coupenotte",
+   "attacks": [
+    {
+     "name": "Griffe"
+    },
+    {
+     "name": "Croc Aiguisé"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/044"
+  }
+ },
+ {
+  "id": "sv06.5-045",
+  "set": "sv06.5",
+  "localId": "045",
+  "category": "Pokemon",
+  "name": "Fraxure",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "H",
+  "hp": 100,
+  "types": [
+   "N"
+  ],
+  "stage": "Stage1",
+  "evolveFrom": "Axew",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Unnerve",
+    "effect": "Whenever your opponent plays an Item or Supporter card from their hand, prevent all effects of that card done to this Pokémon."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Dragon Pulse",
+    "cost": [
+     "F",
+     "M"
+    ],
+    "damage": "80",
+    "effect": "Discard the top card of your deck."
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/045",
+  "illustrator": "Uninori",
+  "fr": {
+   "name": "Incisache",
+   "abilities": [
+    {
+     "name": "Tension",
+     "effect": "Chaque fois que votre adversaire joue une carte Objet ou Supporter de sa main, évitez tous les effets de cette carte sur ce Pokémon."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Draco-Choc",
+     "effect": "Défaussez la carte du dessus de votre deck."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/045"
+  }
+ },
+ {
+  "id": "sv06.5-046",
+  "set": "sv06.5",
+  "localId": "046",
+  "category": "Pokemon",
+  "name": "Haxorus",
+  "standard": true,
+  "rarity": "Rare",
+  "regulationMark": "H",
+  "hp": 170,
+  "types": [
+   "N"
+  ],
+  "stage": "Stage2",
+  "evolveFrom": "Fraxure",
+  "attacks": [
+   {
+    "name": "Bring Down the Axe",
+    "cost": [
+     "F"
+    ],
+    "effect": "If your opponent's Active Pokémon has any Special Energy attached, it is Knocked Out."
+   },
+   {
+    "name": "Dragon Pulse",
+    "cost": [
+     "F",
+     "M"
+    ],
+    "damage": "230",
+    "effect": "Discard the top 3 cards of your deck."
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/046",
+  "illustrator": "Tsuyoshi Nagano",
+  "fr": {
+   "name": "Tranchodon",
+   "attacks": [
+    {
+     "name": "Hachèvement",
+     "effect": "Si au moins une Énergie spéciale est attachée au Pokémon Actif de votre adversaire, il est mis K.O."
+    },
+    {
+     "name": "Draco-Choc",
+     "effect": "Défaussez les 3 cartes du dessus de votre deck."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/046"
+  }
+ },
+ {
+  "id": "sv06.5-047",
+  "set": "sv06.5",
+  "localId": "047",
+  "category": "Pokemon",
+  "name": "Kyurem",
+  "standard": true,
+  "rarity": "Uncommon",
+  "regulationMark": "H",
+  "hp": 130,
+  "types": [
+   "N"
+  ],
+  "stage": "Basic",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Plasma Bane",
+    "effect": "If your opponent has any cards in their discard pile that have \"Colress\" in the name, this Pokémon can use the Trifrost attack for {C}."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Trifrost",
+    "cost": [
+     "W",
+     "W",
+     "M",
+     "M",
+     "C"
+    ],
+    "effect": "Discard all Energy from this Pokémon. This attack does 110 damage to 3 of your opponent's Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/047",
+  "illustrator": "Shiburingaru",
+  "fr": {
+   "name": "Kyurem",
+   "abilities": [
+    {
+     "name": "Fléau Plasma",
+     "effect": "Si votre adversaire a dans sa pile de défausse au moins une carte ayant \" Nikolaï \" dans son nom, ce Pokémon peut utiliser l'attaque Triple Givre pour {C}."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Triple Givre",
+     "effect": "Défaussez toutes les Énergies de ce Pokémon. Cette attaque inflige 110 dégâts à 3 des Pokémon de votre adversaire. (N'appliquez ni la Faiblesse ni la Résistance aux Pokémon de Banc.)"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/047"
+  }
+ },
+ {
+  "id": "sv06.5-048",
+  "set": "sv06.5",
+  "localId": "048",
+  "category": "Pokemon",
+  "name": "Meowth",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "H",
+  "hp": 70,
+  "types": [
+   "C"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Fury Swipes",
+    "cost": [
+     "C",
+     "C"
+    ],
+    "damage": "20×",
+    "effect": "Flip 3 coins. This attack does 20 damage for each heads."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/048",
+  "illustrator": "sui",
+  "fr": {
+   "name": "Miaouss",
+   "attacks": [
+    {
+     "name": "Combo-Griffe",
+     "effect": "Lancez 3 pièces. Cette attaque inflige 20 dégâts pour chaque côté face."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/048"
+  }
+ },
+ {
+  "id": "sv06.5-049",
+  "set": "sv06.5",
+  "localId": "049",
+  "category": "Pokemon",
+  "name": "Persian",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "H",
+  "hp": 110,
+  "types": [
+   "C"
+  ],
+  "stage": "Stage1",
+  "evolveFrom": "Meowth",
+  "attacks": [
+   {
+    "name": "Fury Swipes",
+    "cost": [
+     "C",
+     "C"
+    ],
+    "damage": "50×",
+    "effect": "Flip 3 coins. This attack does 50 damage for each heads."
+   },
+   {
+    "name": "Slashing Claw",
+    "cost": [
+     "C",
+     "C",
+     "C"
+    ],
+    "damage": "100"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/049",
+  "illustrator": "NC Empire",
+  "fr": {
+   "name": "Persian",
+   "attacks": [
+    {
+     "name": "Combo-Griffe",
+     "effect": "Lancez 3 pièces. Cette attaque inflige 50 dégâts pour chaque côté face."
+    },
+    {
+     "name": "Griffe Taillante"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/049"
+  }
+ },
+ {
+  "id": "sv06.5-050",
+  "set": "sv06.5",
+  "localId": "050",
+  "category": "Pokemon",
+  "name": "Eevee",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "H",
+  "hp": 70,
+  "types": [
+   "C"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Colorful Catch",
+    "cost": [
+     "C"
+    ],
+    "effect": "Search your deck for up to 3 Basic Energy cards of different types, reveal them, and put them into your hand. Then, shuffle your deck."
+   },
+   {
+    "name": "Headbutt",
+    "cost": [
+     "C",
+     "C"
+    ],
+    "damage": "20"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/050",
+  "illustrator": "Susumu Maeya",
+  "fr": {
+   "name": "Évoli",
+   "attacks": [
+    {
+     "name": "Prise Colorée",
+     "effect": "Cherchez dans votre deck jusqu'à 3 cartes Énergie de base de types différents, montrez-les, puis ajoutez-les à votre main. Mélangez ensuite votre deck."
+    },
+    {
+     "name": "Coup d'Boule"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/050"
+  }
+ },
+ {
+  "id": "sv06.5-051",
+  "set": "sv06.5",
+  "localId": "051",
+  "category": "Pokemon",
+  "name": "Furfrou",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "H",
+  "hp": 100,
+  "types": [
+   "C"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Energy Assist",
+    "cost": [
+     "C"
+    ],
+    "damage": "30",
+    "effect": "Attach a Basic Energy card from your discard pile to 1 of your Benched Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/051",
+  "illustrator": "Shinya Komatsu",
+  "fr": {
+   "name": "Couafarel",
+   "attacks": [
+    {
+     "name": "Assistance Énergétique",
+     "effect": "Attachez une carte Énergie de base de votre pile de défausse à l'un de vos Pokémon de Banc."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/051"
+  }
+ },
+ {
+  "id": "sv06.5-052",
+  "set": "sv06.5",
+  "localId": "052",
+  "category": "Pokemon",
+  "name": "Stufful",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "H",
+  "hp": 80,
+  "types": [
+   "C"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Take Down",
+    "cost": [
+     "C"
+    ],
+    "damage": "30",
+    "effect": "This Pokémon also does 10 damage to itself."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/052",
+  "illustrator": "ryoma uratsuka",
+  "fr": {
+   "name": "Nounourson",
+   "attacks": [
+    {
+     "name": "Bélier",
+     "effect": "Ce Pokémon s'inflige aussi 10 dégâts."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/052"
+  }
+ },
+ {
+  "id": "sv06.5-053",
+  "set": "sv06.5",
+  "localId": "053",
+  "category": "Pokemon",
+  "name": "Bewear",
+  "standard": true,
+  "rarity": "Common",
+  "regulationMark": "H",
+  "hp": 130,
+  "types": [
+   "C"
+  ],
+  "stage": "Stage1",
+  "evolveFrom": "Stufful",
+  "attacks": [
+   {
+    "name": "Power Charger",
+    "cost": [
+     "C"
+    ],
+    "damage": "30",
+    "effect": "Search your deck for a Basic Energy card and attach it to this Pokémon. Then, shuffle your deck."
+   },
+   {
+    "name": "Hammer In",
+    "cost": [
+     "C",
+     "C",
+     "C"
+    ],
+    "damage": "130"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 3,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/053",
+  "illustrator": "Takeshi Nakamura",
+  "fr": {
+   "name": "Chelours",
+   "attacks": [
+    {
+     "name": "Charge Puissance",
+     "effect": "Cherchez dans votre deck une carte Énergie de base, puis attachez-la à ce Pokémon. Mélangez ensuite votre deck."
+    },
+    {
+     "name": "Enfoncement"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/053"
+  }
+ },
+ {
+  "id": "sv06.5-054",
+  "set": "sv06.5",
+  "localId": "054",
+  "category": "Trainer",
+  "name": "Academy at Night",
+  "standard": true,
+  "rarity": "Uncommon",
+  "regulationMark": "H",
+  "trainerType": "Stadium",
+  "effect": "Once during each player's turn, that player may put a card from their hand on top of their deck.",
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/054",
+  "illustrator": "AYUMI ODASHIMA",
+  "fr": {
+   "name": "Académie de Nuit",
+   "effect": "Une fois pendant le tour de chaque joueur, ce joueur-là peut placer une carte de sa main sur le dessus de son deck.",
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/054"
+  }
+ },
+ {
+  "id": "sv06.5-055",
+  "set": "sv06.5",
+  "localId": "055",
+  "category": "Trainer",
+  "name": "Binding Mochi",
+  "standard": true,
+  "rarity": "Uncommon",
+  "regulationMark": "H",
+  "trainerType": "Tool",
+  "effect": "Attacks used by the Poisoned Pokémon this card is attached to do 40 more damage to your opponent's Active Pokémon (before applying Weakness and Resistance).",
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/055",
+  "illustrator": "5ban Graphics",
+  "fr": {
+   "name": "Mochi de Servitude",
+   "effect": "Les attaques utilisées par le Pokémon Empoisonné auquel cette carte est attachée infligent 40 dégâts supplémentaires au Pokémon Actif de votre adversaire (avant application de la Faiblesse et de la Résistance).",
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/055"
+  }
+ },
+ {
+  "id": "sv06.5-056",
+  "set": "sv06.5",
+  "localId": "056",
+  "category": "Trainer",
+  "name": "Cassiopeia",
+  "standard": true,
+  "rarity": "Uncommon",
+  "regulationMark": "H",
+  "trainerType": "Supporter",
+  "effect": "You can use this card only when it is the last card in your hand.\n\nSearch your deck for up to 2 cards and put them into your hand. Then, shuffle your deck.",
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/056",
+  "illustrator": "Atsushi Furusawa",
+  "fr": {
+   "name": "Cassiopée",
+   "effect": "Vous ne pouvez utiliser cette carte que si c'est votre dernière carte en main.\nCherchez dans votre deck jusqu'à 2 cartes, puis ajoutez-les à votre main. Mélangez ensuite votre deck.",
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/056"
+  }
+ },
+ {
+  "id": "sv06.5-057",
+  "set": "sv06.5",
+  "localId": "057",
+  "category": "Trainer",
+  "name": "Colress's Tenacity",
+  "standard": true,
+  "rarity": "Uncommon",
+  "regulationMark": "H",
+  "trainerType": "Supporter",
+  "effect": "Search your deck for a Stadium card and an Energy card, reveal them, and put them into your hand. Then, shuffle your deck.",
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/057",
+  "illustrator": "hncl",
+  "fr": {
+   "name": "Ténacité de Nikolaï",
+   "effect": "Cherchez dans votre deck une carte Stade et une carte Énergie, montrez-les, puis ajoutez-les à votre main. Mélangez ensuite votre deck.",
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/057"
+  }
+ },
+ {
+  "id": "sv06.5-058",
+  "set": "sv06.5",
+  "localId": "058",
+  "category": "Trainer",
+  "name": "Dangerous Laser",
+  "standard": true,
+  "rarity": "ACE SPEC Rare",
+  "regulationMark": "H",
+  "trainerType": "Item",
+  "effect": "Your opponent's Active Pokémon is now Burned and Confused.",
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/058",
+  "illustrator": "inose yukie",
+  "fr": {
+   "name": "Laser Dangereux",
+   "effect": "Le Pokémon Actif de votre adversaire est maintenant Brûlé et Confus.",
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/058"
+  }
+ },
+ {
+  "id": "sv06.5-059",
+  "set": "sv06.5",
+  "localId": "059",
+  "category": "Trainer",
+  "name": "Janine's Secret Art",
+  "standard": true,
+  "rarity": "Uncommon",
+  "regulationMark": "H",
+  "trainerType": "Supporter",
+  "effect": "Choose up to 2 of your {D} Pokémon. For each of those Pokémon, search your deck for a Basic {D} Energy card and attach it to that Pokémon. Then, shuffle your deck. If you attached Energy to your Active Pokémon in this way, it is now Poisoned.",
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/059",
+  "illustrator": "Taira Akitsu",
+  "fr": {
+   "name": "Art Secret de Jeannine",
+   "effect": "Choisissez jusqu'à 2 de vos Pokémon {D}. Pour chacun de ces Pokémon, cherchez dans votre deck une carte Énergie {D} de base, puis attachez-la à ce Pokémon-là. Mélangez ensuite votre deck. Si vous avez attaché de l'Énergie à votre Pokémon Actif de cette façon, celui-ci est maintenant Empoisonné.",
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/059"
+  }
+ },
+ {
+  "id": "sv06.5-060",
+  "set": "sv06.5",
+  "localId": "060",
+  "category": "Trainer",
+  "name": "Neutralization Zone",
+  "standard": true,
+  "rarity": "ACE SPEC Rare",
+  "regulationMark": "H",
+  "trainerType": "Stadium",
+  "effect": "Prevent all damage done to Pokémon that don't have a Rule Box (both yours and your opponent's) by attacks from the opponent's Pokémon ex and Pokémon V. (Pokémon ex, Pokémon V, etc. have Rule Boxes.)\n\nThis card can't be put into your hand or deck from the discard pile.",
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/060",
+  "illustrator": "imoniii",
+  "fr": {
+   "name": "Zone de Neutralisation",
+   "effect": "Évitez tous les dégâts infligés aux Pokémon sans encadré Règle (les vôtres et ceux de votre adversaire) par les attaques des Pokémon-ex et des Pokémon-V de l'adversaire. (Les Pokémon-ex, Pokémon-V, etc. ont des encadrés Règle.)\nCette carte ne peut pas être ajoutée à votre main ou placée dans votre deck depuis la pile de défausse.",
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/060"
+  }
+ },
+ {
+  "id": "sv06.5-061",
+  "set": "sv06.5",
+  "localId": "061",
+  "category": "Trainer",
+  "name": "Night Stretcher",
+  "standard": true,
+  "rarity": "Uncommon",
+  "regulationMark": "H",
+  "trainerType": "Item",
+  "effect": "Put a Pokémon or a Basic Energy card from your discard pile into your hand.",
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/061",
+  "illustrator": "Toyste Beach",
+  "fr": {
+   "name": "Civière Nocturne",
+   "effect": "Ajoutez un Pokémon ou une carte Énergie de base de votre pile de défausse à votre main.",
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/061"
+  }
+ },
+ {
+  "id": "sv06.5-062",
+  "set": "sv06.5",
+  "localId": "062",
+  "category": "Trainer",
+  "name": "Poké Vital A",
+  "standard": true,
+  "rarity": "ACE SPEC Rare",
+  "regulationMark": "H",
+  "trainerType": "Item",
+  "effect": "Heal 150 damage from 1 of your Pokémon.\n\nThis card can't be put into your hand or deck from the discard pile.",
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/062",
+  "illustrator": "Toyste Beach",
+  "fr": {
+   "name": "Poké Vital A",
+   "effect": "Soignez 150 dégâts de l'un de vos Pokémon.\nCette carte ne peut pas être ajoutée à votre main ou placée dans votre deck depuis la pile de défausse.",
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/062"
+  }
+ },
+ {
+  "id": "sv06.5-063",
+  "set": "sv06.5",
+  "localId": "063",
+  "category": "Trainer",
+  "name": "Powerglass",
+  "standard": true,
+  "rarity": "Uncommon",
+  "regulationMark": "H",
+  "trainerType": "Tool",
+  "effect": "At the end of your turn (after your attack), if the Pokémon this card is attached to is in the Active Spot, you may attach a Basic Energy card from your discard pile to it.",
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/063",
+  "illustrator": "Studio Bora Inc.",
+  "fr": {
+   "name": "Sablier du Pouvoir",
+   "effect": "À la fin de votre tour (après votre attaque), si le Pokémon auquel cette carte est attachée est sur le Poste Actif, vous pouvez lui attacher une carte Énergie de base de votre pile de défausse.",
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/063"
+  }
+ },
+ {
+  "id": "sv06.5-064",
+  "set": "sv06.5",
+  "localId": "064",
+  "category": "Trainer",
+  "name": "Xerosic's Machinations",
+  "standard": true,
+  "rarity": "Uncommon",
+  "regulationMark": "H",
+  "trainerType": "Supporter",
+  "effect": "Your opponent discards cards from their hand until they have 3 cards in their hand.",
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/064",
+  "illustrator": "GOSSAN",
+  "fr": {
+   "name": "Machinations de Xanthin",
+   "effect": "Votre adversaire défausse des cartes de sa main jusqu'à en avoir 3 en main.",
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/064"
+  }
+ },
+ {
+  "id": "sv06.5-065",
+  "set": "sv06.5",
+  "localId": "065",
+  "category": "Pokemon",
+  "name": "Tapu Bulu",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "H",
+  "hp": 140,
+  "types": [
+   "G"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Wood Hammer",
+    "cost": [
+     "G",
+     "G",
+     "C",
+     "C"
+    ],
+    "damage": "220",
+    "effect": "This Pokémon also does 30 damage to itself."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "retreat": 3,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/065",
+  "illustrator": "IKEDA Saki",
+  "fr": {
+   "name": "Tokotoro",
+   "attacks": [
+    {
+     "name": "Martobois",
+     "effect": "Ce Pokémon s'inflige aussi 30 dégâts."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/065"
+  }
+ },
+ {
+  "id": "sv06.5-066",
+  "set": "sv06.5",
+  "localId": "066",
+  "category": "Pokemon",
+  "name": "Houndoom",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "H",
+  "hp": 120,
+  "types": [
+   "R"
+  ],
+  "stage": "Stage1",
+  "evolveFrom": "Houndour",
+  "attacks": [
+   {
+    "name": "Bite",
+    "cost": [
+     "C",
+     "C"
+    ],
+    "damage": "50"
+   },
+   {
+    "name": "Snarl",
+    "cost": [
+     "R",
+     "C",
+     "C"
+    ],
+    "damage": "100",
+    "effect": "During your opponent's next turn, attacks used by the Defending Pokémon do 100 less damage (before applying Weakness and Resistance)."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "W",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/066",
+  "illustrator": "Taiga Kasai",
+  "fr": {
+   "name": "Démolosse",
+   "attacks": [
+    {
+     "name": "Morsure"
+    },
+    {
+     "name": "Aboiement",
+     "effect": "Pendant le prochain tour de votre adversaire, les attaques utilisées par le Pokémon Défenseur infligent 100 dégâts de moins (avant application de la Faiblesse et de la Résistance)."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/066"
+  }
+ },
+ {
+  "id": "sv06.5-067",
+  "set": "sv06.5",
+  "localId": "067",
+  "category": "Pokemon",
+  "name": "Horsea",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "H",
+  "hp": 60,
+  "types": [
+   "W"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Hold Still",
+    "cost": [
+     "W"
+    ],
+    "effect": "Heal 30 damage from this Pokémon."
+   },
+   {
+    "name": "Razor Fin",
+    "cost": [
+     "C",
+     "C"
+    ],
+    "damage": "20"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "L",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/067",
+  "illustrator": "Shinya Komatsu",
+  "fr": {
+   "name": "Hypotrempe",
+   "attacks": [
+    {
+     "name": "Ne Bougez Pas",
+     "effect": "Soignez 30 dégâts de ce Pokémon."
+    },
+    {
+     "name": "Aileron-Rasoir"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/067"
+  }
+ },
+ {
+  "id": "sv06.5-068",
+  "set": "sv06.5",
+  "localId": "068",
+  "category": "Pokemon",
+  "name": "Duskull",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "H",
+  "hp": 60,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Come and Get You",
+    "cost": [
+     "P"
+    ],
+    "effect": "Put up to 3 Duskull from your discard pile onto your Bench."
+   },
+   {
+    "name": "Mumble",
+    "cost": [
+     "P",
+     "P"
+    ],
+    "damage": "30"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/068",
+  "illustrator": "James Turner",
+  "fr": {
+   "name": "Skelénox",
+   "attacks": [
+    {
+     "name": "Viens me Chercher",
+     "effect": "Placez jusqu'à 3 Skelénox de votre pile de défausse sur votre Banc."
+    },
+    {
+     "name": "Murmure"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/068"
+  }
+ },
+ {
+  "id": "sv06.5-069",
+  "set": "sv06.5",
+  "localId": "069",
+  "category": "Pokemon",
+  "name": "Dusclops",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "H",
+  "hp": 90,
+  "types": [
+   "P"
+  ],
+  "stage": "Stage1",
+  "evolveFrom": "Duskull",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Cursed Blast",
+    "effect": "Once during your turn, you may put 5 damage counters on 1 of your opponent's Pokémon. If you use this Ability, this Pokémon is Knocked Out."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Will-O-Wisp",
+    "cost": [
+     "P",
+     "P"
+    ],
+    "damage": "50"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/069",
+  "illustrator": "James Turner",
+  "fr": {
+   "name": "Téraclope",
+   "abilities": [
+    {
+     "name": "Explosion Maudite",
+     "effect": "Une fois pendant votre tour, vous pouvez placer 5 marqueurs de dégâts sur l'un des Pokémon de votre adversaire. Si vous utilisez ce talent, ce Pokémon est mis K.O."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Feu Follet"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/069"
+  }
+ },
+ {
+  "id": "sv06.5-070",
+  "set": "sv06.5",
+  "localId": "070",
+  "category": "Pokemon",
+  "name": "Dusknoir",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "H",
+  "hp": 160,
+  "types": [
+   "P"
+  ],
+  "stage": "Stage2",
+  "evolveFrom": "Dusclops",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Cursed Blast",
+    "effect": "Once during your turn, you may put 13 damage counters on 1 of your opponent's Pokémon. If you use this Ability, this Pokémon is Knocked Out."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Shadow Bind",
+    "cost": [
+     "P",
+     "P",
+     "C"
+    ],
+    "damage": "150",
+    "effect": "During your opponent's next turn, the Defending Pokémon can't retreat."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 3,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/070",
+  "illustrator": "James Turner",
+  "fr": {
+   "name": "Noctunoir",
+   "abilities": [
+    {
+     "name": "Explosion Maudite",
+     "effect": "Une fois pendant votre tour, vous pouvez placer 13 marqueurs de dégâts sur l'un des Pokémon de votre adversaire. Si vous utilisez ce talent, ce Pokémon est mis K.O."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Étreinte d'Ombre",
+     "effect": "Pendant le prochain tour de votre adversaire, le Pokémon Défenseur ne peut pas battre en retraite."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/070"
+  }
+ },
+ {
+  "id": "sv06.5-071",
+  "set": "sv06.5",
+  "localId": "071",
+  "category": "Pokemon",
+  "name": "Cresselia",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "H",
+  "hp": 120,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Healing Pirouette",
+    "cost": [
+     "P"
+    ],
+    "effect": "Heal 20 damage from each of your Pokémon."
+   },
+   {
+    "name": "Crescent Purge",
+    "cost": [
+     "P",
+     "P",
+     "P"
+    ],
+    "damage": "80+",
+    "effect": "You may turn 1 of your face-down Prize cards face up. If you do, this attack does 80 more damage. (That Prize card remains face up for the rest of the game.)"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/071",
+  "illustrator": "satoma",
+  "fr": {
+   "name": "Cresselia",
+   "attacks": [
+    {
+     "name": "Pirouette Apaisante",
+     "effect": "Soignez 20 dégâts de chacun de vos Pokémon."
+    },
+    {
+     "name": "Nettoyage Falciforme",
+     "effect": "Vous pouvez retourner l'une de vos cartes Récompense (actuellement face cachée). Dans ce cas, cette attaque inflige 80 dégâts supplémentaires. (Cette carte Récompense reste face découverte pour le reste de la partie.)"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/071"
+  }
+ },
+ {
+  "id": "sv06.5-072",
+  "set": "sv06.5",
+  "localId": "072",
+  "category": "Pokemon",
+  "name": "Munkidori",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "H",
+  "hp": 110,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Adrena-Brain",
+    "effect": "Once during your turn, if this Pokémon has any {D} Energy attached, you may move up to 3 damage counters from 1 of your Pokémon to 1 of your opponent's Pokémon."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Mind Bend",
+    "cost": [
+     "P",
+     "C"
+    ],
+    "damage": "60",
+    "effect": "Your opponent's Active Pokémon is now Confused."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "D",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "F",
+    "value": "-30"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/072",
+  "illustrator": "Teeziro",
+  "fr": {
+   "name": "Fortusimia",
+   "abilities": [
+    {
+     "name": "Adréna-Mental",
+     "effect": "Une fois pendant votre tour, si ce Pokémon a au moins une Énergie {D} attachée, vous pouvez déplacer jusqu'à 3 marqueurs de dégâts de l'un de vos Pokémon vers l'un des Pokémon de votre adversaire."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Contrôleur d'Esprit",
+     "effect": "Le Pokémon Actif de votre adversaire est maintenant Confus."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/072"
+  }
+ },
+ {
+  "id": "sv06.5-073",
+  "set": "sv06.5",
+  "localId": "073",
+  "category": "Pokemon",
+  "name": "Fezandipiti",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "H",
+  "hp": 120,
+  "types": [
+   "P"
+  ],
+  "stage": "Basic",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Adrena-Pheromone",
+    "effect": "If this Pokémon has any {D} Energy attached and is damaged by an attack, flip a coin. If heads, prevent that damage."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Energy Feather",
+    "cost": [
+     "P"
+    ],
+    "damage": "30×",
+    "effect": "This attack does 30 damage for each Energy attached to this Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "M",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/073",
+  "illustrator": "KEIICHIRO ITO",
+  "fr": {
+   "name": "Favianos",
+   "abilities": [
+    {
+     "name": "Adréna-Phéromone",
+     "effect": "Si ce Pokémon a au moins une Énergie {D} attachée et qu'il subit les dégâts d'une attaque, lancez une pièce. Si c'est face, évitez ces dégâts."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Plume Énergétique",
+     "effect": "Cette attaque inflige 30 dégâts pour chaque Énergie attachée à ce Pokémon."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/073"
+  }
+ },
+ {
+  "id": "sv06.5-074",
+  "set": "sv06.5",
+  "localId": "074",
+  "category": "Pokemon",
+  "name": "Okidogi",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "H",
+  "hp": 130,
+  "types": [
+   "F"
+  ],
+  "stage": "Basic",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Adrena-Power",
+    "effect": "If this Pokémon has any {D} Energy attached, it gets +100 HP, and the attacks it uses do 100 more damage to your opponent's Active Pokémon (before applying Weakness and Resistance)."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Good Punch",
+    "cost": [
+     "F",
+     "F"
+    ],
+    "damage": "70"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "P",
+    "value": "×2"
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/074",
+  "illustrator": "AKIRA EGAWA",
+  "fr": {
+   "name": "Félicanis",
+   "abilities": [
+    {
+     "name": "Adréna-Puissance",
+     "effect": "Si ce Pokémon a au moins une Énergie {D} attachée, il reçoit +100 PV et les attaques utilisées par ce Pokémon infligent 100 dégâts supplémentaires au Pokémon Actif de votre adversaire (avant application de la Faiblesse et de la Résistance)."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Bon Poing"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/074"
+  }
+ },
+ {
+  "id": "sv06.5-075",
+  "set": "sv06.5",
+  "localId": "075",
+  "category": "Pokemon",
+  "name": "Zorua",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "H",
+  "hp": 70,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Stampede",
+    "cost": [
+     "C"
+    ],
+    "damage": "10"
+   },
+   {
+    "name": "Double Scratch",
+    "cost": [
+     "D",
+     "C"
+    ],
+    "damage": "20×",
+    "effect": "Flip 2 coins. This attack does 20 damage for each heads."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "G",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/075",
+  "illustrator": "REND",
+  "fr": {
+   "name": "Zorua",
+   "attacks": [
+    {
+     "name": "Ruée"
+    },
+    {
+     "name": "Double Écorchure",
+     "effect": "Lancez 2 pièces. Cette attaque inflige 20 dégâts pour chaque côté face."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/075"
+  }
+ },
+ {
+  "id": "sv06.5-076",
+  "set": "sv06.5",
+  "localId": "076",
+  "category": "Pokemon",
+  "name": "Cufant",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "H",
+  "hp": 100,
+  "types": [
+   "M"
+  ],
+  "stage": "Basic",
+  "attacks": [
+   {
+    "name": "Tackle",
+    "cost": [
+     "M",
+     "C"
+    ],
+    "damage": "30"
+   },
+   {
+    "name": "Confront",
+    "cost": [
+     "M",
+     "M",
+     "C"
+    ],
+    "damage": "70"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "R",
+    "value": "×2"
+   }
+  ],
+  "resistances": [
+   {
+    "type": "G",
+    "value": "-30"
+   }
+  ],
+  "retreat": 3,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/076",
+  "illustrator": "Mina Nakai",
+  "fr": {
+   "name": "Charibari",
+   "attacks": [
+    {
+     "name": "Charge"
+    },
+    {
+     "name": "Confrontation"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/076"
+  }
+ },
+ {
+  "id": "sv06.5-077",
+  "set": "sv06.5",
+  "localId": "077",
+  "category": "Pokemon",
+  "name": "Fraxure",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "H",
+  "hp": 100,
+  "types": [
+   "N"
+  ],
+  "stage": "Stage1",
+  "evolveFrom": "Axew",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Unnerve",
+    "effect": "Whenever your opponent plays an Item or Supporter card from their hand, prevent all effects of that card done to this Pokémon."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Dragon Pulse",
+    "cost": [
+     "F",
+     "M"
+    ],
+    "damage": "80",
+    "effect": "Discard the top card of your deck."
+   }
+  ],
+  "retreat": 2,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/077",
+  "illustrator": "MINAMINAMI Take",
+  "fr": {
+   "name": "Incisache",
+   "abilities": [
+    {
+     "name": "Tension",
+     "effect": "Chaque fois que votre adversaire joue une carte Objet ou Supporter de sa main, évitez tous les effets de cette carte sur ce Pokémon."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Draco-Choc",
+     "effect": "Défaussez la carte du dessus de votre deck."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/077"
+  }
+ },
+ {
+  "id": "sv06.5-078",
+  "set": "sv06.5",
+  "localId": "078",
+  "category": "Pokemon",
+  "name": "Persian",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "H",
+  "hp": 110,
+  "types": [
+   "C"
+  ],
+  "stage": "Stage1",
+  "evolveFrom": "Meowth",
+  "attacks": [
+   {
+    "name": "Fury Swipes",
+    "cost": [
+     "C",
+     "C"
+    ],
+    "damage": "50×",
+    "effect": "Flip 3 coins. This attack does 50 damage for each heads."
+   },
+   {
+    "name": "Slashing Claw",
+    "cost": [
+     "C",
+     "C",
+     "C"
+    ],
+    "damage": "100"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/078",
+  "illustrator": "Whisker",
+  "fr": {
+   "name": "Persian",
+   "attacks": [
+    {
+     "name": "Combo-Griffe",
+     "effect": "Lancez 3 pièces. Cette attaque inflige 50 dégâts pour chaque côté face."
+    },
+    {
+     "name": "Griffe Taillante"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/078"
+  }
+ },
+ {
+  "id": "sv06.5-079",
+  "set": "sv06.5",
+  "localId": "079",
+  "category": "Pokemon",
+  "name": "Bewear",
+  "standard": true,
+  "rarity": "Illustration rare",
+  "regulationMark": "H",
+  "hp": 130,
+  "types": [
+   "C"
+  ],
+  "stage": "Stage1",
+  "evolveFrom": "Stufful",
+  "attacks": [
+   {
+    "name": "Power Charger",
+    "cost": [
+     "C"
+    ],
+    "damage": "30",
+    "effect": "Search your deck for a Basic Energy card and attach it to this Pokémon. Then, shuffle your deck."
+   },
+   {
+    "name": "Hammer In",
+    "cost": [
+     "C",
+     "C",
+     "C"
+    ],
+    "damage": "130"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 3,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/079",
+  "illustrator": "Takeshi Nakamura",
+  "fr": {
+   "name": "Chelours",
+   "attacks": [
+    {
+     "name": "Charge Puissance",
+     "effect": "Cherchez dans votre deck une carte Énergie de base, puis attachez-la à ce Pokémon. Mélangez ensuite votre deck."
+    },
+    {
+     "name": "Enfoncement"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/079"
+  }
+ },
+ {
+  "id": "sv06.5-080",
+  "set": "sv06.5",
+  "localId": "080",
+  "category": "Pokemon",
+  "name": "Kingdra ex",
+  "standard": true,
+  "rarity": "Ultra Rare",
+  "regulationMark": "H",
+  "hp": 310,
+  "types": [
+   "W"
+  ],
+  "stage": "Stage2",
+  "suffix": "ex",
+  "evolveFrom": "Seadra",
+  "attacks": [
+   {
+    "name": "King's Order",
+    "cost": [
+     "W"
+    ],
+    "effect": "Put up to 3 {W} Pokémon from your discard pile onto your Bench."
+   },
+   {
+    "name": "Hydro Pump",
+    "cost": [
+     "C",
+     "C"
+    ],
+    "damage": "50+",
+    "effect": "This attack does 50 more damage for each {W} Energy attached to this Pokémon."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "L",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/080",
+  "illustrator": "PLANETA Igarashi",
+  "fr": {
+   "name": "Hyporoi-ex",
+   "attacks": [
+    {
+     "name": "Ordre du Roi",
+     "effect": "Placez jusqu'à 3 Pokémon {W} de votre pile de défausse sur votre Banc."
+    },
+    {
+     "name": "Hydrocanon",
+     "effect": "Cette attaque inflige 50 dégâts supplémentaires pour chaque Énergie {W} attachée à ce Pokémon."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/080"
+  }
+ },
+ {
+  "id": "sv06.5-081",
+  "set": "sv06.5",
+  "localId": "081",
+  "category": "Pokemon",
+  "name": "Revavroom ex",
+  "standard": true,
+  "rarity": "Ultra Rare",
+  "regulationMark": "H",
+  "hp": 280,
+  "types": [
+   "L"
+  ],
+  "stage": "Stage1",
+  "suffix": "ex",
+  "evolveFrom": "Varoom",
+  "attacks": [
+   {
+    "name": "Accelerator Flash",
+    "cost": [
+     "M"
+    ],
+    "damage": "20+",
+    "effect": "If this Pokémon moved from your Bench to the Active Spot this turn, this attack does 120 more damage."
+   },
+   {
+    "name": "Shattering Speed",
+    "cost": [
+     "M",
+     "M",
+     "M"
+    ],
+    "damage": "250",
+    "effect": "Discard this Pokémon and all attached cards."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/081",
+  "illustrator": "PLANETA Mochizuki",
+  "fr": {
+   "name": "Vrombotor-ex",
+   "attacks": [
+    {
+     "name": "Flash Accélérateur",
+     "effect": "Si ce Pokémon a été déplacé de votre Banc vers le Poste Actif pendant ce tour, cette attaque inflige 120 dégâts supplémentaires."
+    },
+    {
+     "name": "Vitesse Fracassante",
+     "effect": "Défaussez ce Pokémon et toutes les cartes qui lui sont attachées."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/081"
+  }
+ },
+ {
+  "id": "sv06.5-082",
+  "set": "sv06.5",
+  "localId": "082",
+  "category": "Pokemon",
+  "name": "Okidogi ex",
+  "standard": true,
+  "rarity": "Ultra Rare",
+  "regulationMark": "H",
+  "hp": 250,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "suffix": "ex",
+  "attacks": [
+   {
+    "name": "Poisonous Musculature",
+    "cost": [
+     "C"
+    ],
+    "effect": "Search your deck for up to 2 Basic {D} Energy cards and attach them to this Pokémon. Then, shuffle your deck. If you attached Energy to a Pokémon in this way, this Pokémon is now Poisoned."
+   },
+   {
+    "name": "Chain-Crazed",
+    "cost": [
+     "D",
+     "D",
+     "C"
+    ],
+    "damage": "130+",
+    "effect": "If this Pokémon is Poisoned, this attack does 130 more damage."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 3,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/082",
+  "illustrator": "5ban Graphics",
+  "fr": {
+   "name": "Félicanis-ex",
+   "attacks": [
+    {
+     "name": "Musculature Empoisonnée",
+     "effect": "Cherchez dans votre deck jusqu'à 2 cartes Énergie {D} de base, puis attachez-les à ce Pokémon. Mélangez ensuite votre deck. Si vous avez attaché de l'Énergie à un Pokémon de cette façon, ce Pokémon est maintenant Empoisonné."
+    },
+    {
+     "name": "Chaînes en Folie",
+     "effect": "Si ce Pokémon est Empoisonné, cette attaque inflige 130 dégâts supplémentaires."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/082"
+  }
+ },
+ {
+  "id": "sv06.5-083",
+  "set": "sv06.5",
+  "localId": "083",
+  "category": "Pokemon",
+  "name": "Munkidori ex",
+  "standard": true,
+  "rarity": "Ultra Rare",
+  "regulationMark": "H",
+  "hp": 210,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "suffix": "ex",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Oh No You Don't",
+    "effect": "If this Pokémon is Knocked Out by damage from an attack from your opponent's Pokémon, and if you have any Pecharunt ex in play, your opponent takes 1 fewer Prize card."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Dirty Headbutt",
+    "cost": [
+     "D",
+     "D",
+     "C"
+    ],
+    "damage": "190",
+    "effect": "During your next turn, this Pokémon can't use Dirty Headbutt."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/083",
+  "illustrator": "5ban Graphics",
+  "fr": {
+   "name": "Fortusimia-ex",
+   "abilities": [
+    {
+     "name": "Fausse Joie",
+     "effect": "Si ce Pokémon est mis K.O. par les dégâts d'une attaque de l'un des Pokémon de votre adversaire, et si vous avez au moins un Pêchaminus-ex en jeu, votre adversaire récupère une carte Récompense de moins."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Coup d'Boule Abject",
+     "effect": "Pendant votre prochain tour, ce Pokémon ne peut pas utiliser Coup d'Boule Abject."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/083"
+  }
+ },
+ {
+  "id": "sv06.5-084",
+  "set": "sv06.5",
+  "localId": "084",
+  "category": "Pokemon",
+  "name": "Fezandipiti ex",
+  "standard": true,
+  "rarity": "Ultra Rare",
+  "regulationMark": "H",
+  "hp": 210,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "suffix": "ex",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Flip the Script",
+    "effect": "Once during your turn, if any of your Pokémon were Knocked Out during your opponent's last turn, you may draw 3 cards. You can't use more than 1 Flip the Script Ability each turn."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Cruel Arrow",
+    "cost": [
+     "C",
+     "C",
+     "C"
+    ],
+    "effect": "This attack does 100 damage to 1 of your opponent's Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/084",
+  "illustrator": "5ban Graphics",
+  "fr": {
+   "name": "Favianos-ex",
+   "abilities": [
+    {
+     "name": "Renverser la Tendance",
+     "effect": "Une fois pendant votre tour, si l'un de vos Pokémon a été mis K.O. pendant le dernier tour de votre adversaire, vous pouvez piocher 3 cartes. Vous ne pouvez utiliser qu'un talent Renverser la Tendance par tour."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Flèche Cruelle",
+     "effect": "Cette attaque inflige 100 dégâts à l'un des Pokémon de votre adversaire. (N'appliquez ni la Faiblesse ni la Résistance aux Pokémon de Banc.)"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/084"
+  }
+ },
+ {
+  "id": "sv06.5-085",
+  "set": "sv06.5",
+  "localId": "085",
+  "category": "Pokemon",
+  "name": "Pecharunt ex",
+  "standard": true,
+  "rarity": "Ultra Rare",
+  "regulationMark": "H",
+  "hp": 190,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "suffix": "ex",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Subjugating Chains",
+    "effect": "Once during your turn, you may switch 1 of your Benched {D} Pokémon, except any Pecharunt ex, with your Active Pokémon. If you do, the new Active Pokémon is now Poisoned. You can't use more than 1 Subjugating Chains Ability each turn."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Irritated Outburst",
+    "cost": [
+     "D",
+     "D"
+    ],
+    "damage": "60×",
+    "effect": "This attack does 60 damage for each Prize card your opponent has taken."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/085",
+  "illustrator": "aky CG Works",
+  "fr": {
+   "name": "Pêchaminus-ex",
+   "abilities": [
+    {
+     "name": "Chaînes Emprise",
+     "effect": "Une fois pendant votre tour, vous pouvez échanger l'un de vos Pokémon {D} de Banc, à l'exception de Pêchaminus-ex, contre votre Pokémon Actif. Dans ce cas, le nouveau Pokémon Actif est maintenant Empoisonné. Vous ne pouvez utiliser qu'un talent Chaînes Emprise par tour."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Emportement Agacé",
+     "effect": "Cette attaque inflige 60 dégâts pour chaque carte Récompense que votre adversaire a récupérée."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/085"
+  }
+ },
+ {
+  "id": "sv06.5-086",
+  "set": "sv06.5",
+  "localId": "086",
+  "category": "Trainer",
+  "name": "Cassiopeia",
+  "standard": true,
+  "rarity": "Ultra Rare",
+  "regulationMark": "H",
+  "trainerType": "Supporter",
+  "effect": "You can use this card only when it is the last card in your hand.\n\nSearch your deck for up to 2 cards and put them into your hand. Then, shuffle your deck.",
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/086",
+  "illustrator": "Atsushi Furusawa",
+  "fr": {
+   "name": "Cassiopée",
+   "effect": "Vous ne pouvez utiliser cette carte que si c'est votre dernière carte en main.\nCherchez dans votre deck jusqu'à 2 cartes, puis ajoutez-les à votre main. Mélangez ensuite votre deck.",
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/086"
+  }
+ },
+ {
+  "id": "sv06.5-087",
+  "set": "sv06.5",
+  "localId": "087",
+  "category": "Trainer",
+  "name": "Colress's Tenacity",
+  "standard": true,
+  "rarity": "Ultra Rare",
+  "regulationMark": "H",
+  "trainerType": "Supporter",
+  "effect": "Search your deck for a Stadium card and an Energy card, reveal them, and put them into your hand. Then, shuffle your deck.",
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/087",
+  "illustrator": "hncl",
+  "fr": {
+   "name": "Ténacité de Nikolaï",
+   "effect": "Cherchez dans votre deck une carte Stade et une carte Énergie, montrez-les, puis ajoutez-les à votre main. Mélangez ensuite votre deck.",
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/087"
+  }
+ },
+ {
+  "id": "sv06.5-088",
+  "set": "sv06.5",
+  "localId": "088",
+  "category": "Trainer",
+  "name": "Janine's Secret Art",
+  "standard": true,
+  "rarity": "Ultra Rare",
+  "regulationMark": "H",
+  "trainerType": "Supporter",
+  "effect": "Choose up to 2 of your {D} Pokémon. For each of those Pokémon, search your deck for a Basic {D} Energy card and attach it to that Pokémon. Then, shuffle your deck. If you attached Energy to your Active Pokémon in this way, it is now Poisoned.",
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/088",
+  "illustrator": "Taira Akitsu",
+  "fr": {
+   "name": "Art Secret de Jeannine",
+   "effect": "Choisissez jusqu'à 2 de vos Pokémon {D}. Pour chacun de ces Pokémon, cherchez dans votre deck une carte Énergie {D} de base, puis attachez-la à ce Pokémon-là. Mélangez ensuite votre deck. Si vous avez attaché de l'Énergie à votre Pokémon Actif de cette façon, celui-ci est maintenant Empoisonné.",
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/088"
+  }
+ },
+ {
+  "id": "sv06.5-089",
+  "set": "sv06.5",
+  "localId": "089",
+  "category": "Trainer",
+  "name": "Xerosic's Machinations",
+  "standard": true,
+  "rarity": "Ultra Rare",
+  "regulationMark": "H",
+  "trainerType": "Supporter",
+  "effect": "Your opponent discards cards from their hand until they have 3 cards in their hand.",
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/089",
+  "illustrator": "GOSSAN",
+  "fr": {
+   "name": "Machinations de Xanthin",
+   "effect": "Votre adversaire défausse des cartes de sa main jusqu'à en avoir 3 en main.",
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/089"
+  }
+ },
+ {
+  "id": "sv06.5-090",
+  "set": "sv06.5",
+  "localId": "090",
+  "category": "Pokemon",
+  "name": "Okidogi ex",
+  "standard": true,
+  "rarity": "Special illustration rare",
+  "regulationMark": "H",
+  "hp": 250,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "suffix": "ex",
+  "attacks": [
+   {
+    "name": "Poisonous Musculature",
+    "cost": [
+     "C"
+    ],
+    "effect": "Search your deck for up to 2 Basic {D} Energy cards and attach them to this Pokémon. Then, shuffle your deck. If you attached Energy to a Pokémon in this way, this Pokémon is now Poisoned."
+   },
+   {
+    "name": "Chain-Crazed",
+    "cost": [
+     "D",
+     "D",
+     "C"
+    ],
+    "damage": "130+",
+    "effect": "If this Pokémon is Poisoned, this attack does 130 more damage."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 3,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/090",
+  "illustrator": "kantaro",
+  "fr": {
+   "name": "Félicanis-ex",
+   "attacks": [
+    {
+     "name": "Musculature Empoisonnée",
+     "effect": "Cherchez dans votre deck jusqu'à 2 cartes Énergie {D} de base, puis attachez-les à ce Pokémon. Mélangez ensuite votre deck. Si vous avez attaché de l'Énergie à un Pokémon de cette façon, ce Pokémon est maintenant Empoisonné."
+    },
+    {
+     "name": "Chaînes en Folie",
+     "effect": "Si ce Pokémon est Empoisonné, cette attaque inflige 130 dégâts supplémentaires."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/090"
+  }
+ },
+ {
+  "id": "sv06.5-091",
+  "set": "sv06.5",
+  "localId": "091",
+  "category": "Pokemon",
+  "name": "Munkidori ex",
+  "standard": true,
+  "rarity": "Special illustration rare",
+  "regulationMark": "H",
+  "hp": 210,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "suffix": "ex",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Oh No You Don't",
+    "effect": "If this Pokémon is Knocked Out by damage from an attack from your opponent's Pokémon, and if you have any Pecharunt ex in play, your opponent takes 1 fewer Prize card."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Dirty Headbutt",
+    "cost": [
+     "D",
+     "D",
+     "C"
+    ],
+    "damage": "190",
+    "effect": "During your next turn, this Pokémon can't use Dirty Headbutt."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/091",
+  "illustrator": "kantaro",
+  "fr": {
+   "name": "Fortusimia-ex",
+   "abilities": [
+    {
+     "name": "Fausse Joie",
+     "effect": "Si ce Pokémon est mis K.O. par les dégâts d'une attaque de l'un des Pokémon de votre adversaire, et si vous avez au moins un Pêchaminus-ex en jeu, votre adversaire récupère une carte Récompense de moins."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Coup d'Boule Abject",
+     "effect": "Pendant votre prochain tour, ce Pokémon ne peut pas utiliser Coup d'Boule Abject."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/091"
+  }
+ },
+ {
+  "id": "sv06.5-092",
+  "set": "sv06.5",
+  "localId": "092",
+  "category": "Pokemon",
+  "name": "Fezandipiti ex",
+  "standard": true,
+  "rarity": "Special illustration rare",
+  "regulationMark": "H",
+  "hp": 210,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "suffix": "ex",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Flip the Script",
+    "effect": "Once during your turn, if any of your Pokémon were Knocked Out during your opponent's last turn, you may draw 3 cards. You can't use more than 1 Flip the Script Ability each turn."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Cruel Arrow",
+    "cost": [
+     "C",
+     "C",
+     "C"
+    ],
+    "effect": "This attack does 100 damage to 1 of your opponent's Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)"
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/092",
+  "illustrator": "kantaro",
+  "fr": {
+   "name": "Favianos-ex",
+   "abilities": [
+    {
+     "name": "Renverser la Tendance",
+     "effect": "Une fois pendant votre tour, si l'un de vos Pokémon a été mis K.O. pendant le dernier tour de votre adversaire, vous pouvez piocher 3 cartes. Vous ne pouvez utiliser qu'un talent Renverser la Tendance par tour."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Flèche Cruelle",
+     "effect": "Cette attaque inflige 100 dégâts à l'un des Pokémon de votre adversaire. (N'appliquez ni la Faiblesse ni la Résistance aux Pokémon de Banc.)"
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/092"
+  }
+ },
+ {
+  "id": "sv06.5-093",
+  "set": "sv06.5",
+  "localId": "093",
+  "category": "Pokemon",
+  "name": "Pecharunt ex",
+  "standard": true,
+  "rarity": "Special illustration rare",
+  "regulationMark": "H",
+  "hp": 190,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "suffix": "ex",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Subjugating Chains",
+    "effect": "Once during your turn, you may switch 1 of your Benched {D} Pokémon, except any Pecharunt ex, with your Active Pokémon. If you do, the new Active Pokémon is now Poisoned. You can't use more than 1 Subjugating Chains Ability each turn."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Irritated Outburst",
+    "cost": [
+     "D",
+     "D"
+    ],
+    "damage": "60×",
+    "effect": "This attack does 60 damage for each Prize card your opponent has taken."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/093",
+  "illustrator": "kantaro",
+  "fr": {
+   "name": "Pêchaminus-ex",
+   "abilities": [
+    {
+     "name": "Chaînes Emprise",
+     "effect": "Une fois pendant votre tour, vous pouvez échanger l'un de vos Pokémon {D} de Banc, à l'exception de Pêchaminus-ex, contre votre Pokémon Actif. Dans ce cas, le nouveau Pokémon Actif est maintenant Empoisonné. Vous ne pouvez utiliser qu'un talent Chaînes Emprise par tour."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Emportement Agacé",
+     "effect": "Cette attaque inflige 60 dégâts pour chaque carte Récompense que votre adversaire a récupérée."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/093"
+  }
+ },
+ {
+  "id": "sv06.5-094",
+  "set": "sv06.5",
+  "localId": "094",
+  "category": "Trainer",
+  "name": "Cassiopeia",
+  "standard": true,
+  "rarity": "Special illustration rare",
+  "regulationMark": "H",
+  "trainerType": "Supporter",
+  "effect": "You can use this card only when it is the last card in your hand.\n\nSearch your deck for up to 2 cards and put them into your hand. Then, shuffle your deck.",
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/094",
+  "illustrator": "burari",
+  "fr": {
+   "name": "Cassiopée",
+   "effect": "Vous ne pouvez utiliser cette carte que si c'est votre dernière carte en main.\nCherchez dans votre deck jusqu'à 2 cartes, puis ajoutez-les à votre main. Mélangez ensuite votre deck.",
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/094"
+  }
+ },
+ {
+  "id": "sv06.5-095",
+  "set": "sv06.5",
+  "localId": "095",
+  "category": "Pokemon",
+  "name": "Pecharunt ex",
+  "standard": true,
+  "rarity": "Hyper rare",
+  "regulationMark": "H",
+  "hp": 190,
+  "types": [
+   "D"
+  ],
+  "stage": "Basic",
+  "suffix": "ex",
+  "abilities": [
+   {
+    "type": "Ability",
+    "name": "Subjugating Chains",
+    "effect": "Once during your turn, you may switch 1 of your Benched {D} Pokémon, except any Pecharunt ex, with your Active Pokémon. If you do, the new Active Pokémon is now Poisoned. You can't use more than 1 Subjugating Chains Ability each turn."
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Irritated Outburst",
+    "cost": [
+     "D",
+     "D"
+    ],
+    "damage": "60×",
+    "effect": "This attack does 60 damage for each Prize card your opponent has taken."
+   }
+  ],
+  "weaknesses": [
+   {
+    "type": "F",
+    "value": "×2"
+   }
+  ],
+  "retreat": 1,
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/095",
+  "illustrator": "aky CG Works",
+  "fr": {
+   "name": "Pêchaminus-ex",
+   "abilities": [
+    {
+     "name": "Chaînes Emprise",
+     "effect": "Une fois pendant votre tour, vous pouvez échanger l'un de vos Pokémon {D} de Banc, à l'exception de Pêchaminus-ex, contre votre Pokémon Actif. Dans ce cas, le nouveau Pokémon Actif est maintenant Empoisonné. Vous ne pouvez utiliser qu'un talent Chaînes Emprise par tour."
+    }
+   ],
+   "attacks": [
+    {
+     "name": "Emportement Agacé",
+     "effect": "Cette attaque inflige 60 dégâts pour chaque carte Récompense que votre adversaire a récupérée."
+    }
+   ],
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/095"
+  }
+ },
+ {
+  "id": "sv06.5-096",
+  "set": "sv06.5",
+  "localId": "096",
+  "category": "Trainer",
+  "name": "Earthen Vessel",
+  "standard": false,
+  "rarity": "Hyper rare",
+  "regulationMark": "G",
+  "trainerType": "Item",
+  "effect": "You can use this card only if you discard another card from your hand.\n\nSearch your deck for up to 2 Basic Energy cards, reveal them, and put them into your hand. Then, shuffle your deck.",
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/096",
+  "illustrator": "AYUMI ODASHIMA",
+  "fr": {
+   "name": "Urne Terrestre",
+   "effect": "Vous ne pouvez utiliser cette carte que si vous défaussez une autre carte de votre main.\nCherchez dans votre deck jusqu'à 2 cartes Énergie de base, montrez-les, puis ajoutez-les à votre main. Mélangez ensuite votre deck.",
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/096"
+  }
+ },
+ {
+  "id": "sv06.5-097",
+  "set": "sv06.5",
+  "localId": "097",
+  "category": "Trainer",
+  "name": "Powerglass",
+  "standard": true,
+  "rarity": "Hyper rare",
+  "regulationMark": "H",
+  "trainerType": "Tool",
+  "effect": "At the end of your turn (after your attack), if the Pokémon this card is attached to is in the Active Spot, you may attach a Basic Energy card from your discard pile to it.",
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/097",
+  "illustrator": "Studio Bora Inc.",
+  "fr": {
+   "name": "Sablier du Pouvoir",
+   "effect": "À la fin de votre tour (après votre attaque), si le Pokémon auquel cette carte est attachée est sur le Poste Actif, vous pouvez lui attacher une carte Énergie de base de votre pile de défausse.",
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/097"
+  }
+ },
+ {
+  "id": "sv06.5-098",
+  "set": "sv06.5",
+  "localId": "098",
+  "category": "Energy",
+  "name": "Basic Darkness Energy",
+  "standard": true,
+  "rarity": "Hyper rare",
+  "energyType": "Normal",
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/098",
+  "fr": {
+   "name": "Énergie Darkness de base",
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/098"
+  }
+ },
+ {
+  "id": "sv06.5-099",
+  "set": "sv06.5",
+  "localId": "099",
+  "category": "Energy",
+  "name": "Basic Metal Energy",
+  "standard": true,
+  "rarity": "Hyper rare",
+  "energyType": "Normal",
+  "image": "https://assets.tcgdex.net/en/sv/sv06.5/099",
+  "fr": {
+   "name": "Énergie Metal de base",
+   "image": "https://assets.tcgdex.net/fr/sv/sv06.5/099"
+  }
+ }
+]

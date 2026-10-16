@@ -1,1 +1,12 @@
-{}
+{
+  "A deck has exactly 60 cards ({n} here)": "Un deck contient exactement 60 cartes ({n} ici)",
+  "A deck needs at least 1 Basic Pokémon": "Un deck doit contenir au moins 1 Pokémon de base",
+  "At most 1 ACE SPEC card ({n} here)": "1 carte HIGH-TECH au maximum ({n} ici)",
+  "At most 4 cards named {card} ({n} here)": "4 cartes nommées {card} au maximum ({n} ici)",
+  "Invalid count for {card}": "Nombre invalide pour {card}",
+  "Invalid print for {card}": "Impression invalide pour {card}",
+  "Unknown card: {line}": "Carte inconnue : {line}",
+  "Unreadable line: {line}": "Ligne illisible : {line}",
+  "{card} is not legal in Standard": "{card} n'est pas autorisée en Standard",
+  "{card} is not playable yet": "{card} n'est pas encore jouable"
+}

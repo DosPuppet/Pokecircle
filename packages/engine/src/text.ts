@@ -103,3 +103,11 @@ const ENGLISH: TextReader = { translate: () => undefined, card: (defId) => defId
 export function plainText(text: string): string {
   return renderText(text, ENGLISH);
 }
+
+/**
+ * Marker of a card in a player-facing text (prompt, label, problem): the interface replaces it with the name of the
+ * card in its language.
+ */
+export function cardRef(defId: string): string {
+  return `⟦${defId}⟧`;
+}

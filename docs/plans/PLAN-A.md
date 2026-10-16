@@ -255,3 +255,4 @@ Renames on copy: `@mtgx`→`@pocketmate`, `planecircle.*`→`pocketmate.*`, `MTG
 | Lot | Status | Notes |
 |---|---|---|
 | P0 Bootstrap | done 2026-10-16 | workspaces, generic engine text/errors/events, client shell, guard tests, verify, docs |
+| P1 Card data | done 2026-10-16 | 23 registry entries, 3,478 prints → 2,273 definitions (2,103 Standard); tags from pokemon-tcg-data; decklists FR/EN; 2 starter decks |

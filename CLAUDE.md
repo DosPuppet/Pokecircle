@@ -45,6 +45,22 @@ This file tracks the project between sessions: current state, working rules, pit
 - **Git:** branches `main` (stable) and `dev` (work). Work on `dev`; one commit per lot at its end (authorized by the
   user); English message ending with `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`. The user pushes.
 
+## Card data
+
+- `npm run import-cards -- <set>|all [--refresh]` (`tools/import-tcgdex.ts`): TCGdex EN for structure, FR for strings
+  (aligned by index), raw cache in `packages/cards/data/cache/` (gitignored), output `packages/cards/data/<set>.json`
+  (committed, 1-space indent). Sets: `packages/cards/src/setRegistry.ts` (the only list; `only` imports single prints of
+  a rotated set) and `sets.ts` (the static imports, checked by `catalog.test.ts`).
+- Tags TCGdex lacks (Tera, Ancient, Future, ACE SPEC): `npx tsx tools/import-tags.ts` (pokemon-tcg-data on GitHub)
+  writes `data/card-tags.json`.
+- Definitions (`cards/src/tcgdex.ts`): prints with the same gameplay share a definition (`slug-hash` id); prints missing
+  Weakness/Resistance (promos) or text (30th Celebration) join their only complete variant; legality from TCGdex's
+  per-print `legal.standard` (it applies the reprint rule); French from the first French print, else a translation
+  memory, else `data/french-overrides.json` (`missing` lists the cards that have no French at all).
+- Legality check: `npx tsx tools/check-legality.ts` (differences mean a reimport).
+- Decklists: TCG Live format, FR or EN (`cards/src/decklist.ts`); precons in `packages/cards/decks/*.json` (a TCG Live
+  list each, loaded by `decks.ts`).
+
 ## Checks before handing in a lot
 
 - `npm run verify -- --set <SET>` (tsc, Biome, coverage, vitest, fuzz, golden, interface tests when the client changed)

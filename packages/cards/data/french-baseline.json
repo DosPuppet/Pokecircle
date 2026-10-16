@@ -1,5 +1,6 @@
 {
   "allowed": {
-    "packages/cards/test/english-source.test.ts": "defines the French detector itself"
+    "packages/cards/test/english-source.test.ts": "defines the French detector itself",
+    "packages/cards/src/setRegistry.ts": "French set names (data)"
   }
 }
