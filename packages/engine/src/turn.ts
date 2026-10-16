@@ -277,6 +277,8 @@ function startTrigger(s: GameState, q: GameState["queue"][number]): void {
     card: q.card,
     defId: q.defId,
     effects,
+    // The card the trigger belongs to (an attached Energy or Tool): its effects may move it ("discard this card").
+    ...(q.card ? { vars: { thisCard: [q.card] } } : {}),
     ...(q.event ? { event: q.event } : {}),
   });
 }

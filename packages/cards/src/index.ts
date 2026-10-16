@@ -8,6 +8,7 @@ import { ENERGY_ART } from "./energyArt";
 import { applyScript } from "./scripts";
 // Hand scripts register themselves before the catalog is compiled.
 import "./scripts/meta";
+import "./scripts/meta2";
 import { SET_REGISTRY } from "./setRegistry";
 import { SET_DATA } from "./sets";
 import { buildCatalog } from "./tcgdex";

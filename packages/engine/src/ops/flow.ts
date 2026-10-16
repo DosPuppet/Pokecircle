@@ -1,7 +1,8 @@
 /** Control ops: coins, conditions, optional and modal effects, loops, timed effects, ending the turn. */
 import { answer, DONE, evalAmount, evalCond, isAsk, playersOf, resolveRef } from "../effects";
 import type { OpHandlers } from "../opRegistry";
-import { bump, flipCoin, newId } from "../state";
+import { bump, flipCoin, newId, topDef } from "../state";
+import { chars } from "../statics";
 import type { StaticRule, TimedEffect } from "../types";
 
 /** Maximum coins flipped by "flip until you get tails" (an approximation of an unbounded loop, docs/approximations.md). */
@@ -94,6 +95,38 @@ export const HANDLERS: OpHandlers = {
     s.effects.push(effect);
     bump(s);
     return DONE;
+  },
+  lockAttack(s, r, e, key) {
+    const target = resolveRef(s, r, e.target)[0];
+    if (!target) return DONE;
+    const attacks = chars(s, target).attacks.filter((a) => !a.source);
+    if (!attacks.length) return DONE;
+    const top = topDef(s, target);
+    const options = attacks.map((a) => String(a.index));
+    const got = answer(r, key("attack"), r.player, {
+      type: "pick",
+      options,
+      min: 1,
+      max: 1,
+      prompt: e.prompt,
+      intent: "mode",
+      suggested: [options[0] as string],
+      attacks: Object.fromEntries(attacks.map((a) => [String(a.index), { defId: top.id, index: a.index }])),
+    });
+    if (isAsk(got)) return { ask: got };
+    const chosen = attacks.find((a) => String(a.index) === String(got[0]));
+    if (!chosen) return DONE;
+    return (HANDLERS.timed as NonNullable<OpHandlers["timed"]>)(
+      s,
+      r,
+      {
+        op: "timed",
+        duration: e.duration,
+        rule: { s: "cantAttack", scope: { side: "opp" }, attack: chosen.def.name },
+        target: e.target,
+      },
+      key,
+    );
   },
   markUsed(s, r, e) {
     s.turnLog.push({ turn: s.turn.number, player: r.player, kind: "abilityUsed", key: e.key });

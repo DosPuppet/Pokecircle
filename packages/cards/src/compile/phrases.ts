@@ -65,6 +65,12 @@ export function pokemonFilter(s: string): PokemonFilter | null {
     t = ruleBox[1] as string;
     f.noTags = ["ruleBox"];
   }
+  // A Trainer's Pokémon: "Cynthia's Pokémon", "Basic Team Rocket's Pokémon".
+  const owner = /^(?:(Basic|Stage 1|Stage 2|Evolution) )?((?:[A-Z][\w.]*\s)*[A-Z][\w.]*'s) (.*)$/.exec(t);
+  if (owner && owner[2] !== "Pokémon's") {
+    f.nameIncludes = owner[2] as string;
+    t = `${owner[1] ? `${owner[1]} ` : ""}${owner[3]}`;
+  }
   let m = /^(?:(Basic|Stage 1|Stage 2|Evolution) )?(?:(\{[A-Z]\}) )?Pokémon(?: (ex))?$/.exec(t);
   if (!m) {
     m = /^(?:(Basic|Stage 1|Stage 2|Evolution) )?(?:(\{[A-Z]\}) )?Pokémon(?: (ex))?s?$/.exec(t);
@@ -205,6 +211,7 @@ export function cardFilter(s: string): { filter?: CardFilter } | null {
     if (pf.tags) f.tags = pf.tags;
     if (pf.noTags) f.noTags = pf.noTags;
     if (pf.maxHp !== undefined) f.maxHp = pf.maxHp;
+    if (pf.nameIncludes) f.nameIncludes = pf.nameIncludes;
     return { filter: f };
   }
   return null;

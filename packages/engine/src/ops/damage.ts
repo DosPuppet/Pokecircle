@@ -1,10 +1,25 @@
 /** Damage, damage counters and healing ops. */
-import { dealAttackDamage, healDamage, putCounters } from "../damage";
+import { type DamageOptions, dealAttackDamage, healDamage, putCounters } from "../damage";
 import { answer, DONE, evalAmount, isAsk, resolveRef } from "../effects";
 import { emit } from "../events";
 import { scopePokemon } from "../match";
 import type { OpHandlers } from "../opRegistry";
 import { bump, pokemonOf } from "../state";
+
+/** The damage options of an op ("isn't affected by Weakness or Resistance", "…by any effects…"). */
+function damageOptions(e: {
+  noWR?: boolean;
+  noWeakness?: boolean;
+  noResistance?: boolean;
+  ignoreEffects?: boolean;
+}): DamageOptions {
+  const opts: DamageOptions = {};
+  if (e.noWR) opts.noWR = true;
+  if (e.noWeakness) opts.noWeakness = true;
+  if (e.noResistance) opts.noResistance = true;
+  if (e.ignoreEffects) opts.ignoreEffects = true;
+  return opts;
+}
 
 export const HANDLERS: OpHandlers = {
   mainDamage(s, r, e) {
@@ -12,9 +27,7 @@ export const HANDLERS: OpHandlers = {
     if (!a || a.fails) return DONE;
     const target = e.to ? resolveRef(s, r, e.to)[0] : a.defending;
     if (target && s.pokemon[target]) {
-      const opts: { noWR?: boolean; ignoreEffects?: boolean } = {};
-      if (e.noWR) opts.noWR = true;
-      if (e.ignoreEffects) opts.ignoreEffects = true;
+      const opts = damageOptions(e);
       r.vars.mainDamage = [dealAttackDamage(s, r, target, a.base + a.bonus, opts)];
     }
     return DONE;
@@ -42,9 +55,7 @@ export const HANDLERS: OpHandlers = {
     const n = evalAmount(s, r, e.amount);
     for (const t of resolveRef(s, r, e.to)) {
       if (r.kind === "attack") {
-        const opts: { noWR?: boolean; ignoreEffects?: boolean } = {};
-        if (e.noWR) opts.noWR = true;
-        if (e.ignoreEffects) opts.ignoreEffects = true;
+        const opts = damageOptions(e);
         dealAttackDamage(s, r, t, n, opts);
       } else if (n > 0) {
         // Damage that is not from an attack: no Weakness, Resistance or attack modifiers.

@@ -5,11 +5,19 @@
 
 import meta_alakazam from "../decks/meta-alakazam.json";
 import meta_basic_box from "../decks/meta-basic-box.json";
+import meta_crustle from "../decks/meta-crustle.json";
+import meta_cynthias_garchomp from "../decks/meta-cynthias-garchomp.json";
+import meta_dhelmise from "../decks/meta-dhelmise.json";
 import meta_dragapult from "../decks/meta-dragapult.json";
 import meta_festival_lead from "../decks/meta-festival-lead.json";
 import meta_hydrapple from "../decks/meta-hydrapple.json";
+import meta_mega_excadrill from "../decks/meta-mega-excadrill.json";
 import meta_mega_lopunny from "../decks/meta-mega-lopunny.json";
+import meta_mega_lucario from "../decks/meta-mega-lucario.json";
+import meta_mega_sharpedo from "../decks/meta-mega-sharpedo.json";
 import meta_ns_zoroark from "../decks/meta-ns-zoroark.json";
+import meta_ogerpon_meganium from "../decks/meta-ogerpon-meganium.json";
+import meta_rockets_honchkrow from "../decks/meta-rockets-honchkrow.json";
 import meta_slowking from "../decks/meta-slowking.json";
 import starterFire from "../decks/starter-fire.json";
 import starterWater from "../decks/starter-water.json";
@@ -38,6 +46,14 @@ const FILES: DeckFile[] = [
   meta_festival_lead,
   meta_mega_lopunny,
   meta_hydrapple,
+  meta_crustle,
+  meta_mega_excadrill,
+  meta_dhelmise,
+  meta_mega_lucario,
+  meta_rockets_honchkrow,
+  meta_mega_sharpedo,
+  meta_cynthias_garchomp,
+  meta_ogerpon_meganium,
 ];
 
 function load(f: DeckFile): DeckList {

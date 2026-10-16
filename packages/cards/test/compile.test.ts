@@ -8,6 +8,7 @@ import baseline from "../data/compile-baseline.json";
 import { compileAttack } from "../src/compile/attacks";
 import { compileTrainer } from "../src/compile/trainers";
 import { CARDS } from "../src/index";
+import { scriptNames } from "../src/scripts";
 
 const ops = (effects: Effect[]): string[] =>
   effects.flatMap((e) => {
@@ -66,6 +67,13 @@ describe("Trainer templates", () => {
   it("Tools become static rules", () => {
     const c = compileTrainer("The Pokémon this card is attached to gets +50 HP.", "tool");
     expect("trainer" in c && c.trainer.statics).toEqual([{ s: "hp", scope: { side: "me", self: true }, add: 50 }]);
+  });
+});
+
+describe("hand scripts", () => {
+  it("a script for a name shared by several definitions is keyed by print (Name@print)", () => {
+    const shared = scriptNames().filter((k) => !k.includes("@") && Object.values(CARDS).filter((d) => d.name === k).length > 1);
+    expect(shared).toEqual([]);
   });
 });
 

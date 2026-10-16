@@ -58,6 +58,21 @@ export const ATTACK_TEMPLATES: Template<Ctx>[] = [
   tpl("dmg.noWR", "This attack's damage isn't affected by Weakness or Resistance.", () => ({
     mainOptions: { op: "mainDamage", noWR: true },
   })),
+  tpl("dmg.noR", "This attack's damage isn't affected by Resistance.", () => ({
+    mainOptions: { op: "mainDamage", noResistance: true },
+  })),
+  tpl("dmg.noW", "This attack's damage isn't affected by Weakness.", () => ({
+    mainOptions: { op: "mainDamage", noWeakness: true },
+  })),
+  tpl(
+    "dmg.extraEnergy",
+    "If this Pokémon has at least {w} extra Energy attached (in addition to this attack's cost), this attack does {n} more damage.",
+    ([w, n], ctx) => {
+      const k = num(w);
+      if (!k || ctx.cost === undefined) return null;
+      return pre(fx.if(cond.cmp(amt.energy(ref.self, { units: true }), ">=", ctx.cost + k), [fx.bonus(Number(n))]));
+    },
+  ),
   tpl("dmg.noEffects", "This attack's damage isn't affected by any effects on your opponent's Active Pokémon.", () => ({
     mainOptions: { op: "mainDamage", ignoreEffects: true },
   })),
@@ -209,10 +224,10 @@ export interface CompiledAttack {
 }
 
 /** Compiles an attack's text; null when a part of it is not understood (it then needs a script). */
-export function compileAttack(a: AttackDef): CompiledAttack | { unmatched: string } {
+export function compileAttack(a: AttackDef, name?: string): CompiledAttack | { unmatched: string } {
   const hasDamage = a.damage > 0 || !!a.suffix;
   if (!a.text) return { effects: hasDamage ? [fx.main()] : [], templates: [] };
-  const m = matchAll(a.text, ATTACK_TEMPLATES, { inAttack: true });
+  const m = matchAll(a.text, ATTACK_TEMPLATES, { inAttack: true, cost: a.cost.length, ...(name ? { name } : {}) });
   if ("unmatched" in m) return m;
   const preFx = m.parts.flatMap((p) => p.pre ?? []);
   const postFx = m.parts.flatMap((p) => p.post ?? []);

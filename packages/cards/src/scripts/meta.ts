@@ -429,7 +429,7 @@ const SCRIPTS: Record<string, CardScript> = {
         condition: cond.and(cond.cmp(amt.energy(ref.self, { type: "D" }), ">", 0), cond.exists(scope.mine({ damaged: true }))),
       },
     }),
-  Alakazam: (d) => atk(d, 0, [fx.counters(ref.defending, amt.mul(2, amt.cards("hand", "me")))]),
+  "Alakazam@me01-056": (d) => atk(d, 0, [fx.counters(ref.defending, amt.mul(2, amt.cards("hand", "me")))]),
   "Raging Bolt ex": (d) => ({
     attacks: (d.attacks ?? []).map((a, j) =>
       j === 0
@@ -556,7 +556,7 @@ const SCRIPTS: Record<string, CardScript> = {
         condition: cond.deck(),
       },
     }),
-  Slowking: (d) =>
+  "Slowking@sv07-058": (d) =>
     atk(d, 0, [
       { op: "mill", side: "me", n: 1, store: "m" },
       {
@@ -566,7 +566,7 @@ const SCRIPTS: Record<string, CardScript> = {
         prompt: msg("Choose an attack to use"),
       },
     ]),
-  Metagross: (d) =>
+  "Metagross@me04-061": (d) =>
     atk(d, 1, [
       fx.if(cond.cmp(amt.energy(ref.self, { type: "M" }), ">=", 3), [
         fx.may(msg("Discard 3 {M} Energy from this Pokémon for 150 more damage?"), [
@@ -576,7 +576,7 @@ const SCRIPTS: Record<string, CardScript> = {
       ]),
       fx.main(),
     ]),
-  Zeraora: (d) =>
+  "Zeraora@sv10-078": (d) =>
     atk(d, 1, [
       fx.discardEnergy(ref.self, "all"),
       fx.choosePokemon(scope.oppBench({ tags: ["ex"] }), "t", msg("Choose your opponent's Benched Pokémon ex")),

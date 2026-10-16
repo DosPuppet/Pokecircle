@@ -13,9 +13,10 @@ import type { CardDef, Decision, GameEvent, GameState, PlayerId } from "./types"
  *
  * History: 1 (2026-10-16) first engine; 2 (2026-10-16) meta mechanics: copied attacks, Festival Lead, Energy
  * provision, Weakness changes, turn log of benched and Active Pokémon (PLAN-A P6); 3 (2026-10-16) Sudden Death: a new
- * game with 1 Prize card each instead of a draw (PLAN-A P8).
+ * game with 1 Prize card each instead of a draw (PLAN-A P8); 4 (2026-10-16) PLAN-B B1: second meta wave (new templates
+ * and mechanics), Stadiums playable whatever their action's condition, scripts keyed by print where names are shared.
  */
-export const RULES_VERSION = 3;
+export const RULES_VERSION = 4;
 export const RECORD_FORMAT = "pokecircle-game";
 /** Formats of records written before the app was renamed (PocketMate): read as the current one. */
 const LEGACY_FORMATS = ["pocketmate-game"];

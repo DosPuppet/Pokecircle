@@ -2,7 +2,7 @@
  * Card definitions: what the engine knows of a card (one definition per gameplay identity; reprints share it).
  * Built by `@pokecircle/cards` from TCGdex data, compiled templates and hand scripts.
  */
-import type { Condition, Effect } from "./effects";
+import type { Condition, Effect, PokemonFilter } from "./effects";
 import type { StaticRule } from "./rules";
 
 /**
@@ -125,6 +125,8 @@ export interface TrainerDef {
   attacks?: AttackDef[];
   /** Stadium: "Once during each player's turn, that player may…" (an action of the main phase). */
   stadiumAction?: boolean;
+  /** Supporter: "If you go first, you may use this card during your first turn." */
+  firstTurnOk?: boolean;
 }
 
 export interface EnergyDef {
@@ -140,6 +142,8 @@ export interface EnergyDef {
   attachCondition?: Condition;
   /** Discarded by an effect of its Pokémon's own attack: attached again after attacking (Boomerang Energy). */
   returnAfterAttack?: boolean;
+  /** Provides these units instead while attached to a Pokémon matching the filter (Ignition Energy). */
+  providesIf?: { filter: PokemonFilter; provides: string[][] };
 }
 
 export interface CardDef {

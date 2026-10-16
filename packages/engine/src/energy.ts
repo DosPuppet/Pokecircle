@@ -4,6 +4,7 @@
  * distinct unit that can provide that type, and enough units remain for its Colorless symbols.
  */
 
+import { matchPokemon } from "./match";
 import { defOf, pokemonOf } from "./state";
 import { rulesOn } from "./statics";
 import type { EType, GameState, ObjectId, PokemonId } from "./types";
@@ -22,7 +23,10 @@ export function unitsOf(s: GameState, id: PokemonId): Unit[] {
     const d = defOf(s, e);
     const basic = d.energy?.basic ? d.energy.provides[0]?.[0] : undefined;
     const rule = basic ? as.find((st) => st.rule.basic === basic) : undefined;
-    return rule ? rule.rule.provides : unitsOfCard(s, e);
+    if (rule) return rule.rule.provides;
+    const cond = d.energy?.providesIf;
+    if (cond && matchPokemon(s, id, cond.filter)) return cond.provides;
+    return unitsOfCard(s, e);
   });
 }
 

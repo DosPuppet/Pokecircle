@@ -66,12 +66,15 @@ export function trainerPlayable(s: GameState, p: PlayerId, card: ObjectId): bool
   const d = defOf(s, card);
   const t = d.trainer;
   if (!t || !implementedTrainer(d) || !canPlayKind(s, p, t.kind, d.tags)) return false;
-  if (t.kind === "supporter" && (s.turn.supporterPlayed || s.turn.number === 1)) return false;
+  // R-TURN-3: no Supporter on the first player's first turn, unless the card says so (it went first, by definition).
+  if (t.kind === "supporter" && (s.turn.supporterPlayed || (s.turn.number === 1 && !t.firstTurnOk))) return false;
   if (t.kind === "stadium") {
     if (s.turn.stadiumPlayed) return false;
     if (s.stadium && defOf(s, s.stadium).name === d.name) return false;
   }
   if (t.kind === "tool") return toolTargets(s, p, card).length > 0;
+  // A Stadium's condition is the one of its action (`stadiumActionUsable`), not of playing the card.
+  if (t.kind === "stadium") return true;
   return !t.condition || evalCond(s, ctxFor(p, card), t.condition);
 }
 

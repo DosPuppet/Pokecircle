@@ -22,3 +22,7 @@ Every approximation of the official rules or of a card's text is listed here whe
 - Briar: the extra Prize is taken when the Knocked Out Pokémon was damaged by an attack this turn while a Tera Pokémon is
   the player's Active Pokémon (the attacker is the Active Pokémon in every legal play).
 - Festival Lead: the second attack must be the same attack (the text says "an attack it has twice").
+- Team Rocket's Energy is never attached to a Pokémon other than a Team Rocket's Pokémon (attaching is refused), so its
+  "if attached to anything other than a Team Rocket's Pokémon, discard this card" is not checked afterwards (PLAN-B B1).
+- Metang's Metal Maker and other "shuffle the other cards and put them on the bottom of your deck": the cards go to the
+  bottom in their order (unknown to both players either way).

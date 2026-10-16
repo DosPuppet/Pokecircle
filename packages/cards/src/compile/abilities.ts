@@ -5,7 +5,7 @@
 import type { AbilityDef, Condition, Effect, StaticRule, TriggerDef } from "@pokecircle/engine";
 import { amt, cond, fx, msg, ref, scope } from "@pokecircle/engine";
 import { COMMON, type Ctx, chooseIn } from "./effects";
-import { condPhrase, num, typeSym } from "./phrases";
+import { condPhrase, num, scopePhrase, typeSym } from "./phrases";
 import { matchAll, normalize, sentence, type Template, tpl } from "./templates";
 
 const ctx: Ctx = { inAttack: false };
@@ -114,6 +114,33 @@ function limits(text: string): { text: string; byName: boolean; endsTurn: boolea
 type AbilityParts = Pick<AbilityDef, "activated" | "statics" | "triggers">;
 
 const STATIC_TEMPLATES: Template<Ctx & { rules?: StaticRule[] }>[] = [
+  tpl(
+    "st.hideNSneak",
+    "Prevent all effects of your opponent's Pokémon's attacks and Abilities done to this Pokémon. (Damage is not an effect.)",
+    (_g, c) => {
+      c.rules = [
+        { s: "prevent", scope: scope.self(), what: "effects" },
+        { s: "shielded", scope: scope.self(), from: "abilities" },
+      ];
+      return {};
+    },
+  ),
+  tpl("st.preventFrom", "Prevent all damage done to this Pokémon by attacks from your opponent's {X}.", ([x], c) => {
+    const sc = scopePhrase(`your opponent's ${x}`);
+    if (!sc?.filter) return null;
+    c.rules = [{ s: "prevent", scope: scope.self(), what: "damage", from: sc.filter }];
+    return {};
+  }),
+  tpl(
+    "st.dealtYour",
+    "Attacks used by your {X} do {n} more damage to your opponent's Active Pokémon (before applying Weakness and Resistance).",
+    ([x, n], c) => {
+      const sc = scopePhrase(`your ${x}`);
+      if (!sc) return null;
+      c.rules = [{ s: "dealt", scope: sc, add: Number(n), activeOnly: true }];
+      return {};
+    },
+  ),
   tpl("st.noRetreatBasics", "Your Basic Pokémon in play have no Retreat Cost.", (_g, c) => {
     c.rules = [{ s: "retreat", scope: scope.mine({ stage: ["basic"] }), set: 0 }];
     return {};

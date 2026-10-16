@@ -1,0 +1,31 @@
+// cynthias-garchomp: Cynthia's Garchomp decklist by Bryce Harris - 83rd Place Regional Louisville, KY - 10th October 2026 (https://limitlesstcg.com/decks/list/30205, imported 2026-10-16)
+Pokémon: 18
+4 Cynthia's Gible DRI 102
+4 Cynthia's Gabite DRI 103
+3 Cynthia's Garchomp ex DRI 104
+3 Cynthia's Roselia DRI 7
+3 Cynthia's Roserade DRI 8
+1 Cynthia's Spiritomb DRI 129
+
+Trainer: 33
+4 Lillie's Determination MEG 119
+3 Boss's Orders MEG 114
+2 Hilda WHT 84
+2 Team Rocket's Petrel DRI 176
+1 Judge POR 76
+1 Kieran TWM 154
+4 Buddy-Buddy Poffin TEF 144
+4 Poké Pad POR 81
+2 Fighting Gong MEG 116
+1 Night Stretcher ASC 196
+1 Sacred Ash DRI 168
+1 Unfair Stamp TWM 165
+4 Cynthia's Power Weight DRI 162
+2 Team Rocket's Watchtower DRI 180
+1 Forest of Vitality MEG 117
+
+Energy: 9
+5 Fighting Energy MEE 14
+4 Rocky Fighting Energy POR 87
+
+Total Cards: 60

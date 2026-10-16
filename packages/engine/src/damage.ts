@@ -16,6 +16,10 @@ import type { GameState, PlayerId, PokemonId, Resolution } from "./types";
 export interface DamageOptions {
   /** Weakness and Resistance are not applied (they never are outside the opponent's Active Pokémon). */
   noWR?: boolean;
+  /** "This attack's damage isn't affected by Weakness" (only). */
+  noWeakness?: boolean;
+  /** "This attack's damage isn't affected by Resistance" (only). */
+  noResistance?: boolean;
   /** "This attack's damage isn't affected by any effects on your opponent's Active Pokémon." */
   ignoreEffects?: boolean;
 }
@@ -69,11 +73,11 @@ export function computeAttackDamage(
   if (toOppActive && !opts.noWR && attacker && s.pokemon[attacker]) {
     const types = chars(s, attacker).types;
     const tc = chars(s, target);
-    if (tc.weakness && types.includes(tc.weakness.type)) {
+    if (tc.weakness && !opts.noWeakness && types.includes(tc.weakness.type)) {
       n *= tc.weakness.mult;
       out.weakness = true;
     }
-    if (tc.resistance && types.includes(tc.resistance.type)) {
+    if (tc.resistance && !opts.noResistance && types.includes(tc.resistance.type)) {
       n -= tc.resistance.amount;
       out.resistance = true;
     }

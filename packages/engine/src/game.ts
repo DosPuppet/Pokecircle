@@ -12,13 +12,15 @@ import { RulesError } from "./errors";
 import { collectEvents } from "./events";
 import { endGame } from "./knockout";
 import { MAX_TURNS } from "./limits";
+import { setHpOf } from "./match";
 import { cloneState, newId, opponentOf } from "./state";
-import { benchSize } from "./statics";
+import { benchSize, chars } from "./statics";
 import { msg } from "./text";
 import { advance, answerFlowChoice, placeSetup } from "./turn";
 import type { CardDef, CardObject, Decision, GameEvent, GameState, PlayerId } from "./types";
 
 setBenchSize(benchSize);
+setHpOf((s, id) => chars(s, id).hp);
 
 export interface PlayerSetup {
   id: PlayerId;

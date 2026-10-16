@@ -9,6 +9,12 @@ export function sidePlayers(s: GameState, side: Side, me: PlayerId): PlayerId[] 
   return side === "me" ? [me] : side === "opp" ? [opponentOf(s, me)] : [me, opponentOf(s, me)];
 }
 
+// Computed HP lives in statics.ts, which imports this module: a late-bound reference avoids an import-time cycle.
+let hpOf: (s: GameState, id: PokemonId) => number = (s, id) => topDef(s, id).hp ?? 0;
+export function setHpOf(fn: (s: GameState, id: PokemonId) => number): void {
+  hpOf = fn;
+}
+
 export function matchPokemon(s: GameState, id: PokemonId, f: PokemonFilter | undefined): boolean {
   if (!f) return true;
   const pk = pokemonOf(s, id);
@@ -28,6 +34,8 @@ export function matchPokemon(s: GameState, id: PokemonId, f: PokemonFilter | und
     if (!!(c.rotating || c.poisoned || c.burned) !== f.conditioned) return false;
   }
   if (f.maxHp !== undefined && (d.hp ?? 0) > f.maxHp) return false;
+  // Remaining HP reads computed HP: never used by a static's scope (it would recurse).
+  if (f.maxRemainingHp !== undefined && hpOf(s, id) - pk.damage > f.maxRemainingHp) return false;
   if (f.selfKOAbility !== undefined && !!d.abilities?.some((a) => a.selfKO) !== f.selfKOAbility) return false;
   if (f.abilityNamed !== undefined && !d.abilities?.some((a) => a.name === f.abilityNamed)) return false;
   if (f.enteredBefore !== undefined && pk.enteredTurn < s.turn.number !== f.enteredBefore) return false;
@@ -80,6 +88,7 @@ export function matchCard(s: GameState, d: CardDef, f: CardFilter | undefined, m
   if (f.noTags?.some((t) => d.tags.includes(t))) return false;
   if (f.maxHp !== undefined && (d.category !== "pokemon" || (d.hp ?? 0) > f.maxHp)) return false;
   if (f.evolvesFrom !== undefined && d.evolvesFrom !== f.evolvesFrom) return false;
+  if (f.abilityNamed !== undefined && !d.abilities?.some((a) => a.name === f.abilityNamed)) return false;
   if (f.evolvesFromInPlay) {
     if (!d.evolvesFrom) return false;
     const names = sidePlayers(s, f.evolvesFromInPlay, me).flatMap((p) => {

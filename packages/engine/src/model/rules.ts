@@ -49,6 +49,8 @@ export type StaticRule = (
       scope: PokemonScope;
       delta: number;
       byAttack?: boolean;
+      /** "This effect of your <card> can't be applied more than once per game." */
+      oncePerGame?: boolean;
     }
   | /** The scope's Pokémon may use an attack twice in a turn (Festival Lead). */ { s: "attackTwice"; scope: PokemonScope }
   | /** Basic Energy of a type attached to the scope's Pokémon provides these units instead. */ {

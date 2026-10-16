@@ -30,6 +30,8 @@ export interface PokemonFilter {
   /** Has a Special Condition. */
   conditioned?: boolean;
   maxHp?: number;
+  /** Remaining HP at most ("that has 30 HP or less remaining"). */
+  maxRemainingHp?: number;
   /** Has an Ability that Knocks Out the Pokémon using it (Psyduck's Damp). */
   selfKOAbility?: boolean;
   /** Has an Ability with this English name. */
@@ -80,6 +82,8 @@ export interface CardFilter {
   tags?: CardTag[];
   noTags?: CardTag[];
   maxHp?: number;
+  /** Pokémon with an Ability of this English name ("Pokémon that have the Hide 'n' Sneak Ability"). */
+  abilityNamed?: string;
   /** Pokémon that evolve from a Pokémon of this side in play (Evolution cards). */
   evolvesFromInPlay?: Side;
   /** Evolves from this English name. */
@@ -106,7 +110,7 @@ export type Amount =
   | { k: "min"; of: Amount[] }
   | { k: "max"; of: Amount[] }
   /** Attached Energy: cards, or units provided (`units`), optionally of one type. */
-  | { k: "energy"; on: PokemonRef; type?: EType; units?: boolean; basic?: boolean; special?: boolean }
+  | { k: "energy"; on: PokemonRef; type?: EType; units?: boolean; basic?: boolean; special?: boolean; names?: string[] }
   /** Damage counters on a Pokémon (damage / 10). */
   | { k: "counters"; on: PokemonRef }
   | { k: "hp"; on: PokemonRef }
@@ -120,7 +124,7 @@ export type Amount =
   /** Free Bench places. */
   | { k: "benchSpace"; side: Side }
   /** Turn log entries of this turn (or the previous turn) matching a kind. */
-  | { k: "turnLog"; event: TurnEventKind; side?: Side; previous?: boolean };
+  | { k: "turnLog"; event: TurnEventKind; side?: Side; previous?: boolean; filter?: CardFilter };
 
 export type TurnEventKind =
   | "supporterPlayed"
@@ -184,7 +188,7 @@ export type Duration = "thisTurn" | "opponentsNextTurn" | "yourNextTurn" | "unti
 export type Effect =
   // —— attack damage ——
   /** The attack's printed damage (with `bonusDamage`/`setDamage`) to the Defending Pokémon. */
-  | { op: "mainDamage"; noWR?: boolean; ignoreEffects?: boolean; to?: PokemonRef }
+  | { op: "mainDamage"; noWR?: boolean; noWeakness?: boolean; noResistance?: boolean; ignoreEffects?: boolean; to?: PokemonRef }
   /** "This attack does N more damage" (before modifiers, Weakness and Resistance). */
   | { op: "bonusDamage"; amount: Amount }
   /** "This attack does N less damage". */
@@ -194,7 +198,15 @@ export type Effect =
   /** "This attack does nothing." */
   | { op: "attackFails" }
   /** Attack damage to other Pokémon (Weakness and Resistance only on the opponent's Active, R-ATTACK-5). */
-  | { op: "damage"; to: PokemonRef; amount: Amount; noWR?: boolean; ignoreEffects?: boolean }
+  | {
+      op: "damage";
+      to: PokemonRef;
+      amount: Amount;
+      noWR?: boolean;
+      noWeakness?: boolean;
+      noResistance?: boolean;
+      ignoreEffects?: boolean;
+    }
   // —— damage counters ——
   | { op: "counters"; to: PokemonRef; n: Amount }
   /** Put N damage counters on Pokémon of a scope "in any way you like". */
@@ -299,6 +311,8 @@ export type Effect =
   /** A timed effect on given Pokémon (`target`) or on the controller's side (no `target`). */
   | { op: "timed"; duration: Duration; rule: StaticRule; target?: PokemonRef }
   | { op: "endTurn" }
+  /** "Choose 1 of its attacks. During …, that Pokémon can't use that attack." */
+  | { op: "lockAttack"; target: PokemonRef; duration: Duration; prompt: string }
   /** Look at cards without taking them (shown to the controller). */
   | { op: "look"; zone: CardZone; side: "me" | "opp"; top?: Amount }
   /** Take Prize cards ("take 1 more Prize card"). */

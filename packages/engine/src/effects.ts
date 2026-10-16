@@ -133,6 +133,7 @@ export function evalAmount(s: GameState, ctx: Ctx, a: Amount): number {
             if (!d?.energy) return false;
             if (a.basic && !d.energy.basic) return false;
             if (a.special && d.energy.basic) return false;
+            if (a.names && !a.names.includes(d.name)) return false;
             return !a.type || d.energy.provides.some((u) => u.includes(a.type as string) || u.includes("*"));
           }).length
         );
@@ -162,7 +163,12 @@ export function evalAmount(s: GameState, ctx: Ctx, a: Amount): number {
     case "turnLog": {
       const turn = a.previous ? s.turn.number - 1 : s.turn.number;
       const players = sidePlayers(s, a.side ?? "me", ctx.player);
-      return s.turnLog.filter((e) => e.turn === turn && e.kind === a.event && players.includes(e.player)).length;
+      return s.turnLog.filter((e) => {
+        if (e.turn !== turn || e.kind !== a.event || !players.includes(e.player)) return false;
+        if (!a.filter) return true;
+        const d = e.defId ? s.defs[e.defId] : undefined;
+        return !!d && matchCard(s, d, a.filter, ctx.player);
+      }).length;
     }
   }
 }

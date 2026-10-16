@@ -207,3 +207,4 @@ Abilities: once-per-turn draw, search and Energy families, triggered on play, ev
 | Lot | State | Notes |
 |---|---|---|
 | B0 Tooling and accuracy harness | done 2026-10-16 | `--families`, `--write-baseline` (ids), `card-program --set/--new`, every-card test (1,121 cards, 2,337 effects; all in `verify --full`) |
+| B1 Meta refresh | done 2026-10-16 | rules 4; 8 more archetypes (16 meta precons, 209 cards, all implemented); 1,129 → 1,200 Standard; scripts keyed by print where names are shared (4 wrong P6 applications fixed) |

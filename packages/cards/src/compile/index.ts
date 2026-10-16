@@ -26,7 +26,7 @@ export function compileDef(def: CardDef, report?: CompileReport): CardDef {
   if (def.category === "pokemon") {
     out.attacks = (def.attacks ?? []).map((a) => {
       if (a.effects) return a;
-      const c = compileAttack(a);
+      const c = compileAttack(a, def.name);
       if ("unmatched" in c) {
         missing.push(a.text ?? a.name);
         note(report, def.id, c.unmatched);

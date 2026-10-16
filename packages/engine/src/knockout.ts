@@ -31,7 +31,7 @@ export function checkKnockouts(s: GameState): boolean {
     const top = topDef(s, id);
     const taker = opponentOf(s, pk.owner);
     const hit = s.turnLog.some((e) => e.turn === s.turn.number && e.kind === "damagedByAttack" && e.pokemon === id);
-    prizes[taker] = (prizes[taker] ?? 0) + prizesFor(s, id, hit);
+    prizes[taker] = (prizes[taker] ?? 0) + prizesFor(s, id, hit, true);
     const attached = [...pk.tools, ...pk.energy];
     const attachedDefs = attached.map((c) => obj(s, c).defId);
     const byAttack = s.turnLog.some((e) => e.turn === s.turn.number && e.kind === "damagedByAttack" && e.pokemon === id);

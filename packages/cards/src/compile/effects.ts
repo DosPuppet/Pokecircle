@@ -9,6 +9,10 @@ import { type Built, matchAll, sentence, type Template, tpl } from "./templates"
 
 export interface Ctx {
   inAttack: boolean;
+  /** The card's English name ("a card that evolves from this Pokémon"). */
+  name?: string;
+  /** The attack's cost (number of Energy symbols: "extra Energy … in addition to this attack's cost"). */
+  cost?: number;
 }
 
 const post = (...effects: Effect[]): Built => ({ post: effects });
@@ -137,6 +141,60 @@ export const COMMON: Template<Ctx>[] = [
     return k ? post(fx.draw(k)) : null;
   }),
   tpl("draw.card", "Draw a card.", () => post(fx.draw(1))),
+  tpl("draw.mayUntil", "You may draw cards until you have {w} cards in your hand.", ([n]) => {
+    const k = num(n);
+    return k ? post(fx.may(msg("Draw cards until you have {n} cards in your hand?", { n: k }), [fx.drawUntil(k)])) : null;
+  }),
+  tpl(
+    "evolve.fromDeck",
+    "Search your deck for a card that evolves from this Pokémon and put it onto this Pokémon to evolve it. Then, shuffle your deck.",
+    (_g, ctx) =>
+      ctx.name
+        ? post(
+            fx.chooseCards("deck", "evo", msg("Choose a card that evolves from this Pokémon"), {
+              filter: { category: ["pokemon"], evolvesFrom: ctx.name },
+              min: 0,
+              max: 1,
+            }),
+            fx.evolveWith("evo", ref.self),
+            fx.shuffle(),
+          )
+        : null,
+  ),
+  tpl("search.mayAny", "You may search your deck for a card and put it into your hand. Then, shuffle your deck.", () =>
+    post(fx.chooseCards("deck", "found", SEARCH_PROMPT(), { min: 0, max: 1 }), fx.move("found", "hand"), fx.shuffle()),
+  ),
+  tpl(
+    "look.revealToHand",
+    "Look at the top {w} cards of your deck. You may reveal {x} you find there and put {it} into your hand. Shuffle the other cards back into your deck.",
+    ([w, what]) => {
+      const k = num(w);
+      const m = /^(any number of|an?) (.+)$/.exec((what as string).trim());
+      const f = m ? cardFilter(m[2] as string) : null;
+      if (!k || !m || !f?.filter) return null;
+      return post(
+        fx.chooseCards("deck", "found", msg("Choose the cards to put into your hand"), {
+          filter: f.filter,
+          top: k,
+          min: 0,
+          max: m[1] === "any number of" ? k : 1,
+          reveal: true,
+        }),
+        fx.move("found", "hand"),
+        fx.shuffle(),
+      );
+    },
+  ),
+  tpl("discard.shuffleIn", "Shuffle up to {w} {x} from your discard pile into your deck.", ([w, what]) => {
+    const k = num(w);
+    const f = cardFilter(what as string);
+    if (!k || !f?.filter) return null;
+    return post(
+      fx.chooseCards("discard", "back", msg("Choose cards from your discard pile"), { filter: f.filter, min: 0, max: k }),
+      fx.move("back", "deck"),
+      fx.shuffle(),
+    );
+  }),
   tpl("draw.until", "Draw cards until you have {w} cards in your hand.", ([n]) => {
     const k = num(n);
     return k ? post(fx.drawUntil(k)) : null;
@@ -201,6 +259,9 @@ export const COMMON: Template<Ctx>[] = [
   }),
   // —— healing ——
   tpl("heal.self", "Heal {n} damage from this Pokémon.", ([n]) => post(fx.heal(ref.self, Number(n)))),
+  tpl("heal.oneCure", "Heal {n} damage from 1 of your Pokémon, and it recovers from all Special Conditions.", ([n]) =>
+    post(chooseIn(scope.mine(), "t", { min: 1, max: 1 }), fx.heal(ref.v("t"), Number(n)), fx.cure(ref.v("t"))),
+  ),
   tpl("heal.selfAll", "Heal all damage from this Pokémon.", () => post(fx.heal(ref.self, "all"))),
   tpl("heal.each", "Heal {n} damage from each of your Pokémon.", ([n]) => post(fx.heal(ref.all(scope.mine()), Number(n)))),
   tpl("heal.one", "Heal {n} damage from 1 of your {X}.", ([n, what]) => {

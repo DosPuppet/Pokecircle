@@ -50,3 +50,24 @@ with `npx tsx tools/meta-decks.ts <archetype id>:<name>…` into `docs/meta/2026
 - Fuzz on the meta pool: 400 games with strict offers, 200 chaos, 100 with the AI levels; browser games with meta decks.
 - Program review: `npx tsx tools/card-program.ts --deck <id>` prints each card's compiled program next to its text;
   every meta card was reviewed (fixes: Hilda's two searches, Energy counted in units, "can't use attacks").
+
+## Second wave (PLAN-B B1, 2026-10-16)
+
+Eight more archetypes from Limitless (16 meta precons in all): Crustle (Mysterious Rock Inn), Mega Excadrill ex,
+Dhelmise (Hide 'n' Sneak), Mega Lucario ex (Lucario Hariyama, Solrock/Lunatone), Team Rocket's Honchkrow, Mega
+Sharpedo ex (Toxtricity), Cynthia's Garchomp ex, Ogerpon Meganium. Lists in `docs/meta/2026-10-16/`.
+
+- **Templates** (shared, 41 more cards): "isn't affected by Weakness" / "…by Resistance" alone; "at least N extra Energy
+  (in addition to this attack's cost)"; "you may draw cards until you have N"; "a card that evolves from this Pokémon"
+  from the deck; "you may search your deck for a card"; "look at the top N cards… reveal a Supporter"; "shuffle up to N
+  … from your discard pile into your deck"; "heal N from 1 of your Pokémon, and it recovers"; Abilities Hide 'n' Sneak,
+  "prevent all damage … by attacks from your opponent's X", "attacks used by your X do N more damage"; a Trainer's
+  Pokémon ("Cynthia's Pokémon") in filters.
+- **Engine**: `turnLog` amounts filtered by card ("a Supporter that has Team Rocket in its name"); `maxRemainingHp` and
+  card `abilityNamed` filters; Energy counted by name; `firstTurnOk` Supporters; `noWeakness` / `noResistance`;
+  `lockAttack` (choose one of the opponent's attacks it can't use); Energy `providesIf` (Ignition Energy); once-per-game
+  Prize rules (Legacy Energy); a trigger's own card (`thisCard`: Ignition Energy discards itself). Stadiums are always
+  playable (their condition is their action's).
+- **Scripts** (`scripts/meta2.ts`, 34 cards). Scripts for names shared by several definitions are keyed by print
+  (`Name@print`, guarded by a test): four earlier scripts (Alakazam, Slowking, Metagross, Zeraora) were also applied to
+  same-name cards of other sets; those fell back to unimplemented and come back in their set's lot.
