@@ -23,10 +23,12 @@ describe("search", () => {
     expect(fire.every((d) => d.types?.includes("R"))).toBe(true);
   });
 
-  it("hides unplayable cards unless asked", () => {
-    const all = searchCards({ ...NO_FILTERS, implementedOnly: false }, "en").length;
-    const playable = searchCards(NO_FILTERS, "en").length;
+  it("hides unplayable cards when asked (outside Standard: every Standard card is playable)", () => {
+    const wide = { ...NO_FILTERS, standardOnly: false };
+    const all = searchCards({ ...wide, implementedOnly: false }, "en").length;
+    const playable = searchCards({ ...wide, implementedOnly: true }, "en").length;
     expect(all).toBeGreaterThan(playable);
+    expect(searchCards({ ...NO_FILTERS, implementedOnly: false }, "en").every((d) => d.implemented)).toBe(true);
   });
 });
 

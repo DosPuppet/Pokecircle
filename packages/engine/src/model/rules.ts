@@ -126,7 +126,21 @@ export type StaticRule = (
       basic: EType;
       provides: string[][];
     }
-  | /** The Weakness of the scope's Pokémon is now this type. */ { s: "weakness"; scope: PokemonScope; type: EType }
+  | /** The Weakness of the scope's Pokémon is now this type, and/or applied as ×`mult` (Illumise: ×3). */ {
+      s: "weakness";
+      scope: PokemonScope;
+      type?: EType;
+      mult?: number;
+    }
+  | /** Evolved Pokémon of the scope can use the attacks of their previous Evolutions (Relicanth's Memory Dive). */ {
+      s: "prevolutionAttacks";
+      scope: PokemonScope;
+    }
+  | /** The scope's Pokémon can't be healed (Yveltal's Life-Locked). */ { s: "noHeal"; scope: PokemonScope }
+  | /** Players of the side flip a coin to use a Trainer card from their hand: tails, it is discarded (Seismitoad). */ {
+      s: "trainerFlip";
+      side: Side;
+    }
   | /** The scope's Pokémon can evolve during the turn they are put into play (`firstTurn`: and during the first turn). */ {
       s: "evolveSameTurn";
       scope: PokemonScope;

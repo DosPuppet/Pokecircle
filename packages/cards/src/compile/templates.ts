@@ -90,14 +90,20 @@ export function normalize(text: string): string {
       .replace(/^If either of them is heads, /, "If any of them are heads, ")
       .replace(/(\. )If either of them is heads, /g, "$1If any of them are heads, ")
       .replace(
-        /\b([Pp])lace (\w+|any number of) damage counter/g,
-        (_, p: string, n: string) => `${p === "P" ? "Put" : "put"} ${n} damage counter`,
+        /\b([Pp])lace ((?:\w+|any number of) )?damage counter/g,
+        (_, p: string, n: string | undefined) => `${p === "P" ? "Put" : "put"} ${n ?? ""}damage counter`,
       )
       .replace(/^(Look at the (?:top|bottom) \w+ cards of your deck), and you may /, "$1. You may ")
       .replace(/(\. |^)(Look at the (?:top|bottom) \w+ cards of your deck), and you may /g, "$1$2. You may ")
       // TCGdex leaves some HTML: emphasis tags, Energy symbols as spans.
       .replace(/<span class="energy-symbol (\w+)"[^>]*>\w+<\/span>/g, (_, t: string) => `{${ENERGY_SPAN[t] ?? "C"}}`)
       .replace(/<\/?em>/g, "")
+      // Some prints (30th Celebration) spell the Energy symbols out: "Basic Fire Energy", "ColorlessColorless less".
+      .replace(
+        /\b(Grass|Fire|Water|Lightning|Psychic|Fighting|Darkness|Metal|Dragon|Colorless)(?= Energy\b)/g,
+        (t: string) => `{${ENERGY_SPAN[t]}}`,
+      )
+      .replace(/\b((?:Colorless){1,4})(?= (?:less|more)\b)/g, (run: string) => "{C}".repeat(run.length / 9))
       .replace(/[‘’]/g, "'")
       .replace(/[“”]/g, '"')
       .replace(/[–—]/g, "-")

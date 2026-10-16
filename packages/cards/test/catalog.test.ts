@@ -67,6 +67,11 @@ describe("catalog", () => {
       for (const id of ids) expect(PRINTS[id], id).toBeDefined();
   });
 
+  it("knows what every Evolution Pokémon evolves from (TCGdex gaps filled, R-EVOLVE)", () => {
+    const missing = Object.values(CARDS).filter((d) => d.category === "pokemon" && d.stage !== "basic" && !d.evolvesFrom);
+    expect(missing.map((d) => `${d.name}@${d.print}`)).toEqual([]);
+  });
+
   it("reads Pokémon characteristics", () => {
     const latias = defs.find((d) => d.name === "Latias ex" && d.standard);
     expect(latias).toMatchObject({ hp: 210, types: ["P"], stage: "basic", retreat: 2 });

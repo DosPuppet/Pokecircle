@@ -110,7 +110,9 @@ export const HANDLERS: OpHandlers = {
             ? [t + 2, t + 2]
             : e.duration === "untilYourNextTurnEnd"
               ? [t, t + 2]
-              : [t, t + 1];
+              : e.duration === "whileActive"
+                ? [t, t + 100_000]
+                : [t, t + 1];
     let rule: StaticRule = e.rule;
     let attackEffect = false;
     if (e.target) {

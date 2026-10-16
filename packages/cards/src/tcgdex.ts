@@ -7,6 +7,7 @@
  */
 import type { AttackDef, CardDef, CardTag, CardText, EType, PrintInfo, Stage, TrainerKind } from "@pokecircle/engine";
 import tagData from "../data/card-tags.json";
+import evolvesFromData from "../data/evolves-from.json";
 import frenchOverrides from "../data/french-overrides.json";
 import type { RawCard } from "./raw";
 import { SET_REGISTRY } from "./setRegistry";
@@ -296,6 +297,17 @@ export function buildCatalog(sets: RawCard[][]): Catalog {
       prints[p.id] = info;
       defOfPrint[p.id] = id;
     }
+  }
+  // Some prints lack "evolves from" in TCGdex (30th Celebration): taken from the other prints of the name when they agree,
+  // else from data/evolves-from.json.
+  const from = new Map<string, Set<string>>();
+  for (const d of Object.values(defs)) if (d.evolvesFrom) from.set(d.name, (from.get(d.name) ?? new Set()).add(d.evolvesFrom));
+  for (const d of Object.values(defs)) {
+    const known = from.get(d.name);
+    if (d.category !== "pokemon" || d.stage === "basic" || d.evolvesFrom) continue;
+    const fallback = (evolvesFromData as Record<string, string>)[d.name];
+    if (known?.size === 1) d.evolvesFrom = [...known][0];
+    else if (fallback) d.evolvesFrom = fallback;
   }
   return { defs, prints, defOfPrint };
 }

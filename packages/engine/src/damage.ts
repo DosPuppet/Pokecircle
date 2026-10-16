@@ -199,7 +199,7 @@ export function putCounters(s: GameState, r: Resolution | null, target: PokemonI
 /** Heals damage (`"all"`: all of it). Returns the damage healed. */
 export function healDamage(s: GameState, target: PokemonId, amount: number | "all"): number {
   const pk = s.pokemon[target];
-  if (!pk || pk.damage <= 0) return 0;
+  if (!pk || pk.damage <= 0 || rulesOn(s, "noHeal", target).length) return 0;
   const healed = amount === "all" ? pk.damage : Math.min(pk.damage, Math.max(0, amount - (amount % 10)));
   if (healed <= 0) return 0;
   pk.damage -= healed;

@@ -21,6 +21,7 @@ import "./scripts/sv09";
 import "./scripts/sv08";
 import "./scripts/sv07";
 import "./scripts/sv06";
+import "./scripts/sv05";
 import { SET_REGISTRY } from "./setRegistry";
 import { SET_DATA } from "./sets";
 import { buildCatalog } from "./tcgdex";

@@ -18,8 +18,9 @@ import {
   trainerPlayable,
   usableAttacks,
 } from "./legal";
+import { sidePlayers } from "./match";
 import { defOf, flipCoin, moveCard, obj, opponentOf, playerOf, pokemonOf, topDef, topObject } from "./state";
-import { chars, rulesOn } from "./statics";
+import { chars, rulesOf, rulesOn } from "./statics";
 import { msg } from "./text";
 import type { Decision, Effect, GameState, PlayerId } from "./types";
 
@@ -67,11 +68,14 @@ export function applyMain(s: GameState, p: PlayerId, d: Decision): void {
           throw new RulesError(msg("This Tool cannot be attached there"));
         emit({ type: "playTrainer", player: p, card: d.card, defId: def.id, target: d.target });
         s.turnLog.push({ turn: s.turn.number, player: p, kind: "itemPlayed", defId: def.id });
+        if (flippedAway(s, p, d.card)) return;
         attachCard(s, d.card, d.target, true);
         return;
       }
       if (!t || !trainerPlayable(s, p, d.card)) throw new RulesError(msg("This card cannot be played now"));
       emit({ type: "playTrainer", player: p, card: d.card, defId: def.id });
+      if (t.kind === "supporter") s.turn.supporterPlayed = true;
+      if (flippedAway(s, p, d.card)) return;
       if (t.kind === "stadium") {
         if (s.stadium) moveCard(s, s.stadium, "discard");
         moveCard(s, d.card, "stadium", { silent: true });
@@ -80,7 +84,6 @@ export function applyMain(s: GameState, p: PlayerId, d: Decision): void {
         emit({ type: "stadium", player: p, card: d.card, defId: def.id });
         return;
       }
-      if (t.kind === "supporter") s.turn.supporterPlayed = true;
       s.turnLog.push({
         turn: s.turn.number,
         player: p,
@@ -228,4 +231,15 @@ export function applyMain(s: GameState, p: PlayerId, d: Decision): void {
     default:
       throw new RulesError(msg("This decision is not expected now"));
   }
+}
+
+/**
+ * "Whenever they try to use a Trainer card from their hand, they flip a coin. If tails, your opponent discards that
+ * Trainer card instead of using it." (Seismitoad): true when the card was discarded.
+ */
+function flippedAway(s: GameState, p: PlayerId, card: string): boolean {
+  const flips = rulesOf(s, "trainerFlip").filter((st) => sidePlayers(s, st.rule.side, st.owner).includes(p));
+  if (!flips.length || flipCoin(s, p, flips[0]?.defId)) return false;
+  moveCard(s, card, "discard");
+  return true;
 }

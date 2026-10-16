@@ -1,0 +1,13 @@
+{
+ "_comment": "Pokémon whose prints lack \"evolves from\" in TCGdex and have no other print of the name to take it from.",
+ "Charizard": "Charmeleon",
+ "Cherrim": "Cherubi",
+ "Cosmoem": "Cosmog",
+ "Dark Tyranitar": "Dark Pupitar",
+ "Hakamo-o": "Jangmo-o",
+ "Hisuian Zoroark": "Hisuian Zorua",
+ "Hydreigon": "Zweilous",
+ "Kommo-o": "Hakamo-o",
+ "Lunala": "Cosmoem",
+ "Solgaleo": "Cosmoem"
+}

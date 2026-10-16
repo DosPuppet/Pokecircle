@@ -106,6 +106,8 @@ export interface CardFilter {
   resistance?: EType;
   /** Pokémon with an Ability. */
   hasAbility?: boolean;
+  /** Pokémon with this printed Retreat Cost. */
+  retreat?: number;
   /** Pokémon that evolve from a Pokémon of this side in play (Evolution cards). */
   evolvesFromInPlay?: Side;
   /** The same name as a Pokémon of this side in play ("a Pokémon with the same name as 1 of your opponent's Pokémon in play"). */
@@ -233,7 +235,14 @@ export type CardDest =
   | "prizes";
 
 /** How long a timed effect lasts (R-TEXT-4: effects of attacks also end when the Pokémon leaves the Active Spot). */
-export type Duration = "thisTurn" | "opponentsNextTurn" | "yourNextTurn" | "untilYourNextTurn" | "untilYourNextTurnEnd";
+export type Duration =
+  | "thisTurn"
+  | "opponentsNextTurn"
+  | "yourNextTurn"
+  | "untilYourNextTurn"
+  | "untilYourNextTurnEnd"
+  /** Until the Pokémon it is bound to leaves the Active Spot ("can't use Blaze Blitz again until it leaves the Active Spot"). */
+  | "whileActive";
 
 export type Effect =
   // —— attack damage ——
@@ -368,6 +377,8 @@ export type Effect =
       target?: PokemonRef;
       /** Stores the evolved Pokémon ("If that Pokémon was evolved in this way"). */
       store?: string;
+      /** Only Evolution cards matching this ("a card that has no Abilities", "an Unfezant or Unfezant ex"). */
+      filter?: CardFilter;
     }
   /** Move chosen Energy from Pokémon of a scope to one Pokémon (Iron Leaves ex). */
   | {

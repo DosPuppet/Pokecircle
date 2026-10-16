@@ -56,3 +56,10 @@ Every approximation of the official rules or of a card's text is listed here whe
 - Alakazam's Strange Hacking: "any number of damage counters" moves one counter at a time (up to 20), until the player
   stops.
 - Accompanying Flute: the top 5 cards are seen by the player; only the Basic Pokémon chosen are revealed to both.
+- Heavy Baton reads the printed Retreat Cost of the Knocked Out Pokémon.
+- Drampa's Raging Cannon: with no Benched Pokémon, no bonus.
+- Minccino's Cleaning Up: a Pokémon chosen loses all its Tools.
+- Sableye's Damage Collection, Delcatty's Energy Blender: one counter or Energy at a time (up to 20), until the player
+  stops.
+- Iron Thorns' Destructo-Press: only the Future cards among the top 5 are revealed to both players.
+- Seismitoad's Quaking Fist: a Supporter discarded by the coin still counts as the Supporter of the turn.

@@ -216,7 +216,18 @@ function compute(s: GameState, id: PokemonId): Chars {
   for (const st of rulesOn(s, "addType", id)) if (!c.types.includes(st.rule.type)) c.types.push(st.rule.type);
   if (rulesOn(s, "noWeakness", id).length) delete c.weakness;
   const weak = rulesOn(s, "weakness", id);
-  if (weak.length) c.weakness = { type: (weak[weak.length - 1] as (typeof weak)[number]).rule.type, mult: 2 };
+  for (const st of weak) {
+    const type = st.rule.type ?? c.weakness?.type;
+    if (type) c.weakness = { type, mult: st.rule.mult ?? (st.rule.type ? 2 : (c.weakness?.mult ?? 2)) };
+  }
+  // Attacks of its previous Evolutions (Relicanth's Memory Dive): the cards below it give them.
+  if (rulesOn(s, "prevolutionAttacks", id).length)
+    for (const below of pk.cards.slice(0, -1)) {
+      if (defOf(s, below).category !== "pokemon") continue;
+      (defOf(s, below).attacks ?? []).forEach((def, index) => {
+        c.attacks.push({ index, def, source: below, cost: [...def.cost] });
+      });
+    }
   // Attacks of other Pokémon it can use (Mew ex's Memory Helix): their cards give them.
   for (const st of rulesOn(s, "borrowAttacks", id))
     for (const other of scopePokemon(s, st.rule.from, st.owner, st.source)) {

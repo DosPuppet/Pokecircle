@@ -270,6 +270,7 @@ export const HANDLERS: OpHandlers = {
     const fits = (card: ObjectId, target: string) => {
       const d = defOf(s, card);
       const base = topDef(s, target);
+      if (e.filter && !matchCard(s, d, e.filter, r.player)) return false;
       return e.skipStage1 ? d.stage === "stage2" && (d.basicOf ?? []).includes(base.name) : d.evolvesFrom === base.name;
     };
     const pool = e.target ? resolveRef(s, r, e.target) : scopePokemon(s, e.scope, r.player, r.source);
