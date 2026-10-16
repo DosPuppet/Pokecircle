@@ -83,6 +83,10 @@ export type StaticRule = (
       scope: PokemonScope;
     }
   | /** Damage counters on the scope's Pokémon cannot be moved (Patrat). */ { s: "noMoveCounters"; scope: PokemonScope }
+  | /** The scope's Pokémon and the cards attached to them can't be put into the hand (Milotic). */ {
+      s: "noToHand";
+      scope: PokemonScope;
+    }
   | /** Pokémon Tools attached to every Pokémon have no effect (Jamming Tower; a Stadium's rule only). */ { s: "noTools" }
   | /** Confused Pokémon of the scope stay Confused when they evolve or devolve (Dizzying Valley). */ {
       s: "keepConfused";

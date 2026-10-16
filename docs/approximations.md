@@ -49,9 +49,10 @@ Every approximation of the official rules or of a card's text is listed here whe
 - Forretress' Iron Shake-Up: "any amount" is up to 20 moves, one Energy at a time, until the player stops.
 - Tyme: the opponent guesses "100 HP or more?" instead of a number.
 - Sparkling Crystal: the Energy symbol removed is a {C} if the cost has one, else the last symbol.
-- Palafin ex (Hero's Spirit) is never played from the hand; Palafin's Zero to Hero, which puts it into play, is not
-  implemented yet.
 - Miraidon's C.O.D.E.: Protect ends when no Miraidon is your Active Pokémon (any Miraidon keeps it).
 - Kilowattrel's Storm Bolt and Scramble Switch move Energy one card at a time (a question each).
 - Cresselia's Crescent Purge: the Prize card is picked at random and revealed to both players, not kept face up.
 - Grand Tree: the Stage 2 step is a separate question after the Stage 1 evolution.
+- Alakazam's Strange Hacking: "any number of damage counters" moves one counter at a time (up to 20), until the player
+  stops.
+- Accompanying Flute: the top 5 cards are seen by the player; only the Basic Pokémon chosen are revealed to both.

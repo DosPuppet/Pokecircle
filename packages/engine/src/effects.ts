@@ -86,7 +86,9 @@ export function resolveRef(s: GameState, ctx: Ctx, ref: PokemonRef): PokemonId[]
   if (ref === "oppActive") return alive([playerOf(s, opponentOf(s, ctx.player)).active]);
   if (ref === "defending")
     return ctx.attack ? alive([ctx.attack.defending]) : alive([playerOf(s, opponentOf(s, ctx.player)).active]);
-  if ("var" in ref) return alive((ctx.vars[ref.var] ?? []).map(String));
+  // A stored card in play stands for its Pokémon ("move an Energy … to the new Benched Pokémon").
+  if ("var" in ref)
+    return alive((ctx.vars[ref.var] ?? []).map((x) => (s.pokemon[String(x)] ? String(x) : s.objects[String(x)]?.host)));
   if ("ev" in ref) return alive([ctx.event?.[ref.ev]]);
   return scopePokemon(s, ref.scope, ctx.player, ctx.source);
 }

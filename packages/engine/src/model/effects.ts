@@ -108,6 +108,8 @@ export interface CardFilter {
   hasAbility?: boolean;
   /** Pokémon that evolve from a Pokémon of this side in play (Evolution cards). */
   evolvesFromInPlay?: Side;
+  /** The same name as a Pokémon of this side in play ("a Pokémon with the same name as 1 of your opponent's Pokémon in play"). */
+  nameInPlay?: Side;
   /** Evolves from this English name. */
   evolvesFrom?: string;
   /** Matches if any of these does ("Pokémon or Basic Energy cards"). */
@@ -264,7 +266,12 @@ export type Effect =
    * The stored card takes the place of the target's top card, which goes to the discard pile; attached cards, damage
    * counters, Special Conditions and turns in play stay (Transformation Tome, Ogre's Mask).
    */
-  | { op: "replaceCard"; target: PokemonRef; card: string }
+  | {
+      op: "replaceCard";
+      target: PokemonRef;
+      card: string /** Where the old card goes (default: the discard pile). */;
+      old?: "discard" | "deck";
+    }
   | { op: "heal"; target: PokemonRef; amount: Amount | "all" }
   // —— Special Conditions ——
   | { op: "condition"; target: PokemonRef; cond: SpecialCondition; poison?: number; confusion?: number }
@@ -386,7 +393,15 @@ export type Effect =
       store?: string;
       to?: CardDest;
     }
-  | { op: "moveEnergy"; from: PokemonRef; to: PokemonScope; n: Amount; types?: EType[]; basic?: boolean; chooser?: "me" | "opp" }
+  | {
+      op: "moveEnergy";
+      from: PokemonRef;
+      to: PokemonScope | PokemonRef;
+      n: Amount;
+      types?: EType[];
+      basic?: boolean;
+      chooser?: "me" | "opp";
+    }
   | { op: "discardTools"; from: PokemonRef }
   | { op: "discardStadium" }
   // —— Pokémon ——

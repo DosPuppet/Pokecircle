@@ -9,7 +9,7 @@ import { endGame, takePrizes } from "../knockout";
 import { matchCard, matchPokemon, scopePokemon } from "../match";
 import type { OpHandlers } from "../opRegistry";
 import { bump, defOf, moveCard, obj, playerOf, pokemonOf, putOnPokemon, shuffleDeck, topDef } from "../state";
-import { chars, rulesOn } from "../statics";
+import { chars, keptFromHand, rulesOn } from "../statics";
 import { msg } from "../text";
 import type { EType, GameState, ObjectId, Resolution } from "../types";
 
@@ -79,6 +79,8 @@ export const HANDLERS: OpHandlers = {
       discarded.push(...a.map(String));
     }
     for (const c of discarded) {
+      const host = obj(s, c).host;
+      if (e.to === "hand" && host && keptFromHand(s, host)) continue;
       noteBoomerang(s, r, c);
       moveCard(s, c, e.to === "hand" ? "hand" : e.to === "lostZone" ? "lostZone" : e.to === "deck" ? "deck" : "discard");
       total++;
@@ -97,7 +99,8 @@ export const HANDLERS: OpHandlers = {
         (!e.types || (defOf(s, c).energy?.provides ?? []).some((u) => e.types?.some((x) => u.includes(x)))),
     );
     const n = Math.min(evalAmount(s, r, e.n), options.length);
-    const targets = scopePokemon(s, e.to, r.player, r.source).filter((x) => x !== from);
+    const to = typeof e.to === "object" && "side" in e.to ? scopePokemon(s, e.to, r.player, r.source) : resolveRef(s, r, e.to);
+    const targets = to.filter((x) => x !== from);
     if (!n || !targets.length) return DONE;
     const a = answer(r, key("e"), chooser, {
       type: "pick",
@@ -164,7 +167,7 @@ export const HANDLERS: OpHandlers = {
   },
   pokemonTo(s, r, e) {
     for (const t of resolveRef(s, r, e.target)) {
-      if (attackEffectsPrevented(s, r, t)) continue;
+      if (attackEffectsPrevented(s, r, t) || (e.to === "hand" && keptFromHand(s, t))) continue;
       pokemonLeaves(s, t, e.to);
     }
     return DONE;
@@ -173,6 +176,7 @@ export const HANDLERS: OpHandlers = {
     for (const t of resolveRef(s, r, e.target)) {
       const pk = pokemonOf(s, t);
       if (pk.cards.length < 2 || attackEffectsPrevented(s, r, t)) continue;
+      if ((e.to ?? "hand") === "hand" && keptFromHand(s, t)) continue;
       const top = pk.cards[pk.cards.length - 1] as ObjectId;
       moveCard(s, top, e.to ?? "hand");
       const keep = rulesOn(s, "keepConfused", t).length > 0;
@@ -214,6 +218,8 @@ export const HANDLERS: OpHandlers = {
     if (isAsk(a)) return { ask: a };
     const to = e.to === "hand" ? "hand" : e.to === "deck" ? "deck" : e.to === "lostZone" ? "lostZone" : "discard";
     for (const c of a.map(String)) {
+      const host = obj(s, c).host;
+      if (to === "hand" && host && keptFromHand(s, host)) continue;
       noteBoomerang(s, r, c);
       moveCard(s, c, to);
     }
@@ -330,9 +336,10 @@ export const HANDLERS: OpHandlers = {
     if (!target || !card || !s.objects[card]) return DONE;
     const pk = pokemonOf(s, target);
     const old = pk.cards[pk.cards.length - 1] as ObjectId;
-    // The new card takes the old one's place: the old one goes to the discard pile.
+    // The new card takes the old one's place: the old one goes to the discard pile (or the deck: Palafin).
     putOnPokemon(s, card, target, "cards");
-    moveCard(s, old, "discard");
+    moveCard(s, old, e.old ?? "discard");
+    bump(s);
     return DONE;
   },
   takePrizes(s, r, e) {

@@ -88,7 +88,15 @@ export function applyMain(s: GameState, p: PlayerId, d: Decision): void {
         defId: def.id,
       });
       moveCard(s, d.card, "resolving", { silent: true });
-      startResolution(s, { kind: "trainer", player: p, source: null, card: d.card, defId: def.id, effects: t.effects ?? [] });
+      startResolution(s, {
+        kind: "trainer",
+        player: p,
+        source: null,
+        card: d.card,
+        defId: def.id,
+        effects: t.effects ?? [],
+        vars: { thisCard: [d.card] },
+      });
       return;
     }
     case "useAbility": {

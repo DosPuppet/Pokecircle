@@ -118,6 +118,13 @@ export function matchCard(s: GameState, d: CardDef, f: CardFilter | undefined, m
     });
     if (!names.includes(d.evolvesFrom)) return false;
   }
+  if (f.nameInPlay) {
+    const names = sidePlayers(s, f.nameInPlay, me).flatMap((p) => {
+      const ps = s.players[p];
+      return ps ? [ps.active, ...ps.bench].filter((x): x is string => !!x).map((id) => topDef(s, id).name) : [];
+    });
+    if (!names.includes(d.name)) return false;
+  }
   if (f.anyOf && !f.anyOf.some((x) => matchCard(s, d, x, me))) return false;
   if (f.not && matchCard(s, d, f.not, me)) return false;
   return true;

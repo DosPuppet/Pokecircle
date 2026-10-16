@@ -175,6 +175,11 @@ export function rulesOn<K extends Exclude<StaticRule["s"], "cantPlay">>(
   });
 }
 
+/** Can't the Pokémon, or the cards attached to it, be put into the hand (Milotic's Mentally Calm)? */
+export function keptFromHand(s: GameState, id: PokemonId): boolean {
+  return rulesOn(s, "noToHand", id).length > 0;
+}
+
 /** Are the Abilities of a Pokémon locked? */
 export function abilitiesLocked(s: GameState, id: PokemonId): boolean {
   return rawStatics(s).some(

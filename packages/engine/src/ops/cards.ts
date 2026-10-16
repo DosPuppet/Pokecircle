@@ -5,6 +5,7 @@ import { emit } from "../events";
 import { matchCard, scopePokemon } from "../match";
 import type { OpHandlers } from "../opRegistry";
 import { defOf, drawCards, moveCard, obj, playerOf, shuffle, shuffleDeck } from "../state";
+import { keptFromHand } from "../statics";
 import { msg } from "../text";
 import { queueTriggers } from "../triggers";
 import type { CardDest, ChoiceValue, GameState, ObjectId } from "../types";
@@ -32,8 +33,11 @@ export function moveTo(s: GameState, cards: ObjectId[], to: CardDest, anyStage =
       case "deck":
         out.push(moveCard(s, c, "deck"));
         break;
-      default:
+      default: {
+        const host = obj(s, c).host;
+        if (to === "hand" && host && keptFromHand(s, host)) break;
         out.push(moveCard(s, c, to));
+      }
     }
   }
   return to === "deckTop" ? out.reverse() : out;
