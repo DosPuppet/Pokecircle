@@ -29,6 +29,8 @@ export type StaticRule = (
       from?: PokemonFilter;
       /** Also attacks of the owner's own Pokémon (Tera on the Bench). */
       anyAttacker?: boolean;
+      /** Only damage of this amount or less ("if that damage is 60 or less"). */
+      maxDamage?: number;
     }
   | /** Pokémon of the scope have no Abilities. */ { s: "noAbilities"; scope: PokemonScope }
   | /** Players of the side cannot play cards of these kinds. */ {
@@ -39,6 +41,10 @@ export type StaticRule = (
       tags?: CardTag[];
     }
   | { s: "cantAttack"; scope: PokemonScope; attack?: string }
+  | /** Before attacking, the Pokémon's owner flips a coin: tails, the attack doesn't happen. */ {
+      s: "attackFlip";
+      scope: PokemonScope;
+    }
   | { s: "cantRetreat"; scope: PokemonScope }
   | { s: "cantEvolve"; scope: PokemonScope }
   | /** Bench size of the side's players. */ { s: "benchSize"; side: Side; size: number; scope?: PokemonScope }

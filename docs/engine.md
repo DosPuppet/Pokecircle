@@ -73,3 +73,12 @@ Pure, deterministic Pokémon TCG rules engine (`packages/engine/src`). Rules ref
 
 - `limits.ts`: flow steps without a decision, mulligan rounds, automatic decisions per turn, turns, coin flips "until
   tails" (`ops/flow.ts`). Reaching one ends the game in a draw (or stops the flips); listed in `docs/approximations.md`.
+
+## Card growth (PLAN-B)
+
+- Amounts added for card texts: `tools`, `retreatCost`, `conditions`, `energyTypes`, `damageTaken` (damage done by attacks
+  during the previous turn, from the turn log), `div`, `turnLog` with a card `filter`; filters `attackNamed`,
+  `abilityNamed` (cards too), `maxRemainingHp` (computed HP, never in a static's scope).
+- The turn log records amounts (`damagedByAttack`, `healed`). Rules: `prevent.maxDamage`, `attackFlip` (a coin before
+  attacking), `prizes.oncePerGame`; ops `lockAttack`; Energy `providesIf`; Supporters `firstTurnOk`; a trigger's own card
+  is `thisCard` in its effects.

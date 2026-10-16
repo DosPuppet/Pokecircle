@@ -5,11 +5,14 @@
 import { type CardDef, type GameState, legalActions } from "@pokecircle/engine";
 import { describe, expect, it } from "vitest";
 import { answer, handOf, play, pokemon, scenario } from "../../engine/test/helpers";
+import { PRECONS } from "../src/decks";
 import { CARDS } from "../src/index";
 
+/** Precon cards first: several definitions may share a name. */
+const IN_PRECONS = new Set(PRECONS.flatMap((p) => p.main.map((e) => e[1])));
 const card = (name: string, set?: string): CardDef => {
   const list = Object.values(CARDS).filter((x) => x.name === name && x.standard && (!set || x.print.startsWith(set)));
-  const d = list.find((x) => x.implemented) ?? list[0];
+  const d = list.find((x) => IN_PRECONS.has(x.id)) ?? list.find((x) => x.implemented) ?? list[0];
   if (!d) throw new Error(`no card ${name}`);
   return d;
 };
@@ -125,7 +128,7 @@ describe("meta Pokémon", () => {
 
   it("Slowking's Seek Inspiration discards the top card and uses one of its attacks (no Rule Box)", () => {
     const { s, p2 } = scenario({
-      p1: { active: { def: card("Slowking"), energy: [psy, psy] }, deck: [card("Seaking"), dummy] },
+      p1: { active: { def: card("Slowking", "sv07"), energy: [psy, psy] }, deck: [card("Seaking", "sv08.5"), dummy] },
       p2: { active: dummy },
     });
     let st = attack(s, 0);

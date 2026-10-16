@@ -181,6 +181,8 @@ export interface TurnLogEntry {
   defId?: string;
   /** Ability: "<pokemonId>:<index>" or "<name>" for once-by-name limits. */
   key?: string;
+  /** Damage done (damaged by an attack) or healed. */
+  amount?: number;
 }
 
 export interface GameState {

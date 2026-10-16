@@ -61,11 +61,25 @@ function searchEffects(count: { min: number; max: number }, what: string, dest: 
     if (!to) return null;
     return [
       fx.chooseCards("deck", "found", SEARCH_PROMPT(), { filter, min: 0, max: count.max }),
-      fx.attach("found", to),
+      ...attachTo("found", to, single(target), count.max),
       fx.shuffle(),
     ];
   }
   return null;
+}
+
+/** "1 of your Pokémon": every card goes to the same Pokémon (not "in any way you like"). */
+const single = (target: string) => /^1 of /.test(target);
+
+/** Attaches stored cards: to one Pokémon chosen first ("to 1 of your Pokémon"), or each to a Pokémon of the scope. */
+function attachTo(cards: string, to: PokemonScope, one: boolean, max: number): Effect[] {
+  if (!one || max <= 1) return [fx.attach(cards, to)];
+  return [
+    fx.if(cond.cmp(amt.count(cards), ">", 0), [
+      fx.choosePokemon(to, "attachTo", msg("Choose the Pokémon to attach the cards to")),
+      { op: "attach", cards, to, prompt: msg("Choose the Pokémon to attach the card to"), target: ref.v("attachTo") },
+    ]),
+  ];
 }
 
 /** "this Pokémon", "1 of your Benched Pokémon", "your Pokémon in any way you like", "your Benched Pokémon in any way you like". */
@@ -244,7 +258,7 @@ export const COMMON: Template<Ctx>[] = [
           min: count.min === count.max ? count.min : 0,
           max: count.max,
         }),
-        fx.attach("found", to),
+        ...attachTo("found", to, single(target as string), count.max),
       ],
       condition: cond.hasCards("discard", "me", f.filter),
     };
@@ -253,12 +267,47 @@ export const COMMON: Template<Ctx>[] = [
     const k = num(n);
     return k ? post(fx.mill("opp", k)) : null;
   }),
+  tpl("mill.oppOne", "Discard the top card of your opponent's deck.", () => post(fx.mill("opp", 1))),
+  tpl("mill.meOne", "Discard the top card of your deck.", () => post(fx.mill("me", 1))),
+  tpl("energy.discardOppSpecial", "Discard a Special Energy from your opponent's Active Pokémon.", (_g, ctx) =>
+    post(fx.discardEnergy(ctx.inAttack ? ref.defending : ref.oppActive, 1, { special: true })),
+  ),
+  tpl("energy.moveToBench", "Move an Energy from this Pokémon to {w} of your Benched Pokémon.", ([w]) => {
+    const k = num(w);
+    return k === 1 ? post(fx.moveEnergy(ref.self, scope.myBench(), 1)) : null;
+  }),
+  tpl(
+    "energy.mayMoveOppToBench",
+    "You may move an Energy from your opponent's Active Pokémon to {w} of their Benched Pokémon.",
+    ([w], ctx) => {
+      const k = num(w);
+      if (k !== 1) return null;
+      return post(
+        fx.if(cond.bench("opp"), [
+          fx.may(msg("Move an Energy from your opponent's Active Pokémon to their Bench?"), [
+            fx.moveEnergy(ctx.inAttack ? ref.defending : ref.oppActive, scope.oppBench(), 1),
+          ]),
+        ]),
+      );
+    },
+  ),
+  tpl("hand.shuffleIn", "Shuffle your hand into your deck.", () => post(fx.moveAll("hand", "me", "deck"), fx.shuffle())),
+  tpl("stadium.discard", "Discard a Stadium in play.", () => ({ post: [fx.discardStadium()], condition: { c: "stadium" } })),
+  tpl("stadium.mayDiscard", "You may discard a Stadium in play.", () =>
+    post(fx.if({ c: "stadium" }, [fx.may(msg("Discard the Stadium in play?"), [fx.discardStadium()])])),
+  ),
+  tpl("turn.ends", "Your turn ends.", () => post(fx.endTurn())),
   tpl("mill.me", "Discard the top {w} card{s} of your deck.", ([n]) => {
     const k = num(n);
     return k ? post(fx.mill("me", k)) : null;
   }),
   // —— healing ——
   tpl("heal.self", "Heal {n} damage from this Pokémon.", ([n]) => post(fx.heal(ref.self, Number(n)))),
+  tpl("heal.active", "Heal {n} damage from your Active Pokémon.", ([n]) => post(fx.heal(ref.myActive, Number(n)))),
+  tpl("heal.benchAll", "Heal all damage from {w} of your Benched Pokémon.", ([w]) => {
+    const k = num(w);
+    return k ? post(chooseIn(scope.myBench({ damaged: true }), "h", { min: k, max: k }), fx.heal(ref.v("h"), "all")) : null;
+  }),
   tpl("heal.oneCure", "Heal {n} damage from 1 of your Pokémon, and it recovers from all Special Conditions.", ([n]) =>
     post(chooseIn(scope.mine(), "t", { min: 1, max: 1 }), fx.heal(ref.v("t"), Number(n)), fx.cure(ref.v("t"))),
   ),

@@ -18,7 +18,7 @@ import {
   usableAttacks,
 } from "./legal";
 import { defOf, flipCoin, moveCard, obj, opponentOf, playerOf, pokemonOf, topDef, topObject } from "./state";
-import { chars } from "./statics";
+import { chars, rulesOn } from "./statics";
 import { msg } from "./text";
 import type { Decision, Effect, GameState, PlayerId } from "./types";
 
@@ -157,6 +157,12 @@ export function applyMain(s: GameState, p: PlayerId, d: Decision): void {
       // R-ATTACK-2: a Confused Pokémon flips a coin; tails, 3 damage counters on itself and the attack does nothing.
       if (pokemonOf(s, id).cond.rotating === "confused" && !flipCoin(s, p)) {
         putCounters(s, null, id, 3);
+        emit({ type: "attackFails", player: p, pokemon: id });
+        s.turn.ending = true;
+        return;
+      }
+      // "If the Defending Pokémon tries to use an attack, your opponent flips a coin. If tails, that attack doesn't happen."
+      if (rulesOn(s, "attackFlip", id).length && !flipCoin(s, p)) {
         emit({ type: "attackFails", player: p, pokemon: id });
         s.turn.ending = true;
         return;

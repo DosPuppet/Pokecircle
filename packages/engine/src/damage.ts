@@ -24,8 +24,14 @@ export interface DamageOptions {
   ignoreEffects?: boolean;
 }
 
-/** Is damage from an attack of `attacker` to `target` prevented? */
-function damagePrevented(s: GameState, attacker: PokemonId | null, attackerOwner: PlayerId, target: PokemonId): boolean {
+/** Is damage (`amount`) from an attack of `attacker` to `target` prevented? */
+function damagePrevented(
+  s: GameState,
+  attacker: PokemonId | null,
+  attackerOwner: PlayerId,
+  target: PokemonId,
+  amount: number,
+): boolean {
   const t = pokemonOf(s, target);
   // R-RULEBOX-2: a Tera Pokémon on the Bench takes no damage from attacks, both players'.
   if (chars(s, target).tags.includes("tera") && !isActive(s, target)) return true;
@@ -33,6 +39,7 @@ function damagePrevented(s: GameState, attacker: PokemonId | null, attackerOwner
     (st) =>
       (st.rule.what === "damage" || st.rule.what === "all") &&
       (st.rule.anyAttacker || attackerOwner !== t.owner) &&
+      (st.rule.maxDamage === undefined || amount <= st.rule.maxDamage) &&
       (!st.rule.from || (attacker !== null && !!s.pokemon[attacker] && matchPokemon(s, attacker, st.rule.from))),
   );
 }
@@ -87,7 +94,7 @@ export function computeAttackDamage(
       if (st.rule.from && !(attacker && s.pokemon[attacker] && matchPokemon(s, attacker, st.rule.from))) continue;
       n += st.rule.add;
     }
-  if (damagePrevented(s, attacker, r.player, target)) {
+  if (damagePrevented(s, attacker, r.player, target, Math.max(0, n))) {
     out.prevented = true;
     return out;
   }
@@ -103,7 +110,7 @@ export function dealAttackDamage(s: GameState, r: Resolution, target: PokemonId,
   if (res.amount > 0) {
     t.damage += res.amount;
     bump(s);
-    s.turnLog.push({ turn: s.turn.number, player: t.owner, kind: "damagedByAttack", pokemon: target });
+    s.turnLog.push({ turn: s.turn.number, player: t.owner, kind: "damagedByAttack", pokemon: target, amount: res.amount });
     queueTriggers(s, "damagedByAttack", target, { attacker: r.player, event: r.source ? { attacker: r.source } : {} });
   }
   emit({
@@ -138,6 +145,7 @@ export function healDamage(s: GameState, target: PokemonId, amount: number | "al
   const healed = amount === "all" ? pk.damage : Math.min(pk.damage, Math.max(0, amount - (amount % 10)));
   if (healed <= 0) return 0;
   pk.damage -= healed;
+  s.turnLog.push({ turn: s.turn.number, player: pk.owner, kind: "healed", pokemon: target, amount: healed });
   bump(s);
   emit({ type: "heal", target, amount: healed });
   return healed;

@@ -38,6 +38,7 @@ export function matchPokemon(s: GameState, id: PokemonId, f: PokemonFilter | und
   if (f.maxRemainingHp !== undefined && hpOf(s, id) - pk.damage > f.maxRemainingHp) return false;
   if (f.selfKOAbility !== undefined && !!d.abilities?.some((a) => a.selfKO) !== f.selfKOAbility) return false;
   if (f.abilityNamed !== undefined && !d.abilities?.some((a) => a.name === f.abilityNamed)) return false;
+  if (f.attackNamed !== undefined && !d.attacks?.some((a) => a.name === f.attackNamed)) return false;
   if (f.enteredBefore !== undefined && pk.enteredTurn < s.turn.number !== f.enteredBefore) return false;
   if (f.not && matchPokemon(s, id, f.not)) return false;
   return true;

@@ -19,6 +19,8 @@ export interface Built {
   mainOptions?: Extract<Effect, { op: "mainDamage" }>;
   /** No main damage ("This attack does 30 damage to 1 of your opponent's Pokémon" replaces it). */
   noMain?: boolean;
+  /** "If you go first, you can use this attack during your first turn." */
+  firstTurn?: boolean;
 }
 
 export interface Template<C> {
@@ -55,13 +57,31 @@ export function tpl<C>(id: string, pattern: string, build: (g: string[], ctx: C)
   return { id, re: new RegExp(`^${src}(?:\\s+|$)`), build };
 }
 
-/** Text normalized for matching: one space, straight quotes. */
+const ENERGY_SPAN: Record<string, string> = {
+  Grass: "G",
+  Fire: "R",
+  Water: "W",
+  Lightning: "L",
+  Psychic: "P",
+  Fighting: "F",
+  Darkness: "D",
+  Metal: "M",
+  Dragon: "N",
+  Colorless: "C",
+};
+
+/** Text normalized for matching: one space, straight quotes, no HTML. */
 export function normalize(text: string): string {
   return (
     text
       // Reminder texts that add nothing to the rule.
       .replace(/\s*\(Pokémon ex, Pokémon V, etc\. have Rule Boxes\.\)/g, "")
       .replace(/\s*\(Existing effects are not removed\. Damage is not an effect\.\)/g, "")
+      // Weakness and Resistance never apply to Benched Pokémon (R-ATTACK-5): the reminder adds nothing.
+      .replace(/\s*\(Don't apply Weakness and Resistance for Benched Pokémon\.\)/g, "")
+      // TCGdex leaves some HTML: emphasis tags, Energy symbols as spans.
+      .replace(/<span class="energy-symbol (\w+)"[^>]*>\w+<\/span>/g, (_, t: string) => `{${ENERGY_SPAN[t] ?? "C"}}`)
+      .replace(/<\/?em>/g, "")
       .replace(/[‘’]/g, "'")
       .replace(/[“”]/g, '"')
       .replace(/[–—]/g, "-")

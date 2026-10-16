@@ -36,6 +36,8 @@ export interface PokemonFilter {
   selfKOAbility?: boolean;
   /** Has an Ability with this English name. */
   abilityNamed?: string;
+  /** Has an attack with this English name ("each of your Pokémon in play that has the Round attack"). */
+  attackNamed?: string;
   /** Put into play before this turn (Rare Candy, evolution). */
   enteredBefore?: boolean;
   not?: PokemonFilter;
@@ -106,6 +108,8 @@ export type Amount =
   | { k: "tails"; key?: string }
   | { k: "add"; of: Amount[] }
   | { k: "sub"; a: Amount; b: Amount }
+  /** Whole division (rounded down). */
+  | { k: "div"; a: Amount; b: Amount }
   | { k: "mul"; of: Amount[] }
   | { k: "min"; of: Amount[] }
   | { k: "max"; of: Amount[] }
@@ -123,6 +127,16 @@ export type Amount =
   | { k: "prizesTaken"; side: Side }
   /** Free Bench places. */
   | { k: "benchSpace"; side: Side }
+  /** Pokémon Tools attached. */
+  | { k: "tools"; on: PokemonRef }
+  /** Retreat Cost (number of Energy symbols). */
+  | { k: "retreatCost"; on: PokemonRef }
+  /** Special Conditions affecting a Pokémon. */
+  | { k: "conditions"; on: PokemonRef }
+  /** Types of Basic Energy attached (each type counted once). */
+  | { k: "energyTypes"; on: PokemonRef }
+  /** Damage done to a Pokémon by attacks during the previous turn (the opponent's last turn). */
+  | { k: "damageTaken"; on: PokemonRef }
   /** Turn log entries of this turn (or the previous turn) matching a kind. */
   | { k: "turnLog"; event: TurnEventKind; side?: Side; previous?: boolean; filter?: CardFilter };
 
@@ -140,7 +154,9 @@ export type TurnEventKind =
   /** A Pokémon moved from the Bench to the Active Spot. */
   | "becameActive"
   /** A Pokémon was put onto the Bench. */
-  | "benched";
+  | "benched"
+  /** Damage was healed from a Pokémon. */
+  | "healed";
 
 export type Comparison = ">=" | ">" | "<=" | "<" | "==" | "!=";
 

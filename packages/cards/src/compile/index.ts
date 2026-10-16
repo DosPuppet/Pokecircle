@@ -33,7 +33,12 @@ export function compileDef(def: CardDef, report?: CompileReport): CardDef {
         return a;
       }
       used.push(...c.templates);
-      return { ...a, effects: c.effects };
+      return {
+        ...a,
+        effects: c.effects,
+        ...(c.condition ? { condition: c.condition } : {}),
+        ...(c.firstTurn ? { firstTurn: true } : {}),
+      };
     });
     out.abilities = (def.abilities ?? []).map((ab): AbilityDef => {
       const selfKO = /this Pokémon is Knocked Out\.?$/.test(ab.text.trim());

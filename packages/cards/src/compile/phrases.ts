@@ -40,6 +40,8 @@ export function pokemonRef(s: string, inAttack: boolean): PokemonRef | null {
   const t = s.trim();
   if (/^this Pokémon$/i.test(t)) return ref.self;
   if (/^(your opponent's Active Pokémon|the Defending Pokémon)$/i.test(t)) return inAttack ? ref.defending : ref.oppActive;
+  // "that Pokémon" after an attack's effect on the opponent's Active Pokémon.
+  if (inAttack && /^that Pokémon$/i.test(t)) return ref.defending;
   if (/^your Active Pokémon$/i.test(t)) return ref.myActive;
   // A trigger's event: the Pokémon that attacked.
   if (/^the Attacking Pokémon$/i.test(t)) return { ev: "attacker" };
@@ -142,6 +144,34 @@ export function eachPhrase(s: string, inAttack: boolean): Amount | null {
     const f = pokemonFilter(`${m[1] ? `${m[1]} ` : ""}${m[2] ?? ""}Pokémon`);
     return f ? amt.pokemon(scope.of("me", "any", f)) : null;
   }
+  m = /^Pokémon Tool attached to (.+)$/.exec(t);
+  if (m) {
+    const on = m[1] as string;
+    const all = /^all of (your opponent's|your) Pokémon$/.exec(on);
+    if (all) return { k: "tools", on: ref.all(scope.of(all[1] === "your" ? "me" : "opp")) };
+    const r = pokemonRef(on, inAttack);
+    return r ? { k: "tools", on: r } : null;
+  }
+  m = /^\{C\} in (.+?)'s Retreat Cost$/.exec(t);
+  if (m) {
+    const r = pokemonRef(m[1] as string, inAttack);
+    return r ? { k: "retreatCost", on: r } : null;
+  }
+  m = /^Special Condition affecting (.+)$/.exec(t);
+  if (m) {
+    const r = pokemonRef(m[1] as string, inAttack);
+    return r ? { k: "conditions", on: r } : null;
+  }
+  if (t === "Energy attached to all Pokémon") return amt.energy(ref.all(scope.of("both")), { units: true });
+  m = /^type of Basic Energy attached to all of (your opponent's|your) Pokémon$/.exec(t);
+  if (m) return { k: "energyTypes", on: ref.all(scope.of(m[1] === "your" ? "me" : "opp")) };
+  m = /^of your Pokémon in play that has the (.+?) attack$/.exec(t);
+  if (m) return amt.pokemon(scope.of("me", "any", { attackNamed: m[1] as string }));
+  m = /^of your (.+?) in play$/.exec(t);
+  if (m) {
+    const f = pokemonFilter(m[1] as string);
+    if (f) return amt.pokemon(scope.of("me", "any", f));
+  }
   if (t === "Prize card your opponent has taken") return amt.prizesTaken("opp");
   if (t === "Prize card you have taken") return amt.prizesTaken("me");
   m = /^card in (your opponent's|your) hand$/.exec(t);
@@ -233,7 +263,7 @@ export function status(s: string): (typeof STATUS)[string] | null {
 export function condPhrase(s: string, inAttack: boolean): Condition | null {
   const t = s.trim();
   let m: RegExpExecArray | null;
-  m = /^(.+?) has (?:any )?damage counters on (?:it|them)$/.exec(t);
+  m = /^(.+?) (?:already )?(?:has|have) (?:any )?damage counters on (?:it|them)$/.exec(t);
   if (m) {
     const r = pokemonRef(m[1] as string, inAttack);
     if (r) return cond.cmp(amt.counters(r), ">", 0);
@@ -305,5 +335,69 @@ export function condPhrase(s: string, inAttack: boolean): Condition | null {
     return r ? cond.matches(r, { hasTool: true }) : null;
   }
   if (/^you go first$/.test(t) || /^you went first$/.test(t)) return { c: "wentFirst" };
+  m = /^(.+?) was healed during this turn$/.exec(t);
+  if (m) {
+    const r = pokemonRef(m[1] as string, inAttack);
+    return r ? { c: "didThisTurn", kind: "healed", ref: r } : null;
+  }
+  m = /^you have any (.+?) on your Bench$/.exec(t);
+  if (m) {
+    const f = pokemonFilter(m[1] as string);
+    return f ? cond.exists(scope.of("me", "bench", f)) : null;
+  }
+  m = /^you have any (.+?) in play$/.exec(t);
+  if (m) {
+    const f = pokemonFilter(m[1] as string);
+    return f ? cond.exists(scope.of("me", "any", f)) : null;
+  }
+  if (/^you have more Prize cards remaining than your opponent$/.test(t))
+    return cond.cmp(amt.prizesLeft("me"), ">", amt.prizesLeft("opp"));
+  if (/^you have fewer Prize cards remaining than your opponent$/.test(t))
+    return cond.cmp(amt.prizesLeft("me"), "<", amt.prizesLeft("opp"));
+  m = /^(.+?) has any Special Energy attached$/.exec(t);
+  if (m) {
+    const r = pokemonRef(m[1] as string, inAttack);
+    return r ? cond.cmp(amt.energy(r, { special: true }), ">", 0) : null;
+  }
+  m = /^(.+?) has any (\{[A-Z]\} )?Energy attached$/.exec(t);
+  if (m) {
+    const r = pokemonRef(m[1] as string, inAttack);
+    const type = m[2] ? typeSym(m[2].trim()) : undefined;
+    if (!r || type === null) return null;
+    return cond.cmp(amt.energy(r, type ? { type } : {}), ">", 0);
+  }
+  m = /^(.+?) has no Energy attached$/.exec(t);
+  if (m) {
+    const r = pokemonRef(m[1] as string, inAttack);
+    return r ? cond.cmp(amt.energy(r), "==", 0) : null;
+  }
+  m = /^your opponent has (\w+) or (fewer|more) cards in their hand$/.exec(t);
+  if (m) {
+    const n = num(m[1]);
+    return n === null ? null : cond.cmp(amt.cards("hand", "opp"), m[2] === "fewer" ? "<=" : ">=", n);
+  }
+  m = /^you (?:don't|do not) have exactly (\w+) cards in your hand$/.exec(t);
+  if (m) {
+    const n = num(m[1]);
+    return n === null ? null : cond.cmp(amt.cards("hand", "me"), "!=", n);
+  }
+  if (/^this Pokémon and your opponent's Active Pokémon have the same amount of Energy attached$/.test(t))
+    return cond.cmp(amt.energy(ref.self), "==", amt.energy(inAttack ? ref.defending : ref.oppActive));
+  m = /^(.+?) isn't (Asleep|Burned|Confused|Paralyzed|Poisoned)$/.exec(t);
+  if (m) {
+    const r = pokemonRef(m[1] as string, inAttack);
+    const st = status(m[2] as string);
+    return r && st ? cond.not(cond.hasCondition(r, st)) : null;
+  }
+  m = /^(.+?) isn't affected by a Special Condition$/.exec(t);
+  if (m) {
+    const r = pokemonRef(m[1] as string, inAttack);
+    return r ? cond.not(cond.hasCondition(r)) : null;
+  }
+  m = /^(.+?) has full HP$/.exec(t);
+  if (m) {
+    const r = pokemonRef(m[1] as string, inAttack);
+    return r ? cond.cmp(amt.counters(r), "==", 0) : null;
+  }
   return null;
 }

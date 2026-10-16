@@ -116,6 +116,10 @@ export function evalAmount(s: GameState, ctx: Ctx, a: Amount): number {
       return a.of.reduce<number>((n, x) => n + evalAmount(s, ctx, x), 0);
     case "sub":
       return evalAmount(s, ctx, a.a) - evalAmount(s, ctx, a.b);
+    case "div": {
+      const b = evalAmount(s, ctx, a.b);
+      return b ? Math.floor(evalAmount(s, ctx, a.a) / b) : 0;
+    }
     case "mul":
       return a.of.reduce<number>((n, x) => n * evalAmount(s, ctx, x), 1);
     case "min":
@@ -160,6 +164,30 @@ export function evalAmount(s: GameState, ctx: Ctx, a: Amount): number {
       return sideCount(s, ctx, a.side, (p) => playerOf(s, p).prizesTaken);
     case "benchSpace":
       return sideCount(s, ctx, a.side, (p) => Math.max(0, benchSizeOf(s, p) - playerOf(s, p).bench.length));
+    case "tools":
+      return resolveRef(s, ctx, a.on).reduce((n, id) => n + pokemonOf(s, id).tools.length, 0);
+    case "retreatCost":
+      return resolveRef(s, ctx, a.on).reduce((n, id) => n + chars(s, id).retreat, 0);
+    case "conditions":
+      return resolveRef(s, ctx, a.on).reduce((n, id) => {
+        const c = pokemonOf(s, id).cond;
+        return n + (c.rotating ? 1 : 0) + (c.poisoned ? 1 : 0) + (c.burned ? 1 : 0);
+      }, 0);
+    case "energyTypes": {
+      const types = new Set<string>();
+      for (const id of resolveRef(s, ctx, a.on))
+        for (const e of pokemonOf(s, id).energy) {
+          const d = s.defs[s.objects[e]?.defId ?? ""];
+          if (d?.energy?.basic) types.add(d.energy.provides[0]?.[0] ?? "");
+        }
+      return types.size;
+    }
+    case "damageTaken": {
+      const ids = resolveRef(s, ctx, a.on);
+      return s.turnLog
+        .filter((e) => e.turn === s.turn.number - 1 && e.kind === "damagedByAttack" && !!e.pokemon && ids.includes(e.pokemon))
+        .reduce((n, e) => n + (e.amount ?? 0), 0);
+    }
     case "turnLog": {
       const turn = a.previous ? s.turn.number - 1 : s.turn.number;
       const players = sidePlayers(s, a.side ?? "me", ctx.player);
