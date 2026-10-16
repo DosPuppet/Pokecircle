@@ -1,0 +1,188 @@
+/**
+ * What a player may do in their main phase (docs/rules.md R-TURN-2). The same predicates offer the options
+ * (`legalActions`, for the interface, the AI and the autopilot) and validate decisions (`actions.ts`).
+ */
+import { computeAttackDamage } from "./damage";
+import { evalCond } from "./effects";
+import { canPay, suggestRetreat, unitsOf } from "./energy";
+import { defOf, inPlay, isFirstTurnOf, opponentOf, playerOf, pokemonOf, topDef } from "./state";
+import { type AttackOption, benchSize, canPlayKind, chars, rulesOn, toolSlots } from "./statics";
+import type { ActionOption, CardDef, GameState, ObjectId, PlayerId, PokemonId } from "./types";
+
+const ctxFor = (p: PlayerId, card: ObjectId | null, source: PokemonId | null = null) => ({
+  player: p,
+  source,
+  card,
+  vars: {},
+});
+
+export function inHand(s: GameState, p: PlayerId, card: ObjectId): boolean {
+  return playerOf(s, p).hand.includes(card);
+}
+
+export function canPlayBasic(s: GameState, p: PlayerId, card: ObjectId): boolean {
+  if (!inHand(s, p, card)) return false;
+  const d = defOf(s, card);
+  return d.category === "pokemon" && d.stage === "basic" && playerOf(s, p).bench.length < benchSize(s, p);
+}
+
+/** R-EVOLVE-2. */
+export function evolveTargets(s: GameState, p: PlayerId, card: ObjectId): PokemonId[] {
+  if (!inHand(s, p, card)) return [];
+  const d = defOf(s, card);
+  if (d.category !== "pokemon" || d.stage === "basic" || !d.evolvesFrom) return [];
+  if (isFirstTurnOf(s, p)) return [];
+  return inPlay(s, p).filter((id) => {
+    const pk = pokemonOf(s, id);
+    return (
+      topDef(s, id).name === d.evolvesFrom &&
+      pk.enteredTurn < s.turn.number &&
+      pk.evolvedTurn !== s.turn.number &&
+      rulesOn(s, "cantEvolve", id).length === 0
+    );
+  });
+}
+
+/** R-TURN-2c. */
+export function attachTargets(s: GameState, p: PlayerId, card: ObjectId): PokemonId[] {
+  if (!inHand(s, p, card) || s.turn.energyAttached) return [];
+  const d = defOf(s, card);
+  if (d.category !== "energy") return [];
+  return inPlay(s, p).filter((id) => !d.energy?.attachCondition || evalCond(s, ctxFor(p, card, id), d.energy.attachCondition));
+}
+
+function implementedTrainer(d: CardDef): boolean {
+  return !!d.trainer && (d.implemented || !!d.trainer.effects || !!d.trainer.statics);
+}
+
+/** Can a Trainer card be played (R-TURN-2d, R-TURN-4, R-TEXT-3)? Tools: see `toolTargets`. */
+export function trainerPlayable(s: GameState, p: PlayerId, card: ObjectId): boolean {
+  if (!inHand(s, p, card)) return false;
+  const d = defOf(s, card);
+  const t = d.trainer;
+  if (!t || !implementedTrainer(d) || !canPlayKind(s, p, t.kind)) return false;
+  if (t.kind === "supporter" && (s.turn.supporterPlayed || s.turn.number === 1)) return false;
+  if (t.kind === "stadium") {
+    if (s.turn.stadiumPlayed) return false;
+    if (s.stadium && defOf(s, s.stadium).name === d.name) return false;
+  }
+  if (t.kind === "tool") return toolTargets(s, p, card).length > 0;
+  return !t.condition || evalCond(s, ctxFor(p, card), t.condition);
+}
+
+export function toolTargets(s: GameState, p: PlayerId, card: ObjectId): PokemonId[] {
+  const d = defOf(s, card);
+  if (d.trainer?.kind !== "tool" || !inHand(s, p, card) || !canPlayKind(s, p, "tool")) return [];
+  return inPlay(s, p).filter(
+    (id) =>
+      pokemonOf(s, id).tools.length < toolSlots(s, id) &&
+      (!d.trainer?.condition || evalCond(s, ctxFor(p, card, id), d.trainer.condition)),
+  );
+}
+
+/** Can a Pokémon's Ability be used now? */
+export function abilityUsable(s: GameState, p: PlayerId, id: PokemonId, index: number): boolean {
+  const pk = s.pokemon[id];
+  if (!pk || pk.owner !== p) return false;
+  const d = topDef(s, id);
+  const ab = d.abilities?.[index];
+  const act = ab?.activated;
+  if (!ab || !act || !chars(s, id).abilities.includes(index)) return false;
+  const active = playerOf(s, p).active === id;
+  if (act.where === "active" && !active) return false;
+  if (act.where === "bench" && active) return false;
+  const once = act.once ?? "turn";
+  const used = (key: string) => s.turnLog.some((e) => e.turn === s.turn.number && e.kind === "abilityUsed" && e.key === key);
+  if (once === "turn" && used(abilityKey(id, index))) return false;
+  if (once === "turnByName" && used(`name:${p}:${ab.name}`)) return false;
+  if (once === "game" && s.usedOnce.includes(`${p}:${d.name}:${ab.name}`)) return false;
+  return !act.condition || evalCond(s, ctxFor(p, pk.cards.at(-1) ?? null, id), act.condition);
+}
+
+export const abilityKey = (id: PokemonId, index: number) => `${id}:${index}`;
+
+export function stadiumActionUsable(s: GameState, p: PlayerId): boolean {
+  if (!s.stadium) return false;
+  const t = defOf(s, s.stadium).trainer;
+  if (!t?.stadiumAction || !t.effects) return false;
+  if (s.turnLog.some((e) => e.turn === s.turn.number && e.key === `stadium:${p}`)) return false;
+  return !t.condition || evalCond(s, ctxFor(p, s.stadium), t.condition);
+}
+
+/** R-RETREAT: the Retreat option, or null. */
+export function retreatOption(s: GameState, p: PlayerId): Extract<ActionOption, { type: "retreat" }> | null {
+  const ps = playerOf(s, p);
+  const id = ps.active;
+  if (!id || s.turn.retreated || !ps.bench.length) return null;
+  const pk = pokemonOf(s, id);
+  if (pk.cond.rotating === "asleep" || pk.cond.rotating === "paralyzed") return null;
+  if (rulesOn(s, "cantRetreat", id).length) return null;
+  const cost = chars(s, id).retreat;
+  const suggested = suggestRetreat(s, id, cost);
+  if (!suggested) return null;
+  return { type: "retreat", to: [...ps.bench], cost, energy: [...pk.energy], suggested };
+}
+
+/** The attacks of the Active Pokémon that can be used now (R-ATTACK-1, R-COND-2, R-TURN-4). */
+export function usableAttacks(s: GameState, p: PlayerId): AttackOption[] {
+  const id = playerOf(s, p).active;
+  if (!id || s.turn.number === 1) return [];
+  const pk = pokemonOf(s, id);
+  if (pk.cond.rotating === "asleep" || pk.cond.rotating === "paralyzed") return [];
+  const locks = rulesOn(s, "cantAttack", id);
+  const units = unitsOf(s, id);
+  return chars(s, id).attacks.filter(
+    (a) =>
+      !locks.some((l) => !l.rule.attack || l.rule.attack === a.def.name) &&
+      canPay(units, a.cost) &&
+      (a.def.effects !== undefined || !a.def.text) &&
+      (!a.def.condition || evalCond(s, ctxFor(p, null, id), a.def.condition)),
+  );
+}
+
+/** Damage an attack would do to the Defending Pokémon (no coin flips, no choices). */
+export function attackPreview(s: GameState, p: PlayerId, a: AttackOption): { damage: number; ko: boolean } | undefined {
+  const id = playerOf(s, p).active;
+  const target = playerOf(s, opponentOf(s, p)).active;
+  if (!id || !target || !a.def.damage) return undefined;
+  const r = { player: p, source: id };
+  const { amount } = computeAttackDamage(s, r, target, a.def.damage);
+  return { damage: amount, ko: amount > 0 && pokemonOf(s, target).damage + amount >= chars(s, target).hp };
+}
+
+/** Every option of the player's main phase. */
+export function legalActions(s: GameState, p: PlayerId): ActionOption[] {
+  if (s.pending?.kind !== "main" || s.pending.player !== p) return [];
+  const out: ActionOption[] = [];
+  const ps = playerOf(s, p);
+  for (const card of ps.hand) {
+    const d = defOf(s, card);
+    if (d.category === "pokemon") {
+      if (canPlayBasic(s, p, card)) out.push({ type: "playBasic", card });
+      const targets = evolveTargets(s, p, card);
+      if (targets.length) out.push({ type: "evolve", card, targets });
+    } else if (d.category === "energy") {
+      const targets = attachTargets(s, p, card);
+      if (targets.length) out.push({ type: "attachEnergy", card, targets });
+    } else if (d.trainer?.kind === "tool") {
+      const targets = toolTargets(s, p, card);
+      if (targets.length) out.push({ type: "playTrainer", card, targets });
+    } else if (trainerPlayable(s, p, card)) out.push({ type: "playTrainer", card });
+  }
+  for (const id of inPlay(s, p))
+    (topDef(s, id).abilities ?? []).forEach((_, i) => {
+      if (abilityUsable(s, p, id, i)) out.push({ type: "useAbility", pokemon: id, ability: i });
+    });
+  if (stadiumActionUsable(s, p)) out.push({ type: "stadiumAction" });
+  const retreat = retreatOption(s, p);
+  if (retreat) out.push(retreat);
+  for (const a of usableAttacks(s, p)) {
+    const preview = attackPreview(s, p, a);
+    const o: Extract<ActionOption, { type: "attack" }> = { type: "attack", index: a.index, name: a.def.name, cost: a.cost };
+    if (a.source) o.source = a.source;
+    if (preview) o.preview = preview;
+    out.push(o);
+  }
+  out.push({ type: "endTurn" });
+  return out;
+}

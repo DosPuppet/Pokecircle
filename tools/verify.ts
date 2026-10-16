@@ -109,7 +109,7 @@ ok &&= await group([
   { name: "biome", cmd: "npx biome check .", show: /^Found .*$/ },
   {
     name: "coverage",
-    cmd: `npx tsx tools/card-coverage.ts ${set === "META" ? "--deck all" : `--set ${set && !full && !ci ? set.toLowerCase() : "all"}`}`,
+    cmd: `npx tsx tools/card-coverage.ts ${set === "META" || set === "STARTER" ? "--deck all" : `--set ${set && !full && !ci ? set.toLowerCase() : "standard"}`}`,
     show: /^.* implemented .*$/,
     needs: "tools/card-coverage.ts",
   },

@@ -147,6 +147,8 @@ export interface CardDef {
   stage?: Stage;
   /** English name of the Pokémon it evolves from. */
   evolvesFrom?: string;
+  /** Stage 2: the Basic Pokémon two stages below (Rare Candy), from the whole catalog. */
+  basicOf?: string[];
   weakness?: { type: EType; mult: number };
   resistance?: { type: EType; amount: number };
   retreat?: number;

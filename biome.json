@@ -28,7 +28,8 @@
         "noNonNullAssertion": "off"
       },
       "suspicious": {
-        "noArrayIndexKey": "off"
+        "noArrayIndexKey": "off",
+        "noThenProperty": "off"
       }
     }
   },

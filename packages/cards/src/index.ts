@@ -3,6 +3,8 @@
  * from the imported set data.
  */
 import type { CardDef, PrintInfo } from "@pocketmate/engine";
+import { type CompileReport, compileDef } from "./compile/index";
+import { applyScript } from "./scripts";
 import { SET_REGISTRY } from "./setRegistry";
 import { SET_DATA } from "./sets";
 import { buildCatalog } from "./tcgdex";
@@ -14,7 +16,19 @@ export { basicEnergyType, prizeValue, slug } from "./tcgdex";
 
 const catalog = buildCatalog(SET_REGISTRY.map((s) => SET_DATA[s.id] ?? []));
 
-export const CARDS: Record<string, CardDef> = catalog.defs;
+/** What the compiler did not understand, per definition (coverage tool). */
+export const COMPILE_REPORT: CompileReport = { templates: {}, unmatched: {} };
+
+export const CARDS: Record<string, CardDef> = {};
+for (const [id, def] of Object.entries(catalog.defs)) CARDS[id] = compileDef(applyScript(def), COMPILE_REPORT);
+
+// Rare Candy: the Basic Pokémon two stages below each Stage 2, over the whole catalog.
+const evolvesFrom = new Map<string, Set<string>>();
+for (const d of Object.values(CARDS))
+  if (d.category === "pokemon" && d.evolvesFrom)
+    evolvesFrom.set(d.name, new Set([...(evolvesFrom.get(d.name) ?? []), d.evolvesFrom]));
+for (const d of Object.values(CARDS))
+  if (d.stage === "stage2" && d.evolvesFrom) d.basicOf = [...(evolvesFrom.get(d.evolvesFrom) ?? [])].sort();
 export const PRINTS: Record<string, PrintInfo> = catalog.prints;
 export const DEF_OF_PRINT: Record<string, string> = catalog.defOfPrint;
 

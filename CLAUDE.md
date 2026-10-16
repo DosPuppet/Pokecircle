@@ -45,6 +45,17 @@ This file tracks the project between sessions: current state, working rules, pit
 - **Git:** branches `main` (stable) and `dev` (work). Work on `dev`; one commit per lot at its end (authorized by the
   user); English message ending with `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`. The user pushes.
 
+## Cards: compiler and scripts
+
+- `packages/cards/src/compile/`: English text → DSL at load time (`phrases.ts` grammar, `templates.ts` matcher,
+  `effects.ts` shared templates, `attacks.ts`, `trainers.ts`). A template's builder returns null when it does not
+  understand a phrase: the card then stays unimplemented rather than wrong. A text compiles only if every sentence does.
+- Hand scripts: `registerScripts({ "<English name>": (def) => ({ … }) })` (`cards/src/scripts.ts`), merged before compiling.
+- `npm run coverage -- --set standard --sentences` ranks unmatched sentences; `--card "<name>"` shows one card;
+  `--deck all` the precons. `cards/data/compile-baseline.json`: implemented Standard definitions can only go up.
+- Card-text tests check behavior against the printed text (`cards/test/starter.test.ts` model), with the engine's
+  scenario helpers (`engine/test/helpers.ts`: `scenario`, `play`, `answer`, `handOf`).
+
 ## Card data
 
 - `npm run import-cards -- <set>|all [--refresh]` (`tools/import-tcgdex.ts`): TCGdex EN for structure, FR for strings

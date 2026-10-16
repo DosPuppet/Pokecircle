@@ -168,7 +168,7 @@ export type Duration = "thisTurn" | "opponentsNextTurn" | "yourNextTurn" | "unti
 export type Effect =
   // —— attack damage ——
   /** The attack's printed damage (with `bonusDamage`/`setDamage`) to the Defending Pokémon. */
-  | { op: "mainDamage" }
+  | { op: "mainDamage"; noWR?: boolean; ignoreEffects?: boolean; to?: PokemonRef }
   /** "This attack does N more damage" (before modifiers, Weakness and Resistance). */
   | { op: "bonusDamage"; amount: Amount }
   /** "This attack does N less damage". */
@@ -233,6 +233,8 @@ export type Effect =
   /** Move every card of a zone (optionally filtered). */
   | { op: "moveAll"; zone: CardZone; side: "me" | "opp"; to: CardDest; filter?: CardFilter }
   | { op: "shuffleDeck"; who?: "me" | "opp" }
+  /** Discard (or move) the top N cards of a deck. */
+  | { op: "mill"; side: "me" | "opp"; n: Amount; to?: CardDest }
   /** Attach stored cards (Energy, Tools) to a Pokémon chosen for each one among the scope. */
   | { op: "attach"; cards: string; to: PokemonScope; prompt: string }
   /** Evolve a stored Pokémon with a stored card (Rare Candy, "search for a card that evolves from…"). */
