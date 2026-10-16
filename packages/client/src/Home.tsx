@@ -18,6 +18,8 @@ export function Home() {
   const notice = useGame((s) => s.notice);
   const notify = useGame((s) => s.notify);
   const go = useGame((s) => s.go);
+  const relay = useGame((s) => s.relay);
+  const openReplayFile = useGame((s) => s.openReplayFile);
   const LEVEL: Record<AiLevel, string> = { beginner: t("Beginner"), medium: t("Intermediate"), expert: t("Expert") };
   const deckList = (value: string, onPick: (id: string) => void) => <DeckPicker value={value} onPick={onPick} />;
   return (
@@ -50,9 +52,16 @@ export function Home() {
             </button>
           ))}
         </div>
+        <label className="home-option">
+          <input type="checkbox" checked={relay} onChange={(e) => setSettings({ relay: e.target.checked })} />
+          {t("Load the card images through the PocketMate server (if TCGdex is blocked on your network)")}
+        </label>
         <div className="home-actions">
           <button type="button" className="btn primary big" onClick={startGame}>
             {t("Play against the AI")}
+          </button>
+          <button type="button" className="btn big" onClick={() => go("tutorial")}>
+            {t("Tutorial")}
           </button>
           <button type="button" className="btn big" onClick={() => go("online")}>
             {t("Play online")}
@@ -60,6 +69,19 @@ export function Home() {
           <button type="button" className="btn big" onClick={() => go("decks")}>
             {t("My decks")}
           </button>
+          <label className="btn big file-btn">
+            {t("Watch a game (file)")}
+            <input
+              type="file"
+              accept=".json,application/json"
+              hidden
+              onChange={(e) => {
+                const f = e.target.files?.[0];
+                e.target.value = "";
+                if (f) void f.text().then(openReplayFile);
+              }}
+            />
+          </label>
         </div>
       </main>
     </div>

@@ -3,6 +3,7 @@
 import { LangToggle } from "../LangToggle";
 import { useLoc, useT } from "../localize";
 import { useGame } from "../store";
+import { Coach } from "../tutorial/Coach";
 import { ActionBar } from "./ActionBar";
 import { CardImage } from "./CardImage";
 import { CoinFlip } from "./CoinFlip";
@@ -12,6 +13,7 @@ import { LogPanel } from "./LogPanel";
 import { MatchScore, OpponentStatus, Rope } from "./OnlineBits";
 import { Preview } from "./Preview";
 import { Prompt } from "./Prompt";
+import { ReplayBar } from "./ReplayBar";
 import { SetupBar } from "./SetupBar";
 import { Side } from "./Side";
 import { ZoneViewer } from "./ZoneViewer";
@@ -24,6 +26,8 @@ export function GameScreen() {
   const quit = useGame((s) => s.quitGame);
   const decide = useGame((s) => s.decide);
   const showPreview = useGame((s) => s.showPreview);
+  const replay = useGame((s) => !!s.replay);
+  const tutorial = useGame((s) => !!s.tutorial);
   if (!view) return <div className="loading">{t("Shuffling the decks…")}</div>;
   const opp = view.order.find((p) => p !== view.me) as string;
   const stadiumDef = view.stadium ? view.faces[view.stadium] : undefined;
@@ -34,10 +38,11 @@ export function GameScreen() {
           {t("Home")}
         </button>
         <div className="turn-info">
-          {view.turn.number ? t("Turn {n}", { n: view.turn.number }) : t("Setup")} <MatchScore />
+          {view.turn.number ? t("Turn {n}", { n: view.turn.number }) : t("Setup")}
+          {view.suddenDeath ? <span className="sudden-death">{t("Sudden Death")}</span> : null} <MatchScore />
         </div>
         <LangToggle />
-        {!view.over ? (
+        {!view.over && !replay && !tutorial ? (
           <button type="button" className="btn small danger" onClick={() => decide({ type: "concede" })}>
             {t("Concede")}
           </button>
@@ -59,9 +64,15 @@ export function GameScreen() {
         <Side view={view} player={view.me} />
       </main>
       <div className="bars">
-        <Rope />
-        <SetupBar view={view} />
-        <ActionBar view={view} />
+        {replay ? (
+          <ReplayBar />
+        ) : (
+          <>
+            <Rope />
+            <SetupBar view={view} />
+            <ActionBar view={view} />
+          </>
+        )}
       </div>
       <Hand view={view} />
       <Prompt view={view} />
@@ -69,7 +80,8 @@ export function GameScreen() {
       <LogPanel />
       <Preview />
       <ZoneViewer view={view} />
-      <EndOverlay view={view} />
+      {replay || tutorial ? null : <EndOverlay view={view} />}
+      <Coach />
     </div>
   );
 }

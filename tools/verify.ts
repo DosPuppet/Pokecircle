@@ -174,6 +174,25 @@ if (!ci && !flag("no-ui") && (full || flag("ui") || uiTouched)) {
       ...(online
         ? [{ name: "online-smoke", cmd: "npx tsx tools/online-smoke.ts", show: /^ok: .*$/, needs: "tools/online-smoke.ts" }]
         : []),
+      {
+        name: "tutorial-smoke",
+        cmd: "npx tsx tools/tutorial-smoke.ts",
+        show: /^ok: tutorial.*$/,
+        needs: "tools/tutorial-smoke.ts",
+      },
+      { name: "replay-smoke", cmd: "npx tsx tools/replay-smoke.ts", show: /^ok: replays.*$/, needs: "tools/replay-smoke.ts" },
+      { name: "mobile-smoke", cmd: "npx tsx tools/mobile-smoke.ts", show: /^ok: .*$/, needs: "tools/mobile-smoke.ts" },
+      // Offline start of the production build (built first): with --full.
+      ...(full
+        ? [
+            {
+              name: "offline-smoke",
+              cmd: "npm run build --silent && npx tsx tools/offline-smoke.ts",
+              show: /^ok: offline.*$/,
+              needs: "tools/offline-smoke.ts",
+            },
+          ]
+        : []),
       // AI level selector and expert latency (real time, about a minute): with --full or when the AI changed.
       ...(full || changed.some((f) => f.startsWith("packages/ai/"))
         ? [{ name: "ai-smoke", cmd: "npx tsx tools/ai-smoke.ts", show: /^ok: AI.*$/, needs: "tools/ai-smoke.ts" }]

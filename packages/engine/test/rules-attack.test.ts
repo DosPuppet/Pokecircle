@@ -1,6 +1,6 @@
 /** Attacks, damage, Knock Outs and winning (docs/rules.md R-ATTACK, R-KO, R-WIN, R-RULEBOX). */
 import { describe, expect, it } from "vitest";
-import { amt, fx, legalActions, ref, scope } from "../src/index";
+import { amt, fx, legalActions, ref, scope, submit } from "../src/index";
 import { answer, energy, play, pokemon, scenario } from "./helpers";
 
 const fire = energy("R");
@@ -165,13 +165,42 @@ describe("Knock Outs and winning", () => {
     expect(after.endReason).toBe("deckOut");
   });
 
-  it("R-WIN-4: both players winning at once with as many conditions: Sudden Death", () => {
+  it("R-WIN-4: both players winning at once with as many conditions: Sudden Death, a new game with 1 Prize each", () => {
     const recoil = pokemon({ hp: 30, attacks: [{ cost: [], damage: 60, effects: [fx.main(), fx.damage(ref.self, 30)] }] });
-    const { s } = scenario({ p1: { active: recoil }, p2: { active: plain } });
-    const after = attack(s);
-    expect(after.over).toBe(true);
-    expect(after.winner).toBeNull();
-    expect(after.endReason).toBe("suddenDeath");
+    const { s } = scenario({
+      p1: { active: recoil, deck: Array(10).fill(plain) },
+      p2: { active: plain, deck: Array(10).fill(plain) },
+    });
+    const { state: after, events } = submit(s, "p1", { type: "attack", index: 0 });
+    expect(after.over).toBe(false);
+    expect(events.some((e) => e.type === "suddenDeath" && e.round === 1)).toBe(true);
+    expect(after.suddenDeath).toBe(1);
+    expect(after.prizeCount).toBe(1);
+    expect(after.flow).toBe("setup");
+    expect(Object.keys(after.pokemon)).toHaveLength(0);
+    // Every card is back in its owner's deck (17 each), with new ids; a coin flip decides who chooses to go first.
+    for (const p of ["p1", "p2"] as const) {
+      const ps = after.players[p];
+      expect(ps?.deck).toHaveLength(17);
+      expect(ps?.deck.some((id) => Object.keys(s.objects).includes(id))).toBe(false);
+      expect(ps?.prizesTaken).toBe(0);
+    }
+    expect(after.pending?.kind === "choice" && after.pending.purpose).toBe("chooseFirst");
+    // The new game is set up as usual, with 1 Prize card each.
+    let g = after;
+    for (let i = 0; i < 20 && g.flow === "setup"; i++) {
+      const p = g.pending;
+      if (!p) break;
+      if (p.kind === "choice") g = answer(g, p.request.suggested);
+      else if (p.kind === "setup") {
+        const hand = g.players[p.player]?.hand ?? [];
+        const basic = hand.find((c) => g.defs[g.objects[c]?.defId ?? ""]?.category === "pokemon") as string;
+        g = play(g, p.player, { type: "setup", active: basic, bench: [] });
+      }
+    }
+    expect(g.flow).not.toBe("setup");
+    expect(g.players.p1?.prizes).toHaveLength(1);
+    expect(g.players.p2?.prizes).toHaveLength(1);
   });
 
   it("R-KO-3: Pokémon Knocked Out at the same time: both players take Prizes", () => {

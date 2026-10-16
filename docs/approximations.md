@@ -11,7 +11,6 @@ Every approximation of the official rules or of a card's text is listed here whe
 - Prize cards are taken from the first slots: they are unknown to their owner, so the choice does not matter. Cards
   that let a player look at their Prizes would make it matter (none implemented yet).
 - R-KO-4: when both players must promote, the player whose turn it is chooses first, and the choice is shown at once.
-- Sudden Death (R-WIN-4) ends the game with no winner until PLAN-A P8.
 
 - Copying attacks (`useAttackOf`: N's Zoroark ex's Night Joker, Slowking's Seek Inspiration, Mew ex): an attack that
   itself copies attacks is not offered, so copies never chain (a Night Joker copying another Night Joker would loop).

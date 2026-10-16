@@ -1,6 +1,6 @@
 /** A card face: its TCGdex image in the interface language, or a text face when there is none (or it fails). */
 import { useState } from "react";
-import { cardImage, defOf, textOf } from "../cards";
+import { cardImage, defOf, relayed, textOf } from "../cards";
 import { useGame } from "../store";
 
 export function CardImage({
@@ -15,11 +15,17 @@ export function CardImage({
   className?: string;
 }) {
   const lang = useGame((s) => s.lang);
-  const src = cardImage(defId, lang, print, quality);
-  const [failed, setFailed] = useState<string | null>(null);
+  const relay = useGame((s) => s.relay);
+  const direct = cardImage(defId, lang, print, quality);
+  const [fail, setFail] = useState<{ url: string; n: number } | null>(null);
+  // Failed attempts for this image: through the server when asked, or when the direct image failed (blocked
+  // network); then a text face.
+  const n = direct && fail?.url === direct ? fail.n : 0;
+  const tries = direct ? (relay ? [relayed(direct)] : [direct, relayed(direct)]) : [];
+  const src = tries[n];
   const def = defOf(defId);
   if (!def) return <div className={`card-face card-back ${className}`} />;
-  if (def.energy?.basic && (!src || failed === src)) {
+  if (def.energy?.basic && !src) {
     // Basic Energy without an image: an Energy card face of its type.
     const type = def.energy.provides[0]?.[0] ?? "C";
     return (
@@ -29,7 +35,7 @@ export function CardImage({
       </div>
     );
   }
-  if (!src || failed === src) {
+  if (!src) {
     const t = textOf(def, lang);
     return (
       <div className={`card-face text-face ${className}`}>
@@ -50,7 +56,7 @@ export function CardImage({
       src={src}
       alt={textOf(def, lang).name}
       draggable={false}
-      onError={() => setFailed(src)}
+      onError={() => setFail({ url: direct as string, n: n + 1 })}
     />
   );
 }

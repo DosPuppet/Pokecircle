@@ -206,12 +206,14 @@ export interface GameState {
   usedOnce: string[];
   /** Prize cards at the start (6, or 1 in Sudden Death). */
   prizeCount: number;
+  /** Sudden Deaths played so far (R-WIN-4): the game restarted with 1 Prize card each. */
+  suddenDeath?: number;
   winner: PlayerId | null;
   over: boolean;
   endReason?: EndReason;
 }
 
-export type EndReason = "prizes" | "noPokemon" | "deckOut" | "concede" | "suddenDeath" | "draw";
+export type EndReason = "prizes" | "noPokemon" | "deckOut" | "concede" | "draw";
 
 /** Special Conditions as stored. */
 export type { SpecialCondition };

@@ -12,6 +12,7 @@ export function EndOverlay({ view }: { view: GameView }) {
   const room = useGame((s) => s.online.room);
   const rematch = useGame((s) => s.rematch);
   const nextGame = useGame((s) => s.nextGame);
+  const exportGame = useGame((s) => s.exportGame);
   if (!view.over || queue) return null;
   const me = room?.players.find((p) => p.seat === room.seat);
   const won = view.winner === view.me;
@@ -24,9 +25,7 @@ export function EndOverlay({ view }: { view: GameView }) {
           ? t("A player could not draw at the start of their turn.")
           : view.endReason === "concede"
             ? t("A player conceded.")
-            : view.endReason === "suddenDeath"
-              ? t("Both players won at the same time: Sudden Death.")
-              : t("The game is a draw.");
+            : t("The game is a draw.");
   return (
     <div className="modal end">
       <div className="modal-box">
@@ -48,6 +47,9 @@ export function EndOverlay({ view }: { view: GameView }) {
                 {me?.rematch ? t("Waiting for the opponent…") : t("Rematch")}
               </button>
             )}
+            <button type="button" className="btn" onClick={() => exportGame("download")}>
+              {t("Export the game")}
+            </button>
             <button type="button" className="btn" onClick={quit}>
               {t("Leave")}
             </button>
@@ -56,6 +58,12 @@ export function EndOverlay({ view }: { view: GameView }) {
           <div className="prompt-actions">
             <button type="button" className="btn primary" onClick={startGame}>
               {t("Play again")}
+            </button>
+            <button type="button" className="btn" onClick={() => exportGame("watch")}>
+              {t("Watch the replay")}
+            </button>
+            <button type="button" className="btn" onClick={() => exportGame("download")}>
+              {t("Export the game")}
             </button>
             <button type="button" className="btn" onClick={quit}>
               {t("Home")}

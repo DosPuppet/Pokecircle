@@ -206,7 +206,8 @@ h2 {
   grid-template-rows: auto 1fr auto calc(var(--ch) * 0.8);
   background: radial-gradient(ellipse at 50% 50%, #1f4a3a 0%, #133126 55%, #0b1d17 100%);
   position: relative;
-  overflow: hidden;
+  /* clip, not hidden: a focused button must not scroll the table out of place. */
+  overflow: clip;
 }
 .loading {
   height: 100dvh;
@@ -226,6 +227,14 @@ h2 {
   text-align: center;
   font-weight: 600;
   color: var(--muted);
+}
+.sudden-death {
+  margin-left: 8px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--danger);
+  color: #fff;
+  font-size: 0.85em;
 }
 .table {
   display: grid;
@@ -517,6 +526,11 @@ h2 {
   text-align: center;
   font-size: 0.75rem;
   color: var(--muted);
+}
+.pile .slot-empty {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 63 / 88;
 }
 .pile {
   width: calc(var(--cw) * 0.9);
@@ -1191,4 +1205,315 @@ button.pokemon {
   gap: 4px;
   font-weight: 600;
   font-size: 0.85rem;
+}
+
+.home-option {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin-top: 14px;
+  font-size: 0.9em;
+  color: var(--muted);
+  cursor: pointer;
+}
+.home-option input {
+  margin-top: 3px;
+  accent-color: var(--accent);
+}
+
+/* —— phone in portrait —— */
+@media (orientation: portrait) and (max-width: 700px) {
+  :root {
+    /* A Bench of 5 across the width; the whole table (2 sides, center line, hand) in the height. */
+    --pcw: clamp(38px, min(calc((100vw - 16px) / 5.9), calc((100dvh - 96px) / 10.2)), 92px);
+    --cw: var(--pcw);
+  }
+  .game-top {
+    gap: 6px;
+    padding: 3px 6px;
+  }
+  .game-top .btn.small {
+    padding: 3px 8px;
+    font-size: 0.78rem;
+  }
+  .game-top .seg button {
+    padding: 2px 8px;
+    font-size: 0.75rem;
+  }
+  .turn-info {
+    font-size: 0.85rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .table {
+    padding: 2px 6px 8px;
+  }
+  /* Prize cards and piles in a row under the Bench (mine) or above it (the opponent's). */
+  .side {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "main main"
+      "left right";
+    gap: 2px 8px;
+  }
+  .side.top {
+    grid-template-areas:
+      "left right"
+      "main main";
+  }
+  .side-main {
+    grid-area: main;
+    gap: 4px;
+  }
+  .side-left {
+    grid-area: left;
+    align-items: flex-start;
+  }
+  .side-right {
+    grid-area: right;
+    flex-direction: row;
+    align-items: flex-end;
+  }
+  .prizes {
+    grid-template-columns: repeat(6, calc(var(--cw) * 0.42)) auto;
+    align-items: center;
+  }
+  .prizes .zone-count {
+    grid-column: auto;
+    white-space: nowrap;
+    padding-left: 4px;
+  }
+  .no-stadium {
+    display: none;
+  }
+  .prize {
+    height: calc(var(--ch) * 0.42);
+  }
+  .zone-count {
+    font-size: 0.68rem;
+  }
+  .pile {
+    width: calc(var(--cw) * 0.5);
+  }
+  .opp-hand {
+    font-size: 0.68rem;
+    max-width: 6em;
+  }
+  /* A Bench of more than 5 (Stadiums): smaller cards so that it fits. */
+  .bench {
+    --cw: min(var(--pcw), calc((100vw - 16px) / (var(--slots) * 1.18)));
+    --ch: calc(var(--cw) * 1.397);
+  }
+  .center-line {
+    min-height: calc(var(--ch) * 0.4);
+  }
+  .action-bar,
+  .setup-bar {
+    gap: 4px 6px;
+    padding: 3px 6px;
+    font-size: 0.85rem;
+  }
+  .ab-status {
+    min-width: 0;
+  }
+  .ab-hint {
+    font-size: 0.75rem;
+    flex-basis: 100%;
+    order: 3;
+  }
+  .hand {
+    padding: 0 4px;
+  }
+  .deck-tile {
+    width: calc((100vw - 52px) / 3);
+    padding: 6px 4px;
+    font-size: 0.8rem;
+  }
+  .deck-tile .card-face {
+    width: 100%;
+  }
+  /* The log on the center line, at the left (the corners hold the piles). */
+  .log {
+    top: 50%;
+    right: auto;
+    left: 6px;
+    transform: translateY(-50%);
+    align-items: flex-start;
+  }
+}
+
+/* —— replay —— */
+.replay-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: rgba(0, 0, 0, 0.45);
+  min-height: 40px;
+  position: relative;
+  z-index: 6;
+}
+.replay-title {
+  color: var(--accent);
+}
+.replay-slider {
+  flex: 1;
+  min-width: 80px;
+  accent-color: var(--accent);
+}
+.replay-pos {
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.replay-viewer {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.replay-viewer select {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 2px 4px;
+}
+.replay-warning {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: 0.8rem;
+  color: #e5a07a;
+}
+.file-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* —— tutorial —— */
+.coach {
+  position: absolute;
+  /* Over the center line, between the Prize cards and the Active Pokémon. */
+  left: calc(var(--cw) * 1.6 + 28px);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 30;
+  width: min(340px, calc(100vw - var(--cw) * 1.6 - 40px));
+  background: rgba(16, 20, 28, 0.96);
+  border: 2px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
+}
+.coach-title {
+  display: flex;
+  gap: 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.coach-count {
+  margin-left: auto;
+  color: var(--muted);
+}
+.coach-text {
+  margin: 6px 0 0;
+  line-height: 1.4;
+  font-size: 0.92rem;
+}
+.coach-text strong {
+  color: var(--accent);
+}
+.coach-actions {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+.game .coach-target {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 8px;
+  animation: coach-pulse 1.4s ease-in-out infinite;
+}
+@keyframes coach-pulse {
+  50% {
+    outline-color: rgba(255, 203, 5, 0.35);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .game .coach-target {
+    animation: none;
+  }
+}
+.lessons {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+  display: grid;
+  gap: 10px;
+  counter-reset: lesson;
+}
+.lesson {
+  width: 100%;
+  display: grid;
+  gap: 4px;
+  text-align: left;
+  padding: 12px 14px 12px 48px;
+  background: var(--surface);
+  color: var(--text);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  position: relative;
+  font: inherit;
+}
+.lesson::before {
+  counter-increment: lesson;
+  content: counter(lesson);
+  position: absolute;
+  left: 14px;
+  top: 12px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--surface-2);
+  font-weight: 700;
+}
+.lesson.done::before {
+  background: var(--ok);
+}
+.lesson:hover {
+  border-color: var(--accent);
+}
+.lesson-title {
+  font-weight: 700;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.lesson-done {
+  font-size: 0.75rem;
+  color: var(--ok);
+  font-weight: 600;
+}
+.lesson-summary {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+@media (orientation: portrait) and (max-width: 700px) {
+  /* At the top, over the opponent's Prize cards and Bench (the steps are mostly about your side). */
+  .coach {
+    top: 40px;
+    transform: none;
+    left: 12px;
+    right: 12px;
+    width: auto;
+  }
 }

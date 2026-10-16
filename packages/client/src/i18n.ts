@@ -168,11 +168,12 @@ export function describeEvent(e: GameEvent, view: GameView): string | null {
         : msg("{who} reveals {cards}", { who: who(view, e.player), cards: e.defIds.map(cardRef).join(", ") });
     case "checkup":
       return null;
+    case "suddenDeath":
+      return msg("Both players win at the same time: Sudden Death! A new game with 1 Prize card each");
     case "endTurn":
       return null;
     case "gameOver":
-      if (!e.winner)
-        return e.reason === "suddenDeath" ? msg("Sudden Death: both players win at the same time") : msg("The game is a draw");
+      if (!e.winner) return msg("The game is a draw");
       return e.winner === me ? msg("You win!") : msg("{who} wins", { who: who(view, e.winner) });
     case "message":
       return e.text;

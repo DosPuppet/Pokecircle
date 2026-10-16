@@ -5,7 +5,7 @@
 import type { AiLevel } from "@pocketmate/ai";
 import type { DeckEntries } from "@pocketmate/cards";
 import { PRECONS } from "@pocketmate/cards/decks";
-import type { Decision, GameEvent, GameView, ObjectId, PokemonId } from "@pocketmate/engine";
+import type { Decision, GameEvent, GameRecord, GameView, ObjectId, PokemonId } from "@pocketmate/engine";
 import { msg, RULES_VERSION } from "@pocketmate/engine";
 import type { Clock, RoomInfo, ServerMessage } from "@pocketmate/server/protocol";
 import { PROTOCOL_VERSION } from "@pocketmate/server/protocol";
@@ -17,11 +17,14 @@ import { deckById } from "./decks/store";
 import { fastMode } from "./fast";
 import { describeEvent, rememberPokemon } from "./i18n";
 import type { FromWorker } from "./protocol";
+import { parseRecord, Replay } from "./replay";
 import { clearSaved, loadSaved, SaveWriter } from "./savedGame";
 import { LocalSession, RemoteSession, type Session } from "./session";
 import { type Lang, setTextLang } from "./translate";
+import { LESSONS } from "./tutorial/lessons";
+import { alwaysAllowed, lessonDefs, matches, solve } from "./tutorial/runtime";
 
-export type Screen = "home" | "game" | "decks" | "online";
+export type Screen = "home" | "game" | "decks" | "online" | "tutorial";
 
 /** An online game to resume (token kept by the browser). */
 export function savedOnline(): { token: string; code: string } | null {
@@ -53,6 +56,8 @@ interface Settings {
   aiLevel: AiLevel;
   /** Online nickname. */
   nickname: string;
+  /** Card images through the PocketMate server (`/tcgdex/` relay) rather than from TCGdex directly. */
+  relay: boolean;
 }
 
 /** Online: the room, the decision timer, the opponent's connection. */
@@ -72,6 +77,7 @@ function loadSettings(): Settings {
     aiDeck: PRECONS[1]?.id ?? PRECONS[0]?.id ?? "",
     aiLevel: "medium",
     nickname: "",
+    relay: false,
   };
   try {
     return { ...fallback, ...(JSON.parse(localStorage.getItem(STORE) ?? "{}") as Partial<Settings>) };
@@ -114,6 +120,33 @@ export interface Store extends Settings {
   online: Online;
   /** A deck list received by a link (#deck=…), offered for import in the deck builder. */
   sharedDeck: string | null;
+  /** Replay being watched: position, point of view, automatic playback. */
+  replay: {
+    index: number;
+    total: number;
+    viewer: string;
+    players: { id: string; name: string }[];
+    playing: boolean;
+    /** Replay stopped before the end, or recorded with another rules version (engine text). */
+    warning: string | null;
+  } | null;
+  /** Tutorial lesson in progress: its id and the current step (`step` = number of steps: finished). */
+  tutorial: { lesson: string; step: number } | null;
+  /** Lessons finished (remembered in this browser). */
+  tutorialDone: string[];
+  startLesson(id: string): void;
+  /** The current explanation is read: next step. */
+  tutorialNext(): void;
+  /** Interface tests: does what the current step asks (or answers a question); "wait" when nothing can be done now. */
+  tutorialSolve(): "acted" | "wait";
+  /** The finished game's record: watched at once, or downloaded as a file. */
+  exportGame(then: "watch" | "download"): void;
+  openReplay(record: GameRecord): void;
+  /** A record file chosen by the player (its text). */
+  openReplayFile(text: string): void;
+  replaySeek(index: number): void;
+  replayViewer(player: string): void;
+  replayPlay(on: boolean): void;
   clearSharedDeck(): void;
   setLang(l: Lang): void;
   createRoom(o: { bestOf: 1 | 3; ai?: AiLevel }): void;
@@ -138,6 +171,29 @@ export interface Store extends Settings {
 }
 
 let session: Session | null = null;
+const TUTORIAL_KEY = "pocketmate.tutorial";
+
+function loadTutorialDone(): string[] {
+  try {
+    const v = JSON.parse(localStorage.getItem(TUTORIAL_KEY) ?? "[]") as unknown;
+    return Array.isArray(v) ? v.filter((x): x is string => typeof x === "string") : [];
+  } catch {
+    return [];
+  }
+}
+let replaying: Replay | null = null;
+let replayTimer: ReturnType<typeof setInterval> | null = null;
+/** What to do with the next record received (`exportGame`). */
+let exportThen: "watch" | "download" | null = null;
+
+function download(record: GameRecord): void {
+  const blob = new Blob([JSON.stringify(record)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `pocketmate-${new Date().toISOString().slice(0, 16).replace(/[:T]/g, "-")}.json`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
 let saver: SaveWriter | null = null;
 let logId = 0;
 
@@ -163,6 +219,29 @@ export const useGame = create<Store>((set, get) => {
   const lang = storedLang();
   setTextLang(lang);
 
+  /** Leaves the finished steps of the lesson (`until` met); an explanation waits for its button. */
+  const advanceTutorial = (view: GameView, events: GameEvent[]) => {
+    const tuto = get().tutorial;
+    const lesson = tuto && LESSONS.find((l) => l.id === tuto.lesson);
+    if (!tuto || !lesson) return;
+    let step = tuto.step;
+    for (let st = lesson.steps[step]; st && !st.next && st.until?.({ view, events }); st = lesson.steps[step]) step++;
+    if (step !== tuto.step) finishStep(lesson.id, step);
+  };
+
+  const finishStep = (lesson: string, step: number) => {
+    const total = LESSONS.find((l) => l.id === lesson)?.steps.length ?? 0;
+    const done = get().tutorialDone;
+    if (step >= total && !done.includes(lesson)) {
+      const next = [...done, lesson];
+      try {
+        localStorage.setItem(TUTORIAL_KEY, JSON.stringify(next));
+      } catch {}
+      set({ tutorialDone: next });
+    }
+    set({ tutorial: { lesson, step }, error: null });
+  };
+
   const pump = async () => {
     if (get().busy) return;
     set({ busy: true });
@@ -184,6 +263,7 @@ export const useGame = create<Store>((set, get) => {
           ...(flips.length ? { flips: { results: flips, key: logId } } : {}),
         });
         for (const k of soundsFor(u.events, u.view.me)) playSound(k);
+        advanceTutorial(u.view, u.events);
         if (u.view.over) clearSaved();
         const ms = pauseFor(u.events, fastMode());
         if (ms) await new Promise((r) => setTimeout(r, ms));
@@ -213,14 +293,45 @@ export const useGame = create<Store>((set, get) => {
         set({ screen: "home", notice: msg("The saved game could not be resumed: {why}.", { why: m.message }), hasSaved: false });
         return;
       case "record":
+        onRecord(m.record);
         return;
     }
+  };
+
+  const onRecord = (record: GameRecord | null) => {
+    const then = exportThen;
+    exportThen = null;
+    if (!record || !then) return;
+    if (then === "download") download(record);
+    else get().openReplay(record);
+  };
+
+  /** The log of a replay up to step `i`, from `viewer`'s point of view. */
+  const replayLog = (r: Replay, i: number, viewer: string): LogLine[] => {
+    const lines: LogLine[] = [];
+    for (let k = 0; k <= i; k++) {
+      const f = r.frame(k, viewer);
+      rememberPokemon(f.view);
+      for (const e of f.events) {
+        const text = describeEvent(e, f.view);
+        if (text) lines.push({ id: ++logId, text, turn: f.view.turn.number });
+      }
+    }
+    return lines.slice(-300);
+  };
+
+  const stopReplay = () => {
+    if (replayTimer) clearInterval(replayTimer);
+    replayTimer = null;
+    replaying = null;
   };
 
   const resetGame = () =>
     set({ view: null, log: [], queue: [], selected: null, retreating: false, placing: { active: null, bench: [] }, error: null });
 
   const newSession = () => {
+    stopReplay();
+    set({ replay: null, tutorial: null });
     session?.close();
     session = new LocalSession(onMessage);
     resetGame();
@@ -264,6 +375,7 @@ export const useGame = create<Store>((set, get) => {
         playSound("error");
         return;
       case "record":
+        onRecord(m.record);
         return;
     }
   };
@@ -303,6 +415,129 @@ export const useGame = create<Store>((set, get) => {
     mode: "local",
     online: { room: null, clock: null, opponent: null, connecting: false },
     sharedDeck: null,
+    tutorial: null,
+    tutorialDone: loadTutorialDone(),
+    startLesson(id) {
+      const lesson = LESSONS.find((l) => l.id === id);
+      if (!lesson) return;
+      newSession();
+      saver = null;
+      const l = get().lang;
+      session?.send({
+        type: "lesson",
+        spec: {
+          ...lesson.scenario,
+          names: [l === "fr" ? "Vous" : "You", l === "fr" ? "Adversaire" : "Opponent"], // i18n-ignore: player names
+        },
+        defs: lessonDefs(lesson.scenario),
+        fast: fastMode(),
+      });
+      set({ screen: "game", tutorial: { lesson: id, step: 0 } });
+    },
+    tutorialNext() {
+      const tuto = get().tutorial;
+      if (!tuto) return;
+      const lesson = LESSONS.find((x) => x.id === tuto.lesson);
+      if (!lesson?.steps[tuto.step]?.next) return;
+      finishStep(lesson.id, tuto.step + 1);
+      const v = get().view;
+      if (v) advanceTutorial(v, []);
+    },
+    tutorialSolve() {
+      const { view: v, tutorial: tuto, queue } = get();
+      if (!v || !tuto || queue.length || v.pending?.player !== v.me) return "wait";
+      if (v.pending.kind === "choice" && v.pending.request) {
+        get().decide({ type: "choose", values: v.pending.request.suggested });
+        return "acted";
+      }
+      const allow = LESSONS.find((l) => l.id === tuto.lesson)?.steps[tuto.step]?.allow?.[0];
+      const d = allow ? solve(allow, v) : null;
+      if (!d) return "wait";
+      get().decide(d);
+      return "acted";
+    },
+    replay: null,
+    exportGame(then) {
+      exportThen = then;
+      if (session instanceof RemoteSession) session.raw({ type: "export" });
+      else session?.send({ type: "export" });
+    },
+    openReplay(record) {
+      stopReplay();
+      let r: Replay;
+      try {
+        r = new Replay(record);
+      } catch (e) {
+        set({ notice: msg("Replay impossible: {error}", { error: e instanceof Error ? e.message : String(e) }) });
+        return;
+      }
+      if (get().mode === "online") get().leaveRoom();
+      session?.close();
+      session = null;
+      replaying = r;
+      // Point of view: the player of this browser if they took part (seat p1 against the AI), else the first one.
+      const viewer = get().view?.me ?? r.players[0]?.id ?? "p1";
+      const f = r.frame(0, viewer);
+      set({
+        screen: "game",
+        mode: "local",
+        view: f.view,
+        queue: [],
+        log: replayLog(r, 0, viewer),
+        selected: null,
+        retreating: false,
+        error: null,
+        replay: { index: 0, total: r.total, viewer, players: r.players, playing: false, warning: r.warning },
+      });
+    },
+    openReplayFile(text) {
+      const record = parseRecord(text);
+      if (!record) {
+        set({ notice: msg("This file is not a PocketMate game.") });
+        return;
+      }
+      get().openReplay(record);
+    },
+    replaySeek(index) {
+      const replay = get().replay;
+      const r = replaying;
+      if (!replay || !r) return;
+      const i = Math.max(0, Math.min(replay.total, index));
+      const f = r.frame(i, replay.viewer);
+      if (i === replay.index + 1) {
+        rememberPokemon(f.view);
+        const lines: LogLine[] = [];
+        for (const e of f.events) {
+          const text = describeEvent(e, f.view);
+          if (text) lines.push({ id: ++logId, text, turn: f.view.turn.number });
+        }
+        set({ view: f.view, log: [...get().log, ...lines].slice(-300), replay: { ...replay, index: i } });
+        for (const k of soundsFor(f.events, replay.viewer)) playSound(k);
+      } else set({ view: f.view, log: replayLog(r, i, replay.viewer), replay: { ...replay, index: i } });
+      if (i >= replay.total) get().replayPlay(false);
+    },
+    replayViewer(player) {
+      const replay = get().replay;
+      const r = replaying;
+      if (!replay || !r) return;
+      set({
+        view: r.frame(replay.index, player).view,
+        log: replayLog(r, replay.index, player),
+        replay: { ...replay, viewer: player },
+      });
+    },
+    replayPlay(on) {
+      const replay = get().replay;
+      if (!replay) return;
+      if (replayTimer) clearInterval(replayTimer);
+      replayTimer = null;
+      if (on && replay.index < replay.total)
+        replayTimer = setInterval(() => {
+          const cur = get().replay;
+          if (cur) get().replaySeek(cur.index + 1);
+        }, 800);
+      set({ replay: { ...(get().replay ?? replay), playing: on && replay.index < replay.total } });
+    },
     clearSharedDeck() {
       set({ sharedDeck: null });
     },
@@ -361,9 +596,9 @@ export const useGame = create<Store>((set, get) => {
     },
     setSettings(p) {
       set(p);
-      const { deck, aiDeck, aiLevel, nickname } = get();
+      const { deck, aiDeck, aiLevel, nickname, relay } = get();
       try {
-        localStorage.setItem(STORE, JSON.stringify({ deck, aiDeck, aiLevel, nickname }));
+        localStorage.setItem(STORE, JSON.stringify({ deck, aiDeck, aiLevel, nickname, relay }));
       } catch {}
     },
     startGame() {
@@ -402,6 +637,17 @@ export const useGame = create<Store>((set, get) => {
       set({ screen: "game" });
     },
     quitGame() {
+      if (get().tutorial) {
+        session?.close();
+        session = null;
+        set({ screen: "tutorial", view: null, queue: [], tutorial: null, log: [] });
+        return;
+      }
+      if (get().replay) {
+        stopReplay();
+        set({ screen: "home", view: null, queue: [], replay: null, log: [] });
+        return;
+      }
       if (get().mode === "online") {
         get().leaveRoom();
         set({ screen: "home" });
@@ -415,6 +661,14 @@ export const useGame = create<Store>((set, get) => {
     decide(d) {
       const v = get().view;
       if (!v || get().queue.length || !v.pending || v.pending.player !== v.me) return;
+      // Tutorial: only what the current step asks (questions of the engine and conceding are always accepted).
+      const tuto = get().tutorial;
+      const step = tuto ? LESSONS.find((l) => l.id === tuto.lesson)?.steps[tuto.step] : undefined;
+      if (tuto && step && !alwaysAllowed(d) && !(step.allow ?? []).some((a) => matches(a, d, v))) {
+        set({ error: step.hint ?? msg("Follow the guide: read the explanation, then press Next.") });
+        playSound("error");
+        return;
+      }
       set({ selected: null, retreating: false, error: null });
       session?.send({ type: "decision", decision: d });
     },

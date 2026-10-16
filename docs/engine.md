@@ -40,7 +40,8 @@ Pure, deterministic Pokémon TCG rules engine (`packages/engine/src`). Rules ref
 | `game.ts` | `createGame`, `submit`, `applyMutable` |
 | `view.ts` | `projectView` and `filterEvents` (hidden information) |
 | `host.ts` | `GameHost`: agents, autopilot, pacing, frames, records |
-| `record.ts`, `fingerprint.ts` | game records, replay, checkpoints, `RULES_VERSION` |
+| `record.ts`, `fingerprint.ts` | game records, replay (with a step callback for the replay viewer), checkpoints, `RULES_VERSION` |
+| `scenario.ts` | staged positions (`buildScenario`): rules tests and tutorial lessons |
 | `dsl.ts` | builders for templates and scripts |
 
 ## Resolutions and questions

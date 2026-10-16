@@ -88,10 +88,14 @@ This file tracks the project between sessions: current state, working rules, pit
   by replay; before a [rules] deployment: `npx tsx tools/rooms-check.ts`.
 - Deployment: `docs/deployment.md` (pm2 `pocketmate` on 127.0.0.1:8788, nginx site without the shared `map`).
 - Interface tests of online play: `npx tsx tools/online-smoke.ts [actions] [--bo3]` needs Vite and `npm run server`.
+- Other interface tests (Vite): `tutorial-smoke`, `replay-smoke`, `mobile-smoke`, `ai-smoke`, `lang-smoke`, `deck-smoke`;
+  `offline-smoke` needs `npm run build` (it serves `packages/client/dist` itself).
 
 ## Known pitfalls
 
 - **Vite under WSL** may serve a stale engine module: restart `npm run dev` before a browser test.
+- **The game server** (`npm run server`, no watch) keeps the code it started with: after a [rules] change it answers
+  with the old `rules` and the online smoke fails at the handshake. Restart it.
 - Dev server: Vite on 5174, game server on 8788 (Planecircle uses 5173 and 8787 on the same machine).
 - **Playwright is pinned to 1.63.0**: its browsers are already cached (`~/.cache/ms-playwright/*-1243`, shared with
   Planecircle); another version would need `npx playwright install`.

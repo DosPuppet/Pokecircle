@@ -58,6 +58,7 @@ export type GameEvent =
   | { type: "shuffle"; player: PlayerId }
   | { type: "stadium"; player: PlayerId; card: ObjectId; defId: string }
   | { type: "checkup" }
+  | { type: "suddenDeath"; round: number }
   | { type: "endTurn"; player: PlayerId }
   | { type: "gameOver"; winner: PlayerId | null; reason: EndReason }
   | { type: "message"; text: string }

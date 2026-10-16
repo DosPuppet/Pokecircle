@@ -3,11 +3,21 @@ import { createRoot } from "react-dom/client";
 import { App } from "./App";
 import { playSound, unlockAudio, useAudio } from "./audio/sfx";
 import { decodeDeck, sharedDeckData } from "./decks/share";
+import { prefetchGameWorker } from "./session";
 import { savedOnline, useGame } from "./store";
 import "./styles.css";
 
 // Dev mode: access to the store for the Playwright scripts.
 if (import.meta.env.DEV) (window as unknown as { __pm: typeof useGame }).__pm = useGame;
+
+// Production: service worker (application cached, offline start; public/sw.js).
+if (import.meta.env.PROD && "serviceWorker" in navigator) {
+  navigator.serviceWorker
+    .register("/sw.js")
+    .then(() => navigator.serviceWorker.ready)
+    .then(() => setTimeout(prefetchGameWorker, 3000))
+    .catch((e) => console.warn("Service worker not registered:", e));
+}
 
 const root = document.getElementById("root");
 if (root)

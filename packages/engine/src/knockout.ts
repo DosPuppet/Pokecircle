@@ -9,6 +9,7 @@ import {
   cardsOfPokemon,
   inPlay,
   moveCard,
+  newId,
   obj,
   opponentOf,
   playerOf,
@@ -17,9 +18,8 @@ import {
   topDef,
 } from "./state";
 import { chars } from "./statics";
-import { msg } from "./text";
 import { queueTriggers } from "./triggers";
-import type { GameState, ObjectId, PlayerId, PokemonId } from "./types";
+import type { CardObject, GameState, ObjectId, PlayerId, PokemonId } from "./types";
 
 /** Knocks Out every Pokémon whose damage reaches its HP, all at once (R-KO-1, R-KO-3). Returns whether any was. */
 export function checkKnockouts(s: GameState): boolean {
@@ -108,7 +108,7 @@ export function checkWinner(s: GameState, deckOut?: PlayerId): boolean {
   if (!ma && !mb) return false;
   if (ma === mb) {
     // R-WIN-4: both players win at the same time with as many conditions: Sudden Death.
-    endGame(s, null, "suddenDeath");
+    startSuddenDeath(s);
     return true;
   }
   const winner = ma > mb ? a : b;
@@ -123,6 +123,62 @@ export function checkWinner(s: GameState, deckOut?: PlayerId): boolean {
   return true;
 }
 
+/**
+ * R-WIN-4: Sudden Death, a new game with 1 Prize card each, set up as usual (coin flip, mulligans). Every card goes
+ * back to its owner's deck (new ids: R-HIDDEN), and everything about the previous game is forgotten.
+ */
+export function startSuddenDeath(s: GameState): void {
+  const round = (s.suddenDeath ?? 0) + 1;
+  const cards = Object.values(s.objects);
+  s.objects = {};
+  s.pokemon = {};
+  for (const p of s.playerOrder) {
+    const ps = playerOf(s, p);
+    Object.assign(ps, {
+      deck: [],
+      hand: [],
+      discard: [],
+      lostZone: [],
+      prizes: [],
+      active: null,
+      bench: [],
+      mulligans: 0,
+      prizesTaken: 0,
+    });
+  }
+  for (const c of cards) {
+    const id = newId(s, "c");
+    const o: CardObject = { id, defId: c.defId, owner: c.owner, zone: "deck" };
+    if (c.print) o.print = c.print;
+    s.objects[id] = o;
+    playerOf(s, c.owner).deck.push(id);
+  }
+  s.stadium = null;
+  s.turn = {
+    number: 0,
+    active: s.playerOrder[0] as PlayerId,
+    first: s.playerOrder[0] as PlayerId,
+    energyAttached: false,
+    supporterPlayed: false,
+    stadiumPlayed: false,
+    retreated: false,
+    attacks: 0,
+    ending: false,
+  };
+  s.flow = "setup";
+  s.setup = { step: "coin", extraDraws: {}, placed: {} };
+  s.pending = null;
+  s.resolving = null;
+  s.queue = [];
+  s.effects = [];
+  s.turnLog = [];
+  s.usedOnce = [];
+  s.prizeCount = 1;
+  s.suddenDeath = round;
+  bump(s);
+  emit({ type: "suddenDeath", round });
+}
+
 export function endGame(s: GameState, winner: PlayerId | null, reason: NonNullable<GameState["endReason"]>): void {
   s.over = true;
   s.flow = "over";
@@ -132,5 +188,4 @@ export function endGame(s: GameState, winner: PlayerId | null, reason: NonNullab
   s.resolving = null;
   s.queue = [];
   emit({ type: "gameOver", winner, reason });
-  if (reason === "suddenDeath") emit({ type: "message", text: msg("Both players win at the same time: Sudden Death") });
 }

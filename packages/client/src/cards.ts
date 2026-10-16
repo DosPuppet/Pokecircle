@@ -24,6 +24,13 @@ export function cardImage(defId: string | undefined, lang: Lang, print?: string,
   return base ? imageUrl(base, quality) : undefined;
 }
 
+const TCGDEX = "https://assets.tcgdex.net/";
+
+/** The same image through the PocketMate server (`/tcgdex/` relay), for networks that block assets.tcgdex.net. */
+export function relayed(url: string): string {
+  return url.startsWith(TCGDEX) ? `/tcgdex/${url.slice(TCGDEX.length)}` : url;
+}
+
 /** Definitions used by decks (sent to the game worker). */
 export function defsOf(...decks: DeckEntries[]): Record<string, CardDef> {
   const out: Record<string, CardDef> = {};

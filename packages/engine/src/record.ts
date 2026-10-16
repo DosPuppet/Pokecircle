@@ -6,15 +6,16 @@
 
 import { outcomeHash } from "./fingerprint";
 import { createGame, type GameOptions, submit } from "./game";
-import type { CardDef, Decision, GameState, PlayerId } from "./types";
+import type { CardDef, Decision, GameEvent, GameState, PlayerId } from "./types";
 
 /**
  * Rules version: advanced on every change of engine behavior. A record of another version may not replay identically.
  *
  * History: 1 (2026-10-16) first engine; 2 (2026-10-16) meta mechanics: copied attacks, Festival Lead, Energy
- * provision, Weakness changes, turn log of benched and Active Pokémon (PLAN-A P6).
+ * provision, Weakness changes, turn log of benched and Active Pokémon (PLAN-A P6); 3 (2026-10-16) Sudden Death: a new
+ * game with 1 Prize card each instead of a draw (PLAN-A P8).
  */
-export const RULES_VERSION = 2;
+export const RULES_VERSION = 3;
 export const RECORD_FORMAT = "pocketmate-game";
 export const CHECKPOINT_EVERY = 25;
 
@@ -88,19 +89,31 @@ export interface ReplayResult {
   diverged: boolean;
 }
 
-/** Replays a record, checking its checkpoints. */
-export function replayChecked(rec: GameRecord, defs: Record<string, CardDef>, upTo = rec.decisions.length): ReplayResult {
-  let state = createGame(recordOptions(rec, defs)).state;
+/**
+ * Replays a record, checking its checkpoints. `onStep` receives the state after the creation of the game, then after
+ * each decision, with the events produced (replay viewer).
+ */
+export function replayChecked(
+  rec: GameRecord,
+  defs: Record<string, CardDef>,
+  upTo = rec.decisions.length,
+  onStep?: (state: GameState, events: GameEvent[]) => void,
+): ReplayResult {
+  const start = createGame(recordOptions(rec, defs));
+  let state = start.state;
+  onStep?.(state, start.events);
   const checks = new Map(rec.checkpoints);
   for (let i = 0; i < upTo; i++) {
     const [p, d] = rec.decisions[i] as [PlayerId, Decision];
+    let events: GameEvent[];
     try {
-      state = submit(state, p, d).state;
+      ({ state, events } = submit(state, p, d));
     } catch {
       return { state, applied: i, diverged: true };
     }
     const expected = checks.get(i + 1);
     if (expected && expected !== outcomeHash(state)) return { state, applied: i + 1, diverged: true };
+    onStep?.(state, events);
   }
   return { state, applied: upTo, diverged: false };
 }

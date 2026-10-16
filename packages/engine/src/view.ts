@@ -100,6 +100,8 @@ export interface GameView {
   resolving: { kind: string; player: PlayerId; defId: string; source: PokemonId | null; card: ObjectId | null } | null;
   effects: TimedEffectView[];
   prizeCount: number;
+  /** Sudden Deaths played so far. */
+  suddenDeath: number;
   over: boolean;
   winner: PlayerId | null;
   endReason?: GameState["endReason"];
@@ -218,6 +220,7 @@ export function projectView(s: GameState, viewer: PlayerId): GameView {
         return out;
       }),
     prizeCount: s.prizeCount,
+    suddenDeath: s.suddenDeath ?? 0,
     over: s.over,
     winner: s.winner,
     ...(s.endReason ? { endReason: s.endReason } : {}),

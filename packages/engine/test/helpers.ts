@@ -2,8 +2,16 @@
  * Test scenarios: synthetic card definitions and boards built directly (no setup), with the active player's main
  * phase pending.
  */
-import { advance, blankState, createPokemon, type GameState, newId, submit } from "../src/index";
-import type { AttackDef, CardDef, Decision, Effect, EType, PlayerId, PokemonId, TrainerKind } from "../src/types";
+import {
+  type BuiltScenario,
+  buildScenario,
+  type GameState,
+  type ScenarioSpec,
+  type SideSpec,
+  type SlotSpec,
+  submit,
+} from "../src/index";
+import type { AttackDef, CardDef, Decision, Effect, EType, PlayerId, TrainerKind } from "../src/types";
 
 let n = 0;
 
@@ -92,15 +100,9 @@ export interface SideSetup {
 
 const FILLER = energy("C", [["C"]]);
 
-const slotOf = (x: CardDef | Slot): Slot => ("def" in x ? x : { def: x });
+export type Scenario = BuiltScenario;
 
-export interface Scenario {
-  s: GameState;
-  /** Pokémon ids: `active` and `bench` of each player. */
-  p1: { active: PokemonId | null; bench: PokemonId[] };
-  p2: { active: PokemonId | null; bench: PokemonId[] };
-}
-
+/** A staged position from card definitions (`buildScenario` with their ids). */
 export function scenario(opts: {
   p1?: SideSetup;
   p2?: SideSetup;
@@ -109,71 +111,43 @@ export function scenario(opts: {
   first?: PlayerId;
   seed?: number;
 }): Scenario {
-  const s = blankState(opts.seed ?? 1, [
-    { id: "p1", name: "Alice" },
-    { id: "p2", name: "Bob" },
-  ]);
-  s.turn.number = opts.turn ?? 3;
-  s.turn.active = opts.active ?? "p1";
-  s.turn.first = opts.first ?? "p1";
-  s.flow = "main";
-  s.setup.step = "done";
-  const out: Scenario = { s, p1: { active: null, bench: [] }, p2: { active: null, bench: [] } };
-  const card = (p: PlayerId, def: CardDef, zone: GameState["objects"][string]["zone"]) => {
-    s.defs[def.id] = def;
-    const id = newId(s, "c");
-    s.objects[id] = { id, defId: def.id, owner: p, zone };
-    return id;
+  const defs: Record<string, CardDef> = { [FILLER.id]: FILLER };
+  const id = (d: CardDef) => {
+    defs[d.id] = d;
+    return d.id;
   };
-  for (const p of ["p1", "p2"] as const) {
-    const side = opts[p] ?? {};
-    const ps = s.players[p];
-    if (!ps) continue;
-    const place = (x: CardDef | Slot): PokemonId => {
-      const sl = slotOf(x);
-      const stack = [...(sl.below ?? []), sl.def];
-      const first = card(p, stack[0] as CardDef, "hand");
-      ps.hand.push(first);
-      const id = createPokemon(s, first);
-      const pk = s.pokemon[id];
-      if (!pk) throw new Error("no Pokémon");
-      for (const d of stack.slice(1)) {
-        const c = card(p, d, "inPlay");
-        s.objects[c] = { ...(s.objects[c] as GameState["objects"][string]), host: id };
-        pk.cards.push(c);
-      }
-      for (const d of sl.energy ?? []) {
-        const c = card(p, d, "inPlay");
-        (s.objects[c] as GameState["objects"][string]).host = id;
-        pk.energy.push(c);
-      }
-      for (const d of sl.tools ?? []) {
-        const c = card(p, d, "inPlay");
-        (s.objects[c] as GameState["objects"][string]).host = id;
-        pk.tools.push(c);
-      }
-      pk.damage = sl.damage ?? 0;
-      pk.cond = sl.cond ?? {};
-      pk.enteredTurn = sl.entered ?? 0;
-      return id;
-    };
-    if (side.active) {
-      ps.active = place(side.active);
-      out[p].active = ps.active;
-    }
-    for (const b of side.bench ?? []) {
-      const id = place(b);
-      ps.bench.push(id);
-      out[p].bench.push(id);
-    }
-    for (const d of side.hand ?? []) ps.hand.push(card(p, d, "hand"));
-    // Default: a few filler cards, so that the next turns can draw.
-    for (const d of side.deck ?? Array<CardDef>(10).fill(FILLER)) ps.deck.push(card(p, d, "deck"));
-    for (const d of side.discard ?? []) ps.discard.push(card(p, d, "discard"));
-    for (let i = 0; i < (side.prizes ?? 6); i++) ps.prizes.push(card(p, FILLER, "prizes"));
-  }
-  advance(s);
-  return out;
+  const slot = (x: CardDef | Slot): SlotSpec => {
+    if (!("def" in x)) return { def: id(x) };
+    const out: SlotSpec = { def: id(x.def) };
+    if (x.energy) out.energy = x.energy.map(id);
+    if (x.tools) out.tools = x.tools.map(id);
+    if (x.below) out.below = x.below.map(id);
+    if (x.damage !== undefined) out.damage = x.damage;
+    if (x.cond) out.cond = x.cond;
+    if (x.entered !== undefined) out.entered = x.entered;
+    return out;
+  };
+  const side = (x: SideSetup | undefined): SideSpec | undefined => {
+    if (!x) return undefined;
+    const out: SideSpec = {};
+    if (x.active) out.active = slot(x.active);
+    if (x.bench) out.bench = x.bench.map(slot);
+    if (x.hand) out.hand = x.hand.map(id);
+    if (x.deck) out.deck = x.deck.map(id);
+    if (x.discard) out.discard = x.discard.map(id);
+    if (x.prizes !== undefined) out.prizes = x.prizes;
+    return out;
+  };
+  const spec: ScenarioSpec = { filler: FILLER.id };
+  const p1 = side(opts.p1);
+  const p2 = side(opts.p2);
+  if (p1) spec.p1 = p1;
+  if (p2) spec.p2 = p2;
+  if (opts.turn !== undefined) spec.turn = opts.turn;
+  if (opts.active) spec.active = opts.active;
+  if (opts.first) spec.first = opts.first;
+  if (opts.seed !== undefined) spec.seed = opts.seed;
+  return buildScenario(spec, defs);
 }
 
 /** Submits a decision and returns the new state (throws on an illegal decision). */

@@ -1,7 +1,7 @@
 /** Messages exchanged between the interface and the Web Worker that runs a game against the AI. */
 import type { AiLevel } from "@pocketmate/ai";
 import type { DeckEntries } from "@pocketmate/cards";
-import type { CardDef, Decision, GameEvent, GameRecord, GameView } from "@pocketmate/engine";
+import type { CardDef, Decision, GameEvent, GameRecord, GameView, ScenarioSpec } from "@pocketmate/engine";
 
 export type ToWorker =
   | {
@@ -21,6 +21,8 @@ export type ToWorker =
     }
   /** Resume of a saved game (page reopened): the record is replayed, then the game goes on. */
   | { type: "resume"; record: GameRecord; defs: Record<string, CardDef>; aiLevel: AiLevel; fast?: boolean }
+  /** A tutorial lesson: a staged position against the lessons' scripted opponent (not saved). */
+  | { type: "lesson"; spec: ScenarioSpec; defs: Record<string, CardDef>; fast?: boolean }
   | { type: "decision"; decision: Decision }
   | { type: "export" };
 

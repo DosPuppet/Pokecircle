@@ -5,6 +5,11 @@
     "tools/online-smoke.ts": "drives the French interface by its labels",
     "tools/ui-smoke.ts": "drives the French interface by its labels",
     "tools/lang-smoke.ts": "drives the French interface by its labels",
-    "tools/deck-smoke.ts": "drives the French interface by its labels"
+    "tools/deck-smoke.ts": "drives the French interface by its labels",
+    "tools/replay-smoke.ts": "drives the French interface by its labels",
+    "tools/ai-smoke.ts": "drives the French interface by its labels",
+    "tools/mobile-smoke.ts": "drives the French interface by its labels",
+    "tools/offline-smoke.ts": "drives the French interface by its labels",
+    "tools/tutorial-smoke.ts": "drives the French interface by its labels"
   }
 }

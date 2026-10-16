@@ -333,7 +333,8 @@ export function advance(s: GameState): void {
     if (s.flow !== "setup") {
       cureProtected(s);
       if (checkKnockouts(s)) continue;
-      if (checkWinner(s)) return;
+      // Sudden Death: the new game's setup goes on.
+      if (checkWinner(s) && s.over) return;
       const p = promotionNeeded(s);
       if (p) {
         askPromotion(s, p);

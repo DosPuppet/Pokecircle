@@ -7,6 +7,12 @@ export interface Session {
   close(): void;
 }
 
+/** Loads the game worker once (cached by the service worker: a game against the AI offline from the first visit). */
+export function prefetchGameWorker(): void {
+  const worker = new Worker(new URL("./worker/game.worker.ts", import.meta.url), { type: "module" });
+  setTimeout(() => worker.terminate(), 10_000);
+}
+
 export class LocalSession implements Session {
   private readonly worker: Worker;
 

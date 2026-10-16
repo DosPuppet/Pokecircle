@@ -128,8 +128,9 @@ approximation, also listed in `docs/approximations.md`.
 - R-WIN-1: taking your last Prize card.
 - R-WIN-2: the opponent has no Pokémon in play.
 - R-WIN-3: the opponent cannot draw at the start of their turn.
-- R-WIN-4 (verify): if both players win at the same time, the player who meets more win conditions wins; otherwise
-  Sudden Death: a new game with 1 Prize card each.
+- R-WIN-4: if both players win at the same time, the player who meets more win conditions wins; otherwise
+  Sudden Death: a new game with 1 Prize card each, set up as usual (coin flip, mulligans; Play! Pokémon Tournament
+  Rules). It may happen again.
 
 ## Pokémon with a Rule Box (R-RULEBOX)
 

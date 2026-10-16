@@ -2,6 +2,7 @@
 import { aiAgent } from "@pocketmate/ai";
 import type { DeckEntries } from "@pocketmate/cards";
 import {
+  buildScenario,
   type CardDef,
   createGame,
   GameHost,
@@ -12,6 +13,7 @@ import {
   replayChecked,
 } from "@pocketmate/engine";
 import type { FromWorker, ToWorker } from "../protocol";
+import { lessonAgent } from "../tutorial/agent";
 
 const HUMAN = "p1";
 const AI = "p2";
@@ -121,6 +123,20 @@ async function handle(m: ToWorker): Promise<void> {
       host = makeHost(r.state, record, m.aiLevel, m.record.seed, m.fast);
       await host.run();
       post({ type: "update", view: host.view(HUMAN), events: [] });
+      return;
+    }
+    case "lesson": {
+      const { s } = buildScenario(m.spec, m.defs);
+      sent = 0;
+      host = new GameHost(s, {
+        agents: { [AI]: lessonAgent },
+        aiDelay: m.fast && import.meta.env.DEV ? 0 : 900,
+        sleep,
+        frames: true,
+        onUpdate: (_p, view, evts) => post({ type: "update", view, events: evts }),
+      });
+      post({ type: "update", view: host.view(HUMAN), events: [] });
+      await host.run();
       return;
     }
     case "decision": {
