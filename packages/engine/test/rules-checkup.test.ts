@@ -6,6 +6,18 @@ import { play, pokemon, scenario } from "./helpers";
 const plain = pokemon({ name: "Plain", hp: 200, attacks: [{ cost: [], damage: 10 }] });
 const end = (s: Parameters<typeof legalActions>[0], p = "p1") => play(s, p, { type: "endTurn" });
 
+describe("Special Conditions", () => {
+  it("R-COND-4: a Benched Pokémon cannot be affected by a Special Condition", () => {
+    const sleeper = pokemon({
+      name: "Sleeper",
+      attacks: [{ cost: [], damage: 0, effects: [fx.condition(ref.all({ side: "opp", where: "bench" }), "asleep")] }],
+    });
+    const { s, p2 } = scenario({ p1: { active: sleeper }, p2: { active: plain, bench: [plain] } });
+    const s2 = play(s, "p1", { type: "attack", index: 0 });
+    expect(s2.pokemon[p2.bench[0] as string]?.cond.rotating).toBeUndefined();
+  });
+});
+
 describe("Pokémon Checkup", () => {
   it("R-CHECKUP-1: Poisoned puts 1 damage counter (or more) at each Checkup", () => {
     const { s, p1 } = scenario({ p1: { active: { def: plain, cond: { poisoned: 1 } } }, p2: { active: plain } });

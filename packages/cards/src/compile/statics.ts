@@ -219,6 +219,26 @@ const PREDICATES: Pred[] = [
       return [rule];
     },
   ),
+  P(/^Prevent all damage from and effects of attacks done to (.+?) by your opponent's (.+?)\.$/, ([who, from], src) => {
+    const sc = subject(who as string, src);
+    const f = pokemonFilter(from as string);
+    if (!sc || !f) return null;
+    const rule: StaticRule = { s: "prevent", scope: sc, what: "all" };
+    if (Object.keys(f).length) rule.from = f;
+    return [rule];
+  }),
+  P(
+    /^Your opponent can't play any (Item|Stadium|Supporter|Pokémon Tool) cards or (Item|Stadium|Supporter|Pokémon Tool) cards from their hand\.$/,
+    ([a, b]) => {
+      const kind = (k: string) =>
+        k === "Item" ? "item" : k === "Stadium" ? "stadium" : k === "Supporter" ? "supporter" : "tool";
+      return [{ s: "cantPlay", side: "opp", kinds: [kind(a as string), kind(b as string)] }];
+    },
+  ),
+  P(/^If you go first, (.+?) can use attacks during your first turn\.$/, ([who], src) => {
+    const sc = subject(who as string, src);
+    return sc ? [{ s: "firstTurnAttacks", scope: sc }] : null;
+  }),
   P(/^Prevent all damage from and effects of attacks from (?:your|the) opponent's (.+?) done to (.+?)\.$/, ([from, who], src) => {
     const sc = subject(who as string, src);
     const f = pokemonFilter(from as string);

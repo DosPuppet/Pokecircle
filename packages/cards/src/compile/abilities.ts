@@ -390,14 +390,20 @@ export function compileAbility(text: string): AbilityParts | { unmatched: string
   let condition: Condition | undefined;
   const limit: { once: "turn" | "none" } = { once: "turn" };
   const pre: Effect[] = [];
-  const cost = /^You must discard (a|an|\w+) cards? from your hand in order to use this Ability\. /.exec(rest);
-  if (cost) {
+  // "You must discard 2 cards (a Basic {R} Energy card) from your hand in order to use this Ability."
+  const cost = /^You must discard (a|an|\w+) (.+?) from your hand in order to use this Ability\. /.exec(rest);
+  const costFilter = cost ? cardFilter(cost[2] as string) : null;
+  if (cost && costFilter) {
     const n = num(cost[1]) ?? 1;
     pre.push(
-      fx.chooseCards("hand", "cost", msg("Choose cards to discard from your hand"), { min: n, max: n }),
+      fx.chooseCards("hand", "cost", msg("Choose cards to discard from your hand"), {
+        ...(costFilter.filter ? { filter: costFilter.filter } : {}),
+        min: n,
+        max: n,
+      }),
       fx.move("cost", "discard"),
     );
-    condition = cond.cmp(amt.cards("hand", "me"), ">=", n);
+    condition = cond.hasCards("hand", "me", costFilter.filter, n);
     rest = rest.slice(cost[0].length);
   }
   // "You must discard a Basic {L} Energy from this Pokémon in order to use this Ability."

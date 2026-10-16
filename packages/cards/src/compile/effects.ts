@@ -480,6 +480,146 @@ export const COMMON: Template<Ctx>[] = [
       );
     },
   ),
+  tpl("heal.it", "Heal {n} damage from it.", ([n]) => post(fx.heal(ref.self, Number(n)))),
+  tpl("heal.eachOf", "Heal {n} damage from each of your {X}.", ([n, who]) => {
+    const sc = scopePhrase(`your ${who}`);
+    return sc ? post(fx.heal(ref.all(sc), Number(n))) : null;
+  }),
+  tpl(
+    "search.mayReveal",
+    "You may search your deck for {x}, reveal them, and put them into your hand. Then, shuffle your deck.",
+    ([what]) => {
+      const m = /^(any number of|up to \w+|a|an) (.+)$/.exec(what as string);
+      const count = m ? countPhrase(m[1] as string) : null;
+      const f = m ? cardFilter(m[2] as string) : null;
+      if (!count || !f) return null;
+      return post(
+        fx.may(msg("Search your deck?"), [
+          fx.chooseCards("deck", "found", SEARCH_PROMPT(), {
+            ...(f.filter ? { filter: f.filter } : {}),
+            min: 0,
+            max: count.max,
+            reveal: true,
+          }),
+          fx.move("found", "hand"),
+          fx.shuffle(),
+        ]),
+      );
+    },
+  ),
+  tpl("energy.oppMoveOne", "Move an Energy from 1 of your opponent's Pokémon to another of their Pokémon.", () =>
+    post(
+      fx.if(cond.cmp(amt.pokemon(scope.theirs()), ">", 1), [
+        chooseIn(scope.theirs({ hasEnergy: true }), "from", { min: 1, max: 1 }),
+        fx.moveEnergy(ref.v("from"), scope.theirs(), 1),
+      ]),
+    ),
+  ),
+  tpl("energy.gatherUpTo", "Move up to {w} Energy from your Benched Pokémon to your Active Pokémon.", ([w]) => {
+    const k = num(w);
+    return k
+      ? {
+          post: [
+            {
+              op: "gatherEnergy",
+              from: scope.myBench(),
+              to: ref.myActive,
+              min: 0,
+              max: k,
+              prompt: msg("Choose Energy to move to your Active Pokémon"),
+            },
+          ],
+          condition: cond.exists(scope.myBench({ hasEnergy: true })),
+        }
+      : null;
+  }),
+  tpl("hand.attachBasicSelf", "Attach a Basic Energy card from your hand to this Pokémon.", () => {
+    const filter = { category: ["energy" as const], basicEnergy: true };
+    return {
+      post: [
+        fx.chooseCards("hand", "e", msg("Choose an Energy card from your hand"), { filter, min: 1, max: 1 }),
+        fx.attach("e", scope.self()),
+      ],
+      condition: cond.hasCards("hand", "me", filter),
+    };
+  }),
+  tpl("energy.moveBasicToBench", "Move a Basic Energy from this Pokémon to 1 of your Benched Pokémon.", () =>
+    post({ op: "moveEnergy", from: ref.self, to: scope.myBench(), n: 1, basic: true }),
+  ),
+  tpl("hand.oppShuffleDraw", "Have your opponent shuffle their hand into their deck and draw {w} cards.", ([w]) => {
+    const k = num(w);
+    return k ? post(fx.moveAll("hand", "opp", "deck"), fx.shuffle("opp"), fx.draw(k, "opp")) : null;
+  }),
+  tpl("bench.toHand", "Put 1 of your Benched Pokémon and all attached cards into your hand.", () => ({
+    post: [chooseIn(scope.myBench(), "t", { min: 1, max: 1 }), fx.pokemonTo(ref.v("t"), "hand")],
+    condition: cond.exists(scope.myBench()),
+  })),
+  tpl(
+    "counters.moveAllToOpp",
+    "Move all damage counters from 1 of your Benched Pokémon to 1 of your opponent's Pokémon.",
+    () => ({
+      post: [
+        chooseIn(scope.myBench({ damaged: true }), "from", { min: 1, max: 1 }),
+        chooseIn(scope.theirs(), "to", { min: 1, max: 1 }),
+        { op: "moveCounters", from: ref.v("from"), to: ref.v("to"), n: "all" },
+      ],
+      condition: cond.exists(scope.myBench({ damaged: true })),
+    }),
+  ),
+  tpl(
+    "devolve.oppOne",
+    "Devolve 1 of your opponent's evolved Pokémon by putting the highest Stage Evolution card on it into your opponent's hand.",
+    () => {
+      const evolved = scope.theirs({ stage: ["stage1", "stage2"] });
+      return { post: [chooseIn(evolved, "t", { min: 1, max: 1 }), fx.devolve(ref.v("t"))], condition: cond.exists(evolved) };
+    },
+  ),
+  tpl("discardPile.oneToBench", "Put a {x} from your discard pile onto your Bench.", ([what]) => {
+    const found = cardFilter(what as string)?.filter;
+    if (found?.category?.[0] !== "pokemon") return null;
+    const filter = { ...found, stage: ["basic" as const] };
+    return {
+      post: [
+        fx.chooseCards("discard", "found", msg("Choose Basic Pokémon to put onto your Bench"), { filter, min: 0, max: 1 }),
+        fx.move("found", "bench"),
+      ],
+      condition: cond.and(cond.hasCards("discard", "me", filter), cond.cmp(amt.benchSpace(), ">", 0)),
+    };
+  }),
+  tpl(
+    "evolve.fromDeckOne",
+    "Search your deck for a card that evolves from 1 of your Pokémon and put it onto that Pokémon to evolve it. Then, shuffle your deck.",
+    () => ({
+      post: [{ op: "evolveFromHand", scope: scope.mine(), fromDeck: true, prompt: msg("Choose the Pokémon to evolve") }],
+      condition: cond.deck(),
+    }),
+  ),
+  tpl(
+    "evolve.fromDeckEachBench",
+    "For each of your Benched Pokémon, search your deck for a card that evolves from that Pokémon and put it onto that Pokémon to evolve it. Then, shuffle your deck.",
+    () => ({
+      post: [
+        fx.choosePokemon(scope.myBench(), "b", msg("Your Benched Pokémon"), {
+          min: amt.pokemon(scope.myBench()),
+          max: amt.pokemon(scope.myBench()),
+        }),
+        {
+          op: "forEach",
+          key: "b",
+          as: "p",
+          effects: [
+            {
+              op: "evolveFromHand",
+              scope: scope.myBench(),
+              target: ref.v("p"),
+              fromDeck: true,
+              prompt: msg("Choose the Pokémon to evolve"),
+            },
+          ],
+        },
+      ],
+    }),
+  ),
   tpl("stadium.thenDiscard", "Then, discard that Stadium.", () => post(fx.discardStadium())),
   tpl("search.may", "You may search your deck for {x} and {x}. Then, shuffle your deck.", ([what, dest], ctx) => {
     const m = /^(a|an|up to \w+|any number of|\w+) (.+)$/.exec(what as string);

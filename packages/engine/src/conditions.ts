@@ -1,6 +1,6 @@
 /** Special Conditions (docs/rules.md R-COND): rotating ones replace each other; Poisoned and Burned are markers. */
 import { emit } from "./events";
-import { bump, pokemonOf } from "./state";
+import { bump, isActive, pokemonOf } from "./state";
 import { rulesOn } from "./statics";
 import type { GameState, PokemonId, SpecialCondition } from "./types";
 
@@ -10,7 +10,8 @@ export function canBeConditioned(s: GameState, id: PokemonId, cond?: SpecialCond
 }
 
 export function addCondition(s: GameState, id: PokemonId, cond: SpecialCondition, poison?: number): boolean {
-  if (!s.pokemon[id] || !canBeConditioned(s, id, cond)) return false;
+  // R-COND-4: only an Active Pokémon can be affected (a trigger may resolve after the Pokémon moved to the Bench).
+  if (!s.pokemon[id] || !isActive(s, id) || !canBeConditioned(s, id, cond)) return false;
   const c = pokemonOf(s, id).cond;
   if (cond === "poisoned") c.poisoned = Math.max(c.poisoned ?? 0, poison ?? 1);
   else if (cond === "burned") c.burned = true;

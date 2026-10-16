@@ -227,7 +227,7 @@ export function eachPhrase(s: string, inAttack: boolean): Amount | null {
     if (type === null) return null;
     // "for each Energy" counts the Energy provided (a card providing 2 counts twice); "Basic Energy" counts cards.
     const opts = { ...(type ? { type } : {}), ...(m[1] ? { basic: true } : { units: true }) };
-    const on = m[3] as string;
+    const on = (m[3] as string) === "it" ? "this Pokémon" : (m[3] as string);
     if (on === "both Active Pokémon") return amt.add(amt.energy(ref.myActive, opts), amt.energy(ref.oppActive, opts));
     if (/^all of (your opponent's|your) Pokémon$/.test(on)) {
       const side = on.includes("opponent") ? "opp" : "me";
@@ -651,6 +651,25 @@ export function condPhrase(s: string, inAttack: boolean): Condition | null {
     const a = status(m[2] as string);
     const b = status(m[3] as string);
     return r && a && b ? cond.or(cond.hasCondition(r, a), cond.hasCondition(r, b)) : null;
+  }
+  m = /^you have (\w+) or (fewer|more) Benched Pokémon$/.exec(t);
+  if (m) {
+    const n = num(m[1]);
+    return n === null ? null : cond.cmp(amt.pokemon(scope.myBench()), m[2] === "fewer" ? "<=" : ">=", n);
+  }
+  m = /^([A-Z][\w'.-]*(?: [A-Z][\w'.-]*)*(?: ex)?) is on your Bench$/.exec(t);
+  if (m && m[1] !== "This Pokémon") return cond.exists(scope.myBench({ names: [m[1] as string] }));
+  m = /^(.+?) has (\{[A-Z]\}) Resistance$/.exec(t);
+  if (m) {
+    const r = pokemonRef(m[1] as string, inAttack);
+    const ty = typeSym(m[2]);
+    return r && ty ? cond.matches(r, { resistance: ty }) : null;
+  }
+  m = /^(.+?) isn't an? (.+)$/.exec(t);
+  if (m) {
+    const r = pokemonRef(m[1] as string, inAttack);
+    const f = pokemonFilter(m[2] as string);
+    if (r && f) return cond.not(cond.matches(r, f));
   }
   if (/^you have no cards in your hand$/.test(t)) return cond.cmp(amt.cards("hand", "me"), "==", 0);
   m = /^(your opponent|you) (?:has|have) exactly (\w+) Prize cards? remaining$/.exec(t);

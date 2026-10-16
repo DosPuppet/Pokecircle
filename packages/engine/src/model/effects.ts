@@ -42,6 +42,8 @@ export interface PokemonFilter {
   attachedNamed?: string;
   /** Has Special Energy attached. */
   specialEnergy?: boolean;
+  /** Has Resistance to this type. */
+  resistance?: EType;
   /** At most this many Energy cards attached. */
   maxEnergy?: number;
   /** Affected by one of these Special Conditions ("Burned Pokémon"). */
@@ -340,7 +342,16 @@ export type Effect =
   /** Evolve a stored Pokémon with a stored card (Rare Candy, "search for a card that evolves from…"). */
   | { op: "evolveWith"; card: string; target: PokemonRef; skipStage1?: boolean }
   /** Choose a Pokémon of a scope, then an Evolution card from the hand for it, and evolve (Rare Candy: skipping Stage 1). */
-  | { op: "evolveFromHand"; scope: PokemonScope; skipStage1?: boolean; prompt: string }
+  | {
+      op: "evolveFromHand";
+      scope: PokemonScope;
+      skipStage1?: boolean;
+      prompt: string;
+      /** The Evolution card comes from the deck ("search your deck for a card that evolves from …"), shuffled after. */
+      fromDeck?: boolean;
+      /** This Pokémon only, instead of a choice in the scope ("put it onto that Pokémon"). */
+      target?: PokemonRef;
+    }
   /** Move chosen Energy from Pokémon of a scope to one Pokémon (Iron Leaves ex). */
   | {
       op: "gatherEnergy";

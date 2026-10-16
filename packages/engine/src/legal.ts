@@ -158,7 +158,7 @@ export function usableAttacks(s: GameState, p: PlayerId): AttackOption[] {
   return chars(s, id).attacks.filter(
     (a) =>
       // R-TURN-4: no attack on the first player's first turn, except attacks that say so.
-      (s.turn.number !== 1 || a.def.firstTurn) &&
+      (s.turn.number !== 1 || a.def.firstTurn || rulesOn(s, "firstTurnAttacks", id).length > 0) &&
       // After a first attack, only the attack it may use again (Festival Lead).
       (s.turn.attacks === 0 || (!!again && again.index === a.index && again.source === a.source)) &&
       !locks.some((l) => !l.rule.attack || l.rule.attack === a.def.name) &&

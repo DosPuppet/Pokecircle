@@ -86,6 +86,9 @@ export function normalize(text: string): string {
       // "(This includes new Pokémon that come into play.)": a timed effect on a scope, not on given Pokémon (the default).
       .replace(/\s*\(This includes new Pokémon that come into play\.\)/g, "")
       // Wording variants.
+      .replace(/ before this attack does damage,/g, ",")
+      .replace(/^If either of them is heads, /, "If any of them are heads, ")
+      .replace(/(\. )If either of them is heads, /g, "$1If any of them are heads, ")
       .replace(
         /\b([Pp])lace (\w+|any number of) damage counter/g,
         (_, p: string, n: string) => `${p === "P" ? "Put" : "put"} ${n} damage counter`,

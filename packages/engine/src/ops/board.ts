@@ -8,7 +8,7 @@ import { emit } from "../events";
 import { takePrizes } from "../knockout";
 import { matchCard, matchPokemon, scopePokemon } from "../match";
 import type { OpHandlers } from "../opRegistry";
-import { bump, defOf, moveCard, obj, playerOf, pokemonOf, putOnPokemon, topDef } from "../state";
+import { bump, defOf, moveCard, obj, playerOf, pokemonOf, putOnPokemon, shuffleDeck, topDef } from "../state";
 import { chars, rulesOn } from "../statics";
 import { msg } from "../text";
 import type { EType, GameState, ObjectId, Resolution } from "../types";
@@ -259,13 +259,14 @@ export const HANDLERS: OpHandlers = {
     return { push: effects };
   },
   evolveFromHand(s, r, e, key) {
-    const hand = playerOf(s, r.player).hand;
+    const hand = e.fromDeck ? playerOf(s, r.player).deck : playerOf(s, r.player).hand;
     const fits = (card: ObjectId, target: string) => {
       const d = defOf(s, card);
       const base = topDef(s, target);
       return e.skipStage1 ? d.stage === "stage2" && (d.basicOf ?? []).includes(base.name) : d.evolvesFrom === base.name;
     };
-    const targets = scopePokemon(s, e.scope, r.player, r.source).filter((t) => hand.some((c) => fits(c, t)));
+    const pool = e.target ? resolveRef(s, r, e.target) : scopePokemon(s, e.scope, r.player, r.source);
+    const targets = pool.filter((t) => hand.some((c) => fits(c, t)));
     if (!targets.length) return DONE;
     const a = answer(r, key("pk"), r.player, {
       type: "pick",
@@ -291,7 +292,8 @@ export const HANDLERS: OpHandlers = {
       source: r.defId,
     });
     if (isAsk(b)) return { ask: b };
-    evolvePokemon(s, String(b[0]), target, true);
+    evolvePokemon(s, String(b[0]), target, !e.fromDeck);
+    if (e.fromDeck) shuffleDeck(s, r.player);
     return DONE;
   },
   gatherEnergy(s, r, e, key) {

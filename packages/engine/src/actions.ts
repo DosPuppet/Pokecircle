@@ -205,7 +205,8 @@ export function applyMain(s: GameState, p: PlayerId, d: Decision): void {
           index: a.index,
           name: a.def.name,
           defending,
-          base: a.def.damage,
+          // "During your next turn, this Pokémon's Hyper Fang attack's base damage is 240."
+          base: rulesOn(s, "attackBase", id).find((st) => st.rule.attack === a.def.name)?.rule.base ?? a.def.damage,
           bonus: 0,
           fails: false,
           ...(a.source ? { source: a.source } : {}),

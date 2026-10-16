@@ -321,6 +321,27 @@ export const ATTACK_TEMPLATES: Template<Ctx>[] = [
     },
   ),
   tpl(
+    "dmg.oppHandEach2",
+    "Your opponent reveals their hand. This attack does {n} damage for each {x} you find there.",
+    ([n, what]) => {
+      const f = cardFilter(what as string);
+      if (!f) return null;
+      return pre({ op: "revealHand", side: "opp" }, fx.setDamage(amt.mul(Number(n), amt.cards("hand", "opp", f.filter))));
+    },
+  ),
+  tpl(
+    "dmg.discardAllTypedEach",
+    "Discard all {t} Energy from this Pokémon. This attack does {n} damage for each card you discarded in this way.",
+    ([t, n]) => {
+      const type = typeSym(t);
+      if (!type) return null;
+      return pre(fx.discardEnergy(ref.self, "all", { types: [type], store: "d" }), fx.setDamage(amt.mul(Number(n), amt.v("d"))));
+    },
+  ),
+  tpl("next.baseIs", "During your next turn, this Pokémon's {x} attack's base damage is {n}.", ([name, n]) =>
+    post(fx.timed("yourNextTurn", { s: "attackBase", scope: scope.self(), attack: name as string, base: Number(n) }, ref.self)),
+  ),
+  tpl(
     "dmg.oppHandEach",
     "Your opponent reveals their hand, and this attack does {n} damage for each {x} you find there.",
     ([n, what]) => {

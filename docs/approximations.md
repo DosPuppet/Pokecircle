@@ -42,3 +42,5 @@ Every approximation of the official rules or of a card's text is listed here whe
   no longer offered).
 - Cinderace's Explosiveness: a hand with Cinderace and no Basic Pokémon is still a mulligan; the AI never uses it.
 - Strange Timepiece: "any number of Evolution cards" is one, then a question for a second.
+- Hydreigon ex's Greedy Eater: read as "while this Pokémon is your Active Pokémon, a Basic Pokémon Knocked Out by an
+  attack of a Hydreigon ex gives 1 more Prize card".

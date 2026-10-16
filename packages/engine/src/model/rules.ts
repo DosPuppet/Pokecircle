@@ -55,6 +55,13 @@ export type StaticRule = (
       tags?: CardTag[];
     }
   | { s: "cantAttack"; scope: PokemonScope; attack?: string }
+  | /** "If you go first, this Pokémon can use attacks during your first turn." */ { s: "firstTurnAttacks"; scope: PokemonScope }
+  | /** "this Pokémon's Hyper Fang attack's base damage is 240" */ {
+      s: "attackBase";
+      scope: PokemonScope;
+      attack: string;
+      base: number;
+    }
   | /** Before attacking, the Pokémon's owner flips a coin (`coins`: that many, all heads needed): tails, no attack. */ {
       s: "attackFlip";
       scope: PokemonScope;

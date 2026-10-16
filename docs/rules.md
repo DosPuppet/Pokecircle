@@ -108,6 +108,8 @@ approximation, also listed in `docs/approximations.md`.
   markers and can be combined with the others.
 - R-COND-2: an Asleep or Paralyzed Pokémon cannot attack or retreat.
 - R-COND-3: Special Conditions are removed when the Pokémon goes to the Bench or evolves.
+- R-COND-4: only an Active Pokémon can be affected by a Special Condition: an effect that would affect a Benched Pokémon
+  does nothing (a trigger resolving after the Attacking Pokémon moved to the Bench).
 - R-CHECKUP-1 (order): Poisoned (1 damage counter, or as many as the effect says), then Burned (2 damage counters, then
   its owner flips a coin: heads, it is no longer Burned), then Asleep (a flip: heads, it wakes up), then Paralyzed (it
   recovers if its owner has just finished the turn after it was Paralyzed).
