@@ -1,0 +1,12 @@
+{
+  "name": "PocketMate",
+  "short_name": "PocketMate",
+  "description": "JCC Pokémon : jouez contre l'IA ou en ligne",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#10141c",
+  "theme_color": "#10141c",
+  "lang": "fr",
+  "icons": [{ "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

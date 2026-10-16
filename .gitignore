@@ -1,0 +1,10 @@
+node_modules/
+dist/
+*.log
+.vite/
+coverage/
+test-results/
+# Online games saved by the server (PM_DATA_DIR), TCGdex raw cache
+/data/
+packages/cards/data/cache/
+*.tsbuildinfo

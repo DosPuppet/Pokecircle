@@ -1,0 +1,5 @@
+{
+  "allowed": {
+    "packages/cards/test/english-source.test.ts": "defines the French detector itself"
+  }
+}
