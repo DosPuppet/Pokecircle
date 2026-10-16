@@ -9,6 +9,7 @@ import type { AttackDef, CardDef, CardTag, CardText, EType, PrintInfo, Stage, Tr
 import tagData from "../data/card-tags.json";
 import evolvesFromData from "../data/evolves-from.json";
 import frenchOverrides from "../data/french-overrides.json";
+import imageFallbacks from "../data/image-fallbacks.json";
 import type { RawCard } from "./raw";
 import { SET_REGISTRY } from "./setRegistry";
 
@@ -165,6 +166,10 @@ function images(c: RawCard): { en?: string; fr?: string } | undefined {
   const out: { en?: string; fr?: string } = {};
   if (c.image) out.en = c.image;
   if (c.fr?.image) out.fr = c.fr.image;
+  // Images TCGdex lacks, from the Limitless TCG CDN (tools/image-fallbacks.ts): full URLs.
+  const extra = (imageFallbacks as Record<string, { en?: string; fr?: string }>)[c.id];
+  if (!out.en && extra?.en) out.en = extra.en;
+  if (!out.fr && extra?.fr) out.fr = extra.fr;
   return out.en || out.fr ? out : undefined;
 }
 

@@ -94,7 +94,7 @@ export const CSP = [
   "worker-src 'self'",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
-  "img-src 'self' data: https://assets.tcgdex.net",
+  "img-src 'self' data: https://assets.tcgdex.net https://limitlesstcg.nyc3.cdn.digitaloceanspaces.com https://images.pokemontcg.io",
   "media-src 'self'",
   "connect-src 'self'",
   "object-src 'none'",

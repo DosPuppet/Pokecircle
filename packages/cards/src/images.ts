@@ -14,5 +14,6 @@ export function imageBase(def: CardDef, lang: "fr" | "en", print?: string): stri
 }
 
 export function imageUrl(base: string, quality: Quality = "high"): string {
-  return `${base}/${quality}.webp`;
+  // A fallback image (Limitless TCG CDN) is a whole file, in one size.
+  return /\.(png|jpe?g|webp)$/.test(base) ? base : `${base}/${quality}.webp`;
 }

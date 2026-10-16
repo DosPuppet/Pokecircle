@@ -19,7 +19,10 @@ describe("precons", () => {
         const def = CARDS[defId];
         // Basic Energy and the few promos without any image get a drawn face.
         if (!def || def.energy?.basic || !(PRINTS_OF[defId] ?? []).some((p) => p.image)) continue;
-        expect(imageBase(def, "fr", print), defId).toMatch(/^https:\/\/assets\.tcgdex\.net\/(fr|en)\//);
+        // TCGdex, or the fallback hosts for what it lacks (tools/image-fallbacks.ts).
+        expect(imageBase(def, "fr", print), defId).toMatch(
+          /^https:\/\/(assets\.tcgdex\.net\/(fr|en)\/|limitlesstcg\.nyc3\.cdn\.digitaloceanspaces\.com\/|images\.pokemontcg\.io\/)/,
+        );
       }
   });
 });

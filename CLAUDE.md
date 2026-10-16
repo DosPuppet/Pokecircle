@@ -81,6 +81,9 @@ This file tracks the project between sessions: current state, working rules, pit
   Weakness/Resistance (promos) or text (30th Celebration) join their only complete variant; legality from TCGdex's
   per-print `legal.standard` (it applies the reprint rule); French from the first French print, else a translation
   memory, else `data/french-overrides.json` (`missing` lists the cards that have no French at all).
+- Images TCGdex lacks (recent promos, some French scans): `npx tsx tools/image-fallbacks.ts` looks them up on the
+  Limitless TCG CDN (then pokemontcg.io, English) and writes `data/image-fallbacks.json` (full URLs, TCGdex first); run
+  it after an import. The server's CSP allows both hosts.
 - Legality check: `npx tsx tools/check-legality.ts` (differences mean a reimport).
 - Decklists: TCG Live format, FR or EN (`cards/src/decklist.ts`); precons in `packages/cards/decks/*.json` (a TCG Live
   list each, loaded by `decks.ts`).

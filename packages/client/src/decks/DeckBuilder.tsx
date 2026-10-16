@@ -2,7 +2,7 @@
  * Deck builder: search the catalog (French or English text, filters), add and remove cards, choose prints, see what
  * makes the deck illegal, import and export TCG Live lists, share by link and QR code.
  */
-import { CARDS, type DeckEntries, PRINTS_OF, SET_REGISTRY } from "@pokecircle/cards";
+import { CARDS, type DeckEntries, PRINTS, PRINTS_OF, SET_REGISTRY } from "@pokecircle/cards";
 import { deckSize, parseDeckList, serializeDeckList, validateDeck } from "@pokecircle/cards/decklist";
 import { PRECONS } from "@pokecircle/cards/decks";
 import type { CardDef, EType } from "@pokecircle/engine";
@@ -21,6 +21,12 @@ import { newDeckId, type UserDeck, useDecks } from "./store";
 
 const PAGE = 120;
 const TYPES: EType[] = ["G", "R", "W", "L", "P", "F", "D", "M", "N", "C"];
+
+/** The Standard prints of a definition (same gameplay, other art), newest set first. */
+function versions(defId: string) {
+  const order = (set: string) => SET_REGISTRY.findIndex((s) => s.id === set);
+  return (PRINTS_OF[defId] ?? []).filter((p) => p.standard).sort((a, b) => order(b.set) - order(a.set));
+}
 
 function countOf(entries: DeckEntries, defId: string): number {
   return entries.filter((e) => e[1] === defId).reduce((n, e) => n + e[0], 0);
@@ -105,6 +111,7 @@ export function DeckBuilder() {
   };
   const setPrint = (defId: string, print: string) => {
     update(deck.main.map((e) => (e[1] === defId ? [e[0], e[1], print] : e)));
+    setModal(null);
     setModal(null);
   };
   const doSave = () => {
@@ -324,16 +331,17 @@ export function DeckBuilder() {
                       <button type="button" className="btn small" onClick={() => add(d)} aria-label={t("Add")}>
                         +
                       </button>
-                      {(PRINTS_OF[id]?.length ?? 0) > 1 ? (
+                      {versions(id).length > 1 ? (
                         <button
                           type="button"
                           className="btn small"
+                          title={t("Choose the art")}
                           onClick={() => {
                             setPrintFor(id);
                             setModal("print");
                           }}
                         >
-                          {t("Art")}
+                          {t("Art")} {print ? `· ${PRINTS[print]?.code ?? ""} ${PRINTS[print]?.number ?? ""}` : ""}
                         </button>
                       ) : null}
                     </div>
@@ -446,18 +454,27 @@ export function DeckBuilder() {
               <>
                 <div className="modal-title">{t("Choose the art")}</div>
                 <div className="options">
-                  {(PRINTS_OF[printFor] ?? [])
-                    .filter((p) => p.standard)
-                    .map((p) => (
-                      <button type="button" key={p.id} className="option" onClick={() => setPrint(printFor, p.id)}>
+                  {versions(printFor).map((p) => {
+                    const chosen = deck.main.find((e) => e[1] === printFor)?.[2] ?? CARDS[printFor]?.print;
+                    const set = SET_REGISTRY.find((x) => x.id === p.set);
+                    return (
+                      <button
+                        type="button"
+                        key={p.id}
+                        className={`option${chosen === p.id ? " chosen" : ""}`}
+                        onClick={() => setPrint(printFor, p.id)}
+                        title={[set ? (lang === "fr" ? set.fr : set.name) : "", p.rarity].filter(Boolean).join(" · ")}
+                      >
                         <div className="opt-card">
                           <CardImage defId={printFor} print={p.id} />
                         </div>
                         <span>
                           {p.code} {p.number}
+                          {set ? ` · ${lang === "fr" ? set.fr : set.name}` : ""}
                         </span>
                       </button>
-                    ))}
+                    );
+                  })}
                 </div>
               </>
             ) : null}

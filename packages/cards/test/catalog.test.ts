@@ -72,6 +72,12 @@ describe("catalog", () => {
     expect(missing.map((d) => `${d.name}@${d.print}`)).toEqual([]);
   });
 
+  it("takes the images TCGdex lacks from the fallback file (Kangaskhan SVP 202, in French too)", () => {
+    const img = PRINTS["svp-202"]?.image;
+    expect(img?.fr).toMatch(/SVP_202_R_FR_LG\.png$/);
+    expect(img?.en).toMatch(/SVP_202_R_EN_LG\.png$/);
+  });
+
   it("reads Pokémon characteristics", () => {
     const latias = defs.find((d) => d.name === "Latias ex" && d.standard);
     expect(latias).toMatchObject({ hp: 210, types: ["P"], stage: "basic", retreat: 2 });
