@@ -1,4 +1,6 @@
 :root {
+  /* The iPhone status bar and home indicator (0 elsewhere), kept out of the card size. */
+  --safe-v: calc(env(safe-area-inset-top) + env(safe-area-inset-bottom));
   --bg: #0b1018;
   --surface: rgba(14, 20, 34, 0.96);
   --surface-2: rgba(24, 32, 50, 0.92);
@@ -30,7 +32,7 @@
   /* Card width on the table; height follows the card ratio (63 × 88 mm). */
   /* Both sides (Active 1.25 + Bench 1 card heights, paddings) and the center line must fit in the height: about
      8.1 card widths and 84 px. */
-  --cw: clamp(40px, min(6.8vw, calc((100dvh - var(--top-h) - var(--bottom-h) - 84px) / 8.1)), 112px);
+  --cw: clamp(40px, min(6.8vw, calc((100dvh - var(--top-h) - var(--bottom-h) - var(--safe-v) - 84px) / 8.1)), 112px);
   --ch: calc(var(--cw) * 1.397);
   color-scheme: dark;
 }
@@ -42,6 +44,18 @@ body,
 #root {
   margin: 0;
   height: 100%;
+}
+html {
+  background: var(--bg);
+}
+/* Home-screen app on iOS: 100dvh may stop short of the screen bottom (a black strip); the root fills it instead. */
+@media (display-mode: standalone) {
+  html,
+  body {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+  }
 }
 body {
   background: var(--bg);
@@ -269,7 +283,8 @@ h2 {
 
 /* —— home —— */
 .home {
-  height: 100dvh;
+  height: 100%;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   overflow: auto;
   display: flex;
   flex-direction: column;
@@ -522,7 +537,10 @@ h2 {
 
 /* —— game layout —— */
 .game {
-  height: 100dvh;
+  /* The whole screen, under the iPhone status bar and home indicator (viewport-fit=cover, black-translucent bar): the
+     table keeps clear of them with the safe-area padding. */
+  height: 100%;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   display: grid;
   grid-template-rows: var(--top-h) minmax(0, 1fr) var(--bottom-h);
   position: relative;
@@ -1256,8 +1274,12 @@ button.counter {
 .setup-bar {
   position: absolute;
   left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  /* Above the center line, over the opponent's (still empty) side: the player's Active Spot stays visible; clicks go
+     through. */
+  top: auto;
+  bottom: 100%;
+  transform: translate(-50%, -12px);
+  pointer-events: none;
   z-index: 14;
   display: flex;
   flex-direction: column;
@@ -1273,6 +1295,13 @@ button.counter {
 .setup-sum {
   color: var(--muted);
   font-size: 0.85rem;
+}
+@media (orientation: portrait) and (max-width: 700px) {
+  .setup-bar {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+    max-width: 86vw;
+  }
 }
 
 /* —— drawer (options and log) —— */
@@ -1790,7 +1819,8 @@ button.pokemon {
 
 /* —— deck builder —— */
 .builder {
-  height: 100dvh;
+  height: 100%;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   display: grid;
   grid-template-rows: auto 1fr;
 }
@@ -2186,7 +2216,11 @@ button.pokemon {
     --bar-h: 48px;
     --bottom-h: calc(var(--hand-w) * 1.397 * var(--hand-peek) + var(--bar-h));
     /* A Bench of 5 across the width; the whole table in the height. */
-    --pcw: clamp(34px, min(calc((100vw - 28px) / 6.1), calc((100dvh - var(--top-h) - var(--bottom-h) - 46px) / 9.1)), 92px);
+    --pcw: clamp(
+      34px,
+      min(calc((100vw - 28px) / 6.1), calc((100dvh - var(--top-h) - var(--bottom-h) - var(--safe-v) - 46px) / 9.1)),
+      92px
+    );
     --cw: var(--pcw);
   }
   .top-row {
@@ -2374,7 +2408,7 @@ button.pokemon {
   .play-bar {
     left: 12px;
     right: 12px;
-    bottom: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom));
   }
   .play-bar .main-button {
     width: 100%;
@@ -2390,6 +2424,35 @@ button.pokemon {
 @media (hover: none) {
   .preview {
     display: none;
+  }
+  /* A long press on a card (Preview.tsx): large, in the half of the screen away from the finger. */
+  .preview.touch {
+    display: block;
+    left: 50%;
+    right: auto;
+    width: min(74vw, 46dvh, 360px);
+    z-index: 60;
+  }
+  .preview.touch.above {
+    top: calc(env(safe-area-inset-top) + 12px);
+    transform: translateX(-50%);
+  }
+  .preview.touch.below {
+    top: auto;
+    bottom: calc(env(safe-area-inset-bottom) + 12px);
+    transform: translateX(-50%);
+  }
+  /* No iOS callout or text selection on a long press. */
+  .game,
+  .builder {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  .builder input,
+  .builder textarea {
+    -webkit-user-select: text;
+    user-select: text;
   }
 }
 

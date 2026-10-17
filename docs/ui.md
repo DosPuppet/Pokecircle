@@ -49,6 +49,12 @@
   screen (a Bench of 5 across, the whole table in the height), Prize cards and piles in a row under (or above) each
   Bench, the log on the center line, smaller cards for a Bench of more than 5. `.game` uses `overflow: clip` (a focused
   button must not scroll the table). `tools/mobile-smoke.ts` plays a game at iPhone size and checks the layout.
+- **Home-screen app (iPhone)**: the page fills the screen under the translucent status bar (`viewport-fit=cover`); the
+  game, home and deck builder keep clear of the status bar and the home indicator with `env(safe-area-inset-*)`
+  padding, and the card size subtracts them (`--safe-v`); in standalone mode `html`/`body` are fixed to the screen
+  (`100dvh` may stop short of it). **Touch**: a long press on any card shows it large (`Preview.tsx`, through the
+  element's own hover handlers), in the half of the screen away from the finger; the release is not a tap. The setup
+  message sits above the center line, clicks going through it.
 - **Offline (PWA)**: `public/sw.js` (production only, registered by `main.tsx`): the build files and sounds from the
   cache after the first visit, the page network first, the game worker fetched once in advance; card images relayed
   by the server (`/tcgdex/`) in their own cache (1500 at most). A game against the AI works without network
