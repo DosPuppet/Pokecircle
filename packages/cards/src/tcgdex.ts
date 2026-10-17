@@ -232,10 +232,29 @@ export interface Catalog {
   prints: Record<string, PrintInfo>;
   /** Print id → definition id. */
   defOfPrint: Record<string, string>;
+  /** Former definition ids → current ones (prints merged once a TCGdex gap was repaired), for saved decks. */
+  aliases: Record<string, string>;
 }
 
 /** Builds the catalog from every set's raw cards, in registry order. */
 export function buildCatalog(sets: RawCard[][]): Catalog {
+  // TCGdex gaps on some prints (30th Celebration): no "evolves from", sometimes "Basic" for an Evolution Pokémon. A print
+  // without it takes the stage and "evolves from" of a print with the same gameplay otherwise that has them.
+  const evolution = new Map<string, { stage: RawCard["stage"]; evolveFrom: string }>();
+  const sansStage = (c: RawCard) => coreKey({ ...c, stage: undefined, evolveFrom: undefined });
+  for (const set of sets)
+    for (const c of set)
+      if (c.category === "Pokemon" && c.evolveFrom && c.stage && c.stage !== "Basic" && !evolution.has(sansStage(c)))
+        evolution.set(sansStage(c), { stage: c.stage, evolveFrom: c.evolveFrom });
+  const repaired: RawCard[] = [];
+  sets = sets.map((set) =>
+    set.map((c) => {
+      const ev = c.category === "Pokemon" && !c.evolveFrom ? evolution.get(sansStage(c)) : undefined;
+      if (!ev) return c;
+      repaired.push(c);
+      return { ...c, stage: ev.stage, evolveFrom: ev.evolveFrom };
+    }),
+  );
   // Prints grouped by core key, then by Weakness and Resistance. Some TCGdex prints (promos) lack their Weakness and
   // Resistance: a print without any joins the only variant of its core group that has them.
   const cores = new Map<string, Map<string, RawCard[]>>();
@@ -314,7 +333,14 @@ export function buildCatalog(sets: RawCard[][]): Catalog {
     if (known?.size === 1) d.evolvesFrom = [...known][0];
     else if (fallback) d.evolvesFrom = fallback;
   }
-  return { defs, prints, defOfPrint };
+  // The id each repaired print had before (its own group), pointing to its definition now.
+  const aliases: Record<string, string> = {};
+  for (const c of repaired) {
+    const old = `${slug(c.name)}-${hash(`${coreKey(c)}|${weaknessKey(c)}`).slice(0, 4)}`;
+    const now = defOfPrint[c.id];
+    if (now && old !== now && !defs[old]) aliases[old] = now;
+  }
+  return { defs, prints, defOfPrint, aliases };
 }
 
 /** English → French names and texts seen on cards that have both (for prints that exist only in English). */

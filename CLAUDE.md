@@ -20,7 +20,8 @@ This file tracks the project between sessions: current state, working rules, pit
 ## State
 
 - PLAN-A lots: see the tracking table at the end of `docs/plans/PLAN-A.md`.
-- PLAN-B (every Standard card, `docs/plans/PLAN-B.md`) done: 2,103 / 2,103 Standard definitions implemented (rules 18).
+- PLAN-B (every Standard card, `docs/plans/PLAN-B.md`) done: every Standard definition implemented (2,099 since four
+  30th Celebration prints were merged with their twins, rules 19).
   New set releases: import, `coverage --set <set> --unscripted --sentences`, one lot (templates, then
   `scripts/<set>.ts`), as in PLAN-B's definition of done.
 
@@ -78,7 +79,9 @@ This file tracks the project between sessions: current state, working rules, pit
 - Tags TCGdex lacks (Tera, Ancient, Future, ACE SPEC): `npx tsx tools/import-tags.ts` (pokemon-tcg-data on GitHub)
   writes `data/card-tags.json`.
 - Definitions (`cards/src/tcgdex.ts`): prints with the same gameplay share a definition (`slug-hash` id); prints missing
-  Weakness/Resistance (promos) or text (30th Celebration) join their only complete variant; legality from TCGdex's
+  Weakness/Resistance (promos) or text (30th Celebration) join their only complete variant; a print without "evolves
+  from" (sometimes given as Basic) takes the stage and "evolves from" of a print with the same gameplay otherwise, the
+  ids that disappear that way stay valid through `CARD_ALIASES` (saved decks); legality from TCGdex's
   per-print `legal.standard` (it applies the reprint rule); French from the first French print, else a translation
   memory, else `data/french-overrides.json` (`missing` lists the cards that have no French at all).
 - Images TCGdex lacks (recent promos, some French scans): `npx tsx tools/image-fallbacks.ts` looks them up on the

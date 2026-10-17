@@ -1,5 +1,5 @@
 /** The player's own decks, kept in this browser (`pokecircle.decks`), next to the preconstructed decks. */
-import type { DeckEntries, DeckList } from "@pokecircle/cards";
+import { CARD_ALIASES, type DeckEntries, type DeckList } from "@pokecircle/cards";
 import { validateDeck } from "@pokecircle/cards/decklist";
 import { PRECONS } from "@pokecircle/cards/decks";
 import { create } from "zustand";
@@ -18,7 +18,16 @@ export interface UserDeck {
 function load(): UserDeck[] {
   try {
     const raw = JSON.parse(localStorage.getItem(KEY) ?? "[]") as UserDeck[];
-    return Array.isArray(raw) ? raw.filter((d) => d && typeof d.id === "string" && Array.isArray(d.main)) : [];
+    if (!Array.isArray(raw)) return [];
+    // Cards merged since the deck was saved go by their current id.
+    const now = (id: string) => CARD_ALIASES[id] ?? id;
+    return raw
+      .filter((d) => d && typeof d.id === "string" && Array.isArray(d.main))
+      .map((d) => ({
+        ...d,
+        main: d.main.map((e) => [e[0], now(e[1]), ...e.slice(2)] as DeckEntries[number]),
+        ...(d.cover ? { cover: now(d.cover) } : {}),
+      }));
   } catch {
     return [];
   }

@@ -49,6 +49,8 @@ for (const d of Object.values(CARDS))
   if (d.stage === "stage2" && d.evolvesFrom) d.basicOf = [...(evolvesFrom.get(d.evolvesFrom) ?? [])].sort();
 export const PRINTS: Record<string, PrintInfo> = catalog.prints;
 export const DEF_OF_PRINT: Record<string, string> = catalog.defOfPrint;
+/** Former definition ids → current ones (saved decks made before a merge of prints). */
+export const CARD_ALIASES: Record<string, string> = catalog.aliases;
 
 /** Prints of each definition, in registry order (basic Energy: the art prints first, `energyArt.ts`). */
 export const PRINTS_OF: Record<string, PrintInfo[]> = {};

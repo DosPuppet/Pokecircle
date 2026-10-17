@@ -2,7 +2,7 @@
 import { describe, expect, it } from "vitest";
 import tagData from "../data/card-tags.json";
 import frenchOverrides from "../data/french-overrides.json";
-import { CARDS, DEF_OF_PRINT, PRINTS, PRINTS_OF } from "../src/index";
+import { CARD_ALIASES, CARDS, DEF_OF_PRINT, PRINTS, PRINTS_OF } from "../src/index";
 import { SET_REGISTRY } from "../src/setRegistry";
 import { SET_DATA } from "../src/sets";
 
@@ -70,6 +70,14 @@ describe("catalog", () => {
   it("knows what every Evolution Pokémon evolves from (TCGdex gaps filled, R-EVOLVE)", () => {
     const missing = Object.values(CARDS).filter((d) => d.category === "pokemon" && d.stage !== "basic" && !d.evolvesFrom);
     expect(missing.map((d) => `${d.name}@${d.print}`)).toEqual([]);
+  });
+
+  it('repairs prints TCGdex gives as Basic without "evolves from" (Umbreon ex 30th = MEP 110, a Stage 1)', () => {
+    const id = DEF_OF_PRINT["30th-092"] as string;
+    expect(DEF_OF_PRINT["mep-110"]).toBe(id);
+    expect(CARDS[id]?.stage).toBe("stage1");
+    expect(CARDS[id]?.evolvesFrom).toBe("Eevee");
+    expect(CARD_ALIASES["umbreon-ex-02ig"]).toBe(id);
   });
 
   it("takes the images TCGdex lacks from the fallback file (Kangaskhan SVP 202, in French too)", () => {
