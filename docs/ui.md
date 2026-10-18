@@ -37,8 +37,10 @@
 - **Deck builder** (`decks/`): catalog search in French or English (names, attacks, texts; `search.ts`, tested), filters
   (category, stage, Trainer kind, type, set, tags, playable only: off by default, every Standard card being playable),
   click to add / right-click to remove, art choice per
-  print ("Art" on a deck row when the card has several Standard prints: newest set first, the chosen one framed, the
-  set named), legality panel (`validateDeck`), TCG Live import and export (French or English), share by link (`#deck=1.…`,
+  print (a menu on the deck line when the card has several Standard prints, newest set first, as on Planecircle),
+  the card's name in the deck list shows it (hover preview, or the full-screen `TouchPreview` on a touch screen or under
+  1,200 px); on a touch screen a long press on a collection card shows it large (`touch.ts`, Planecircle's), a tap adds
+  it; on a phone (under 760 px, or under 500 px high) a Collection / Deck switch shows one pane at a time, legality panel (`validateDeck`), TCG Live import and export (French or English), share by link (`#deck=1.…`,
   deflate + base64url, `share.ts`) and QR code (uqr). The player's decks live in `localStorage` (`pokecircle.decks`,
   `decks/store.ts`); deck pickers (`DeckPicker`) show them next to the precons, an unplayable one dimmed. "See the
   list" (on the chosen deck and under each tile of the deck window) opens the builder with that list (store

@@ -1955,7 +1955,123 @@ button.pokemon {
 }
 .deck-card-name {
   flex: 1;
+  min-width: 0;
   font-size: 0.9rem;
+  /* A button (it shows the card), drawn as text. */
+  background: none;
+  border: 0;
+  padding: 2px 0;
+  color: inherit;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.deck-card-name:hover {
+  text-decoration: underline;
+}
+/* The art of a deck line (as on Planecircle): a compact menu of the card's Standard prints. */
+.deck-row-art {
+  max-width: 7.5em;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.75rem;
+  padding: 2px 4px;
+}
+.deck-row-art.on {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* Phone (narrow, or short in landscape): the collection or the deck, one at a time, at full width (switch under the
+   header), as on Planecircle. */
+.builder-switch {
+  display: none;
+}
+@media (max-width: 760px), (max-height: 500px) {
+  .builder {
+    grid-template-rows: auto auto minmax(0, 1fr);
+  }
+  .builder-switch {
+    display: inline-flex;
+    justify-self: center;
+    margin: 6px 0;
+  }
+  .builder-switch button {
+    padding: 6px 18px;
+    font-size: 0.875rem;
+  }
+  .builder-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .builder-body[data-pane="deck"] > .catalog,
+  .builder-body[data-pane="collection"] > .decklist {
+    display: none;
+  }
+  .decklist {
+    border-left: none;
+  }
+  .filters .search {
+    flex-basis: 100%;
+    min-width: 0;
+  }
+  .filters select {
+    flex: 1 1 40%;
+    min-width: 0;
+  }
+  .builder-top {
+    padding: 8px 10px;
+    gap: 6px;
+  }
+  .builder-top .btn {
+    padding: 6px 10px;
+    font-size: 0.85rem;
+  }
+  .deck-name {
+    min-width: 0;
+    flex: 1 1 100%;
+    order: -1;
+  }
+  .results {
+    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  }
+}
+/* Short screen (phone in landscape): the whole editor scrolls as one page; the switch stays at the top. */
+@media (max-height: 500px) {
+  .builder {
+    display: block;
+    overflow-y: auto;
+  }
+  .builder-switch {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    display: flex;
+    width: fit-content;
+    margin: 6px auto;
+    background: var(--surface);
+  }
+}
+
+/* The card enlarged on a touch screen (TouchPreview): over the whole screen, a tap closes it. */
+.touch-preview {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(3, 5, 8, 0.7);
+  backdrop-filter: blur(3px);
+}
+.touch-preview-card {
+  width: min(80vw, 420px, calc(80dvh * 63 / 88));
+  filter: drop-shadow(0 14px 30px rgba(0, 0, 0, 0.7));
 }
 .modal-box.wide {
   width: min(94vw, 760px);

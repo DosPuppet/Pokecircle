@@ -5,6 +5,7 @@
  */
 import { useEffect, useState } from "react";
 import { useGame } from "../store";
+import { justLongPressed } from "../touch";
 import { CardImage } from "./CardImage";
 
 const HOLD_MS = 380;
@@ -41,6 +42,8 @@ function useLongPress(): "top" | "bottom" | null {
       if (e.pointerType !== "touch") return;
       end();
       target = e.target instanceof Element ? e.target : null;
+      // The deck builder has its own long press (TouchPreview, as on Planecircle).
+      if (target?.closest(".builder")) target = null;
       start = { x: e.clientX, y: e.clientY };
       timer = setTimeout(() => {
         if (!target) return;
@@ -86,6 +89,25 @@ export function Preview() {
   return (
     <div className={`preview${cls}`}>
       <CardImage defId={p.defId} {...(p.print ? { print: p.print } : {})} quality="high" />
+    </div>
+  );
+}
+
+/** Touch screen: the card enlarged by a long press or a tap on its name, overlaid; a tap anywhere closes it. */
+export function TouchPreview() {
+  const peek = useGame((s) => s.peek);
+  const setPeek = useGame((s) => s.setPeek);
+  if (!peek) return null;
+  return (
+    // The click that ends the long press lands on the overlay: it does not close it.
+    <div
+      className="touch-preview"
+      onClick={() => !justLongPressed() && setPeek(null)}
+      onKeyDown={(e) => e.key === "Escape" && setPeek(null)}
+    >
+      <div className="touch-preview-card">
+        <CardImage defId={peek.defId} {...(peek.print ? { print: peek.print } : {})} quality="high" />
+      </div>
     </div>
   );
 }

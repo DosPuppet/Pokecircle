@@ -122,6 +122,8 @@ export interface Store extends Settings {
   error: string | null;
   notice: string | null;
   preview: { defId: string; print?: string } | null;
+  /** Touch screen (or no room for the hover preview): the card enlarged over the whole screen (`TouchPreview`). */
+  peek: { defId: string; print?: string } | null;
   zone: { player: string; zone: "discard" | "lostZone" } | null;
   /** The side drawer (options and log). */
   drawerOpen: boolean;
@@ -193,6 +195,7 @@ export interface Store extends Settings {
   setPlacing(p: { active: ObjectId | null; bench: ObjectId[] }): void;
   notify(text: string): void;
   showPreview(p: Store["preview"]): void;
+  setPeek(p: Store["peek"]): void;
   showZone(z: Store["zone"]): void;
   toggleDrawer(open?: boolean): void;
   setDragging(card: ObjectId | null): void;
@@ -460,6 +463,7 @@ export const useGame = create<Store>((set, get) => {
     error: null,
     notice: null,
     preview: null,
+    peek: null,
     zone: null,
     drawerOpen: false,
     dragging: null,
@@ -754,6 +758,9 @@ export const useGame = create<Store>((set, get) => {
     },
     showPreview(p) {
       set({ preview: p });
+    },
+    setPeek(p) {
+      set({ peek: p });
     },
     showZone(z) {
       set({ zone: z });

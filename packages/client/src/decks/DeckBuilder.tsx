@@ -2,19 +2,20 @@
  * Deck builder: search the catalog (French or English text, filters), add and remove cards, choose prints, see what
  * makes the deck illegal, import and export TCG Live lists, share by link and QR code.
  */
-import { CARDS, type DeckEntries, PRINTS, PRINTS_OF, SET_REGISTRY } from "@pokecircle/cards";
+import { CARDS, type DeckEntries, PRINTS_OF, SET_REGISTRY } from "@pokecircle/cards";
 import { deckSize, parseDeckList, serializeDeckList, validateDeck } from "@pokecircle/cards/decklist";
 import { PRECONS } from "@pokecircle/cards/decks";
-import type { CardDef, EType } from "@pokecircle/engine";
+import type { CardDef, EType, PrintInfo } from "@pokecircle/engine";
 import { useEffect, useMemo, useState } from "react";
 import { renderSVG } from "uqr";
 import { textOf } from "../cards";
 import { CardImage } from "../game/CardImage";
-import { Preview } from "../game/Preview";
+import { Preview, TouchPreview } from "../game/Preview";
 import { TYPE_LABEL } from "../i18n";
 import { LangToggle } from "../LangToggle";
 import { useLoc, useT } from "../localize";
 import { useGame } from "../store";
+import { isTouch, useLongPress } from "../touch";
 import { type Filters, NO_FILTERS, searchCards } from "./search";
 import { deckLink, sharedName } from "./share";
 import { newDeckId, type UserDeck, useDecks } from "./store";
@@ -26,6 +27,55 @@ const TYPES: EType[] = ["G", "R", "W", "L", "P", "F", "D", "M", "N", "C"];
 function versions(defId: string) {
   const order = (set: string) => SET_REGISTRY.findIndex((s) => s.id === set);
   return (PRINTS_OF[defId] ?? []).filter((p) => p.standard).sort((a, b) => order(b.set) - order(a.set));
+}
+
+/** Label of a print in the "Art" menu: "ASC 264 · Ascended Heroes · Special illustration rare". */
+function printLabel(p: PrintInfo, lang: "fr" | "en"): string {
+  const set = SET_REGISTRY.find((x) => x.id === p.set);
+  return [`${p.code} ${p.number}`, set ? (lang === "fr" ? set.fr : set.name) : "", p.rarity].filter(Boolean).join(" · ");
+}
+
+/**
+ * A card of the collection: a click adds a copy, a right click removes one, hovering previews it; on a touch screen a
+ * long press shows it large (as on Planecircle).
+ */
+function ResultCard({
+  def,
+  n,
+  name,
+  onAdd,
+  onRemove,
+  onHover,
+  onPeek,
+}: {
+  def: CardDef;
+  n: number;
+  name: string;
+  onAdd: () => void;
+  onRemove: () => void;
+  onHover: (on: boolean) => void;
+  onPeek: () => void;
+}) {
+  const longPress = useLongPress(onPeek);
+  return (
+    <button
+      type="button"
+      className={`result${def.implemented ? "" : " unplayable"}`}
+      onClick={onAdd}
+      onContextMenu={(e) => {
+        e.preventDefault();
+        if (!isTouch()) onRemove();
+      }}
+      onMouseEnter={() => !isTouch() && onHover(true)}
+      onMouseLeave={() => onHover(false)}
+      title={name}
+      data-def={def.id}
+      {...longPress}
+    >
+      <CardImage defId={def.id} />
+      {n ? <span className="in-deck">{n}</span> : null}
+    </button>
+  );
 }
 
 function countOf(entries: DeckEntries, defId: string): number {
@@ -54,8 +104,13 @@ export function DeckBuilder() {
   const [deck, setDeck] = useState<UserDeck>(() => ({ id: newDeckId(), name: "", main: [], updated: 0 }));
   const [filters, setFilters] = useState<Filters>(NO_FILTERS);
   const [shown, setShown] = useState(PAGE);
-  const [modal, setModal] = useState<null | "import" | "export" | "share" | "open" | "print">(null);
-  const [printFor, setPrintFor] = useState<string | null>(null);
+  const [modal, setModal] = useState<null | "import" | "export" | "share" | "open">(null);
+  // Phone: one pane at a time, the collection or the deck (switch shown under 760 px), as on Planecircle.
+  const [pane, setPane] = useState<"collection" | "deck">("collection");
+  const setPeek = useGame((s) => s.setPeek);
+  // Touch screen, or no room for the hover preview (under 1,200 px): the card opens large, in an overlay.
+  const showCard = (p: { defId: string; print?: string }) =>
+    isTouch() || window.matchMedia("(max-width: 1200px)").matches ? setPeek(p) : showPreview(p);
   const [importText, setImportText] = useState("");
   const [importErrors, setImportErrors] = useState<string[]>([]);
   const [exportLang, setExportLang] = useState<"fr" | "en">(lang);
@@ -109,10 +164,8 @@ export function DeckBuilder() {
       deck.main.map((e, j) => (j === i ? ([e[0] - 1, e[1], e[2]].filter((x) => x !== undefined) as DeckEntries[number]) : e)),
     );
   };
-  const setPrint = (defId: string, print: string) => {
-    update(deck.main.map((e) => (e[1] === defId ? [e[0], e[1], print] : e)));
-    setModal(null);
-    setModal(null);
+  const setPrint = (defId: string, print: string | undefined) => {
+    update(deck.main.map((e) => (e[1] === defId ? (print ? [e[0], e[1], print] : [e[0], e[1]]) : e)));
   };
   const doSave = () => {
     const cover = deck.cover ?? deck.main.find(([, id]) => CARDS[id]?.category === "pokemon")?.[1];
@@ -174,7 +227,15 @@ export function DeckBuilder() {
         </button>
         <LangToggle />
       </header>
-      <div className="builder-body">
+      <div className="seg builder-switch">
+        <button type="button" className={pane === "collection" ? "on" : ""} onClick={() => setPane("collection")}>
+          {t("Collection")}
+        </button>
+        <button type="button" className={pane === "deck" ? "on" : ""} onClick={() => setPane("deck")}>
+          {t("Deck ({n})", { n: size })}
+        </button>
+      </div>
+      <div className="builder-body" data-pane={pane}>
         <section className="catalog">
           <div className="filters">
             <input
@@ -265,28 +326,18 @@ export function DeckBuilder() {
           </div>
           <div className="results-count">{t("{n} card(s)", { n: results.length })}</div>
           <div className="results">
-            {results.slice(0, shown).map((d) => {
-              const n = countOf(deck.main, d.id);
-              return (
-                <button
-                  type="button"
-                  key={d.id}
-                  className={`result${d.implemented ? "" : " unplayable"}`}
-                  onClick={() => add(d)}
-                  onContextMenu={(e) => {
-                    e.preventDefault();
-                    sub(d.id);
-                  }}
-                  onMouseEnter={() => showPreview({ defId: d.id })}
-                  onMouseLeave={() => showPreview(null)}
-                  title={textOf(d, lang).name}
-                  data-def={d.id}
-                >
-                  <CardImage defId={d.id} />
-                  {n ? <span className="in-deck">{n}</span> : null}
-                </button>
-              );
-            })}
+            {results.slice(0, shown).map((d) => (
+              <ResultCard
+                key={d.id}
+                def={d}
+                n={countOf(deck.main, d.id)}
+                name={textOf(d, lang).name}
+                onAdd={() => add(d)}
+                onRemove={() => sub(d.id)}
+                onHover={(on) => showPreview(on ? { defId: d.id } : null)}
+                onPeek={() => setPeek({ defId: d.id })}
+              />
+            ))}
           </div>
           {results.length > shown ? (
             <button type="button" className="btn" onClick={() => setShown(shown + PAGE)}>
@@ -324,26 +375,40 @@ export function DeckBuilder() {
                       onMouseLeave={() => showPreview(null)}
                     >
                       <span className="deck-count">{c}</span>
-                      <span className="deck-card-name">{textOf(d, lang).name}</span>
+                      <button
+                        type="button"
+                        className="deck-card-name"
+                        onClick={() => showCard({ defId: id, ...(print ? { print } : {}) })}
+                        title={t("Show the card")}
+                      >
+                        {textOf(d, lang).name}
+                      </button>
+                      {versions(id).length > 1 ? (
+                        <select
+                          className={`deck-row-art${print ? " on" : ""}`}
+                          value={print ?? ""}
+                          title={t("Choose the art")}
+                          aria-label={t("Art of {name}", { name: textOf(d, lang).name })}
+                          onChange={(e) => {
+                            const next = e.target.value || undefined;
+                            setPrint(id, next);
+                            showPreview({ defId: id, ...(next ? { print: next } : {}) });
+                          }}
+                        >
+                          <option value="">{t("Default art")}</option>
+                          {versions(id).map((p) => (
+                            <option key={p.id} value={p.id}>
+                              {printLabel(p, lang)}
+                            </option>
+                          ))}
+                        </select>
+                      ) : null}
                       <button type="button" className="btn small" onClick={() => sub(id)} aria-label={t("Remove")}>
                         −
                       </button>
                       <button type="button" className="btn small" onClick={() => add(d)} aria-label={t("Add")}>
                         +
                       </button>
-                      {versions(id).length > 1 ? (
-                        <button
-                          type="button"
-                          className="btn small"
-                          title={t("Choose the art")}
-                          onClick={() => {
-                            setPrintFor(id);
-                            setModal("print");
-                          }}
-                        >
-                          {t("Art")} {print ? `· ${PRINTS[print]?.code ?? ""} ${PRINTS[print]?.number ?? ""}` : ""}
-                        </button>
-                      ) : null}
                     </div>
                   );
                 })}
@@ -353,6 +418,8 @@ export function DeckBuilder() {
         </aside>
       </div>
       <Preview />
+      {/* The card enlarged by a long press (collection) or a tap on its name (deck), on a touch or narrow screen. */}
+      <TouchPreview />
       {modal ? (
         <div className="modal" role="presentation" onClick={() => setModal(null)}>
           <div className="modal-box wide" role="dialog" onClick={(e) => e.stopPropagation()} onKeyDown={() => undefined}>
@@ -447,34 +514,6 @@ export function DeckBuilder() {
                       <span>{t("Copy of {name}", { name: lang === "fr" ? (p.fr ?? p.name) : p.name })}</span>
                     </button>
                   ))}
-                </div>
-              </>
-            ) : null}
-            {modal === "print" && printFor ? (
-              <>
-                <div className="modal-title">{t("Choose the art")}</div>
-                <div className="options">
-                  {versions(printFor).map((p) => {
-                    const chosen = deck.main.find((e) => e[1] === printFor)?.[2] ?? CARDS[printFor]?.print;
-                    const set = SET_REGISTRY.find((x) => x.id === p.set);
-                    return (
-                      <button
-                        type="button"
-                        key={p.id}
-                        className={`option${chosen === p.id ? " chosen" : ""}`}
-                        onClick={() => setPrint(printFor, p.id)}
-                        title={[set ? (lang === "fr" ? set.fr : set.name) : "", p.rarity].filter(Boolean).join(" · ")}
-                      >
-                        <div className="opt-card">
-                          <CardImage defId={printFor} print={p.id} />
-                        </div>
-                        <span>
-                          {p.code} {p.number}
-                          {set ? ` · ${lang === "fr" ? set.fr : set.name}` : ""}
-                        </span>
-                      </button>
-                    );
-                  })}
                 </div>
               </>
             ) : null}
